@@ -1,0 +1,152 @@
+extends Node
+const Session=preload("res://logic/session.gd")
+const Runtime=preload("res://logic/runtime.gd")
+const Authority=preload("res://logic/authority.gd")
+const Content=preload("res://logic/content.gd")
+var session
+var editor_draft={}
+var save_root="user://saves"
+var server
+var server_authority
+var presentation={"seen":[],"active":"","line":0}
+var saved_snapshot=""
+var saved_presentation=""
+var connection_age=0.0
+var room_port=27840
+var room_token=""
+var last_error=""
+var cutins_enabled=true
+const SLOT_IDS=["auto","slot1","slot2","slot3"]
+func _ready():get_tree().auto_accept_quit=false
+func _process(delta):
+    if server:
+        for event in server.poll_events():
+            server.respond(event.id,JSON.stringify(server_authority.handle(Content.parse_json(event.payload))))
+    if session and session.online:
+        session.tick(delta)
+        if not session.status.begins_with("Online"):
+            connection_age+=delta
+            if connection_age>10.0 and not session.failed:
+                session.failed=true;session.status="连接超时，请检查房间口令和端口。"
+        else:connection_age=0.0
+func close_room():
+    if session and session.transport:session.transport.shutdown()
+    if server:server.shutdown()
+    server=null;server_authority=null
+func new_game(data={}):
+    close_room();session=Session.new();session.offline(data)
+    presentation={"seen":[],"active":"","line":0};saved_snapshot="";saved_presentation="";last_error=""
+func start_room(host,port,secret,data={}):
+    close_room();new_game(data);room_port=port;room_token=secret;connection_age=0.0
+    if host:
+        server_authority=Authority.new(session.logic.content);server=AmberTransport.new()
+        if not server.start(true,port,secret):last_error=server.last_error();close_room();return false
+    if not session.connect_local(port,secret):last_error=session.status;close_room();return false
+    return true
+func dirty():
+    return session and (session.logic.snapshot()!=saved_snapshot or JSON.stringify(presentation)!=saved_presentation)
+func save_path(slot):return save_root+"/"+slot+".json"
+func save_slot(slot):
+    if slot not in SLOT_IDS:return "无效存档槽。"
+    if not session:return "当前没有战斗。"
+    if session.online:return "本版网络对局不支持本地存档；房间状态由主机维护。"
+    var data={"format":2,"rules_hash":session.logic.rules_hash,"content_hash":session.logic.content_hash,
+        "content":session.logic.content,"snapshot":session.logic.snapshot(),"hash":session.logic.state_hash(),
+        "presentation":presentation.duplicate(true),"saved_at":Time.get_datetime_string_from_system(false,true)}
+    DirAccess.make_dir_recursive_absolute(save_root)
+    var path=save_path(slot);var file=FileAccess.open(path+".tmp",FileAccess.WRITE)
+    if not file:return "无法写入存档，原存档未改变。"
+    file.store_string(JSON.stringify(data,"",true));file.flush();file.close()
+    if DirAccess.rename_absolute(path+".tmp",path)!=OK:return "无法完成存档替换，原存档未改变。"
+    saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation)
+    return ""
+func inspect_slot(slot):
+    if slot not in SLOT_IDS:return {"error":"无效存档槽。"}
+    if not FileAccess.file_exists(save_path(slot)):return {"error":"无存档","empty":true}
+    var file=FileAccess.open(save_path(slot),FileAccess.READ)
+    if not file or file.get_length()>262144:return {"error":"存档无法读取或大小异常。"}
+    var data=Content.normalize(Content.parse_json(file.get_as_text()))
+    if not data is Dictionary or data.get("format")!=2:return {"error":"存档损坏或版本不兼容。"}
+    if data.get("rules_hash")!=FileAccess.get_file_as_string("res://logic/battle.lua").sha256_text():return {"error":"规则版本不兼容，请保留旧存档。"}
+    var issue=Content.validate(data.get("content"))
+    if not issue.is_empty() or Content.hash_of(data.content)!=data.get("content_hash"):return {"error":"内容版本校验失败："+issue}
+    var candidate=Runtime.new(data.content)
+    if not data.get("snapshot") is String or not candidate.restore(data.snapshot) or candidate.state_hash()!=data.get("hash"):return {"error":"战斗快照损坏或校验不符。"}
+    var p=data.get("presentation")
+    if not valid_presentation(p,candidate):return {"error":"剧情阅读进度损坏。"}
+    return {"error":"","data":data,"round":candidate.round_number,"step":candidate.step,"title":data.content.title,"saved_at":data.get("saved_at","")}
+func valid_presentation(p,logic):
+    if not p is Dictionary or not p.get("seen") is Array or p.seen.size()>24 or not p.get("active") is String or not Content.integer(p.get("line"),0,32):return false
+    var known={}
+    for event in logic.content.story.events:known[event.id]=event.lines.size()
+    for id in p.seen:
+        if not known.has(id):return false
+    if p.active!="" and (not known.has(p.active) or p.line>=known[p.active] or p.active in p.seen):return false
+    return true
+func load_slot(slot):
+    var result=inspect_slot(slot)
+    if not result.error.is_empty():last_error=result.error;return false
+    var data=result.data
+    var replacement=Session.new();replacement.offline(data.content)
+    if not replacement.logic.restore(data.snapshot):last_error="快照恢复失败。";return false
+    replacement.authority.checkpoint=replacement.logic.snapshot();replacement.authority.history.clear()
+    close_room();session=replacement;presentation=data.presentation.duplicate(true)
+    saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation);last_error=""
+    return true
+func speaker_name(id):
+    if id=="narrator":return session.logic.content.story.chapterTitle
+    for person in session.logic.content.story.characters:
+        if person.id==id:return person.name
+    return id
+func event_by_id(id):
+    for event in session.logic.content.story.events:
+        if event.id==id:return event
+    return {}
+func next_story():
+    if not session:return {}
+    var logic=session.logic;var entries=logic.content.story.events
+    # Terminal events preempt local mid-battle dialogue without changing shared flags.
+    if logic.outcome!="playing":
+        var terminal="battle_terminal_"+logic.outcome
+        for event in entries:
+            if event.trigger==terminal and event.id not in presentation.seen:
+                if presentation.active!=event.id:presentation.active=event.id;presentation.line=0
+                break
+        if presentation.active!="" and event_by_id(presentation.active).get("trigger")!=terminal:
+            presentation.active="";presentation.line=0
+    if presentation.active=="":
+        for i in range(entries.size()):
+            var event=entries[i]
+            if logic.outcome!="playing" and event.trigger not in ["battle_terminal_victory","battle_terminal_defeat"]:continue
+            if (logic.story_flags & (1<<i))!=0 and event.id not in presentation.seen:
+                presentation.active=event.id;presentation.line=0;break
+    if presentation.active=="":return {}
+    var current=event_by_id(presentation.active)
+    var mid=current.trigger.begins_with("first_player_turn") or current.trigger=="round"
+    while presentation.line<current.lines.size():
+        var line=current.lines[presentation.line]
+        var unavailable=false
+        if mid:
+            for u in logic.units:
+                if u.id==line.speaker and u.hp<=0:unavailable=true
+        if not unavailable:return {"id":current.id,"speaker":line.speaker,"text":line.text,"index":presentation.line+1,"total":current.lines.size()}
+        presentation.line+=1
+    complete_story();return next_story()
+func complete_story():
+    if presentation.active!="" and presentation.active not in presentation.seen:presentation.seen.append(presentation.active)
+    presentation.active="";presentation.line=0
+func advance_story(skip=false):
+    if presentation.active=="":return
+    if skip:complete_story()
+    else:
+        presentation.line+=1
+        if presentation.line>=event_by_id(presentation.active).lines.size():complete_story()
+func return_to_menu():
+    close_room();session=null
+    get_tree().call_deferred("change_scene_to_file","res://ui/menu.tscn")
+func _notification(what):
+    if what==NOTIFICATION_WM_CLOSE_REQUEST:
+        var scene=get_tree().current_scene
+        if scene and scene.has_method("request_exit"):scene.request_exit()
+        else:get_tree().quit()
+func _exit_tree():close_room()

@@ -1,6 +1,8 @@
 extends Node3D
 const Session = preload("res://logic/session.gd")
-var session = Session.new()
+var session
+const Hud=preload("res://ui/battle_hud.gd")
+var hud
 var battle
 var last_step = -1
 var network_label: Label
@@ -32,10 +34,8 @@ func box(pos,size,color):
     return mesh
 
 func _ready():
-    session.offline()
-    for arg in OS.get_cmdline_user_args():
-        if arg.begins_with("--connect="):
-            session.connect_local(int(arg.trim_prefix("--connect=")),OS.get_environment("AMBER_TOKEN"))
+    if not App.session:App.new_game()
+    session=App.session
     battle = session.logic
     build_world()
     build_hud()
@@ -76,22 +76,27 @@ func build_world():
     sun.light_energy = 0.85
     sun.shadow_enabled = true
     add_child(sun)
-    for z in range(8):
-        for x in range(10):
+    for z in range(battle.size.y):
+        for x in range(battle.size.x):
             var pos = Vector2i(x,z)
-            var water = not battle.walkable(pos)
-            var bridge = z in [3,4] and x in [4,5]
+            var water = battle.content.terrain[z][x]=="W"
+            var bridge = battle.content.terrain[z][x]=="B"
             var color = "547f89" if water else ("bdab8b" if bridge else ("8e9d64" if (x+z)%2 else "9eaa70"))
             var tile = box(Vector3(x,-0.18 if not water else -0.38,z),Vector3(0.98,0.3 if not water else 0.12,0.98),color)
             tiles[pos] = {"node":tile,"color":color}
-    # Stone parapets leave the two bridge lanes clear.
-    for x in [3.48,5.52]:
-        for z in [2.8,3.4,4.0,4.6]: box(Vector3(x,0.13,z),Vector3(0.15,0.5,0.48),"a08e77")
+    # Bridge rails follow the data map; X cells are actual blocked obstacles.
+    for z in range(battle.size.y):
+        for x in range(battle.size.x):
+            if battle.content.terrain[z][x]=="X":box(Vector3(x,0.22,z),Vector3(0.8,0.6,0.8),"84775f")
+            if battle.content.terrain[z][x]=="B":
+                for side in [-1,1]:
+                    if x+side>=0 and x+side<battle.size.x and battle.content.terrain[z][x+side]=="W":
+                        box(Vector3(x+side*0.47,0.13,z),Vector3(0.12,0.5,0.8),"a08e77")
     # Small original low-poly roadside inn: no imported models or textures.
-    box(Vector3(0.4,0.6,6.7),Vector3(1.5,1.4,1.0),"d9b986")
-    box(Vector3(0.4,1.4,6.7),Vector3(1.8,0.3,1.3),"9d6749")
-    box(Vector3(0.4,0.3,7.22),Vector3(0.38,0.8,0.04),"694d3b")
-    for x in [-0.02,0.85]: box(Vector3(x,0.85,7.23),Vector3(0.26,0.28,0.05),"ffdc88")
+    box(Vector3(-1.1,0.6,6.7),Vector3(1.5,1.4,1.0),"d9b986")
+    box(Vector3(-1.1,1.4,6.7),Vector3(1.8,0.3,1.3),"9d6749")
+    box(Vector3(-1.1,0.3,7.22),Vector3(0.38,0.8,0.04),"694d3b")
+    for x in [-1.52,-0.65]: box(Vector3(x,0.85,7.23),Vector3(0.26,0.28,0.05),"ffdc88")
     for p in [Vector3(2,0,7),Vector3(7,0,0)]:
         box(p+Vector3(0,0.5,0),Vector3(0.08,1,0.08),"594633")
         var lamp = OmniLight3D.new()
@@ -104,16 +109,20 @@ func build_world():
         box(p+Vector3(0,1,0),Vector3(0.2,0.24,0.2),"ffcf78")
     camera = Camera3D.new()
     camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-    camera.size = 13.0
+    camera.size = maxf(battle.size.x,battle.size.y)+4.4
     camera.position = Vector3(13,16,17)
     add_child(camera)
-    camera.look_at(Vector3(4.0,0,3.5))
+    camera.look_at(Vector3((battle.size.x-1)*0.5,0,(battle.size.y-1)*0.5))
     camera.position -= camera.global_basis.x * 1.0
+    camera.position -= camera.global_basis.y * 1.0
     camera.current = true
     for u in battle.units:
         var sprite = Sprite3D.new()
-        sprite.texture = pixel_person(u.role,u.ally)
-        sprite.pixel_size = 0.045
+        var art="res://assets/characters/"+u.id+".png"
+        if not FileAccess.file_exists(art):art="res://assets/characters/"+u.role+".png"
+        sprite.texture = ImageTexture.create_from_image(Image.load_from_file(art)) if FileAccess.file_exists(art) else pixel_person(u.role,u.ally)
+        sprite.set_meta("formal_art",FileAccess.file_exists(art))
+        sprite.pixel_size = 0.01125 if sprite.get_meta("formal_art") else 0.045
         sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
         sprite.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
         sprite.shaded = true
@@ -165,71 +174,15 @@ func pixel_person(role,ally):
     return ImageTexture.create_from_image(image)
 
 func build_hud():
-    var layer = CanvasLayer.new()
-    add_child(layer)
-    var panel = PanelContainer.new()
-    panel.position = Vector2(18,18)
-    panel.custom_minimum_size = Vector2(286,0)
-    layer.add_child(panel)
-    var background = StyleBoxFlat.new()
-    background.bg_color = Color("292b2b")
-    background.border_color = Color("d8b578")
-    background.set_border_width_all(2)
-    background.content_margin_left = 16
-    background.content_margin_right = 16
-    background.content_margin_top = 14
-    background.content_margin_bottom = 14
-    panel.add_theme_stylebox_override("panel",background)
-    var column = VBoxContainer.new()
-    column.add_theme_constant_override("separation",10)
-    panel.add_child(column)
-    var title = Label.new()
-    title.text = "AMBER BRIDGE"
-    title.add_theme_font_size_override("font_size",24)
-    title.modulate = Color("ffd695")
-    column.add_child(title)
-    var sub = Label.new()
-    sub.text = "A small mercenary adventure\nShared Lua · fsnet local co-op"
-    sub.add_theme_font_size_override("font_size",14)
-    column.add_child(sub)
-    network_label = Label.new()
-    network_label.custom_minimum_size = Vector2(250,45)
-    network_label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-    column.add_child(network_label)
-    status = Label.new()
-    column.add_child(status)
-    detail = Label.new()
-    detail.custom_minimum_size = Vector2(250,112)
-    column.add_child(detail)
-    for entry in [["1 · Move","move"],["2 · Attack","attack"],["3 · Skill (once per battle)","skill"]]:
-        var button = Button.new()
-        button.text = entry[0]
-        button.pressed.connect(select_mode.bind(entry[1]))
-        column.add_child(button)
-        buttons.append(button)
-    var end = Button.new()
-    end.text = "Space · End turn"
-    end.pressed.connect(finish_turn)
-    column.add_child(end)
-    buttons.append(end)
-    var reset_button = Button.new()
-    reset_button.text = "R · Restart"
-    reset_button.pressed.connect(restart)
-    column.add_child(reset_button)
-    message = Label.new()
-    message.custom_minimum_size = Vector2(250,90)
-    message.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-    column.add_child(message)
-    var note = Label.new()
-    note.text = "Click a hero to select.\nMove: click a lit tile.\nAttack/skill: click a foe.\nKnight skill: click Mara.\nOne move + one action per round."
-    note.add_theme_font_size_override("font_size",13)
-    column.add_child(note)
+    hud=Hud.new();hud.game=self;add_child(hud)
 
 func select_mode(value):
+    if hud and hud.blocks_input():return
     mode = value
     refresh()
 
 func finish_turn():
+    if hud and hud.blocks_input():return
     session.submit({"kind":"end_turn"})
     battle=session.logic
     refresh()
@@ -238,7 +191,8 @@ func restart():
     if session.online:
         session.status="Online battle restart requires restarting authority. R only resets offline play."
         return
-    session.offline()
+    App.new_game(session.logic.content)
+    session=App.session
     battle=session.logic
     selected = 0
     mode = "move"
@@ -261,20 +215,17 @@ func refresh():
         var u = battle.units[i]
         figures[i].visible = u.hp > 0
         badges[i].visible = u.hp > 0
-        figures[i].position = Vector3(u.pos.x,0.72,u.pos.y)
+        figures[i].position = Vector3(u.pos.x,0.63 if figures[i].get_meta("formal_art") else 0.72,u.pos.y)
         badges[i].position = Vector3(u.pos.x,1.62,u.pos.y)
         badges[i].text = "%s  %d/%d" % [u.name,u.hp,u.max_hp]
         badges[i].modulate = Color("fff0c9") if u.ally else Color("ffd2b4")
-    status.text = "ROUND %d  ·  %s" % [battle.round_number,battle.outcome.to_upper()]
-    detail.text = "Select a living hero."
-    if selected >= 0:
-        var u = battle.units[selected]
-        var skill_name = {"knight":"Second Wind: self +3 HP","archer":"Power Shot: range 4, damage 3","mage":"Ember: range 3, small area"}.get(u.role,"")
-        detail.text = "%s · %s\nHP %d/%d  ·  Mode: %s\nMove: %s  Action: %s\n%s\nSkill: %s" % [u.name,u.role,u.hp,u.max_hp,mode,"spent" if u.moved else "ready","spent" if u.acted else "ready",skill_name,"ready" if u.skill else "spent"]
-    message.text = battle.last_event
-    for button in buttons: button.disabled = battle.outcome != "playing"
+    if hud:hud.refresh()
 
 func _unhandled_input(event):
+    if event is InputEventKey and event.pressed and not event.echo:
+        if event.physical_keycode==KEY_ESCAPE:hud.toggle_pause();return
+        if hud.story_panel.visible and event.physical_keycode in [KEY_SPACE,KEY_ENTER]:hud.advance(false);return
+    if hud.blocks_input():return
     if event is InputEventKey and event.pressed and not event.echo:
         match event.physical_keycode:
             KEY_1: select_mode("move")
@@ -299,12 +250,13 @@ func _unhandled_input(event):
         refresh()
 
 func _process(delta):
-    session.tick(delta)
     battle=session.logic
     if battle.step!=last_step:
         last_step=battle.step
         refresh()
-    network_label.text=session.status + "\nState " + battle.state_hash().substr(0,12)
+    if hud:hud.refresh_story();hud.refresh()
 
 func _exit_tree():
-    if session.transport: session.transport.shutdown()
+    pass # App owns session across menus; explicit leave closes transport.
+
+func request_exit():hud.confirm_leave(true)

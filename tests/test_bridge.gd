@@ -14,7 +14,7 @@ func _initialize():
     check(not vm.last_error().is_empty(),"floating input rejected")
     vm.invoke("echo",{"bad":RefCounted.new()})
     check(not vm.last_error().is_empty(),"Godot objects rejected")
-    vm.invoke("echo",{"bad":"x".repeat(70000)})
+    vm.invoke("echo",{"bad":"x".repeat(140000)})
     check(vm.last_error().contains("input size limit"),"oversized bridge input rejected before Lua")
     vm.invoke("missing",{})
     check(vm.last_error()=="unknown rules method","unknown method error")

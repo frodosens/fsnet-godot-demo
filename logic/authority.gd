@@ -1,13 +1,15 @@
 extends RefCounted
 # Same authoritative sequencer used by offline play and headless server.
 const Runtime = preload("res://logic/runtime.gd")
-var logic = Runtime.new()
+var logic
 var checkpoint = ""
 var history = []
 var clients = {}
 const MAX_CLIENTS = 8
 
-func _init(): checkpoint = logic.snapshot()
+func _init(data={}):
+    logic=Runtime.new(data)
+    checkpoint=logic.snapshot()
 
 # JSON only transports values; canonical state hashing happens in the rules VM.
 static func command_from_json(value):
@@ -27,7 +29,7 @@ static func command_from_json(value):
 func handle(request):
     var accepted = false
     var reason = "sync"
-    if not request is Dictionary or request.get("rules","") != logic.rules_hash:
+    if not request is Dictionary or request.get("rules","") != logic.rules_hash or request.get("content","") != logic.content_hash:
         return {"error":"rules mismatch"}
     var client = request.get("client","")
     if not client is String or client.length() < 8 or client.length() > 64:
@@ -53,5 +55,5 @@ func handle(request):
                 if history.size() >= 16:
                     checkpoint = logic.snapshot()
                     history.clear()
-    return {"rules":logic.rules_hash,"snapshot":checkpoint,"history":history.duplicate(true),
+    return {"rules":logic.rules_hash,"content":logic.content_hash,"snapshot":checkpoint,"history":history.duplicate(true),
         "step":logic.step,"hash":logic.state_hash(),"accepted":accepted,"reason":reason,"ack":clients[client]}

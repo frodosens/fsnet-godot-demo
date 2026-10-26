@@ -15,7 +15,7 @@ func _initialize():
 func _process(_delta):
     if not transport: return false
     for event in transport.poll_events():
-        var request=JSON.parse_string(event.payload)
+        var request=Authority.Runtime.Content.parse_json(event.payload)
         var response=authority.handle(request)
         transport.respond(event.id,JSON.stringify(response))
     return false

@@ -27,7 +27,7 @@ func _initialize():
     check(a.apply_command({"step":3,"kind":"end_turn"}),"enemy turn")
     check(not a.apply_command({"step":4,"kind":"skill","unit":0,"target":0}),"skill once per battle")
     check(b.restore(a.snapshot()) and a.state_hash()==b.state_hash(),"snapshot roundtrip")
-    for raw in ["",a.snapshot()+",0","1,0,1,1,2",a.snapshot().replace(",",",,"),initial.replace("1,0,12345,1,0","1,0,12345,1,1")]:
+    for raw in ["",a.snapshot()+",0","1,0,1,1,2",a.snapshot().replace(",",",,"),"0"+initial]:
         var previous=b.snapshot()
         check(not b.restore(raw) and b.snapshot()==previous,"malformed snapshot atomic rejection")
     var authority=Authority.new()
@@ -59,7 +59,7 @@ func _initialize():
     print("BATTLE_RESULT outcome=",authority.logic.outcome," step=",authority.logic.step," hash=",authority.logic.state_hash())
     # Reconnect from a fresh VM, then replay a checkpoint and its tail.
     var reconnect=Session.new()
-    var reply=authority.handle({"rules":authority.logic.rules_hash,"client":"reconnect-client"})
+    var reply=authority.handle({"rules":authority.logic.rules_hash,"content":authority.logic.content_hash,"client":"reconnect-client"})
     check(reconnect.synchronize(reply) and reconnect.logic.state_hash()==authority.logic.state_hash(),"snapshot + tail reconnect")
     var broken=reply.duplicate(true)
     broken.hash="bad"
@@ -76,7 +76,7 @@ func _initialize():
 
 func issue(authority,first,second,id,command):
     command.step=authority.logic.step+1
-    var request={"rules":authority.logic.rules_hash,"client":"test-client","id":id,"command":command}
+    var request={"rules":authority.logic.rules_hash,"content":authority.logic.content_hash,"client":"test-client","id":id,"command":command}
     var reply=authority.handle(request)
     check(first.synchronize(reply),"replica A executes authoritative log")
     check(second.synchronize(reply),"replica B executes authoritative log")

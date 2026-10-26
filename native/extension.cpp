@@ -30,10 +30,13 @@ class AmberLogic : public RefCounted {
  }
  static void budget(lua_State *l,lua_Debug*) {luaL_error(l,"instruction budget exceeded");}
  static void validate(const Variant&v,size_t &bytes,int depth=0){
-  if(depth>8)throw std::runtime_error("input nesting limit");
-  bytes+=16;if(bytes>65536)throw std::runtime_error("input size limit");
+  if(depth>12)throw std::runtime_error("input nesting limit");
+  bytes+=16;if(bytes>131072)throw std::runtime_error("input size limit");
   if(v.get_type()==Variant::STRING||v.get_type()==Variant::STRING_NAME){
-   bytes+=String(v).utf8().length();if(bytes>65536)throw std::runtime_error("input size limit");
+   bytes+=String(v).utf8().length();if(bytes>131072)throw std::runtime_error("input size limit");
+  }else if(v.get_type()==Variant::ARRAY){
+   Array a=v;if(a.size()>256)throw std::runtime_error("input array limit");
+   for(int i=0;i<a.size();++i)validate(a[i],bytes,depth+1);
   }else if(v.get_type()==Variant::DICTIONARY){
    Dictionary d=v;Array keys=d.keys();if(keys.size()>32)throw std::runtime_error("input key limit");
    for(int i=0;i<keys.size();++i){validate(keys[i],bytes,depth+1);validate(d[keys[i]],bytes,depth+1);}
@@ -47,9 +50,10 @@ class AmberLogic : public RefCounted {
    case Variant::INT:lua_pushinteger(l,int64_t(v));break;
    case Variant::STRING_NAME:
    case Variant::STRING:{auto s=String(v).utf8();lua_pushlstring(l,s.get_data(),s.length());break;}
+   case Variant::ARRAY:{Array a=v;lua_createtable(l,a.size(),0);for(int i=0;i<a.size();++i){push(l,a[i],depth+1);lua_rawseti(l,-2,i+1);}break;}
    case Variant::DICTIONARY:{Dictionary d=v;Array keys=d.keys();lua_createtable(l,0,keys.size());
     for(int i=0;i<keys.size();++i){if(keys[i].get_type()!=Variant::STRING && keys[i].get_type()!=Variant::STRING_NAME)throw std::runtime_error("string keys only");push(l,keys[i],depth+1);push(l,d[keys[i]],depth+1);lua_rawset(l,-3);}break;}
-   default:throw std::runtime_error("only integer, bool, string and dictionary inputs");
+   default:throw std::runtime_error("only integer, bool, string, array and dictionary inputs");
   }
  }
  static Variant read(lua_State*l,int index,int depth=0){

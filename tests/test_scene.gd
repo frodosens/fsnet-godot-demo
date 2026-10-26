@@ -4,6 +4,9 @@ func run():
     var game=load("res://main.tscn").instantiate()
     root.add_child(game)
     await process_frame
+    var app=root.get_node("App")
+    app.advance_story(true)
+    game.hud.refresh_story()
     var click=InputEventMouseButton.new()
     click.button_index=MOUSE_BUTTON_LEFT
     click.pressed=true

@@ -14,11 +14,11 @@ var retry_clock = 0.0
 var status = "Offline · shared Lua rules"
 var failed = false
 
-func offline():
+func offline(data={}):
     if transport: transport.shutdown()
     transport = null
     online = false
-    authority = Authority.new()
+    authority = Authority.new(data)
     logic = authority.logic
     request_id = 0
     pending = false
@@ -33,7 +33,7 @@ func connect_local(p,secret):
     status="Connecting to local authority…";pending=false;retry_clock=0.0
     return true
 
-func envelope(): return {"rules":logic.rules_hash,"client":client_id}
+func envelope(): return {"rules":logic.rules_hash,"content":logic.content_hash,"client":client_id}
 
 func submit(command):
     if failed or pending: return false
@@ -54,10 +54,10 @@ func submit(command):
     return true
 
 func synchronize(reply):
-    if not reply is Dictionary or reply.has("error") or reply.get("rules","") != logic.rules_hash:
+    if not reply is Dictionary or reply.has("error") or reply.get("rules","") != logic.rules_hash or reply.get("content","") != logic.content_hash:
         status="Protocol/rules mismatch";failed=true;return false
     # Validate in a separate VM; never expose a partially applied or mismatched state.
-    var candidate=Runtime.new()
+    var candidate=Runtime.new(logic.content)
     if not reply.get("snapshot") is String or not candidate.restore(reply.snapshot):
         status="Invalid snapshot";failed=true;return false
     var entries=reply.get("history")
@@ -87,7 +87,7 @@ func tick(delta):
             transport.shutdown()
             transport.start(false,port,token)
             retry_clock=0.5
-        else: synchronize(JSON.parse_string(event.payload))
+        else: synchronize(Runtime.Content.parse_json(event.payload))
     retry_clock-=delta
     if not pending and retry_clock<=0.0:
         pending=transport.send(JSON.stringify(envelope()))
