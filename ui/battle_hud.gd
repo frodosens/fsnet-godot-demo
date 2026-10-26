@@ -42,7 +42,6 @@ var previous=[]
 var log_lines=[]
 func _ready():
     root=Control.new();root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);root.mouse_filter=Control.MOUSE_FILTER_IGNORE;root.theme=UI.make_theme();add_child(root)
-    var route=preload("res://view/path_preview.gd").new();route.game=game;root.add_child(route)
     soft_panel(Vector2(20,18),Vector2(310,104))
     var heading=UI.label(game.battle.content.title,28);heading.position=Vector2(28,24);root.add_child(heading)
     var objective=UI.paragraph(objective_text(game.battle.content.victory),280);objective.position=Vector2(28,66);objective.add_theme_font_size_override("font_size",18);root.add_child(objective)
@@ -274,6 +273,11 @@ func toggle_pause():
     scene_button.disabled=not game.scene_view.active and not game.scene_view.available()
     scene_button.tooltip_text="仅支持原始琥珀桥参考地图；需要匹配的背景素材。"
     c.add_child(scene_button)
+    var brightness=HBoxContainer.new();c.add_child(brightness)
+    brightness.add_child(UI.label("角色补光",18))
+    var level=HSlider.new();level.min_value=0;level.max_value=0.6;level.step=0.05;level.value=App.character_emission;level.custom_minimum_size=Vector2(320,32);level.tooltip_text="只调整角色原色补光，保留场景光照与阴影。"
+    level.value_changed.connect(func(value):App.character_emission=value)
+    brightness.add_child(level)
     c.get_child(2).grab_focus()
 func toggle_scene_renderer():
     if game.scene_view.set_fixed(not game.scene_view.active):

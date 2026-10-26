@@ -8,6 +8,8 @@ var hidden=[]
 var backdrop:MeshInstance3D
 var foreground:MeshInstance3D
 var shadows=[]
+var painted_lights=[]
+var original_lights=[]
 var saved_size=11.8
 var saved_aspect=Camera3D.KEEP_HEIGHT
 var art_rect=Rect2()
@@ -33,7 +35,7 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
     if enabled==active:return true
     if enabled and (not compatible() or (fixture_texture==null and not available())):return false
     if enabled:
-        var keep=[game.camera,game.route_mesh,game.route_arrows,game.selection_ring,game.preview_ghost]
+        var keep=[game.ground_overlay,game.camera,game.route_mesh,game.route_arrows,game.selection_ring,game.preview_ghost]
         keep.append_array(game.figures);keep.append_array(game.badges)
         for tile in game.tiles.values():keep.append(tile.overlay)
         for node in game.get_children():
@@ -46,11 +48,16 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
         var material=ShaderMaterial.new();material.shader=shader
         for unit in game.battle.units:
             var shadow=MeshInstance3D.new();var plane=PlaneMesh.new();plane.size=Vector2(0.56,0.38);shadow.mesh=plane;shadow.material_override=material;shadow.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;game.add_child(shadow);shadows.append(shadow)
-        active=true;fit();sync_shadows()
+        active=true;fit();setup_lights();sync_shadows()
     else:
         for entry in hidden:
             if is_instance_valid(entry[0]):entry[0].visible=entry[1]
         hidden.clear()
+        for entry in original_lights:
+            if is_instance_valid(entry[0]):entry[0].visible=entry[1]
+        original_lights.clear()
+        for light in painted_lights:light.queue_free()
+        painted_lights.clear()
         for node in [backdrop,foreground]+shadows:
             if is_instance_valid(node):node.queue_free()
         backdrop=null;foreground=null;shadows.clear();active=false
@@ -70,3 +77,19 @@ func sync_shadows():
         shadows[i].position=Vector3(p.x,0.008,p.z);shadows[i].visible=game.battle.units[i].hp>0
 func _process(_delta):
     if active:fit();sync_shadows()
+
+func setup_lights():
+    for node in game.get_children():
+        if node is OmniLight3D:original_lights.append([node,node.visible]);node.hide()
+    var path="res://assets/backgrounds/amber_bridge/lights.json"
+    if not FileAccess.file_exists(path):return
+    var data=JSON.parse_string(FileAccess.get_file_as_string(path))
+    for spec in data.get("lights",[]):
+        var point=art_rect.position+Vector2(spec.pixel[0],spec.pixel[1])*art_rect.size.x/1280.0
+        var origin=game.camera.project_ray_origin(point);var ray=game.camera.project_ray_normal(point)
+        var light=OmniLight3D.new();light.position=origin+ray*((float(spec.height)-origin.y)/ray.y)
+        light.light_color=Color(spec.color);light.light_energy=clampf(float(spec.energy),0,2)
+        light.omni_range=clampf(float(spec.range),0.1,5);light.omni_attenuation=clampf(float(spec.attenuation),0.5,3)
+        light.light_cull_mask=2;light.shadow_enabled=false
+        light.set_meta("anchor_pixel",Vector2(spec.pixel[0],spec.pixel[1]));light.set_meta("anchor_id",spec.id)
+        game.add_child(light);painted_lights.append(light)

@@ -1,0 +1,246 @@
+{
+  "failures": 0,
+  "fixture": "all-tile rendering stress, not legal move range",
+  "results": [
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 341,
+      "unit": "mara",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 415,
+      "unit": "finn",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 392,
+      "unit": "neri",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 440,
+      "unit": "oren",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 486,
+      "unit": "tessa",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 549,
+      "unit": "bram",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 341,
+      "unit": "mara",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 415,
+      "unit": "finn",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 392,
+      "unit": "neri",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 440,
+      "unit": "oren",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 486,
+      "unit": "tessa",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 549,
+      "unit": "bram",
+      "viewport": [
+        960,
+        600
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 341,
+      "unit": "mara",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 415,
+      "unit": "finn",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 392,
+      "unit": "neri",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 440,
+      "unit": "oren",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 486,
+      "unit": "tessa",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": false,
+      "solid_body_samples": 549,
+      "unit": "bram",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 341,
+      "unit": "mara",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 415,
+      "unit": "finn",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 392,
+      "unit": "neri",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 440,
+      "unit": "oren",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 486,
+      "unit": "tessa",
+      "viewport": [
+        1280,
+        800
+      ]
+    },
+    {
+      "changed_by_ground_overlay": 0,
+      "fixed": true,
+      "solid_body_samples": 549,
+      "unit": "bram",
+      "viewport": [
+        1280,
+        800
+      ]
+    }
+  ]
+}

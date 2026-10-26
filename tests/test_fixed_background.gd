@@ -28,6 +28,10 @@ func run():
             check(game.mouse_cell(actual)==Vector2i(cell.cell[0],cell.cell[1]),"grid picking remains aligned")
         check(worst<0.06,"art affine projection remains aligned at "+str(size))
         if adapter.art_rect.position.length()>1:check(game.mouse_cell(Vector2.ZERO)==Vector2i(-1,-1),"letterbox does not accept world input")
+        for light in adapter.painted_lights:
+            var expected=adapter.art_rect.position+light.get_meta("anchor_pixel")*ratio
+            check(game.camera.unproject_position(light.position).distance_to(expected)<0.06,"painted lamp anchor stable across resolution")
+        check(adapter.painted_lights.size()==4,"exactly four painted lights, no switch duplication")
         print("FIXED_BACKGROUND_VIEW ",size," max_projection_error=",worst)
     root.size=Vector2i(1280,800);await frames()
     check(app.session.submit({"kind":"move","unit":0,"x":4,"y":4}),"same Lua command works in fixed view")

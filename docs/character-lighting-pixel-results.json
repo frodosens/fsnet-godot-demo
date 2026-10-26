@@ -1,0 +1,32 @@
+{
+  "fixed_emission": {
+    "changed_pixels_gt1": 7660,
+    "maximum_channel_delta": 38,
+    "bounds": [
+      427,
+      181,
+      997,
+      505
+    ]
+  },
+  "3d_emission": {
+    "changed_pixels_gt1": 7666,
+    "maximum_channel_delta": 38,
+    "bounds": [
+      427,
+      181,
+      997,
+      505
+    ]
+  },
+  "local_lamps": {
+    "changed_pixels_gt1": 2214,
+    "maximum_channel_delta": 38,
+    "bounds": [
+      376,
+      181,
+      996,
+      336
+    ]
+  }
+}

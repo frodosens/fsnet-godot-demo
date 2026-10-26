@@ -37,6 +37,7 @@ var preview_ghost
 var route_arrows
 var selection_ring
 var scene_view
+var ground_overlay
 
 func material(color):
     var m = StandardMaterial3D.new()
@@ -65,6 +66,7 @@ func _ready():
     session=App.session
     battle = session.logic
     build_world()
+    ground_overlay=preload("res://view/path_preview.gd").new();ground_overlay.game=self;add_child(ground_overlay)
     build_hud()
     scene_view=preload("res://view/fixed_background.gd").new();scene_view.game=self;add_child(scene_view)
     if App.scene_renderer=="fixed":scene_view.set_fixed(true)
@@ -231,7 +233,7 @@ func build_world():
             for side in [-1,1]:
                 var frame=box(p+Vector3(edge*0.10,1,side*0.10),Vector3(0.025,0.32,0.025),"594633");frame.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
         var cap=box(p+Vector3(0,1.18,0),Vector3(0.26,0.05,0.26),"594633");cap.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-    preview_ghost=Sprite3D.new();preview_ghost.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y;preview_ghost.modulate=Color(1,1,1,0.4);preview_ghost.pixel_size=0.01125;preview_ghost.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST;preview_ghost.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;preview_ghost.hide();add_child(preview_ghost)
+    preview_ghost=Sprite3D.new();preview_ghost.render_priority=2;preview_ghost.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y;preview_ghost.modulate=Color(1,1,1,0.4);preview_ghost.pixel_size=0.01125;preview_ghost.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST;preview_ghost.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;preview_ghost.hide();add_child(preview_ghost)
     selection_ring=MeshInstance3D.new();var ring=TorusMesh.new();ring.inner_radius=0.36;ring.outer_radius=0.42;selection_ring.mesh=ring
     var ring_material=StandardMaterial3D.new();ring_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;ring_material.albedo_color=Color("91aaa3");selection_ring.material_override=ring_material;selection_ring.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;add_child(selection_ring)
     camera = Camera3D.new()
@@ -253,7 +255,7 @@ func build_world():
         var manifest=JSON.parse_string(FileAccess.get_file_as_string("res://assets/sprites/iso4/manifest.json"))
         if manifest is Dictionary:iso_characters=manifest.get("characters",{})
     for u in battle.units:
-        var sprite = Sprite3D.new()
+        var sprite = preload("res://view/lit_character.gd").new()
         var art="res://assets/characters/"+u.id+".png"
         if not ResourceLoader.exists(art):art="res://assets/sprites/"+u.role+".png"
         sprite.texture = load(art) if ResourceLoader.exists(art) else pixel_person(u.role,u.ally)

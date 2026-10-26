@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "canvas": [1280, 800],
+  "background_sha256": "1bbb8d93bd390f726adba0cf762c5624e21b143ce97ccdaf2d8cec81b76c3cb1",
+  "note": "Manual pixel anchors of visible lamp/window centers. True OmniLight3D lights affect character layer 2 only; the painted background remains unlit/baked.",
+  "lights": [
+    {"id":"near_lantern","pixel":[329,256],"height":1.2,"color":"ffbd78","energy":1.1,"range":3.0,"attenuation":1.4},
+    {"id":"far_lantern","pixel":[1025,188],"height":1.0,"color":"ffbd78","energy":1.1,"range":3.0,"attenuation":1.4},
+    {"id":"inn_window","pixel":[107,224],"height":0.9,"color":"ffc887","energy":0.65,"range":2.4,"attenuation":1.7},
+    {"id":"inn_door","pixel":[157,235],"height":0.9,"color":"ffc887","energy":0.65,"range":2.4,"attenuation":1.7}
+  ]
+}
