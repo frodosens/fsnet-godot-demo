@@ -35,9 +35,239 @@
           "assets/sprites/iso4/knight_front_right_walk_01.png",
           "assets/sprites/iso4/knight_front_right_walk_02.png",
           "assets/sprites/iso4/knight_front_right_walk_03.png"
+        ],
+        "front_left": [
+          "assets/sprites/iso4/knight_front_left_walk_00.png",
+          "assets/sprites/iso4/knight_front_left_walk_01.png",
+          "assets/sprites/iso4/knight_front_left_walk_02.png",
+          "assets/sprites/iso4/knight_front_left_walk_03.png"
+        ],
+        "back_left": [
+          "assets/sprites/iso4/knight_back_left_walk_00.png",
+          "assets/sprites/iso4/knight_back_left_walk_01.png",
+          "assets/sprites/iso4/knight_back_left_walk_02.png",
+          "assets/sprites/iso4/knight_back_left_walk_03.png"
+        ],
+        "back_right": [
+          "assets/sprites/iso4/knight_back_right_walk_00.png",
+          "assets/sprites/iso4/knight_back_right_walk_01.png",
+          "assets/sprites/iso4/knight_back_right_walk_02.png",
+          "assets/sprites/iso4/knight_back_right_walk_03.png"
+        ]
+      }
+    },
+    "archer": {
+      "idle": {
+        "front_right": "assets/sprites/iso4/archer_front_right_idle.png",
+        "front_left": "assets/sprites/iso4/archer_front_left_idle.png",
+        "back_left": "assets/sprites/iso4/archer_back_left_idle.png",
+        "back_right": "assets/sprites/iso4/archer_back_right_idle.png"
+      },
+      "walk": {
+        "front_right": [
+          "assets/sprites/iso4/archer_front_right_walk_00.png",
+          "assets/sprites/iso4/archer_front_right_walk_01.png",
+          "assets/sprites/iso4/archer_front_right_walk_02.png",
+          "assets/sprites/iso4/archer_front_right_walk_03.png"
+        ],
+        "front_left": [
+          "assets/sprites/iso4/archer_front_left_walk_00.png",
+          "assets/sprites/iso4/archer_front_left_walk_01.png",
+          "assets/sprites/iso4/archer_front_left_walk_02.png",
+          "assets/sprites/iso4/archer_front_left_walk_03.png"
+        ],
+        "back_left": [
+          "assets/sprites/iso4/archer_back_left_walk_00.png",
+          "assets/sprites/iso4/archer_back_left_walk_01.png",
+          "assets/sprites/iso4/archer_back_left_walk_02.png",
+          "assets/sprites/iso4/archer_back_left_walk_03.png"
+        ],
+        "back_right": [
+          "assets/sprites/iso4/archer_back_right_walk_00.png",
+          "assets/sprites/iso4/archer_back_right_walk_01.png",
+          "assets/sprites/iso4/archer_back_right_walk_02.png",
+          "assets/sprites/iso4/archer_back_right_walk_03.png"
+        ]
+      }
+    },
+    "mage": {
+      "idle": {
+        "front_right": "assets/sprites/iso4/mage_front_right_idle.png",
+        "front_left": "assets/sprites/iso4/mage_front_left_idle.png",
+        "back_left": "assets/sprites/iso4/mage_back_left_idle.png",
+        "back_right": "assets/sprites/iso4/mage_back_right_idle.png"
+      },
+      "walk": {
+        "front_right": [
+          "assets/sprites/iso4/mage_front_right_walk_00.png",
+          "assets/sprites/iso4/mage_front_right_walk_01.png",
+          "assets/sprites/iso4/mage_front_right_walk_02.png",
+          "assets/sprites/iso4/mage_front_right_walk_03.png"
+        ],
+        "front_left": [
+          "assets/sprites/iso4/mage_front_left_walk_00.png",
+          "assets/sprites/iso4/mage_front_left_walk_01.png",
+          "assets/sprites/iso4/mage_front_left_walk_02.png",
+          "assets/sprites/iso4/mage_front_left_walk_03.png"
+        ],
+        "back_left": [
+          "assets/sprites/iso4/mage_back_left_walk_00.png",
+          "assets/sprites/iso4/mage_back_left_walk_01.png",
+          "assets/sprites/iso4/mage_back_left_walk_02.png",
+          "assets/sprites/iso4/mage_back_left_walk_03.png"
+        ],
+        "back_right": [
+          "assets/sprites/iso4/mage_back_right_walk_00.png",
+          "assets/sprites/iso4/mage_back_right_walk_01.png",
+          "assets/sprites/iso4/mage_back_right_walk_02.png",
+          "assets/sprites/iso4/mage_back_right_walk_03.png"
+        ]
+      }
+    },
+    "scout": {
+      "idle": {
+        "front_right": "assets/sprites/iso4/scout_front_right_idle.png",
+        "front_left": "assets/sprites/iso4/scout_front_left_idle.png",
+        "back_left": "assets/sprites/iso4/scout_back_left_idle.png",
+        "back_right": "assets/sprites/iso4/scout_back_right_idle.png"
+      },
+      "walk": {
+        "front_right": [
+          "assets/sprites/iso4/scout_front_right_walk_00.png",
+          "assets/sprites/iso4/scout_front_right_walk_01.png",
+          "assets/sprites/iso4/scout_front_right_walk_02.png",
+          "assets/sprites/iso4/scout_front_right_walk_03.png"
+        ],
+        "front_left": [
+          "assets/sprites/iso4/scout_front_left_walk_00.png",
+          "assets/sprites/iso4/scout_front_left_walk_01.png",
+          "assets/sprites/iso4/scout_front_left_walk_02.png",
+          "assets/sprites/iso4/scout_front_left_walk_03.png"
+        ],
+        "back_left": [
+          "assets/sprites/iso4/scout_back_left_walk_00.png",
+          "assets/sprites/iso4/scout_back_left_walk_01.png",
+          "assets/sprites/iso4/scout_back_left_walk_02.png",
+          "assets/sprites/iso4/scout_back_left_walk_03.png"
+        ],
+        "back_right": [
+          "assets/sprites/iso4/scout_back_right_walk_00.png",
+          "assets/sprites/iso4/scout_back_right_walk_01.png",
+          "assets/sprites/iso4/scout_back_right_walk_02.png",
+          "assets/sprites/iso4/scout_back_right_walk_03.png"
+        ]
+      }
+    },
+    "brute": {
+      "idle": {
+        "front_right": "assets/sprites/iso4/brute_front_right_idle.png",
+        "front_left": "assets/sprites/iso4/brute_front_left_idle.png",
+        "back_left": "assets/sprites/iso4/brute_back_left_idle.png",
+        "back_right": "assets/sprites/iso4/brute_back_right_idle.png"
+      },
+      "walk": {
+        "front_right": [
+          "assets/sprites/iso4/brute_front_right_walk_00.png",
+          "assets/sprites/iso4/brute_front_right_walk_01.png",
+          "assets/sprites/iso4/brute_front_right_walk_02.png",
+          "assets/sprites/iso4/brute_front_right_walk_03.png"
+        ],
+        "front_left": [
+          "assets/sprites/iso4/brute_front_left_walk_00.png",
+          "assets/sprites/iso4/brute_front_left_walk_01.png",
+          "assets/sprites/iso4/brute_front_left_walk_02.png",
+          "assets/sprites/iso4/brute_front_left_walk_03.png"
+        ],
+        "back_left": [
+          "assets/sprites/iso4/brute_back_left_walk_00.png",
+          "assets/sprites/iso4/brute_back_left_walk_01.png",
+          "assets/sprites/iso4/brute_back_left_walk_02.png",
+          "assets/sprites/iso4/brute_back_left_walk_03.png"
+        ],
+        "back_right": [
+          "assets/sprites/iso4/brute_back_right_walk_00.png",
+          "assets/sprites/iso4/brute_back_right_walk_01.png",
+          "assets/sprites/iso4/brute_back_right_walk_02.png",
+          "assets/sprites/iso4/brute_back_right_walk_03.png"
+        ]
+      }
+    },
+    "raider": {
+      "idle": {
+        "front_right": "assets/sprites/iso4/raider_front_right_idle.png",
+        "front_left": "assets/sprites/iso4/raider_front_left_idle.png",
+        "back_left": "assets/sprites/iso4/raider_back_left_idle.png",
+        "back_right": "assets/sprites/iso4/raider_back_right_idle.png"
+      },
+      "walk": {
+        "front_right": [
+          "assets/sprites/iso4/raider_front_right_walk_00.png",
+          "assets/sprites/iso4/raider_front_right_walk_01.png",
+          "assets/sprites/iso4/raider_front_right_walk_02.png",
+          "assets/sprites/iso4/raider_front_right_walk_03.png"
+        ],
+        "front_left": [
+          "assets/sprites/iso4/raider_front_left_walk_00.png",
+          "assets/sprites/iso4/raider_front_left_walk_01.png",
+          "assets/sprites/iso4/raider_front_left_walk_02.png",
+          "assets/sprites/iso4/raider_front_left_walk_03.png"
+        ],
+        "back_left": [
+          "assets/sprites/iso4/raider_back_left_walk_00.png",
+          "assets/sprites/iso4/raider_back_left_walk_01.png",
+          "assets/sprites/iso4/raider_back_left_walk_02.png",
+          "assets/sprites/iso4/raider_back_left_walk_03.png"
+        ],
+        "back_right": [
+          "assets/sprites/iso4/raider_back_right_walk_00.png",
+          "assets/sprites/iso4/raider_back_right_walk_01.png",
+          "assets/sprites/iso4/raider_back_right_walk_02.png",
+          "assets/sprites/iso4/raider_back_right_walk_03.png"
         ]
       }
     }
   },
-  "status": "Small camera proof: four idle perspectives and one walk direction, not complete map animation set. Gait alternates support leg, toe-heading and exact45deg match need engineQA. No flat image rotation or scripted mirrored direction."
+  "status": "Six-role elevated three-quarter candidate set:24idle+96walk. Actual imagegen limb/garment changes, not static translations. Camera proof accepted in engine; full six-role engine cadence review pending. Some same-side support phases and toe-out remain, see qa_notes.",
+  "generator": "OpenAI built-in imagegen",
+  "processing": "Authorized rectangular silhouette crops, nearest-neighbor scale and body/feet alignment; no script paint, deformation, rotation or mirrored directions.",
+  "qa_notes": {
+    "knight": "front_left and rear phase pairs have similar support silhouettes; front_right toe-out/cadence noted in engine proof.",
+    "scout": "Repeated support phases remain in some loops; clear knee,boot,arm and cloak changes.",
+    "archer": "front_left repeats leading leg; back_left fourth passing side similar; back_right support alternation subtle.",
+    "mage": "front_right/front_left/back_right secondhalf repeatedsupport despite edits; back_left cape occludes legs.",
+    "brute": "front_left contact0/2 similar; back_right fourth phase shortened trailing not highpass.",
+    "raider": "front_right thirdphase knee elevated; cadence uneven."
+  },
+  "source_sha256": {
+    "mage_front_left_walk.png": "8759f908c7aa94edfd7f16b3a44217ac081d6afeffda8b3df7ae8cf14488465e",
+    "raider_front_left_walk.png": "6ef6fa92e1ded69e47dc5e96848ae6bffa3113ae41c7a81b98c399072c5835fa",
+    "knight_back_left_walk.png": "455ed439bd58966e13814bea1d3fa4094e75af4f842027e63a0d120e0d873355",
+    "mage_back_right_walk.png": "065e0b0a42669ec0fb584483e356b2af72f675db95aebfddde436069da504b8c",
+    "brute_front_right_walk.png": "16e3a09e45d5c26fb5c8f8cf246d47dab292bcd80876b73b3d61de66fb401511",
+    "knight_idle4.png": "99cade63709a75b981b2c2ad75457ee4f115b37276612eceae0151e5b610f155",
+    "scout_back_left_walk.png": "a2f1fc4986891325ee63c32f0b5383073b0bdea99c7fa8738efcfe95601246e8",
+    "brute_idle4.png": "6b8780399bc7fdd7752c55878813bb4319eecbb27f4d2f0f7e9553a74a97a781",
+    "scout_idle4.png": "40ec9ed935d5e02351ff41093bbef86524860eae149b6979aa0810faf5de5f2e",
+    "brute_back_left_walk.png": "b6af5bbabd5b0e8292c3b6c7b86752c190510c5a91d4253e4d8ab49facedf0c6",
+    "archer_back_right_walk.png": "006a84bb26e0da3e63256a63aed1e0372623c13d8f08b341f509cdb955bc4adb",
+    "knight_front_right_walk.png": "453fb72de7f3c86be54a2b0168dfc2e726daacf918ae4d269e49b1b75ed6c873",
+    "raider_idle4.png": "25fb91b2e077c28f52af3d00037dfa57e4b0ca50e3eb8ea1f6b83d3c0cbe5d61",
+    "mage_back_left_walk.png": "3e99c253188dcb4426a5d663906aebba57c2c9d2b2ab40ebf3348a41e24b9b66",
+    "mage_idle4.png": "45245edc5f2d5a1f3e13e24f78c093e066a7d0a50aefcfc767f36db68df6d73d",
+    "mage_front_right_walk.png": "93dc49864f0f28cd10b718b82561b0131615e67e269c7a5371d73da7c89b2f5c",
+    "scout_back_right_walk.png": "02ae9b6f7b4505f164c257ceebed189023e2824dfcb6cb59306648749515e192",
+    "archer_idle4.png": "0a39a302d5ed2179c0f14eedebb914f35d0e497425ef99abd79b8676791c8fd2",
+    "archer_front_right_walk.png": "31c6a99146fdcdc5c368a1d8a307d93b5ab6ebcfa8aff87c5992445c9c46b060",
+    "knight_front_left_walk.png": "8bf06548b6a972230acae689948ff619e1d51051cd9e3dbb18107e7d8de9eed3",
+    "archer_back_left_walk.png": "79377ae998c66922c2ec1fa91b114268d0826f85b5b2bebd68108f99766325c4",
+    "scout_front_left_walk.png": "c8c334ac38180771e32edd7c2790472fc86ce8bd2df97ffa40f4542acb79de12",
+    "archer_front_left_walk.png": "12b856fcb739c9ae3aa993b2812038ce458d1a10c88b73e30ce47805bbca77cc",
+    "raider_back_left_walk.png": "91316ebabc216f71744dc0dfd86e50058e56ccc8f7173d00bc0dcf3f597ccf66",
+    "scout_front_right_walk.png": "31dc023930af6a308dc3562100d745393cb4be09bab41d226ecb28378728e7f3",
+    "raider_front_right_walk.png": "2c1d97020d1a5f8b256735504b315832542b0b28d60ae07047bdb473d5c09220",
+    "raider_back_right_walk.png": "b6248c109ddc9c5847c8f40896a45f77fd496354e8e61aa5c63aa69e3e177ab2",
+    "brute_back_right_walk.png": "fc548f4b9ebbbed1299512cec7d6a63a5a611cf9327f9a18357577a061ab024c",
+    "brute_front_left_walk.png": "18a5ec72cf02e1a44e28e4a1fe72fa5028acd95fa99346a4700f6c2721cf71a9",
+    "knight_back_right_walk.png": "8a76ce16c45049c44aef5cf62962aa40d52845d46f4bb78dfbbe3feb0befc346"
+  }
 }
