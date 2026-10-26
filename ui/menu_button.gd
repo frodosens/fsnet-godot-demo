@@ -1,7 +1,7 @@
 extends Button
 func _ready():
     alignment=HORIZONTAL_ALIGNMENT_LEFT
-    custom_minimum_size=Vector2(320,56)
+    if custom_minimum_size==Vector2.ZERO:custom_minimum_size=Vector2(320,56)
     if not has_theme_font_size_override("font_size"):add_theme_font_size_override("font_size",28)
     for state in ["normal","hover","pressed","disabled","focus"]:
         var box=StyleBoxFlat.new();box.bg_color=Color(0,0,0,0)

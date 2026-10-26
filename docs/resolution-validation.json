@@ -1,0 +1,74 @@
+[
+  {
+    "requested": "960x600",
+    "result": [
+      "RESPONSIVE_CAPTURE responsive-menu-960x600 (960, 600)",
+      "RESPONSIVE_CAPTURE responsive-network-960x600 (960, 600)",
+      "RESPONSIVE_CAPTURE responsive-story-960x600 (960, 600)",
+      "RESPONSIVE_CAPTURE responsive-path-960x600 (960, 600)",
+      "RESPONSIVE_CAPTURE responsive-pause-960x600 (960, 600)",
+      "RESPONSIVE_RESULT 960x600 failures=0"
+    ],
+    "errors": false
+  },
+  {
+    "requested": "1280x720",
+    "result": [
+      "RESPONSIVE_CAPTURE responsive-menu-1280x720 (1280, 720)",
+      "RESPONSIVE_CAPTURE responsive-network-1280x720 (1280, 720)",
+      "RESPONSIVE_CAPTURE responsive-story-1280x720 (1280, 720)",
+      "RESPONSIVE_CAPTURE responsive-path-1280x720 (1280, 720)",
+      "RESPONSIVE_CAPTURE responsive-pause-1280x720 (1280, 720)",
+      "RESPONSIVE_RESULT 1280x720 failures=0"
+    ],
+    "errors": false
+  },
+  {
+    "requested": "1280x800",
+    "result": [
+      "RESPONSIVE_CAPTURE responsive-menu-1280x800 (1280, 800)",
+      "RESPONSIVE_CAPTURE responsive-network-1280x800 (1280, 800)",
+      "RESPONSIVE_CAPTURE responsive-story-1280x800 (1280, 800)",
+      "RESPONSIVE_CAPTURE responsive-path-1280x800 (1280, 800)",
+      "RESPONSIVE_CAPTURE responsive-pause-1280x800 (1280, 800)",
+      "RESPONSIVE_RESULT 1280x800 failures=0"
+    ],
+    "errors": false
+  },
+  {
+    "requested": "1920x1080",
+    "result": [
+      "RESPONSIVE_CAPTURE responsive-menu-1920x1080 (1920, 1080)",
+      "RESPONSIVE_CAPTURE responsive-network-1920x1080 (1920, 1080)",
+      "RESPONSIVE_CAPTURE responsive-story-1920x1080 (1920, 1080)",
+      "RESPONSIVE_CAPTURE responsive-path-1920x1080 (1920, 1080)",
+      "RESPONSIVE_CAPTURE responsive-pause-1920x1080 (1920, 1080)",
+      "RESPONSIVE_RESULT 1920x1080 failures=0"
+    ],
+    "errors": false
+  },
+  {
+    "requested": "2560x1440",
+    "result": [
+      "RESPONSIVE_CAPTURE responsive-menu-2560x1440 (2560, 1440)",
+      "RESPONSIVE_CAPTURE responsive-network-2560x1440 (2560, 1440)",
+      "RESPONSIVE_CAPTURE responsive-story-2560x1440 (2560, 1440)",
+      "RESPONSIVE_CAPTURE responsive-path-2560x1440 (2560, 1440)",
+      "RESPONSIVE_CAPTURE responsive-pause-2560x1440 (2560, 1440)",
+      "RESPONSIVE_RESULT 2560x1440 failures=0"
+    ],
+    "errors": false
+  },
+  {
+    "requested": "2560x1080",
+    "result": [
+      "RESPONSIVE_CAPTURE responsive-menu-2560x1080 (2560, 1080)",
+      "RESPONSIVE_CAPTURE responsive-network-2560x1080 (2560, 1080)",
+      "RESPONSIVE_CAPTURE responsive-story-2560x1080 (2560, 1080)",
+      "RESPONSIVE_CAPTURE responsive-path-2560x1080 (2560, 1080)",
+      "RESPONSIVE_CAPTURE responsive-pause-2560x1080 (2560, 1080)",
+      "RESPONSIVE_RESULT 2560x1080 failures=0"
+    ],
+    "errors": false
+  }
+]

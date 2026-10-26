@@ -31,6 +31,7 @@ var preview_path=[]
 var preview_cell=Vector2i(-1,-1)
 var route_mesh
 var decorative_props=[]
+var preview_ghost
 var route_arrows
 var selection_ring
 
@@ -43,7 +44,7 @@ func material(color):
     if textured:
         m.albedo_texture=load(path);m.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS
         m.uv1_triplanar=true;m.uv1_world_triplanar=true;m.uv1_triplanar_sharpness=8.0
-    m.roughness=1.0;m.metallic_specular=0.0
+    m.roughness=0.28 if color=="596d76" else 1.0;m.metallic_specular=0.45 if color=="596d76" else 0.0
     return m
 
 func box(pos,size,color):
@@ -87,16 +88,17 @@ func build_world():
     var environment = WorldEnvironment.new()
     var settings = Environment.new()
     settings.background_mode = Environment.BG_COLOR
-    settings.background_color = Color("202b29")
+    settings.background_color = Color("172b36")
+    settings.fog_enabled=true;settings.fog_light_color=Color("253d4a");settings.fog_density=0.009
     settings.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-    settings.ambient_light_color = Color("d6d9ce")
-    settings.ambient_light_energy = 0.35
+    settings.ambient_light_color = Color("8babc2")
+    settings.ambient_light_energy = 0.24
     environment.environment = settings
     add_child(environment)
     var sun = DirectionalLight3D.new()
     sun.rotation_degrees = Vector3(-48,-35,0)
-    sun.light_color = Color("e8dfcf")
-    sun.light_energy = 0.65
+    sun.light_color = Color("f3d6a1")
+    sun.light_energy = 0.72
     sun.shadow_enabled = true
     add_child(sun)
     for z in range(battle.size.y):
@@ -131,7 +133,7 @@ func build_world():
             for edge in [start,end]:
                 var near=clampi(int(edge+0.5 if edge==start else edge-0.5),0,battle.size.y-1)
                 if x>=0 and x<battle.size.x and battle.content.terrain[near][x]=="B":continue
-                box(Vector3(x,-0.30,edge),Vector3(0.94,0.52+0.04*((x+24)%3),0.22),"a08e77")
+                box(Vector3(x,-0.35+0.035*sin(x*2.1),edge+0.07*sin(x*1.7)),Vector3(0.90,0.43+0.10*((x+24)%3),0.28+0.06*((x+24)%2)),"a08e77")
     else:
         landscape_box(Vector3(-10.5,-0.28,(battle.size.y-1)*0.5),Vector3(20,0.3,60),"59624b")
         landscape_box(Vector3(battle.size.x+9.5,-0.28,(battle.size.y-1)*0.5),Vector3(20,0.3,60),"59624b")
@@ -186,30 +188,41 @@ func build_world():
     for x in [-1.52,-0.65]:
         for side in [-1,1]:box(Vector3(x+side*0.17,0.85,7.26),Vector3(0.06,0.38,0.06),"694d3b")
         box(Vector3(x,0.62,7.28),Vector3(0.40,0.08,0.10),"694d3b")
+        box(Vector3(x,0.85,7.285),Vector3(0.025,0.28,0.025),"694d3b")
+        box(Vector3(x,0.85,7.285),Vector3(0.26,0.025,0.025),"694d3b")
     var inn_nodes=get_children().slice(inn_start)
     var inn=Node3D.new();inn.position=Vector3(-1.1,0,6.7);add_child(inn)
     for node in inn_nodes:node.reparent(inn,true)
-    inn.scale=Vector3.ONE*1.35;inn.position.x=-1.5
+    inn.scale=Vector3.ONE*1.65;inn.position.x=-1.5
+    for window_x in [-1.52,-0.65]:
+        var glow=OmniLight3D.new();glow.position=inn.to_global(Vector3(window_x+1.1,0.85,0.58));glow.light_color=Color("ffb568");glow.light_energy=0.65;glow.omni_range=2.4;glow.shadow_enabled=true;add_child(glow)
     for p in [Vector3(2,0,7),Vector3(7,0,0)]:
         box(p+Vector3(0,0.5,0),Vector3(0.08,1,0.08),"594633")
         var lamp = OmniLight3D.new()
         lamp.position = p+Vector3(0,1,0)
         lamp.light_color = Color("ceab7c")
-        lamp.light_energy = 0.30
-        lamp.omni_range = 3
+        lamp.light_energy = 1.1
+        lamp.omni_range = 3.5
         lamp.shadow_enabled = true
         add_child(lamp)
-        box(p+Vector3(0,1,0),Vector3(0.2,0.24,0.2),"ce9a57")
+        var glass=box(p+Vector3(0,1,0),Vector3(0.18,0.26,0.18),"ce9a57")
+        glass.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+        glass.material_override.emission_enabled=true;glass.material_override.emission=Color("ffb45c");glass.material_override.emission_energy_multiplier=1.4
+        for edge in [-1,1]:
+            for side in [-1,1]:
+                var frame=box(p+Vector3(edge*0.10,1,side*0.10),Vector3(0.025,0.32,0.025),"594633");frame.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+        var cap=box(p+Vector3(0,1.18,0),Vector3(0.26,0.05,0.26),"594633");cap.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
+    preview_ghost=Sprite3D.new();preview_ghost.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y;preview_ghost.modulate=Color(1,1,1,0.4);preview_ghost.pixel_size=0.01125;preview_ghost.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST;preview_ghost.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;preview_ghost.hide();add_child(preview_ghost)
     selection_ring=MeshInstance3D.new();var ring=TorusMesh.new();ring.inner_radius=0.36;ring.outer_radius=0.42;selection_ring.mesh=ring
     var ring_material=StandardMaterial3D.new();ring_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;ring_material.albedo_color=Color("91aaa3");selection_ring.material_override=ring_material;selection_ring.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;add_child(selection_ring)
     camera = Camera3D.new()
     camera.projection = Camera3D.PROJECTION_ORTHOGONAL
-    camera.size = maxf(battle.size.x,battle.size.y)+4.4
+    camera.size = maxf(battle.size.x,battle.size.y)+1.8
     camera.position = Vector3((battle.size.x-1)*0.5+8.5,16,(battle.size.y-1)*0.5+13.5)
     add_child(camera)
     camera.look_at(Vector3((battle.size.x-1)*0.5,0,(battle.size.y-1)*0.5))
     camera.position -= camera.global_basis.x * 1.0
-    camera.position -= camera.global_basis.y * 1.0
+    camera.position -= camera.global_basis.y * 0.7
     camera.current = true
     route_mesh=MeshInstance3D.new();route_mesh.mesh=ImmediateMesh.new();add_child(route_mesh)
     route_arrows=MeshInstance3D.new();route_arrows.mesh=ImmediateMesh.new();add_child(route_arrows)
@@ -440,6 +453,7 @@ func mouse_cell(screen):
     return Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
 func clear_move_preview():
     preview_path=[];preview_reason="";preview_cell=Vector2i(-1,-1)
+    if preview_ghost:preview_ghost.hide()
     route_mesh.mesh.clear_surfaces();route_arrows.mesh.clear_surfaces()
 func update_move_preview(cell):
     if cell==preview_cell:return
@@ -448,6 +462,7 @@ func update_move_preview(cell):
     preview_path=battle.path_to(selected,cell)
     if preview_path.is_empty():preview_reason="此格不可达 · 选择范围内的空格";return
     hud.action_menu_open=false
+    preview_ghost.texture=figures[selected].texture;preview_ghost.position=Vector3(cell.x,figures[selected].position.y,cell.y);preview_ghost.show()
     var line=route_mesh.mesh;var arrows=route_arrows.mesh
     line.surface_begin(Mesh.PRIMITIVE_LINES);arrows.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
     for i in range(preview_path.size()-1):
@@ -479,12 +494,12 @@ func build_border_props():
     if not FileAccess.file_exists(path):return
     var definitions=JSON.parse_string(FileAccess.get_file_as_string(path)).props
     var placements=[["tree",Vector2(3.5,-1.35)],["tree",Vector2(battle.size.x-3,-1.5)],["tree",Vector2(-1.5,1.5)],["shrub",Vector2(3,-0.9)],["shrub",Vector2(battle.size.x+0.15,1.4)],["shrub",Vector2(battle.size.x-1,battle.size.y+0.05)],["reeds_rocks",Vector2(-0.8,3.0)],["reeds_rocks",Vector2(battle.size.x+0.2,4.0)],["supplies",Vector2(-1.8,7.55)],["lantern",Vector2(-0.2,7.8)]]
-    for x in range(-4,battle.size.x+5,2):
+    for x in range(-4,battle.size.x+5):
         placements.append(["tree",Vector2(x+0.5*sin(x*1.7),-3.3-0.6*((x+8)%3))])
         if x<1 or x>battle.size.x-3:placements.append(["tree",Vector2(x+0.5*cos(x*1.3),battle.size.y+2.4+0.4*sin(x))])
     for z in range(-1,battle.size.y+2,2):
         if z not in [3,4]:
-            placements.append(["tree",Vector2(-4.0,z)]);placements.append(["tree",Vector2(battle.size.x+3.0,z)])
+            placements.append(["tree",Vector2(-3.0-0.3*sin(z),z)]);placements.append(["tree",Vector2(battle.size.x+2.0+0.3*cos(z),z)])
     for placement in placements:
         var cell=placement[1]
         if cell.x>=-0.5 and cell.x<battle.size.x-0.5 and cell.y>=-0.5 and cell.y<battle.size.y-0.5:continue

@@ -28,7 +28,7 @@ func _ready():
     capture_if_requested()
 func clear_page(title):
     if page:card.remove_child(page);page.queue_free()
-    card.position=Vector2(420,140);card.custom_minimum_size=Vector2(740,0);card.size=Vector2(740,0);card.remove_theme_stylebox_override("panel");workshop_link.hide()
+    card.position=Vector2((get_viewport_rect().size.x-740)*0.5+180,100);card.custom_minimum_size=Vector2(740,0);card.size=Vector2(740,0);card.remove_theme_stylebox_override("panel");workshop_link.hide()
     page=UI.column(card,12);page.add_child(UI.label(title,26));network_status=null;enter_button=null
 func show_home():
     busy=false;clear_page("")
@@ -96,6 +96,7 @@ func begin_room(host):
 func cancel_network():
     App.close_room();App.session=null;busy=false;show_home()
 func _process(_delta):
+    if is_instance_valid(card) and not workshop_link.visible:card.position.x=(get_viewport_rect().size.x-740)*0.5+180
     if is_instance_valid(network_status) and App.session and App.session.online:
         if App.session.failed:
             network_status.text="无法进入：双方规则或 Mod 内容版本不一致。" if App.session.status.contains("mismatch") else "连接失败："+App.session.status

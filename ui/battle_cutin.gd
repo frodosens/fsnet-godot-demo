@@ -9,6 +9,8 @@ var release_played=false
 var impact_play_count=0
 var sounds={}
 var arena
+var layout_origin=Vector2.ZERO
+var shade
 var contact_points={}
 var flash_material
 var impact
@@ -36,7 +38,7 @@ var release_tick=10
 func _ready():
     layer=30
     surface=Control.new();surface.theme=UI.make_theme();surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(surface)
-    var shade=ColorRect.new();shade.color=Color(0.10,0.09,0.08,0.88);shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);surface.add_child(shade)
+    shade=ColorRect.new();shade.color=Color(0.10,0.09,0.08,0.88);shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);surface.add_child(shade)
     arena=Control.new();arena.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(arena)
     contact_points=JSON.parse_string(FileAccess.get_file_as_string("res://assets/battle/contact_points.json"))
     var stage=TextureRect.new();stage.position=Vector2(100,130);stage.size=Vector2(1080,480)
@@ -66,6 +68,8 @@ func _ready():
         for frame in data.frames:textures.append(load("res://assets/battle/enemy_combat/"+frame.path))
         defender_sets[id]={"idle":mara_idle if id=="mara" else actor_sets[id].textures[0],"hit":textures[0],"recover":textures[1]}
     damage_label=UI.label("",42,Color("d5a18b"));damage_label.position=Vector2(850,275);arena.add_child(damage_label)
+    damage_label.add_theme_font_override("font",UI.impact_font())
+    damage_label.add_theme_color_override("font_shadow_color",Color("101916"));damage_label.add_theme_constant_override("shadow_offset_x",2);damage_label.add_theme_constant_override("shadow_offset_y",3)
     damage_label.add_theme_color_override("font_outline_color",Color("182421"));damage_label.add_theme_constant_override("outline_size",5)
     var quick=UI.button("加速 ×1",func():speed=3.0 if speed==1.0 else 1.0)
     quick.position=Vector2(850,630);quick.pressed.connect(func():quick.text="加速 ×"+str(int(speed)));surface.add_child(quick)
@@ -75,7 +79,15 @@ func _ready():
     for name in ["swing","impact","arrow","magic","critical"]:sounds[name]=load("res://assets/audio/"+name+".wav")
     var mute=CheckButton.new();mute.text="音效";mute.button_pressed=App.sfx_enabled;mute.position=Vector2(410,635);mute.toggled.connect(func(on):App.sfx_enabled=on;if_not_enabled_stop());surface.add_child(mute)
     var volume=HSlider.new();volume.min_value=-30;volume.max_value=0;volume.step=1;volume.value=App.sfx_volume_db;volume.position=Vector2(560,647);volume.size=Vector2(140,24);volume.tooltip_text="音效音量 dB";volume.value_changed.connect(func(value):App.sfx_volume_db=value);surface.add_child(volume)
+    surface.resized.connect(layout_surface)
+    layout_surface()
     surface.hide()
+func layout_surface():
+    var next=Vector2((get_viewport().get_visible_rect().size.x-1280)*0.5,0)
+    var delta=next-layout_origin
+    for child in surface.get_children():
+        if child!=shade:child.position+=delta
+    layout_origin=next
 func if_not_enabled_stop():
     if not App.sfx_enabled:sound_player.stop()
 func play_sound(name):
@@ -136,15 +148,15 @@ func draw_tick(frame):
     if tick>=hit:
         defender.position.x+=sin(clampf(after/0.40,0,1)*PI)*10.0*intensity
     flash_material.set_shader_parameter("flash_strength",(maxf(0,1.0-after/0.11)*0.85*feedback_strength) if tick>=hit else 0.0)
-    arena.position=Vector2(sin(after*70.0)*3.0,-sin(after*45.0)*1.5)*maxf(0,1-after/0.22)*intensity if tick>=hit else Vector2.ZERO
+    arena.position=layout_origin+Vector2(sin(after*70.0)*3.0,-sin(after*45.0)*1.5)*maxf(0,1-after/0.22)*intensity if tick>=hit else layout_origin
     var target=defender.position+contact_target*2.0
     damage_label.visible=tick>=hit
     damage_label.text=("暴击 " if critical else "")+"−"+str(event.get("damage",0)) if tick>=hit else ""
-    damage_label.add_theme_font_size_override("font_size",52 if critical else 40)
+    damage_label.add_theme_font_size_override("font_size",40 if critical else 34)
     damage_label.modulate=Color("f2cc87") if critical else Color("f0e5c9")
     var t=clampf(after/0.72,0,1)
-    damage_label.position=target+(Vector2(-25,-95) if feedback_strength==0 else Vector2(-25+12*t,-95-65*4*t*(1-t)))
-    damage_label.scale=Vector2.ONE*(1.0+maxf(0,1-after/0.12)*0.45*feedback_strength)
+    damage_label.position=target+(Vector2(-35,-190) if feedback_strength==0 else Vector2(-35+8*t,-190-35*4*t*(1-t)))
+    damage_label.scale=Vector2.ONE*(1.0+maxf(0,1-after/0.12)*0.25*feedback_strength)
     damage_label.modulate.a=clampf((1.0-t)/0.25,0,1)
     projectile.hide();impact.hide()
     if melee and tick>=hit and after<0.16:
@@ -174,7 +186,7 @@ func _process(delta):
     else:draw_tick(elapsed/tick_seconds)
 func finish():
     active=false;pending_events.clear();hitstop_remaining=0;elapsed=0
-    if arena:arena.position=Vector2.ZERO
+    if arena:arena.position=layout_origin
     if flash_material:flash_material.set_shader_parameter("flash_strength",0.0)
     if defender:defender.modulate=Color.WHITE
     if damage_label:damage_label.hide();damage_label.scale=Vector2.ONE

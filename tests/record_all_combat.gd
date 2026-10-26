@@ -20,6 +20,6 @@ func run():
         assert(app.session.submit(command));current_scene.battle=app.session.logic;current_scene.refresh()
         var cutin=current_scene.cutin;assert(cutin.active);var snapshot=app.session.logic.snapshot()
         await frames(90)
-        assert(app.session.logic.snapshot()==snapshot and not cutin.active and cutin.arena.position==Vector2.ZERO)
+        assert(app.session.logic.snapshot()==snapshot and not cutin.active and cutin.arena.position==cutin.layout_origin)
         print("SIX_ROLE_COMBAT ",data.units[actor].id," -> ",data.units[target].id," critical=",app.session.logic.events[0].is_critical," impact_play_count=",cutin.impact_play_count," hash=",app.session.logic.state_hash())
     quit()

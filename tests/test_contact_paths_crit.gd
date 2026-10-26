@@ -31,7 +31,7 @@ func run():
     check(cutin.weapon_screen_point().distance_to(cutin.hurt_screen_point())<0.01,"actual melee tip reaches actual hurt socket at hit tick")
     check(cutin.flash_material.get_shader_parameter("flash_strength")>0 and cutin.damage_label.text.contains("暴击"),"critical contact flashes only victim and shows real critical number")
     cutin.finish()
-    check(cutin.arena.position==Vector2.ZERO and cutin.flash_material.get_shader_parameter("flash_strength")==0 and not cutin.damage_label.visible,"skip resets camera/flash/number")
+    check(cutin.arena.position==cutin.layout_origin and cutin.flash_material.get_shader_parameter("flash_strength")==0 and not cutin.damage_label.visible,"skip resets camera/flash/number")
     cutin.consume(1,logic.events);check(not cutin.active,"replayed step never repeats hit feedback")
     for id in ["finn","neri"]:
         var shot=Runtime.new(data);var command={"kind":"attack","actor_id":id,"target_id":"oren","step":1}
@@ -46,7 +46,7 @@ func run():
         cutin.last_seen_step=-1;cutin.consume(1,fight.events);cutin.draw_tick(cutin.hit_tick())
         check(cutin.active and cutin.weapon_screen_point().distance_to(cutin.hurt_screen_point())<0.01,"enemy weapon socket reaches ally hit region")
         cutin.feedback_strength=0;cutin.draw_tick(cutin.hit_tick())
-        check(cutin.arena.position==Vector2.ZERO and cutin.damage_label.scale==Vector2.ONE and cutin.flash_material.get_shader_parameter("flash_strength")==0,"reduced motion removes shake flash and number scaling")
+        check(cutin.arena.position==cutin.layout_origin and cutin.damage_label.scale==Vector2.ONE and cutin.flash_material.get_shader_parameter("flash_strength")==0,"reduced motion removes shake flash and number scaling")
         cutin.finish();cutin.feedback_strength=1
     var mixed=Content.default_content();mixed.units[3].x=3;mixed.units[3].y=5;mixed.units[3].hp=4
     mixed.abilities[0].crit_chance=50;mixed.abilities[0].effects=[{"op":"damage","value":0,"radius":0},{"op":"heal","value":4,"radius":0},{"op":"damage","value":0,"radius":0}]
@@ -56,5 +56,11 @@ func run():
     for emitted in branches.events:
         if emitted.kind=="attack":actual+=emitted.damage
     check(actual>=bounds.low and actual<=bounds.high,"mixed actual amounts stay in predicted interval")
+    cutin.consume(99,[logic.events[0],logic.events[0]])
+    cutin.draw_tick(cutin.hit_tick())
+    check(cutin.damage_label.position.y<cutin.defender.position.y,"digits sit above the defender instead of masking contact")
+    check(cutin.pending_events.size()==1,"multi-hit feedback queues a single visible number group")
+    cutin.play_next();check(cutin.pending_events.is_empty() and not cutin.damage_label.visible,"next hit clears previous number before contact")
+    cutin.finish()
     print("CONTACT_PATH_CRIT_TESTS checks=",checks," failures=",failures)
     quit(0 if failures==0 else 1)

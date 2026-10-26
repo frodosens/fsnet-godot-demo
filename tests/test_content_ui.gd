@@ -26,7 +26,7 @@ func run():
     var game=current_scene
     while not app.next_story().is_empty():app.advance_story(true)
     game.selected=1;game.refresh();await frames()
-    check(game.hud.detail.text.contains("定制恢复") and game.hud.detail.tooltip_text.contains("治疗 9"),"HUD skill name/effects follow content rather than role")
+    check(game.hud.detail.tooltip_text.contains("定制恢复") and game.hud.detail.tooltip_text.contains("治疗 9"),"HUD skill name/effects follow content rather than role")
     check(game.hud.hero_column.get_parent() is ScrollContainer and game.hud.hero_column.get_parent().size.y<=460,"supported large party scrolls inside viewport")
     check(game.hud.hero_column.get_child(1).disabled,"friendly AI button is explicitly noncontrollable")
     check(not game.hud.hero_column.get_child(16).disabled,"player controller selectable independently of ally flag")

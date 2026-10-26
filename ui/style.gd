@@ -50,3 +50,10 @@ static func skin(name,tint=Color.WHITE,xmargin=32,ymargin=32):
     return style
 static func menu_button(text,action):
     var control=preload("res://ui/menu_button.gd").new();control.text=text;control.pressed.connect(action);return control
+
+# Derived from the bundled OFL font; no external font dependency.
+static func impact_font():
+    make_theme()
+    var face=FontVariation.new();face.base_font=font;face.variation_embolden=0.3
+    face.spacing_glyph=2
+    return face

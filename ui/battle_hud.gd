@@ -32,6 +32,7 @@ var hp_bar
 var mp_bar
 var hp_label
 var mp_label
+var action_summary
 var selected_portrait
 var previous=[]
 var log_lines=[]
@@ -55,14 +56,15 @@ func _ready():
             if image.texture==null:button.text=unit.name.left(1)
             var health=ProgressBar.new();health.show_percentage=false;health.position=Vector2(2,55);health.size=Vector2(48,3);health.max_value=unit.max_hp;health.value=unit.hp;health.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(health)
     status_panel=soft_panel(Vector2(24,630),Vector2(380,142))
-    selected_portrait=UI.portrait("mara",88);selected_portrait.position=Vector2(0,10);selected_portrait.size=Vector2(88,112);status_panel.add_child(selected_portrait)
-    detail=UI.paragraph("",270);detail.position=Vector2(104,2);detail.add_theme_font_size_override("font_size",18);status_panel.add_child(detail)
-    hp_bar=stat_bar(status_panel,Vector2(104,62),Color("8ba078"));mp_bar=stat_bar(status_panel,Vector2(104,91),Color("6c9c9b"))
-    hp_label=UI.label("",16);hp_label.position=Vector2(272,54);status_panel.add_child(hp_label)
-    mp_label=UI.label("",16);mp_label.position=Vector2(272,83);status_panel.add_child(mp_label)
-    hint_label=UI.label("选择角色，Enter 打开行动",16);hint_label.position=Vector2(440,744);root.add_child(hint_label)
+    selected_portrait=UI.portrait("mara",88);selected_portrait.position=Vector2(0,-26);selected_portrait.size=Vector2(112,152);status_panel.add_child(selected_portrait)
+    detail=UI.paragraph("",270);detail.position=Vector2(124,2);detail.add_theme_font_size_override("font_size",22);status_panel.add_child(detail)
+    action_summary=UI.label("",20);action_summary.position=Vector2(124,116);status_panel.add_child(action_summary)
+    hp_bar=stat_bar(status_panel,Vector2(124,62),Color("8ba078"));mp_bar=stat_bar(status_panel,Vector2(124,91),Color("6c9c9b"))
+    hp_label=UI.label("",22);hp_label.position=Vector2(292,54);status_panel.add_child(hp_label)
+    mp_label=UI.label("",22);mp_label.position=Vector2(292,83);status_panel.add_child(mp_label)
+    hint_label=UI.label("选择角色，Enter 打开行动",22);hint_label.position=Vector2(440,744);root.add_child(hint_label)
     log_label=UI.label("",16);log_label.position=Vector2(440,710);root.add_child(log_label)
-    turn_button=UI.menu_button("结束回合 空格",request_end_turn);turn_button.add_theme_font_size_override("font_size",18);turn_button.custom_minimum_size=Vector2(210,44);root.add_child(turn_button);action_buttons["end"]=turn_button
+    turn_button=UI.button("空格 · 结束回合",request_end_turn);turn_button.add_theme_font_size_override("font_size",18);turn_button.custom_minimum_size=Vector2(210,44);root.add_child(turn_button);action_buttons["end"]=turn_button
     action_panel=Control.new();action_panel.size=Vector2(158,216);action_panel.z_index=10;root.add_child(action_panel)
     for i in range(4):
         var kind=["move","attack","skill","item"][i];var button=preload("res://ui/action_button.gd").new();button.kind=kind;button.text=["移动 M","攻击 A","技能 S","道具 I"][i];button.position=Vector2(0,i*54);button.pressed.connect(choose_action.bind(kind));action_panel.add_child(button);action_buttons[kind]=button
@@ -82,6 +84,8 @@ func _ready():
     choices.add_child(UI.button("下一句 · 空格",advance.bind(false)))
     choices.add_child(UI.button("跳过本段",advance.bind(true)))
     choices.add_child(UI.button("暂停 / 保存",toggle_pause))
+    var flag=preload("res://ui/round_flag.gd").new();round_label.add_child(flag);flag.show_behind_parent=true
+    root.resized.connect(refresh)
     refresh()
 func objective_text(goal):
     match goal.kind:
@@ -101,7 +105,7 @@ func soft_panel(pos,size):
     var gradient=Gradient.new();gradient.set_color(0,Color(0.12,0.17,0.16,0.9));gradient.set_color(1,Color(0.12,0.17,0.16,0));texture.gradient=gradient;texture.fill_from=Vector2.ZERO;texture.fill_to=Vector2.RIGHT
     bg.texture=texture;bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);bg.mouse_filter=Control.MOUSE_FILTER_IGNORE;control.add_child(bg);return control
 func stat_bar(parent,pos,color):
-    var bar=ProgressBar.new();bar.position=pos;bar.size=Vector2(160,10);bar.show_percentage=false
+    var bar=ProgressBar.new();bar.show_percentage=false;bar.position=pos;bar.size=Vector2(160,10)
     var fill=StyleBoxFlat.new();fill.bg_color=color;var background=StyleBoxFlat.new();background.bg_color=Color("182421");bar.add_theme_stylebox_override("fill",fill);bar.add_theme_stylebox_override("background",background);parent.add_child(bar);return bar
 func panel(pos,size):
     var p=PanelContainer.new();p.position=pos;p.custom_minimum_size=size;root.add_child(p);return p
@@ -135,9 +139,12 @@ func refresh():
     var logic=game.battle
     round_label.text="第 %d 回合 · %s"%[logic.round_number,{"playing":"我方行动","victory":"胜利","defeat":"失败"}.get(logic.outcome,logic.outcome)]
     var view=root.get_viewport_rect().size
-    round_label.position.x=(view.x-220)*0.5;pause_button.position=Vector2(view.x-156,24)
+    round_label.position.x=(view.x-220)*0.5;pause_button.position=Vector2(view.x-maxf(132,pause_button.size.x)-24,24)
     status_panel.position=Vector2(24,view.y-170);companion_panel.position=Vector2(24,view.y-248)
-    turn_button.position=Vector2(view.x-234,view.y-90);hint_label.position=Vector2(430,view.y-56);log_label.position=Vector2(430,view.y-90)
+    turn_button.position=Vector2(view.x-maxf(210,turn_button.size.x)-24,view.y-90);hint_label.position=Vector2(430,view.y-56);log_label.position=Vector2(430,view.y-90)
+    story_panel.position=Vector2((view.x-1240)*0.5,view.y-242)
+    for line in [hint_label,log_label]:
+        line.clip_text=true;line.custom_minimum_size.x=0;line.size.x=maxf(100,view.x-690);line.tooltip_text=line.text
     net_label.text="离线旅程" if not game.session.online else ("已连接 · 合作小队" if game.session.status.begins_with("Online") else "连接中 / 正在重连")
     if game.session.failed:net_label.text="连接失败 · 请返回重试"
     var button_index=1
@@ -149,7 +156,7 @@ func refresh():
             b.disabled=u.hp<=0 or u.controller!="player"
             b.get_child(1).max_value=u.max_hp;b.get_child(1).value=u.hp
             var border=StyleBoxFlat.new();border.bg_color=Color(0.12,0.17,0.16,0.7);border.border_color=Color("dfa75f") if game.selected==i else Color("59624b");border.set_border_width_all(2 if game.selected==i else 1);b.add_theme_stylebox_override("normal",border)
-    detail.text="队伍休整中。"
+    detail.text="队伍休整中。";action_summary.text=""
     var active=game.selected>=0 and logic.usable(game.selected)
     if active:
         var u=logic.units[game.selected]
@@ -158,7 +165,9 @@ func refresh():
         var skill="默认技能："+u.skill_id
         for ability in logic.content.abilities:
             if ability.id==u.skill_id:skill="默认技能："+ability.name;detail.tooltip_text=ability_description(ability)
-        detail.text="%s · %s\n%s\n\n\n移动 %d次 · 行动 %d"%[u.name,{"knight":"骑士","archer":"弓手","mage":"法师"}.get(u.role,u.role),skill,maxi(0,u.move_actions-u.moves_used),0 if u.acted else 1]
+        detail.text="%s · %s"%[u.name,{"knight":"骑士","archer":"弓手","mage":"法师","raider":"卫队长","scout":"斥候","brute":"桥工"}.get(u.role,u.role)]
+        detail.tooltip_text=skill+"\n"+detail.tooltip_text
+        action_summary.text="移动 %d次 · 行动 %d"%[maxi(0,u.move_actions-u.moves_used),0 if u.acted else 1]
         hp_bar.max_value=u.max_hp;hp_bar.value=u.hp;mp_bar.max_value=maxi(1,u.max_mp);mp_bar.value=u.mp
         hp_label.text="%d/%d"%[u.hp,u.max_hp];mp_label.text="%d/%d"%[u.mp,u.max_mp]
         action_buttons.move.text="移动 M"
@@ -181,11 +190,8 @@ func refresh():
         if prediction.crit_chance>0:target_detail.text+="\n每段暴击 %d%% · %d–%d"%[prediction.crit_chance,prediction.critical_low,prediction.critical_high]
         if prediction.healing>0:target_detail.text+="\n治疗 +%d"%prediction.healing
     if active:
-        var position=game.camera.unproject_position(game.figures[game.selected].position)
-        var preferred=position+Vector2(90,-64)
-        if preferred.x+158>view.x-24:preferred.x=position.x-248
-        if preferred.y+216>view.y-260:preferred.y=maxf(120,view.y-476)
-        action_panel.position=Vector2(clampf(preferred.x,24,view.x-182),clampf(preferred.y,120,view.y-260))
+        # Approved reference uses a right-hand safe zone, away from selected units.
+        action_panel.position=Vector2(view.x-182,maxf(150,view.y*0.28))
         hint_label.text=("移动 %d/%d · 点击落点确认"%[game.preview_path.size()-1,logic.units[game.selected].movement]) if not game.preview_path.is_empty() else ("指向地块预览路线 · Enter 行动" if game.mode=="move" else "选择合法目标 · Esc 返回")
         if game.mode=="move" and not game.preview_reason.is_empty():hint_label.text=game.preview_reason
     if last_step!=logic.step:
@@ -225,7 +231,7 @@ func clear_modal():
 func modal_page(title):
     clear_modal()
     modal=ColorRect.new();modal.color=Color(0.08,0.07,0.05,0.7);modal.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);modal.z_index=100;root.add_child(modal)
-    var p=PanelContainer.new();p.position=Vector2(340,145);p.custom_minimum_size=Vector2(600,0);modal.add_child(p)
+    var p=PanelContainer.new();p.position=Vector2((root.get_viewport_rect().size.x-600)*0.5,100);p.custom_minimum_size=Vector2(600,0);modal.add_child(p)
     var c=UI.column(p,12);c.add_child(UI.label(title,28));story_panel.visible=false;return c
 func toggle_pause():
     if is_instance_valid(modal):clear_modal();return

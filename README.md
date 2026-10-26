@@ -5,7 +5,7 @@
 
 ![Godot 实机截图：HUD v3 与地图](docs/context-actions-runtime.png)
 
-最新 [HUD、路线与接触验证记录](docs/HUD_V3_VALIDATION.md)。
+最新 [参考图对齐、分辨率与光照检查](docs/REFERENCE_ALIGNMENT.md)；此前 [HUD、路线与接触验证记录](docs/HUD_V3_VALIDATION.md)。
 
 截图由 Godot 4.6.3 + OpenGL/Mesa llvmpipe 实际渲染；不是概念图。
 
