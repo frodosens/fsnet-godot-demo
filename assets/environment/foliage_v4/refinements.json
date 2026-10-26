@@ -1,0 +1,17 @@
+[
+  {
+    "name": "birch",
+    "path": "sources/birch_refined_source.png",
+    "prompt": "Edit target Image 1, using Image 2 ONLY as pixel-cluster style reference. Preserve Image 1 species, overall silhouette, full trunk/branches, proportions, transparent background, no ground shadow. Redraw foliage surface as deliberately larger crisp hard-edged pixel clusters matching Image 2: reduce fine leaf strand/needle texture dramatically, simplify into 4 contiguous value zones per foliage mass, no dither or speckle, no soft painted blur. Apparent native sprite 96px tall enlarged nearest neighbor. Birch stays airy pale-trunk upright; willow stays hanging curtains; conifer stays angular tiered needle branches, according to target species. Keep muted dark olive palette, highlights sparse. Change surface texture only, no extra objects, text or background."
+  },
+  {
+    "name": "willow",
+    "path": "sources/willow_refined_source.png",
+    "prompt": "Edit target Image 1, using Image 2 ONLY as pixel-cluster style reference. Preserve Image 1 species, overall silhouette, full trunk/branches, proportions, transparent background, no ground shadow. Redraw foliage surface as deliberately larger crisp hard-edged pixel clusters matching Image 2: reduce fine leaf strand/needle texture dramatically, simplify into 4 contiguous value zones per foliage mass, no dither or speckle, no soft painted blur. Apparent native sprite 96px tall enlarged nearest neighbor. Birch stays airy pale-trunk upright; willow stays hanging curtains; conifer stays angular tiered needle branches, according to target species. Keep muted dark olive palette, highlights sparse. Change surface texture only, no extra objects, text or background."
+  },
+  {
+    "name": "conifer",
+    "path": "sources/conifer_refined_source.png",
+    "prompt": "Edit target Image 1, using Image 2 ONLY as pixel-cluster style reference. Preserve Image 1 species, overall silhouette, full trunk/branches, proportions, transparent background, no ground shadow. Redraw foliage surface as deliberately larger crisp hard-edged pixel clusters matching Image 2: reduce fine leaf strand/needle texture dramatically, simplify into 4 contiguous value zones per foliage mass, no dither or speckle, no soft painted blur. Apparent native sprite 96px tall enlarged nearest neighbor. Birch stays airy pale-trunk upright; willow stays hanging curtains; conifer stays angular tiered needle branches, according to target species. Keep muted dark olive palette, highlights sparse. Change surface texture only, no extra objects, text or background."
+  }
+]

@@ -1,0 +1,131 @@
+{
+  "version": 4,
+  "props": {
+    "oak": {
+      "path": "assets/environment/foliage_v4/oak.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 2.6,
+      "visible_height_px": 153,
+      "pixel_size": 0.016993464052287584,
+      "alpha_bbox_px": [
+        17,
+        88,
+        196,
+        239
+      ],
+      "sha256": "d0a86719b31d8dedbc3bf9fc1e4294296739667989339f71db0b9c497e0cc18d"
+    },
+    "birch": {
+      "path": "assets/environment/foliage_v4/birch.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 3.2,
+      "visible_height_px": 224,
+      "pixel_size": 0.014285714285714287,
+      "alpha_bbox_px": [
+        92,
+        17,
+        204,
+        239
+      ],
+      "sha256": "493a957a714baa3bcfefa810b589ce0649f303630d47339b7106a7226605bb5d"
+    },
+    "willow": {
+      "path": "assets/environment/foliage_v4/willow.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 2.8,
+      "visible_height_px": 224,
+      "pixel_size": 0.012499999999999999,
+      "alpha_bbox_px": [
+        35,
+        17,
+        204,
+        239
+      ],
+      "sha256": "5788a976669ba7682c0d57b8fffb004bbc59a84d96cf79c38b7a1ff6878d207d"
+    },
+    "conifer": {
+      "path": "assets/environment/foliage_v4/conifer.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 3.5,
+      "visible_height_px": 224,
+      "pixel_size": 0.015625,
+      "alpha_bbox_px": [
+        74,
+        17,
+        186,
+        239
+      ],
+      "sha256": "f10ea56b8addda5a68f8b6114e7dc1d60d442ab84d3c6ff45da93e1d897f6d40"
+    },
+    "shrub_round": {
+      "path": "assets/environment/foliage_v4/shrub_round.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 0.7,
+      "visible_height_px": 79,
+      "pixel_size": 0.008860759493670885,
+      "alpha_bbox_px": [
+        78,
+        161,
+        240,
+        240
+      ],
+      "sha256": "c4b312b634915c2a0fa8aadc47150bb54cc203a076aac121d707ce58a74bcd4d"
+    },
+    "shrub_tall": {
+      "path": "assets/environment/foliage_v4/shrub_tall.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 1.0,
+      "visible_height_px": 208,
+      "pixel_size": 0.004807692307692308,
+      "alpha_bbox_px": [
+        74,
+        33,
+        239,
+        239
+      ],
+      "sha256": "bb451c34bd16af23b73f7eef030af9242e0c79887560350307c1e41f4d1390e9"
+    }
+  }
+}
