@@ -29,3 +29,7 @@ A supported-bound fixture (16 AI units,16×16 clear map,movement8) exceeded the 
 ## Remaining gates
 
 Art UI v2 and four-direction sprites need actual asset integration/visual review; existing StyleBox screenshot is functional scaffolding, not approved final art. Environment and all-role animation/effects remain unfinished. No export templates/platform packages, Internet authentication/matchmaking, multihost fault testing or production capacity validation. Data volume and rules are deliberately bounded; more AI strategies/status reactions/complex economies require tests and balance work. Current co-op shares the player-control group, not per-account unit ownership.
+
+## Four-direction static asset follow-up
+
+Imported art branch3b73a791 as local5245a30:24 distinct96×128 RGBA frames, six roles×front/back/left/right. Runtime uses camera-projected movement and attack directions, no mirror substitution. `test_directions.gd` passes14 checks including actual selected texture paths, legal movement commands and idle/hash preservation; repeated under real X11/Mesa rendering with four captured frames for inspection. These are static facing images, **not walk animations**. The user subsequently required actual walk and full-role battle animation; manifest-driven playback and missing assets remain a separate acceptance gate. New art UI is still awaiting asset delivery, so old functional-layout screenshots are not presented as finished art.
