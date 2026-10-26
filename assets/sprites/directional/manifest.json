@@ -1,0 +1,751 @@
+{
+  "batch": "four-directions-batch01",
+  "generator": "OpenAI built-in imagegen",
+  "source": "Original project character portraits and map sprites; no third-party asset pack",
+  "runtime_size": [
+    96,
+    128
+  ],
+  "foot_anchor": [
+    48,
+    120
+  ],
+  "views": {
+    "front": "toward viewer",
+    "back": "away from viewer",
+    "left": "toward image left",
+    "right": "toward image right"
+  },
+  "processing": "User-authorized cropping, nearest-neighbor resize, foot alignment; original sheets retained",
+  "qa": "Visually inspected all 24 normalized views and sources; corrected Finn handedness and Bram duplicate-facing view using imagegen; alpha/dimensions/borders and non-mirroring tested. Engine camera/lighting approval pending.",
+  "entries": [
+    {
+      "role": "archer",
+      "direction": "front",
+      "cell": [
+        0,
+        0,
+        543,
+        724
+      ],
+      "bbox": [
+        96,
+        20,
+        489,
+        689
+      ],
+      "source_foot_x": 297.0,
+      "placement": [
+        14,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "18fdb7787c9a95b83ed1feb5f3586360c8742b27c7182ef652361ca47df5c386"
+    },
+    {
+      "role": "archer",
+      "direction": "back",
+      "cell": [
+        543,
+        0,
+        1086,
+        724
+      ],
+      "bbox": [
+        79,
+        16,
+        470,
+        676
+      ],
+      "source_foot_x": 268.5,
+      "placement": [
+        16,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "723d6d59f3425cffe8f4c3b86d89398ba30f012eda3310685d3d2e6d9e82b425"
+    },
+    {
+      "role": "archer",
+      "direction": "left",
+      "cell": [
+        1086,
+        0,
+        1629,
+        724
+      ],
+      "bbox": [
+        114,
+        16,
+        426,
+        695
+      ],
+      "source_foot_x": 258.5,
+      "placement": [
+        24,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "ecfb4b7396cea8d4625a91d8afa3064c43053d51b6a2c20acbbbfa60474f3721"
+    },
+    {
+      "role": "archer",
+      "direction": "right",
+      "cell": [
+        1629,
+        0,
+        2172,
+        724
+      ],
+      "bbox": [
+        101,
+        15,
+        353,
+        695
+      ],
+      "source_foot_x": 257.0,
+      "placement": [
+        22,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "d6243aa85a1b59fd1e2860bb91daef9120709b684950c56b90c4250667b90505"
+    },
+    {
+      "role": "brute",
+      "direction": "front",
+      "cell": [
+        0,
+        0,
+        543,
+        724
+      ],
+      "bbox": [
+        80,
+        35,
+        484,
+        691
+      ],
+      "source_foot_x": 298.0,
+      "placement": [
+        11,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "146d4c98c36e480ad4c0cf3e22322c7cb869b5193429b8d9b7e5cabac53c1351"
+    },
+    {
+      "role": "brute",
+      "direction": "back",
+      "cell": [
+        543,
+        0,
+        1086,
+        724
+      ],
+      "bbox": [
+        96,
+        32,
+        503,
+        690
+      ],
+      "source_foot_x": 283.0,
+      "placement": [
+        16,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "d5f9c5522a77c2f169921b346aaa2ab4c8598b99735fc3b7414e09623a8d812a"
+    },
+    {
+      "role": "brute",
+      "direction": "left",
+      "cell": [
+        1086,
+        0,
+        1629,
+        724
+      ],
+      "bbox": [
+        116,
+        31,
+        350,
+        691
+      ],
+      "source_foot_x": 224.0,
+      "placement": [
+        30,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "5d9711cb36c3b47ff49d6d8482eda845c3e8c482d17db1a4db03642032d5afcb"
+    },
+    {
+      "role": "brute",
+      "direction": "right",
+      "cell": [
+        1629,
+        0,
+        2172,
+        724
+      ],
+      "bbox": [
+        118,
+        31,
+        340,
+        691
+      ],
+      "source_foot_x": 223.0,
+      "placement": [
+        30,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "df6d59df89ee2f6094947bf856ad05d209b101779422679786cccce7a9bc513e"
+    },
+    {
+      "role": "knight",
+      "direction": "front",
+      "cell": [
+        0,
+        0,
+        543,
+        724
+      ],
+      "bbox": [
+        69,
+        42,
+        489,
+        678
+      ],
+      "source_foot_x": 315.5,
+      "placement": [
+        5,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "a405af6d26423eb0f73b5b9276d662f81dd90a01840de8e2c32bcfb08fd68d8c"
+    },
+    {
+      "role": "knight",
+      "direction": "back",
+      "cell": [
+        543,
+        0,
+        1086,
+        724
+      ],
+      "bbox": [
+        99,
+        42,
+        510,
+        678
+      ],
+      "source_foot_x": 261.0,
+      "placement": [
+        20,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "48d84e16f41acfa21b9f32d54d572045b14ee06b832ca0d63ae219d1b8007489"
+    },
+    {
+      "role": "knight",
+      "direction": "left",
+      "cell": [
+        1086,
+        0,
+        1629,
+        724
+      ],
+      "bbox": [
+        137,
+        42,
+        340,
+        678
+      ],
+      "source_foot_x": 240.0,
+      "placement": [
+        30,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "f6589ead469aba9706c145d86c26ec854bf35d5b42906c61530bda56dbe039f5"
+    },
+    {
+      "role": "knight",
+      "direction": "right",
+      "cell": [
+        1629,
+        0,
+        2172,
+        724
+      ],
+      "bbox": [
+        119,
+        41,
+        385,
+        678
+      ],
+      "source_foot_x": 209.5,
+      "placement": [
+        32,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "90e01def6b1491701f2ffa11d50d9f0e3337d0b183faf1459b2569361b8b926c"
+    },
+    {
+      "role": "mage",
+      "direction": "front",
+      "cell": [
+        0,
+        0,
+        598,
+        724
+      ],
+      "bbox": [
+        182,
+        14,
+        554,
+        697
+      ],
+      "source_foot_x": 362.0,
+      "placement": [
+        18,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "c01880901748c5417a75f91106312bbbec927403804c43fca6b499e79a8e8c43"
+    },
+    {
+      "role": "mage",
+      "direction": "back",
+      "cell": [
+        598,
+        0,
+        1117,
+        724
+      ],
+      "bbox": [
+        45,
+        14,
+        411,
+        692
+      ],
+      "source_foot_x": 229.0,
+      "placement": [
+        18,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "bfbd8243ecbe27de723b390491c56b8088aaf649e0b724d43b743c07a8b8bfa4"
+    },
+    {
+      "role": "mage",
+      "direction": "left",
+      "cell": [
+        1117,
+        0,
+        1591,
+        724
+      ],
+      "bbox": [
+        109,
+        13,
+        386,
+        695
+      ],
+      "source_foot_x": 221.5,
+      "placement": [
+        30,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "9776c211f59a70116b0f5dcfe368f6550ac25d088b0bcf45ba8f97efb76bc4d0"
+    },
+    {
+      "role": "mage",
+      "direction": "right",
+      "cell": [
+        1591,
+        0,
+        2172,
+        724
+      ],
+      "bbox": [
+        88,
+        13,
+        431,
+        695
+      ],
+      "source_foot_x": 264.5,
+      "placement": [
+        19,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "9b58418b82007649a85e9ef21fcddb86c36bf5260e5db0145c19d878d98011af"
+    },
+    {
+      "role": "raider",
+      "direction": "front",
+      "cell": [
+        0,
+        0,
+        543,
+        724
+      ],
+      "bbox": [
+        91,
+        27,
+        491,
+        707
+      ],
+      "source_foot_x": 276.0,
+      "placement": [
+        17,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "4a67fb0d7d129edc15848c73cc1e1256a6d4bf58e2dfbcc03de08ca89d3e4cec"
+    },
+    {
+      "role": "raider",
+      "direction": "back",
+      "cell": [
+        543,
+        0,
+        1086,
+        724
+      ],
+      "bbox": [
+        56,
+        27,
+        532,
+        699
+      ],
+      "source_foot_x": 253.0,
+      "placement": [
+        17,
+        14
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "0dbe1c70f20b5564d5ddd603258d200335c8a876006308f52d8f19fbd9483972"
+    },
+    {
+      "role": "raider",
+      "direction": "left",
+      "cell": [
+        1086,
+        0,
+        1629,
+        724
+      ],
+      "bbox": [
+        71,
+        27,
+        377,
+        707
+      ],
+      "source_foot_x": 268.5,
+      "placement": [
+        16,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "43b0e878fd449db484551ad98d46dd1ed9c3cbe8d676d08d93afb847e60dd436"
+    },
+    {
+      "role": "raider",
+      "direction": "right",
+      "cell": [
+        1629,
+        0,
+        2172,
+        724
+      ],
+      "bbox": [
+        119,
+        27,
+        451,
+        707
+      ],
+      "source_foot_x": 238.0,
+      "placement": [
+        28,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "98381cc0132f935d0c6e0dba5273eeb51b23301ec6e304b981f18d46bb86e461"
+    },
+    {
+      "role": "scout",
+      "direction": "front",
+      "cell": [
+        0,
+        0,
+        543,
+        724
+      ],
+      "bbox": [
+        119,
+        22,
+        508,
+        706
+      ],
+      "source_foot_x": 327.5,
+      "placement": [
+        14,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "239444b74ce0d807b52cb4bd31b245aa2096505d962242bafbd592601e2f8f51"
+    },
+    {
+      "role": "scout",
+      "direction": "back",
+      "cell": [
+        543,
+        0,
+        1086,
+        724
+      ],
+      "bbox": [
+        120,
+        19,
+        505,
+        703
+      ],
+      "source_foot_x": 296.0,
+      "placement": [
+        19,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "d1dac4bba3c128546aaefb4d78e74ef8a84c24ad34dce1894677b368fbf874a1"
+    },
+    {
+      "role": "scout",
+      "direction": "left",
+      "cell": [
+        1086,
+        0,
+        1629,
+        724
+      ],
+      "bbox": [
+        150,
+        19,
+        377,
+        706
+      ],
+      "source_foot_x": 227.5,
+      "placement": [
+        35,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "71d8468276e57b84eba1c8c0b887694ebfdd8fbaebea7fc2b91c3ded3f58610d"
+    },
+    {
+      "role": "scout",
+      "direction": "right",
+      "cell": [
+        1629,
+        0,
+        2172,
+        724
+      ],
+      "bbox": [
+        93,
+        19,
+        323,
+        706
+      ],
+      "source_foot_x": 223.5,
+      "placement": [
+        27,
+        8
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "foot_anchor": [
+        48,
+        120
+      ],
+      "sha256": "93c62056adecda8408cae0e75bd517e7b93bc8136f489022a20aba655c95b9b5"
+    }
+  ],
+  "source_sha256": {
+    "scout.png": "d1bb0ee7cf5214a5a9d0ce14e0713cfe93959d1f68a68f2d28631d890b8e8c51",
+    "raider.png": "19e96fdd34066b8d8eb6b6a43d2bcf59c3fc8d75199209b0f8a4e71c4bb13295",
+    "brute.png": "3b74d628445b8b08c612e55b56a44d9e4ff7b1e35dce9d2a921d8304077ae53e",
+    "mage.png": "95952a4ecfb0018b81c082f71b148debd81c2cb0279792b4e0558eda16184697",
+    "knight.png": "825e1ce63277f8bb0fbcf56b9ab37e3bb55299a6c142bc0c0f86339435008d85",
+    "archer.png": "dc7561df6526774ca5dc00488649a6f5fb2954db224d0e2955dc8799b1c0b67e"
+  }
+}
