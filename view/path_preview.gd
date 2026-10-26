@@ -2,6 +2,8 @@ extends MeshInstance3D
 # Ground-space geometry, depth-tested against opaque/discard character pixels.
 # Pixel-sized strokes are unprojected back onto the same ground plane as the range.
 var game
+var cells:MeshInstance3D
+var ground_materials={}
 var signature=""
 var building=false
 var last_path=[]
@@ -15,6 +17,19 @@ func _ready():
     mat.vertex_color_use_as_albedo=true;mat.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA
     mat.cull_mode=BaseMaterial3D.CULL_DISABLED;mat.render_priority=1
     material_override=mat
+    cells=MeshInstance3D.new();cells.mesh=ImmediateMesh.new();cells.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;add_child(cells)
+    for name in ["movement_cell_fill","movement_cell_border","target_cell_border_gold","route_arrowhead_ivory"]:
+        var m=StandardMaterial3D.new();m.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;m.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA;m.cull_mode=BaseMaterial3D.CULL_DISABLED
+        m.albedo_texture=load("res://assets/ui/bottom_dock_reference/ground/"+name+".png");m.render_priority=1;ground_materials[name]=m
+func textured_quad(points,material):
+    cells.mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLES,ground_materials[material])
+    var uv=[Vector2(0,0),Vector2(1,0),Vector2(1,1),Vector2(0,1)]
+    for index in [0,1,2,0,2,3]:cells.mesh.surface_set_uv(uv[index]);cells.mesh.surface_add_vertex(points[index])
+    cells.mesh.surface_end()
+func tile_quad(cell,material,height):
+    var points=[]
+    for c in [Vector2(-0.5,-0.5),Vector2(0.5,-0.5),Vector2(0.5,0.5),Vector2(-0.5,0.5)]:points.append(Vector3(cell.x+c.x,height,cell.y+c.y))
+    textured_quad(points,material)
 func ground(point):
     var origin=game.camera.project_ray_origin(point);var ray=game.camera.project_ray_normal(point)
     return origin+ray*((HEIGHT-origin.y)/ray.y)
@@ -84,14 +99,13 @@ func _process(delta):
     var tick=int(clock*30.0) if animated else 0
     var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.hud.action_menu_open,game.camera.global_transform,game.camera.size,game.camera.keep_aspect,get_viewport().get_visible_rect(),tick])
     if state==signature:return
-    signature=state;mesh.clear_surfaces();building=false
+    signature=state;mesh.clear_surfaces();cells.mesh.clear_surfaces();building=false
     if game.presentation_active():return
     if game.mode=="move" and not game.hud.action_menu_open and game.selected>=0 and game.battle.usable(game.selected) and not game.battle.units[game.selected].moved:
         for cell in game.preview_reachable:
             if cell==game.battle.units[game.selected].pos:continue
-            var outline=[]
-            for corner in [Vector2(-0.46,-0.46),Vector2(0.46,-0.46),Vector2(0.46,0.46),Vector2(-0.46,0.46),Vector2(-0.46,-0.46)]:outline.append(projected(Vector2(cell)+corner))
-            polyline(outline,1.0,Color(0.42,0.61,0.61,0.55))
+            tile_quad(cell,"movement_cell_fill",HEIGHT-0.003)
+            tile_quad(cell,"movement_cell_border",HEIGHT-0.002)
     if route.size()>=2:
         var points=[]
         for cell in prefix(route,reveal):points.append(projected(cell))
@@ -99,8 +113,9 @@ func _process(delta):
             ribbon(points,9,Color("23332f"));ribbon(points,5,Color("e4c58a"))
             # One continuous arrow, not a chain of detached per-cell arrows.
             var tip=points[-1];var direction=(tip-points[-2]).normalized();var normal=Vector2(-direction.y,direction.x)
-            triangle(tip+direction*3,tip-direction*13+normal*8,tip-direction*13-normal*8,Color("23332f"))
-            triangle(tip+direction*1,tip-direction*10+normal*5.5,tip-direction*10-normal*5.5,Color("eee2c6"))
+            var arrow=[]
+            for p in [tip-direction*24-normal*10,tip+direction*4-normal*10,tip+direction*4+normal*10,tip-direction*24+normal*10]:arrow.append(ground(p)+Vector3(0,0.002,0))
+            textured_quad(arrow,"route_arrowhead_ivory")
             if not App.reduced_motion and reveal>=route_length:
                 var travel=fmod(clock*0.8,route_length)
                 var highlight=prefix(route,minf(route_length,travel+0.20))
@@ -113,6 +128,5 @@ func _process(delta):
                         total+=route[i].distance_to(route[i+1])
                         if total>travel and total<travel+0.20:segment.append(projected(route[i+1]))
                     segment.append(projected(highlight[-1]));ribbon(segment,2,Color(1,0.93,0.73,0.7))
-        var end=projected(route[-1])
-        polyline([end+Vector2(0,-12),end+Vector2(12,0),end+Vector2(0,12),end+Vector2(-12,0),end+Vector2(0,-12)],2,Color("dfa75f"))
+        tile_quad(route[-1],"target_cell_border_gold",HEIGHT+0.004)
     if building:mesh.surface_end()

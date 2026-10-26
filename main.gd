@@ -235,7 +235,7 @@ func build_world():
             for side in [-1,1]:
                 var frame=box(p+Vector3(edge*0.10,1,side*0.10),Vector3(0.025,0.32,0.025),"594633");frame.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
         var cap=box(p+Vector3(0,1.18,0),Vector3(0.26,0.05,0.26),"594633");cap.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-    preview_ghost=Sprite3D.new();preview_ghost.render_priority=2;preview_ghost.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y;preview_ghost.modulate=Color(1,1,1,0.4);preview_ghost.pixel_size=0.01125;preview_ghost.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST;preview_ghost.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;preview_ghost.hide();add_child(preview_ghost)
+    preview_ghost=Sprite3D.new();preview_ghost.render_priority=2;preview_ghost.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y;preview_ghost.modulate=Color(1.0,0.78,0.42,0.35);preview_ghost.pixel_size=0.01125;preview_ghost.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST;preview_ghost.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;preview_ghost.hide();add_child(preview_ghost)
     selection_ring=MeshInstance3D.new();var ring=TorusMesh.new();ring.inner_radius=0.36;ring.outer_radius=0.42;selection_ring.mesh=ring
     var ring_material=StandardMaterial3D.new();ring_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;ring_material.albedo_color=Color("91aaa3");selection_ring.material_override=ring_material;selection_ring.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;add_child(selection_ring)
     camera = Camera3D.new()
@@ -391,7 +391,7 @@ func refresh():
     if selected>=0:selection_ring.position=Vector3(battle.units[selected].x,0.04,battle.units[selected].y)
     for pos in tiles:
         tiles[pos].node.material_override.albedo_color=tiles[pos].color
-        tiles[pos].overlay.visible=selected>=0 and not hud.action_menu_open and mode=="move" and not battle.units[selected].moved and possible.has(pos) and pos!=battle.units[selected].pos
+        tiles[pos].overlay.visible=false # Generated range layer owns fill and border once.
     for i in range(battle.units.size()):
         var u = battle.units[i]
         figures[i].visible = u.hp > 0

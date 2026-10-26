@@ -1,6 +1,7 @@
 extends CanvasLayer
 const UI=preload("res://ui/style.gd")
 var game
+var dock
 var root
 var round_label
 var net_label
@@ -108,6 +109,13 @@ func _ready():
     choices.add_child(UI.button("跳过本段",advance.bind(true)))
     choices.add_child(UI.button("暂停 / 保存",toggle_pause))
     var flag=preload("res://ui/round_flag.gd").new();round_label.add_child(flag);flag.show_behind_parent=true
+    var old_actions=action_panel
+    var old_turn=turn_button
+    dock=preload("res://ui/bottom_dock.gd").new();root.add_child(dock);dock.setup(self)
+    for kind in dock.action_nodes:action_buttons[kind]=dock.action_nodes[kind]
+    action_panel=dock.actions
+    old_actions.hide();old_actions.queue_free();old_turn.hide();old_turn.queue_free()
+    for node in [status_shade,status_panel,companion_panel,round_label]:node.hide()
     root.resized.connect(refresh)
     refresh()
 func objective_text(goal):
@@ -154,11 +162,11 @@ func cancel_targeting():
 func open_action_menu():
     if blocks_input() or game.selected<0:return
     action_menu_open=true;game.clear_move_preview();refresh()
-    for kind in [arc_choice,"move","attack","skill","item"]:
+    for kind in [dock.selected,"move","attack","skill","item","wait"]:
         if not action_buttons[kind].disabled:action_buttons[kind].grab_focus();break
 func activate_focused_action():
     var focused=root.get_viewport().gui_get_focus_owner()
-    for kind in ["move","attack","skill","item"]:
+    for kind in ["move","attack","skill","item","wait"]:
         var button=action_buttons[kind]
         if focused==button and button.is_visible_in_tree() and not button.disabled:
             button.pressed.emit();return true
@@ -166,30 +174,9 @@ func activate_focused_action():
 func focus_arc_choice(kind):
     if not action_menu_open or action_buttons[kind].disabled:return
     arc_choice=kind
-    for key in ["move","attack","skill","item"]:action_buttons[key].set_selected(key==kind)
-func place_action_arc(view):
-    if game.selected<0:return
-    var unit=game.battle.units[game.selected];var figure=game.figures[game.selected]
-    var anchor=game.camera.unproject_position(figure.position)
-    var foot=game.camera.unproject_position(Vector3(figure.position.x,0,figure.position.z))
-    var head=game.camera.unproject_position(Vector3(figure.position.x,game.badge_height(game.selected)+0.25,figure.position.z))
-    var keepout=Rect2(Vector2(anchor.x-46,head.y-14),Vector2(92,maxf(90,foot.y-head.y+28)))
-    var reserved=[Rect2(0,view.y*0.74,view.x*0.37,view.y*0.26),Rect2(0,0,340,130),Rect2(view.x-250,view.y-110,250,110)]
-    for i in range(game.figures.size()):
-        if i==game.selected or game.battle.units[i].hp<=0:continue
-        var other=game.figures[i].position
-        var other_foot=game.camera.unproject_position(Vector3(other.x,0,other.z))
-        var other_head=game.camera.unproject_position(Vector3(other.x,game.badge_height(i)+0.25,other.z))
-        reserved.append(Rect2(Vector2(other_foot.x-36,other_head.y-8),Vector2(72,maxf(80,other_foot.y-other_head.y+24))))
-    arc_layout=ActionArc.solve(anchor,view,keepout,reserved)
-    if arc_actor_id!=unit.id:
-        arc_actor_id=unit.id;arc_choice="move"
-        for kind in ["move","attack","skill","item"]:action_buttons[kind].reset_motion()
-    action_panel.position=Vector2.ZERO;action_panel.size=view
-    var keys=["move","attack","skill","item"]
-    for i in range(4):
-        var button=action_buttons[keys[i]];button.custom_minimum_size=ActionArc.BUTTON_SIZE;button.size=ActionArc.BUTTON_SIZE
-        button.set_layout_position(arc_layout.positions[i]);button.set_selected(keys[i]==arc_choice)
+    if is_instance_valid(dock):dock.select(kind)
+func place_action_arc(_view):
+    pass # Replaced by reference-measured bottom dock.
 func choose_action(kind):
     action_menu_open=false
     if kind=="wait":game.wait_selected()
@@ -274,6 +261,7 @@ func refresh():
     if not game.pending_move.is_empty():hint_label.text="移动 %d 格 · Enter 确认 · Esc 取消"%[game.preview_path.size()-1]
     if action_panel.visible:hint_label.text="选择行动 · 方向键切换 · Enter 确认"
     if logic.outcome!="playing":hint_label.text="旅程暂告一段落 · Esc 保存或返回"
+    if dock:dock.refresh_dock()
     if last_step!=logic.step:
         if last_step>=0 and logic.step>last_step:
             var changes=[]
