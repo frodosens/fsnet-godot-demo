@@ -1,0 +1,17 @@
+{
+  "skill:rally": "icon_skill_rally.png",
+  "skill:strong_shot": "icon_skill_strong_shot.png",
+  "skill:ember": "icon_skill_ember.png",
+  "skill:focus_bolt": "icon_skill_focus_bolt.png",
+  "item:bandage": "icon_item_bandage.png",
+  "equipment:sword": "icon_equipment_sword.png",
+  "equipment:wand": "icon_equipment_wand.png",
+  "equipment:shield": "icon_equipment_shield.png",
+  "equipment:helm": "icon_equipment_helm.png",
+  "equipment:coat": "icon_equipment_coat.png",
+  "equipment:gloves": "icon_equipment_gloves.png",
+  "equipment:boots": "icon_equipment_boots.png",
+  "equipment:charm": "icon_equipment_charm.png",
+  "equipment:ring": "icon_equipment_ring.png",
+  "effect:healing_draught": "icon_item_bandage.png"
+}

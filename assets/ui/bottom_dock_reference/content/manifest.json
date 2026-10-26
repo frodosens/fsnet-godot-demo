@@ -1,0 +1,730 @@
+{
+  "schema": 1,
+  "production": "OpenAI built-in imagegen; individually generated from approved screenshot/icon references",
+  "runtime_size": [
+    128,
+    128
+  ],
+  "logical_use_px": [
+    32,
+    40
+  ],
+  "max_ink_dimension_px": 104,
+  "transforms": "Only alpha <=16 removal, tight crop, alpha-aware Lanczos resize, alpha <=1 cleanup and transparent padding. No painting, tracing, recoloring or screenshot pixel extraction.",
+  "scope": "Existing content only: 4 skills, 1 item, 9 equipment bases; no bow equipment. healing_draught reuses bandage; ordinary attack reuses existing action sword; unknown mod IDs retain text fallback.",
+  "expected_asset_count": 14,
+  "current_asset_count": 14,
+  "complete": true,
+  "review_only": "review/ and originals/ must not be committed to Git; commit selected runtime PNGs and provenance metadata only.",
+  "assets": [
+    {
+      "content_id": "rally",
+      "category": "skill",
+      "label": "重整",
+      "file": "icon_skill_rally.png",
+      "sha256": "6dc337aaf5ae0449051d3ed7a6c4ca423498ff8b94d86a96fe69792f4969ffe9",
+      "source": "originals/rally.png",
+      "source_sha256": "4bfc6f8a275c29b2e1d859657a3fea6353bdd069ecee299bf08963ccd78fd696",
+      "prompt": "prompts.json#skill:rally",
+      "prompt_sha256": "33589d8c5b55a00c5709c860e131463a11cfcb0f9eeb3cd9de8e0fc0f585da13",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        189,
+        297,
+        1133,
+        1043
+      ],
+      "source_components": 2,
+      "runtime_ink_bbox": [
+        12,
+        23,
+        116,
+        105
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 65.27,
+      "border_clear": true
+    },
+    {
+      "content_id": "strong_shot",
+      "category": "skill",
+      "label": "强射",
+      "file": "icon_skill_strong_shot.png",
+      "sha256": "64b1307d71cba0713b97a298ae6439d3b2d26d0e5b658864987a8fbdae7022f3",
+      "source": "originals/strong_shot.png",
+      "source_sha256": "8cf03dcfa41c9586247c7ee300b422dbde3158f99c7d0147576e18939095e448",
+      "prompt": "prompts.json#skill:strong_shot",
+      "prompt_sha256": "72ec677ead0695b97f23ef955024d54a51d71ba1defbda550d8d57baf9cc0ff5",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        241,
+        293,
+        1022,
+        993
+      ],
+      "source_components": 3,
+      "runtime_ink_bbox": [
+        12,
+        17,
+        116,
+        110
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 82.87,
+      "border_clear": true
+    },
+    {
+      "content_id": "ember",
+      "category": "skill",
+      "label": "余烬",
+      "file": "icon_skill_ember.png",
+      "sha256": "65142cc0820cbac1d101bf3feb15cfba9238569cf8e02382e33c297fd2752786",
+      "source": "originals/ember.png",
+      "source_sha256": "f5c618315bc2016248625126b871c4ae068e7af2a2058eab36884a5f74c49855",
+      "prompt": "prompts.json#skill:ember",
+      "prompt_sha256": "362242d5bd0c74e2eed512cacc8a28ef52a6a477657de8475fe7c503ef283f22",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        265,
+        289,
+        988,
+        971
+      ],
+      "source_components": 2,
+      "runtime_ink_bbox": [
+        12,
+        15,
+        116,
+        113
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 70.19,
+      "border_clear": true
+    },
+    {
+      "content_id": "focus_bolt",
+      "category": "skill",
+      "label": "凝神光矢",
+      "file": "icon_skill_focus_bolt.png",
+      "sha256": "17e2a911efda77a1995bae4e24a08b34dda0b11e6aa449422b5eeec48123ef3c",
+      "source": "originals/focus_bolt.png",
+      "source_sha256": "c3b78043b9f10497321f543e55bc9c14a0d1bcb49311eeab86679d21ffa2ed80",
+      "prompt": "prompts.json#skill:focus_bolt",
+      "prompt_sha256": "706ddab89be8a95b21347d60ac698270bbf0de65c44f1e308ac15edea45b841f",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        180,
+        197,
+        1086,
+        1056
+      ],
+      "source_components": 2,
+      "runtime_ink_bbox": [
+        12,
+        14,
+        116,
+        113
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 86.38,
+      "border_clear": true
+    },
+    {
+      "content_id": "bandage",
+      "category": "item",
+      "label": "药房绷带",
+      "file": "icon_item_bandage.png",
+      "sha256": "0c1aef60357d94670a78d930d296b94d4097caebd8acfe230dbbaee16bb99f12",
+      "source": "originals/bandage.png",
+      "source_sha256": "d21f840d0b3dc440a2833cd0dfaf576e51de82452e0d3fb9666fc154610776f6",
+      "prompt": "prompts.json#item:bandage",
+      "prompt_sha256": "ae1b2353a578b0eaf5269bb373f259dec94eeec137f2cb97130148009aebbfc3",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        287,
+        376,
+        1027,
+        890
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        12,
+        28,
+        116,
+        100
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 68.94,
+      "border_clear": true
+    },
+    {
+      "content_id": "sword",
+      "category": "equipment",
+      "label": "护送者短剑",
+      "file": "icon_equipment_sword.png",
+      "sha256": "68d3e03b7fb52a48ee7f5723418c4359d3c1e39c9f6340e32eee46aea40e9825",
+      "source": "originals/sword.png",
+      "source_sha256": "1513113dfabdee0e5f646b0a7a925a83d0f2bb5e77c91d4b12b1a2df527ccfe0",
+      "prompt": "prompts.json#equipment:sword",
+      "prompt_sha256": "2e3c94872ca954d5ad9939fc5aaf32e70bfbf2964bbf08c9ae6fe9a9d549a890",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        329,
+        337,
+        952,
+        937
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        12,
+        14,
+        116,
+        114
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 80.57,
+      "border_clear": true
+    },
+    {
+      "content_id": "wand",
+      "category": "equipment",
+      "label": "黄铜短杖",
+      "file": "icon_equipment_wand.png",
+      "sha256": "90ef3f1f4c4e10efaa0fdb16846e2175701fbb83d6c967e193b1951238924bd3",
+      "source": "originals/wand.png",
+      "source_sha256": "1862aac33af7e9dd501e24ead4104fd4719081abb238bf84123e6e1683865b18",
+      "prompt": "prompts.json#equipment:wand",
+      "prompt_sha256": "ca55de67a2357911e73db71fdc861d9250013cc0d5fc28c9bd3db5d62777f32f",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        360,
+        349,
+        966,
+        920
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        12,
+        15,
+        116,
+        113
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 86.71,
+      "border_clear": true
+    },
+    {
+      "content_id": "shield",
+      "category": "equipment",
+      "label": "旧桥圆盾",
+      "file": "icon_equipment_shield.png",
+      "sha256": "c422f52654ec8b458fcf90221b88a9c7ed26041528bb42b21aba40e191791edf",
+      "source": "originals/shield.png",
+      "source_sha256": "f2d162526887c8635f58f55c7f7c8c3d24b5f5302a819c116834853ddafa812e",
+      "prompt": "prompts.json#equipment:shield",
+      "prompt_sha256": "2df195d3e7f6d5aeab67ad9a3396300abfcc3cd97b8dfd40456c9f07a985d477",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        249,
+        241,
+        1004,
+        1007
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        12,
+        12,
+        115,
+        116
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 46.74,
+      "border_clear": true
+    },
+    {
+      "content_id": "helm",
+      "category": "equipment",
+      "label": "皮护帽",
+      "file": "icon_equipment_helm.png",
+      "sha256": "165ab720771d3bbaf0c1898fbdfd99c8799a8e4f9bd2125e55881d93d94a3c4e",
+      "source": "originals/helm.png",
+      "source_sha256": "3c1cd7b1763cf71ade1a0e999b5a0ec9c527d0abd16b76dad8a6d9bc8a5dfabb",
+      "prompt": "prompts.json#equipment:helm",
+      "prompt_sha256": "4e874f68fcb00b1e70349e3f3644e2e57c8fe72ca0c686c34e0675adf383b97f",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        292,
+        246,
+        987,
+        1017
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        17,
+        12,
+        111,
+        116
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 59.94,
+      "border_clear": true
+    },
+    {
+      "content_id": "coat",
+      "category": "equipment",
+      "label": "行旅外衣",
+      "file": "icon_equipment_coat.png",
+      "sha256": "8e84e5cd748b307fe5a68580b574dad50556d56661459718669d894a87f1a54c",
+      "source": "originals/coat.png",
+      "source_sha256": "814a7dc388e5370fb8e5a6d3c8ccc99839bccc922aec01ecf688e0f973080d57",
+      "prompt": "prompts.json#equipment:coat",
+      "prompt_sha256": "b0a1e7c660cfdcc78827f8a260c549b4a3fcba1b6d4f31e6ceb2d0d50c55ceb5",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        257,
+        195,
+        997,
+        1055
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        19,
+        12,
+        108,
+        116
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 61.46,
+      "border_clear": true
+    },
+    {
+      "content_id": "gloves",
+      "category": "equipment",
+      "label": "护手",
+      "file": "icon_equipment_gloves.png",
+      "sha256": "1a3ef0a51e59707c67cae414530e99c1495ff51e941c5665fcfc2ce231c7fc16",
+      "source": "originals/gloves.png",
+      "source_sha256": "5dea6a39127b5630c4ccdd4e80e5cbb8976509efd7c50f0224d2c7d11b1866ff",
+      "prompt": "prompts.json#equipment:gloves",
+      "prompt_sha256": "6fb222acbb9fd3502b2e6da6240b164a259b4ed324c5c5de4fa9baf30ae14a7c",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        307,
+        270,
+        953,
+        991
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        17,
+        12,
+        110,
+        116
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 62.62,
+      "border_clear": true
+    },
+    {
+      "content_id": "boots",
+      "category": "equipment",
+      "label": "旅人短靴",
+      "file": "icon_equipment_boots.png",
+      "sha256": "c6ecaf6803f11ae6b76a576ca2e8c08b3cdd842b0ea031574542e53950f331f5",
+      "source": "originals/boots.png",
+      "source_sha256": "aee4e78a98d7088c8c12266a76f4757f76ae391a4ebece30cea67f9cced788ba",
+      "prompt": "prompts.json#equipment:boots",
+      "prompt_sha256": "e591a8d2da033086c2f4e20cec0e1ded133597cff96e829a45e42cc0735a30a2",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        241,
+        356,
+        1017,
+        919
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        12,
+        26,
+        116,
+        101
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 68.08,
+      "border_clear": true
+    },
+    {
+      "content_id": "charm",
+      "category": "equipment",
+      "label": "旅人铜坠",
+      "file": "icon_equipment_charm.png",
+      "sha256": "967979adfaba4af2d9b9d508248483a308d20408e2e90e54dddf3579377bd8a5",
+      "source": "originals/charm.png",
+      "source_sha256": "292b69d166b8c5bbe50f75c056d0be0392faf171a305b785fa0b16dd3d2fc23f",
+      "prompt": "prompts.json#equipment:charm",
+      "prompt_sha256": "20f1db261f989b61706940e071d1fe9e16817dc1e5d7838c7aa96b54ea23a2c4",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        410,
+        277,
+        843,
+        954
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        30,
+        12,
+        97,
+        116
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 72.27,
+      "border_clear": true
+    },
+    {
+      "content_id": "ring",
+      "category": "equipment",
+      "label": "琥珀戒指",
+      "file": "icon_equipment_ring.png",
+      "sha256": "e638a12925779d96378f9703e4b1082ead317870ebb21c880e68f7a176c9cf7a",
+      "source": "originals/ring.png",
+      "source_sha256": "dc71d750a26f7ee76ebe633215827c81436e895deda30de8478c99f45398cedb",
+      "prompt": "prompts.json#equipment:ring",
+      "prompt_sha256": "dd3618dbd267d911b498abb7d2609710e0fd1731736796e69917f166f8550bce",
+      "mode": "RGBA",
+      "size": [
+        128,
+        128
+      ],
+      "source_size": [
+        1254,
+        1254
+      ],
+      "source_ink_bbox": [
+        304,
+        272,
+        944,
+        999
+      ],
+      "source_components": 1,
+      "runtime_ink_bbox": [
+        18,
+        12,
+        110,
+        116
+      ],
+      "alpha_min": 0,
+      "alpha_max": 255,
+      "fully_transparent_percent": 63.92,
+      "border_clear": true
+    }
+  ],
+  "provenance": {
+    "schema": 1,
+    "provider": "OpenAI built-in image_gen.imagegen",
+    "generation_mode": "14 individual reference-conditioned transparent image calls; no paid external provider",
+    "paid_external_service_used": false,
+    "generated_not_screenshot_extracted": true,
+    "source_art_repainted_by_script": false,
+    "transparent_background_requested": true,
+    "reference_files": [
+      {
+        "path": "battle_hud_design/redesign-preview/generated-icons-v1/review/contact-sheet-dark-light.png",
+        "sha256": "1744369ee30b2366e3abd045aae46d8ae6cc84d2324a19ce37cdcbddaf7e7173",
+        "role": "style reference only"
+      },
+      {
+        "path": "battle_hud_design/redesign-preview/01-selected-mara.png",
+        "sha256": "5df90e6afe08e7495ec8b9ace6fd95338781f072efb75c2d2e74822f8ceaa6d7",
+        "role": "style reference only"
+      },
+      {
+        "path": "battle_hud_design/redesign-preview/02-movement-preview.png",
+        "sha256": "1c4cc30fd3c05d8e04e2f1d960ed7758f61fa1e8a2ff4bd9ee3705f13a717337",
+        "role": "style reference only"
+      }
+    ],
+    "reference_usage": "Rally used all three references; remaining thirteen used icon-family contact sheet and selected-Mara HUD.",
+    "generation_attempts": [
+      {
+        "content_id": "rally",
+        "local_original": "originals/rally.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-d4efe8a8-26f1-408a-bc9d-690143bd9b2c.png",
+        "prompt": "metadata/prompts/rally.txt",
+        "prompt_sha256": "33589d8c5b55a00c5709c860e131463a11cfcb0f9eeb3cd9de8e0fc0f585da13",
+        "sha256": "4bfc6f8a275c29b2e1d859657a3fea6353bdd069ecee299bf08963ccd78fd696",
+        "selected": true
+      },
+      {
+        "content_id": "strong_shot",
+        "local_original": "originals/strong_shot.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-26bfcb76-6789-4ce7-9886-5b44d2707675.png",
+        "prompt": "metadata/prompts/strong_shot.txt",
+        "prompt_sha256": "72ec677ead0695b97f23ef955024d54a51d71ba1defbda550d8d57baf9cc0ff5",
+        "sha256": "8cf03dcfa41c9586247c7ee300b422dbde3158f99c7d0147576e18939095e448",
+        "selected": true
+      },
+      {
+        "content_id": "ember",
+        "local_original": "originals/ember.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-7d278ae2-fc66-4e33-96d3-27e8d160d832.png",
+        "prompt": "metadata/prompts/ember.txt",
+        "prompt_sha256": "362242d5bd0c74e2eed512cacc8a28ef52a6a477657de8475fe7c503ef283f22",
+        "sha256": "f5c618315bc2016248625126b871c4ae068e7af2a2058eab36884a5f74c49855",
+        "selected": true
+      },
+      {
+        "content_id": "focus_bolt",
+        "local_original": "originals/focus_bolt.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-f0e88f65-fe2c-496a-93ae-c3318aabc002.png",
+        "prompt": "metadata/prompts/focus_bolt.txt",
+        "prompt_sha256": "706ddab89be8a95b21347d60ac698270bbf0de65c44f1e308ac15edea45b841f",
+        "sha256": "c3b78043b9f10497321f543e55bc9c14a0d1bcb49311eeab86679d21ffa2ed80",
+        "selected": true
+      },
+      {
+        "content_id": "bandage",
+        "local_original": "originals/bandage.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-5045234d-2102-4fe7-9f2f-05d00a31a0f3.png",
+        "prompt": "metadata/prompts/bandage.txt",
+        "prompt_sha256": "ae1b2353a578b0eaf5269bb373f259dec94eeec137f2cb97130148009aebbfc3",
+        "sha256": "d21f840d0b3dc440a2833cd0dfaf576e51de82452e0d3fb9666fc154610776f6",
+        "selected": true
+      },
+      {
+        "content_id": "sword",
+        "local_original": "originals/sword.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-c6f6ee5f-e24d-41b8-8f10-77b45109e879.png",
+        "prompt": "metadata/prompts/sword.txt",
+        "prompt_sha256": "2e3c94872ca954d5ad9939fc5aaf32e70bfbf2964bbf08c9ae6fe9a9d549a890",
+        "sha256": "1513113dfabdee0e5f646b0a7a925a83d0f2bb5e77c91d4b12b1a2df527ccfe0",
+        "selected": true
+      },
+      {
+        "content_id": "wand",
+        "local_original": "originals/wand.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-56a2599c-5950-4f34-8b40-04484de62032.png",
+        "prompt": "metadata/prompts/wand.txt",
+        "prompt_sha256": "ca55de67a2357911e73db71fdc861d9250013cc0d5fc28c9bd3db5d62777f32f",
+        "sha256": "1862aac33af7e9dd501e24ead4104fd4719081abb238bf84123e6e1683865b18",
+        "selected": true
+      },
+      {
+        "content_id": "shield",
+        "local_original": "originals/shield.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-49f94287-f1ab-4f7a-b282-b5d4596b33a5.png",
+        "prompt": "metadata/prompts/shield.txt",
+        "prompt_sha256": "2df195d3e7f6d5aeab67ad9a3396300abfcc3cd97b8dfd40456c9f07a985d477",
+        "sha256": "f2d162526887c8635f58f55c7f7c8c3d24b5f5302a819c116834853ddafa812e",
+        "selected": true
+      },
+      {
+        "content_id": "helm",
+        "local_original": "originals/helm.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-8deab742-af0c-4280-82f1-8a306a19dc64.png",
+        "prompt": "metadata/prompts/helm.txt",
+        "prompt_sha256": "4e874f68fcb00b1e70349e3f3644e2e57c8fe72ca0c686c34e0675adf383b97f",
+        "sha256": "3c1cd7b1763cf71ade1a0e999b5a0ec9c527d0abd16b76dad8a6d9bc8a5dfabb",
+        "selected": true
+      },
+      {
+        "content_id": "coat",
+        "local_original": "originals/coat.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-520ed5b3-c156-4b39-860b-0cc53b6ab22d.png",
+        "prompt": "metadata/prompts/coat.txt",
+        "prompt_sha256": "b0a1e7c660cfdcc78827f8a260c549b4a3fcba1b6d4f31e6ceb2d0d50c55ceb5",
+        "sha256": "814a7dc388e5370fb8e5a6d3c8ccc99839bccc922aec01ecf688e0f973080d57",
+        "selected": true
+      },
+      {
+        "content_id": "gloves",
+        "local_original": "originals/gloves.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-222addaf-da7d-4950-acc3-041a34af09b3.png",
+        "prompt": "metadata/prompts/gloves.txt",
+        "prompt_sha256": "6fb222acbb9fd3502b2e6da6240b164a259b4ed324c5c5de4fa9baf30ae14a7c",
+        "sha256": "5dea6a39127b5630c4ccdd4e80e5cbb8976509efd7c50f0224d2c7d11b1866ff",
+        "selected": true
+      },
+      {
+        "content_id": "boots",
+        "local_original": "originals/boots.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-41d7fdde-5cf8-453b-8139-9ae894f40517.png",
+        "prompt": "metadata/prompts/boots.txt",
+        "prompt_sha256": "e591a8d2da033086c2f4e20cec0e1ded133597cff96e829a45e42cc0735a30a2",
+        "sha256": "aee4e78a98d7088c8c12266a76f4757f76ae391a4ebece30cea67f9cced788ba",
+        "selected": true
+      },
+      {
+        "content_id": "charm",
+        "local_original": "originals/charm.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-a9d49d18-3037-4c5b-ad5c-ef5695f6eadc.png",
+        "prompt": "metadata/prompts/charm.txt",
+        "prompt_sha256": "20f1db261f989b61706940e071d1fe9e16817dc1e5d7838c7aa96b54ea23a2c4",
+        "sha256": "292b69d166b8c5bbe50f75c056d0be0392faf171a305b785fa0b16dd3d2fc23f",
+        "selected": true
+      },
+      {
+        "content_id": "ring",
+        "local_original": "originals/ring.png",
+        "tool_saved_source": "/workspace/scratch/d855cd7ca5e7/generated_images/exec-b6aa06a1-84f8-45a5-ad0b-894f73c5ddad.png",
+        "prompt": "metadata/prompts/ring.txt",
+        "prompt_sha256": "dd3618dbd267d911b498abb7d2609710e0fd1731736796e69917f166f8550bce",
+        "sha256": "dc71d750a26f7ee76ebe633215827c81436e895deda30de8478c99f45398cedb",
+        "selected": true
+      }
+    ],
+    "runtime_transform_script": "metadata/normalize_icons.py",
+    "runtime_transform_sha256": "17fffd47ca097269e214d8569f9d80e8bac0fb381e1bc52d1c8e2cc40028ede8",
+    "transform_policy": "Only alpha <=16 removal, tight crop, alpha-aware Lanczos resize, alpha <=1 cleanup and transparent padding. No painting, tracing, recoloring or screenshot pixel extraction.",
+    "distribution_policy": "Commit actual runtime PNGs plus metadata/provenance only. Originals and all review images stay local/native-chat only, not Git.",
+    "license_note": "Host-native generated images requested by user for this game; no third-party purchased or downloaded asset library used. No new legal license assertion is made."
+  },
+  "qa_report": {
+    "static_checks": "passed",
+    "runtime_count": 14,
+    "expected_count": 14,
+    "all_rgba_128x128": true,
+    "all_have_alpha_0_and_255": true,
+    "all_canvas_borders_transparent": true,
+    "source_intentional_components_verified": {
+      "rally": 2,
+      "strong_shot": 3,
+      "ember": 2,
+      "focus_bolt": 2
+    },
+    "preview_scales_px": [
+      32,
+      40
+    ],
+    "visual_review_status": "passed: visually inspected complete 14-icon dark/light contact sheet at 128px and actual 32/40px; identity, transparency, separation and family coherence acceptable",
+    "runtime_engine_import": "not performed by asset-generation agent",
+    "visual_review_time_utc": "2026-10-26T17:05:41Z",
+    "scope_count_verified": {
+      "skill": 4,
+      "item": 1,
+      "equipment": 9
+    },
+    "limitations": [
+      "Source ring uses simple amber facets; all remain warm ivory/copper family.",
+      "Engine hookup is owned by engineering, not verified in this asset-only task."
+    ]
+  },
+  "packaging_note": "Complete14/14 existing-content runtime icon set. Source originals and review sheets are intentionally excluded from Git. Packager verified PNG decode,alpha,dimensions,static32/40px appearance and blobSHA; no fresh Godot import/runtime claim."
+}
