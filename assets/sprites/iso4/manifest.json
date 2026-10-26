@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "fps": 8,
+  "frame_ms": 125,
+  "size": [
+    96,
+    128
+  ],
+  "foot_anchor": [
+    48,
+    120
+  ],
+  "camera": {
+    "projection": "orthographic",
+    "elevation_deg": 45.08,
+    "azimuth_deg_from_positive_z_toward_positive_x": 32.2
+  },
+  "world_mapping": {
+    "+X": "front_right",
+    "+Z": "front_left",
+    "-X": "back_left",
+    "-Z": "back_right"
+  },
+  "characters": {
+    "knight": {
+      "idle": {
+        "front_right": "assets/sprites/iso4/knight_front_right_idle.png",
+        "front_left": "assets/sprites/iso4/knight_front_left_idle.png",
+        "back_left": "assets/sprites/iso4/knight_back_left_idle.png",
+        "back_right": "assets/sprites/iso4/knight_back_right_idle.png"
+      },
+      "walk": {
+        "front_right": [
+          "assets/sprites/iso4/knight_front_right_walk_00.png",
+          "assets/sprites/iso4/knight_front_right_walk_01.png",
+          "assets/sprites/iso4/knight_front_right_walk_02.png",
+          "assets/sprites/iso4/knight_front_right_walk_03.png"
+        ]
+      }
+    }
+  },
+  "status": "Small camera proof: four idle perspectives and one walk direction, not complete map animation set. Gait alternates support leg, toe-heading and exact45deg match need engineQA. No flat image rotation or scripted mirrored direction."
+}
