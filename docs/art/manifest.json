@@ -1,0 +1,233 @@
+{
+  "version": 1,
+  "generated_date": "2026-10-26",
+  "assets": [
+    {
+      "path": "assets/battle/mara/00_idle.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "5390fbebfbb7025c263623b4e6c1255a5d3b9003c9aab47f562d4bbf4b33fa8c"
+    },
+    {
+      "path": "assets/battle/mara/01_anticipation.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "ed3964795f1958a4517c95bb97ad4d9410db94c2d2deb2d1a74b35a215c11d21"
+    },
+    {
+      "path": "assets/battle/mara/02_dash.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "27da4aa1fa23d2f99a873bfad52defe7a1a7b2d2f5797ead2cca3e0aef0eaae7"
+    },
+    {
+      "path": "assets/battle/mara/03_thrust.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "e80682cb4b1aba7c21fe3d479a3e74ef98ca065cc5920a956d0c13a5075cf0c3"
+    },
+    {
+      "path": "assets/battle/mara/04_follow_through.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "f89ea9a23cf268dc3e19190fe610bd752e08307ad3efc3339113cf79d5b57706"
+    },
+    {
+      "path": "assets/battle/mara/05_recovery.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "8ea94039bd4a89ead782b4aef8e9bd5d8abb0a6b26b2448acf79fee3471ddfe4"
+    },
+    {
+      "path": "assets/battle/mara/06_return_step.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "83db0056ee443b696e7de990087574a6b352cc5587dcb76b6f0f3d09d60bb6e8"
+    },
+    {
+      "path": "assets/battle/mara/07_settle_guard.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "9a6c12e49998d48799da97a1642cd779fc0d4e13439fc1cfd7b031ffa7ad17c6"
+    },
+    {
+      "path": "assets/battle/oren/00_idle.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "42a6927512bd62dd5cc60688131227662d286ec96036bef3c2c418e706b4bb06"
+    },
+    {
+      "path": "assets/battle/oren/01_brace.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "688582a71eb6c944bb6d568d931d49e57592f8bdd3614019f28a63ecbedc5e71"
+    },
+    {
+      "path": "assets/battle/oren/02_hit.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "c91295f80db1b1ff79aab55fd9719acaa534da114cc684f932d63e2a904881c8"
+    },
+    {
+      "path": "assets/battle/oren/03_recover.png",
+      "dimensions": [
+        192,
+        160
+      ],
+      "format": "RGBA",
+      "sha256": "d8f64e784628d75740c3b0c23b9dcdf81dff631a8611d89e312c8cd0155c4a1b"
+    },
+    {
+      "path": "assets/portraits/bram.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "RGBA",
+      "sha256": "95b29b91e0127117555f04a5cd9872c9756dad7a9fa382fc5e509f7f410c8bed"
+    },
+    {
+      "path": "assets/portraits/finn.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "RGBA",
+      "sha256": "1b0c4ad5e6043b26c218fb3d65d00d2f85c993add37536113beff4b38ccdff42"
+    },
+    {
+      "path": "assets/portraits/mara.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "RGBA",
+      "sha256": "45c92fd6272ed8f2174d121e4e37256ce59efe926f8022a71dacaf6b8cb74740"
+    },
+    {
+      "path": "assets/portraits/neri.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "RGBA",
+      "sha256": "d7e2056fb00effe0dbad7d7e140583e70f91f7ffe4ef574d66495dfa429dacde"
+    },
+    {
+      "path": "assets/portraits/oren.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "RGBA",
+      "sha256": "cd46e9a227515545a15588e47ea2bd24bc60afcd7f3a51b330aa29d1572a0e01"
+    },
+    {
+      "path": "assets/portraits/tessa.png",
+      "dimensions": [
+        512,
+        512
+      ],
+      "format": "RGBA",
+      "sha256": "08ca28b425b4f5dbe0ec7ea8e0a81995489552e32fffd376b53a5dbed3036269"
+    },
+    {
+      "path": "assets/sprites/archer.png",
+      "dimensions": [
+        96,
+        128
+      ],
+      "format": "RGBA",
+      "sha256": "b8da28be2b4fae11cf63b6fa50e403219f910b91b0dbd84d977234782e8b8ad4"
+    },
+    {
+      "path": "assets/sprites/brute.png",
+      "dimensions": [
+        96,
+        128
+      ],
+      "format": "RGBA",
+      "sha256": "487f31953fa6ba4978f9a6862d4c8c11208d030a5a460f186e91795968807d0a"
+    },
+    {
+      "path": "assets/sprites/knight.png",
+      "dimensions": [
+        96,
+        128
+      ],
+      "format": "RGBA",
+      "sha256": "a78b558ece5cac33b126624dcb3651dbb14dbd75c5d4d109136f0be4dd45c2e8"
+    },
+    {
+      "path": "assets/sprites/mage.png",
+      "dimensions": [
+        96,
+        128
+      ],
+      "format": "RGBA",
+      "sha256": "43b57aabe000850319aa32d356cd0dc8a70e0927b5e83634297b94d22ce791b1"
+    },
+    {
+      "path": "assets/sprites/raider.png",
+      "dimensions": [
+        96,
+        128
+      ],
+      "format": "RGBA",
+      "sha256": "d72716d7e812c47c7f0d3e30c7f3497ec9c7c0ce424968b98e7b15b70d620e71"
+    },
+    {
+      "path": "assets/sprites/scout.png",
+      "dimensions": [
+        96,
+        128
+      ],
+      "format": "RGBA",
+      "sha256": "5715d58286b972189bc61967f1763133da7c022d07652c88f3c697c4f887b1eb"
+    }
+  ],
+  "map_anchor": [
+    48,
+    120
+  ],
+  "battle_anchor": [
+    96,
+    144
+  ],
+  "portrait_margin_min": 32,
+  "method": "Original built-in image generation, followed by user-authorized deterministic alpha crop, nearest-neighbor resize, transparent padding and foot alignment. No programmatic repainting.",
+  "validation": "All 24 normalized PNGs individually inspected; dimensions and silhouette bounds asserted. Godot runtime and animation playback acceptance pending."
+}

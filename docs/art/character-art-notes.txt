@@ -1,0 +1,23 @@
+AMBER BRIDGE — ORIGINAL CHARACTER ART BATCH 01
+Created 2026-10-26 using built-in image generation; original character briefs from the project's story draft.
+
+CONTENTS
+6 dialogue portraits, 512x512 RGBA, 32px minimum transparent safe margin.
+6 static map sprites, 96x128 RGBA; role mapping knight=Mara, archer=Finn, mage=Neri, raider=Oren, scout=Tessa, brute=Bram.
+Map origin (48,120), anchored using visually inspected boot midpoint and lowermost boot contact. Source perspective means the two individual soles are not on the same image row.
+Original unmodified generated portraits and map sprites are retained separately with complete prompts and deterministic preparation records.
+
+IMPORT
+Use assets/portraits and assets/sprites, nearest filtering for map sprites, pixel_size=0.01125 as specified by engineering; fixed-Y billboard and runtime lighting. Do not use originals at map pixel_size without compensating scaling.
+Portraits should use aspect-preserving UI texture display. UI text is not baked into artwork.
+Alpha preserved from generator. Predominantly 253/255 alpha interiors and antialiased/partly transparent edge pixels remain; these are not mathematically binary-alpha assets or fixed 32-color palettes. Validate alpha-discard material threshold in Godot.
+
+VERIFIED
+Original and normalized images visually inspected individually. Role identity, costume colors, full silhouette, transparency, dimensions, safe margins, no ground shadow/no text checked. Script assertions and hashes in manifests. No third-party artwork, copied game sprites, named-artist references, fake normal maps, or animation frames used.
+
+NOT YET VERIFIED
+Godot runtime scene lighting, occlusion, billboard positioning and screen-scale readability; engineering must verify in-engine. These are static assets, not walk/attack/death animation sets. Style is detailed pixel-textured fantasy; not a strict hand-pixeled limited-palette GBA sprite set. Do not label this batch release-accepted solely because files import.
+
+PROVENANCE / RIGHTS
+New generated imagery from built-in image generation, using this project's original generated portraits as identity references for the sprites. User approved the A warm-adventure direction and authorized deterministic alpha-crop, nearest-neighbor resize, transparent padding and foot alignment while preserving original designs.
+No third-party asset-pack license is attached or claimed. Generation provenance is not a legal opinion or guarantee of exclusivity/copyrightability. Parent repository owner should choose distribution terms; these images are not silently assigned MIT merely because the repository code is MIT.

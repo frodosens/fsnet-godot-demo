@@ -1,0 +1,12 @@
+SWORD DUEL VERTICAL-SLICE KEYFRAMES, 2026-10-26
+
+Mara: 8 distinct generated keyframe poses, facing right. Oren: 4 poses, facing left. Not 24 distinct drawings.
+Each final PNG is 192x160 RGBA, anchor (96,144), nearest filtering. Frames are transparently separated from uneven generated sheets and normalized without redrawing. Oren hit frame in the original sheet had neighboring-edge contamination and is superseded by the separately regenerated source oren-hit-replacement.png. Do not consume the rejected sheet hit frame.
+
+Timeline in assets/battle/manifest.json has 24 ticks at 60ms, with explicit repeated holds. Mara allocation: idle2,anticipation4,dash4,strike4(thrust2+followthrough2),recovery6(recover4+guard2),return4(backstep2+guard2). Peak contact can be tick10 (zero-based). Oren is idle through tick7, braces at8-9, hit at10-13, recovers14-19, idle20-23. Engineering should synchronize hit to its chosen contact tick; no damage/rule timing is baked into imagery.
+
+Pose review: genuine changing limb/sword/scarf silhouettes; consistent red scarf, short hair, sword/buckler and overall materials. Peak attack is a forward THRUST, followed by downward sword follow-through, not a complete slash arc. Motion is intentionally sparse keyframe animation and needs engine timing/inbetween refinement before claiming release quality. Return-step foot pose is limited and will require horizontal repositioning by the presentation layer, but core animation is not merely translated static artwork. Some face/armor details vary slightly between generated poses. No multi-direction walk/death/critical/magic sets provided.
+
+GIF timing previews are diagnostic only, on a plain dark background, not game screenshots or final combat UI. Current technical checks cover source/normalized visual inspection, dimensions, transparent silhouette and inbounds weapons. Continuous engine playback, motion readability, hit-freeze, camera effects and final runtime acceptance remain engineering responsibilities.
+
+Original imagery generated with built-in image generation from this project's original portraits. No Fire Emblem images, sprites, names, UI, music, or other third-party game assets copied. Handheld tactical combat is a format reference only. Distribution license remains for repository owner to specify, not silently inherited from code MIT.

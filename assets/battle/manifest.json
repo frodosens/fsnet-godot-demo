@@ -1,0 +1,307 @@
+{
+  "frame_size": [
+    192,
+    160
+  ],
+  "foot_anchor": [
+    96,
+    144
+  ],
+  "method": "alpha>=16 connected-component extraction; near-transparent sheet residue excluded; common per-character nearest scale, visually selected foot centers; no redrawing",
+  "characters": {
+    "mara": {
+      "unique_keyframes": 8,
+      "facing": "right",
+      "frames": [
+        {
+          "index": 0,
+          "state": "idle",
+          "path": "assets/battle/mara/00_idle.png",
+          "source_crop": [
+            107,
+            44,
+            410,
+            399
+          ],
+          "source_foot_x": 225,
+          "scale": 0.27,
+          "placement": [
+            64,
+            48
+          ],
+          "sha256": "5390fbebfbb7025c263623b4e6c1255a5d3b9003c9aab47f562d4bbf4b33fa8c",
+          "original_source_sha256": "46df3b3bca6ac8b1b7937c9c60b1c42f293f0ea2c5cd37e0a891da137aded86a"
+        },
+        {
+          "index": 1,
+          "state": "anticipation",
+          "path": "assets/battle/mara/01_anticipation.png",
+          "source_crop": [
+            539,
+            36,
+            836,
+            397
+          ],
+          "source_foot_x": 690,
+          "scale": 0.27,
+          "placement": [
+            55,
+            47
+          ],
+          "sha256": "ed3964795f1958a4517c95bb97ad4d9410db94c2d2deb2d1a74b35a215c11d21",
+          "original_source_sha256": "46df3b3bca6ac8b1b7937c9c60b1c42f293f0ea2c5cd37e0a891da137aded86a"
+        },
+        {
+          "index": 2,
+          "state": "dash",
+          "path": "assets/battle/mara/02_dash.png",
+          "source_crop": [
+            953,
+            84,
+            1320,
+            396
+          ],
+          "source_foot_x": 1137,
+          "scale": 0.27,
+          "placement": [
+            46,
+            60
+          ],
+          "sha256": "27da4aa1fa23d2f99a873bfad52defe7a1a7b2d2f5797ead2cca3e0aef0eaae7",
+          "original_source_sha256": "46df3b3bca6ac8b1b7937c9c60b1c42f293f0ea2c5cd37e0a891da137aded86a"
+        },
+        {
+          "index": 3,
+          "state": "thrust",
+          "path": "assets/battle/mara/03_thrust.png",
+          "source_crop": [
+            1420,
+            107,
+            1928,
+            396
+          ],
+          "source_foot_x": 1604,
+          "scale": 0.27,
+          "placement": [
+            46,
+            66
+          ],
+          "sha256": "e80682cb4b1aba7c21fe3d479a3e74ef98ca065cc5920a956d0c13a5075cf0c3",
+          "original_source_sha256": "46df3b3bca6ac8b1b7937c9c60b1c42f293f0ea2c5cd37e0a891da137aded86a"
+        },
+        {
+          "index": 4,
+          "state": "follow_through",
+          "path": "assets/battle/mara/04_follow_through.png",
+          "source_crop": [
+            54,
+            471,
+            478,
+            775
+          ],
+          "source_foot_x": 227,
+          "scale": 0.27,
+          "placement": [
+            49,
+            62
+          ],
+          "sha256": "f89ea9a23cf268dc3e19190fe610bd752e08307ad3efc3339113cf79d5b57706",
+          "original_source_sha256": "46df3b3bca6ac8b1b7937c9c60b1c42f293f0ea2c5cd37e0a891da137aded86a"
+        },
+        {
+          "index": 5,
+          "state": "recovery",
+          "path": "assets/battle/mara/05_recovery.png",
+          "source_crop": [
+            579,
+            441,
+            862,
+            777
+          ],
+          "source_foot_x": 720,
+          "scale": 0.27,
+          "placement": [
+            58,
+            53
+          ],
+          "sha256": "8ea94039bd4a89ead782b4aef8e9bd5d8abb0a6b26b2448acf79fee3471ddfe4",
+          "original_source_sha256": "46df3b3bca6ac8b1b7937c9c60b1c42f293f0ea2c5cd37e0a891da137aded86a"
+        },
+        {
+          "index": 6,
+          "state": "return_step",
+          "path": "assets/battle/mara/06_return_step.png",
+          "source_crop": [
+            1020,
+            429,
+            1361,
+            778
+          ],
+          "source_foot_x": 1145,
+          "scale": 0.27,
+          "placement": [
+            62,
+            50
+          ],
+          "sha256": "83db0056ee443b696e7de990087574a6b352cc5587dcb76b6f0f3d09d60bb6e8",
+          "original_source_sha256": "46df3b3bca6ac8b1b7937c9c60b1c42f293f0ea2c5cd37e0a891da137aded86a"
+        },
+        {
+          "index": 7,
+          "state": "settle_guard",
+          "path": "assets/battle/mara/07_settle_guard.png",
+          "source_crop": [
+            1503,
+            433,
+            1838,
+            778
+          ],
+          "source_foot_x": 1645,
+          "scale": 0.27,
+          "placement": [
+            58,
+            51
+          ],
+          "sha256": "9a6c12e49998d48799da97a1642cd779fc0d4e13439fc1cfd7b031ffa7ad17c6",
+          "original_source_sha256": "46df3b3bca6ac8b1b7937c9c60b1c42f293f0ea2c5cd37e0a891da137aded86a"
+        }
+      ],
+      "timeline_24ticks": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        7,
+        7,
+        6,
+        6,
+        7,
+        7
+      ],
+      "tick_ms": 60
+    },
+    "oren": {
+      "unique_keyframes": 4,
+      "facing": "left",
+      "frames": [
+        {
+          "index": 0,
+          "state": "idle",
+          "path": "assets/battle/oren/00_idle.png",
+          "source_crop": [
+            39,
+            247,
+            424,
+            802
+          ],
+          "source_foot_x": 240,
+          "scale": 0.19,
+          "placement": [
+            58,
+            39
+          ],
+          "sha256": "42a6927512bd62dd5cc60688131227662d286ec96036bef3c2c418e706b4bb06",
+          "original_source_sha256": "3d1df95868955345c6a5b118c903bc59ea476218684e5e67c37fca8196bab599"
+        },
+        {
+          "index": 1,
+          "state": "brace",
+          "path": "assets/battle/oren/01_brace.png",
+          "source_crop": [
+            434,
+            303,
+            839,
+            802
+          ],
+          "source_foot_x": 670,
+          "scale": 0.19,
+          "placement": [
+            51,
+            49
+          ],
+          "sha256": "688582a71eb6c944bb6d568d931d49e57592f8bdd3614019f28a63ecbedc5e71",
+          "original_source_sha256": "3d1df95868955345c6a5b118c903bc59ea476218684e5e67c37fca8196bab599"
+        },
+        {
+          "index": 2,
+          "state": "hit",
+          "path": "assets/battle/oren/02_hit.png",
+          "source_crop": [
+            209,
+            138,
+            1230,
+            1131
+          ],
+          "source_foot_x": 625,
+          "scale": 0.10070493454179255,
+          "placement": [
+            54,
+            44
+          ],
+          "sha256": "c91295f80db1b1ff79aab55fd9719acaa534da114cc684f932d63e2a904881c8",
+          "original_source_sha256": "2a0ef091f855e4183f6d092d4ec71f63775bcc6b07d253664bd441dbbf181a84"
+        },
+        {
+          "index": 3,
+          "state": "recover",
+          "path": "assets/battle/oren/03_recover.png",
+          "source_crop": [
+            1329,
+            252,
+            1686,
+            802
+          ],
+          "source_foot_x": 1510,
+          "scale": 0.19,
+          "placement": [
+            62,
+            40
+          ],
+          "sha256": "d8f64e784628d75740c3b0c23b9dcdf81dff631a8611d89e312c8cd0155c4a1b",
+          "original_source_sha256": "3d1df95868955345c6a5b118c903bc59ea476218684e5e67c37fca8196bab599"
+        }
+      ],
+      "timeline_24ticks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0
+      ],
+      "tick_ms": 60
+    }
+  }
+}
