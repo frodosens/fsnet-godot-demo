@@ -1,0 +1,114 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+BRIDGE_TESTS checks=111 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+BATTLE_RESULT outcome=victory step=18 hash=8b4aadf178419ea7f48f954cf18c7631cee1932a209d716d1ed6dfcc6e971e09
+LOGIC_TESTS checks=119 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+RULE_MODULE_TESTS checks=13 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ABILITY_TESTS checks=11 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+EQUIPMENT_TESTS checks=23 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ITEM_AI_TESTS checks=10 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CONTENT_BUDGET accepted=true repetitions=20 p50_us=8522 p95_us=15847 max_us=17173 snapshot_bytes=1013 workload=16_AI_16x16_move8
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CUTIN_OBJECTIVE_TESTS checks=10 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+RANGED_ANIMATION_TESTS checks=15 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+SCENE_INPUT_TEST_PASS mouse move + keyboard end turn + restart
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+DIRECTION_TESTS checks=14 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+MOTION_TESTS checks=9 failures=0 mocked_art=true
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=90 renderer=
+GAIT_DISTANCE checks=32 failures=0 art_contact_lock_verified=false
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+VERTICAL_TESTS checks=19 failures=0 isolated_save_root=user://test_saves_227798
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+GEAR_UI_TESTS checks=5 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=90 renderer=
+PROTOTYPE_READY shared_lua=true units=6 tiles=90 renderer=
+MENU_TESTS checks=10 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+EDITOR_TESTS checks=15 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=16 tiles=64 renderer=
+CONTENT_UI_TESTS checks=9 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CONTACT_PATH_CRIT_TESTS checks=49 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+REFERENCE_CONTENT_TESTS checks=44 failures=0 outcome=victory hash=55e806aa42c885355a3be806f65ea4491b5d9e20e3e7e12c0e43086fbb881c7b
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=90 renderer=
+HUD_ICON_PIXELS 1.00000001490116 small=true physical_window=(64, 64)
+HUD_ANCHORS {"attack":{"actual":[1126.40002441406,524.799987792969],"error_logical_px":0.0,"target":[1126.40002441406,524.799987792969]},"companion_0":{"actual":[172.800003051758,1024.0],"error_logical_px":0.0,"target":[172.800003051758,1024.0]},"companion_1":{"actual":[223.800003051758,1024.0],"error_logical_px":0.199996948242188,"target":[224.0,1024.0]},"item":{"actual":[1126.40002441406,755.199951171875],"error_logical_px":0.00006103515625,"target":[1126.40002441406,755.200012207031]},"move":{"actual":[1126.40002441406,396.799987792969],"error_logical_px":0.0,"target":[1126.40002441406,396.799987792969]},"skill":{"actual":[1126.40002441406,640.0],"error_logical_px":0.0,"target":[1126.40002441406,640.0]}}
+HUD_REFERENCE_LAYOUT checks=21 failures=0 viewport=(1280.0, 1280.0)
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=90 renderer=
+MOVE_EVENT_PATH [{"x":4,"y":7},{"x":4,"y":6},{"x":4,"y":5},{"x":4,"y":4}]
+MOVE_INTERACTION checks=11 failures=0 step=1
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CLIENT_DISCONNECTED after_step=2
+NETWORK_RESULT {"hash":"08597c60f95e39e32d555326dc68e42bb8e7e6ff0dff86ba30af04c79be02cf9","reconnected":true,"role":"driver","step":3}
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NETWORK_RESULT {"hash":"08597c60f95e39e32d555326dc68e42bb8e7e6ff0dff86ba30af04c79be02cf9","reconnected":false,"role":"observer","step":3}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CLIENT_DISCONNECTED after_step=5 gear_and_extra_move=true
+NETWORK_RESULT {"extended":true,"hash":"f42bf7e6c26f6691054c35ffe964c273e8910d56f5b36ec776bd8cd9e6f8b4a8","reconnected":true,"role":"driver","step":7}
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NETWORK_RESULT {"extended":true,"hash":"f42bf7e6c26f6691054c35ffe964c273e8910d56f5b36ec776bd8cd9e6f8b4a8","reconnected":false,"role":"observer","step":7}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CLIENT_DISCONNECTED after_step=5 gear_and_extra_move=true
+NETWORK_RESULT {"extended":true,"hash":"f42bf7e6c26f6691054c35ffe964c273e8910d56f5b36ec776bd8cd9e6f8b4a8","reconnected":true,"role":"driver","step":7}
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NETWORK_RESULT {"extended":true,"hash":"f42bf7e6c26f6691054c35ffe964c273e8910d56f5b36ec776bd8cd9e6f8b4a8","reconnected":false,"role":"observer","step":7}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CLIENT_DISCONNECTED after_step=2
+NETWORK_RESULT {"hash":"3ca3d5f01e1ea36b0cfc837f45e08897c431bde821fb269a71ef0e2947595939","reconnected":true,"role":"driver","step":3}
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NETWORK_RESULT {"hash":"3ca3d5f01e1ea36b0cfc837f45e08897c431bde821fb269a71ef0e2947595939","reconnected":false,"role":"observer","step":3}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect

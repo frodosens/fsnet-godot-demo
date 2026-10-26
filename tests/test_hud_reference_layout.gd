@@ -30,6 +30,12 @@ func run():
         var center=button.get_global_transform()*Vector2(32,32);var target=Vector2(view.x*0.88,view.y*[0.31,0.41,0.50,0.59][i])
         measurements[kind]={"actual":[center.x,center.y],"target":[target.x,target.y],"error_logical_px":center.distance_to(target)}
         check(center.distance_to(target)<0.1,"action anchor "+kind)
+    for icon in [hud.hp_icon,hud.mp_icon,hud.action_summary.get_child(0),hud.action_summary.get_child(2)]:
+        icon.update_variant()
+        var expected_px=20.0*minf(float(root.size.x)/view.x,float(root.size.y)/view.y)
+        check(absf(icon.rendered_px-expected_px)<0.1,"icon uses physical viewport scale")
+        check(icon.using_small==(expected_px<=20.01),"physical size selects small or large art")
+    print("HUD_ICON_PIXELS ",hud.hp_icon.rendered_px," small=",hud.hp_icon.using_small," physical_window=",root.size)
     var snapshot=app.session.logic.snapshot();current_scene.update_move_preview(Vector2i(4,4));hud.refresh();await frames()
     check(hud.action_panel.visible and snapshot==app.session.logic.snapshot(),"preview keeps action menu and does not execute rules")
     var move=hud.action_buttons.move

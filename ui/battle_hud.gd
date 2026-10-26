@@ -116,7 +116,7 @@ func art_frame(parent,name):
     var frame=TextureRect.new();frame.texture=load("res://assets/ui/hud_v3/"+name+".png");frame.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;frame.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;frame.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;frame.mouse_filter=Control.MOUSE_FILTER_IGNORE
     frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);parent.add_child(frame)
 func art_icon(name):
-    var icon=TextureRect.new();icon.texture=load("res://assets/ui/hud_v3/"+name+".png");icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;icon.custom_minimum_size=Vector2(20,20);icon.size=Vector2(20,20);icon.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;icon.mouse_filter=Control.MOUSE_FILTER_IGNORE;return icon
+    var icon=preload("res://ui/responsive_art_icon.gd").new();icon.asset_name=name;icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;icon.custom_minimum_size=Vector2(20,20);icon.size=Vector2(20,20);icon.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;icon.mouse_filter=Control.MOUSE_FILTER_IGNORE;return icon
 func stat_bar(parent,pos,_color,kind):
     var bar=preload("res://ui/art_meter.gd").new();bar.kind=kind;bar.position=pos;bar.size=Vector2(160,12);parent.add_child(bar);return bar
 func panel(pos,size):

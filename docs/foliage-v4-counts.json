@@ -1,0 +1,30 @@
+{
+  "alpha_bounds_intersect_viewport": {
+    "birch": 15,
+    "conifer": 6,
+    "oak": 7,
+    "reeds_rocks": 8,
+    "shrub_round": 30,
+    "shrub_tall": 14,
+    "supplies": 1,
+    "willow": 2
+  },
+  "counts": {
+    "birch": 22,
+    "conifer": 11,
+    "oak": 9,
+    "reeds_rocks": 8,
+    "shrub_round": 31,
+    "shrub_tall": 16,
+    "supplies": 1,
+    "willow": 2
+  },
+  "hash": "a4d9ea1bfa1812e33cdecd064731c58712922f0f90b626c81b73cb995656e195",
+  "note": "Visible counts are projected alpha bounding rectangles, not per-pixel occlusion queries.",
+  "physical_viewport": [
+    1280,
+    800
+  ],
+  "preview_path_centers_inside_prop_bounds": [],
+  "roots_on_walkable_cells": []
+}

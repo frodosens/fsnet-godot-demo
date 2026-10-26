@@ -505,13 +505,18 @@ func build_border_props():
     var path="res://assets/environment/props_v3/manifest.json"
     if not FileAccess.file_exists(path):return
     var definitions=JSON.parse_string(FileAccess.get_file_as_string(path)).props
+    var foliage_path="res://assets/environment/foliage_v4/manifest.json"
+    var foliage={}
+    if FileAccess.file_exists(foliage_path):foliage=JSON.parse_string(FileAccess.get_file_as_string(foliage_path)).get("props",{})
     var placements=[["tree",Vector2(3.5,-1.35)],["tree",Vector2(battle.size.x-3,-1.5)],["tree",Vector2(-1.5,1.5)],["shrub",Vector2(3,-0.9)],["shrub",Vector2(battle.size.x+0.15,1.4)],["shrub",Vector2(battle.size.x-1,battle.size.y+0.05)],["reeds_rocks",Vector2(-0.8,3.0)],["reeds_rocks",Vector2(battle.size.x+0.2,4.0)],["supplies",Vector2(-1.8,7.55)],["lantern",Vector2(-0.2,7.8)]]
     for x in range(-4,battle.size.x+5):
         placements.append(["tree",Vector2(x+0.5*sin(x*1.7),-3.3-0.6*((x+8)%3))])
         if x<1 or x>battle.size.x-3:placements.append(["tree",Vector2(x+0.5*cos(x*1.3),battle.size.y+2.4+0.4*sin(x))])
     for z in range(-1,battle.size.y+2,2):
-        if z not in [3,4]:
+        var river_row=z>=0 and z<battle.size.y and battle.content.terrain[z].replace("W","").replace("B","").is_empty()
+        if not river_row:
             placements.append(["tree",Vector2(-3.0-0.3*sin(z),z)]);placements.append(["tree",Vector2(battle.size.x+2.0+0.3*cos(z),z)])
+    placements.append(["tree",Vector2(-2.5,6.3)]);placements.append(["tree",Vector2(battle.size.x+2,6.3)])
     for x in range(-3,battle.size.x+3):
         for z in [-0.8,battle.size.y-0.15]:
             placements.append(["shrub",Vector2(x+0.2*sin(x*1.4),z)])
@@ -519,19 +524,31 @@ func build_border_props():
     if battle.content.id=="amber_bridge_reference":
         for z in range(battle.size.y):
             for x in range(battle.size.x):
-                if battle.content.terrain[z][x]=="X":placements.append(["tree",Vector2(x,z)])
+                if battle.content.terrain[z][x]=="X":placements.append(["shrub",Vector2(x,z)])
     for placement in placements:
         var cell=placement[1]
         var inside=cell.x>=-0.5 and cell.x<battle.size.x-0.5 and cell.y>=-0.5 and cell.y<battle.size.y-0.5
-        if inside and (placement[0]!="tree" or battle.content.terrain[roundi(cell.y)][roundi(cell.x)]!="X"):continue
-        var d=definitions[placement[0]];var sprite=Sprite3D.new();sprite.texture=load("res://"+d.path);sprite.pixel_size=d.pixel_size
+        if inside and (placement[0] not in ["tree","shrub"] or battle.content.terrain[roundi(cell.y)][roundi(cell.x)]!="X"):continue
+        var species=placement[0]
+        if not foliage.is_empty():
+            if species=="tree":
+                var pick=posmod(roundi(cell.x*7+cell.y*3),4)
+                species=["oak","birch","conifer","birch"][pick]
+                if cell.y>=2 and cell.y<=6.5:species="willow"
+                # Keep large crowns outside the tactical area, rather than hiding units behind cards.
+                if cell.x<0:cell.x=minf(cell.x,-2.4)
+                elif cell.x>=battle.size.x:cell.x=maxf(cell.x,battle.size.x+1.8)
+                if cell.y<0:cell.y=minf(cell.y,-2.4)
+                elif cell.y>=battle.size.y:cell.y=maxf(cell.y,battle.size.y+1.8)
+            elif species=="shrub":species="shrub_round" if inside or posmod(roundi(cell.x*3+cell.y),2)==0 else "shrub_tall"
+        var d=foliage.get(species,definitions[placement[0]]);var sprite=Sprite3D.new();sprite.texture=load("res://"+d.path);sprite.pixel_size=d.pixel_size
         sprite.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y;sprite.shaded=true;sprite.modulate=Color.WHITE;sprite.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST
         sprite.alpha_cut=SpriteBase3D.ALPHA_CUT_DISCARD;sprite.alpha_scissor_threshold=0.5;sprite.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_ON
         var base_y=water_level+0.08 if placement[0]=="reeds_rocks" else (-0.13 if placement[0]=="tree" else -0.03)
         if placement[0]=="tree" and (cell.x<-2 or cell.x>battle.size.x+1 or cell.y<-2 or cell.y>battle.size.y+1):
             var variation=0.95+0.12*sin(cell.x*2.3+cell.y);sprite.pixel_size*=variation
             sprite.modulate=Color(0.65,0.76,0.72)
-        sprite.position=Vector3(cell.x,base_y+(d.pivot_px[1]-128)*sprite.pixel_size,cell.y);sprite.set_meta("decorative_kind",placement[0]);add_child(sprite);decorative_props.append(sprite)
+        sprite.position=Vector3(cell.x,base_y+(d.pivot_px[1]-128)*sprite.pixel_size,cell.y);sprite.set_meta("decorative_kind",placement[0]);sprite.set_meta("species",species);sprite.set_meta("ground_cell",cell);sprite.set_meta("alpha_bbox",d.get("alpha_bbox_px",[0,0,256,256]));add_child(sprite);decorative_props.append(sprite)
 
 func landscape_box(pos,size,color):
     var node=box(pos,size,color)
