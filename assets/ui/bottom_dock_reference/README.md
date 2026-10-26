@@ -13,3 +13,5 @@ Use the actual selected actor silhouette for target ghost. UI range/path topolog
 manifest.json records sources, hashes, transformations and image-only checks. layout.json gives measured positions. Local alpha and native-scale visual checks are not Godot import, GPU, multiplayer or gameplay validation. No canonical game-dev CLI package is claimed.
 
 Ground range textures are separate512x512 border/fill RGBA. Map square UV to the real horizontal cell quad; do not double-apply isometric projection. Fill median alpha32/255. Neighbor tile edge bytes match, with half-stroke edges to avoid doubled shared lines. See manifest for measured geometry and limitations.
+
+Generated overlay additions: target_cell_border_gold.png uses the same square ground UV as cyan. route_arrowhead_ivory.png is256x256, points+U/right, pivot128,128. Rotate along route in screen space OR world-ground space before projection, not both. Ghost remains the actual selected actor, never a baked illustration.

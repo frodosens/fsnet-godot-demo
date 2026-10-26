@@ -1155,5 +1155,362 @@
       "ground/movement_cell_fill.png"
     ],
     "integration": "Use square UV on horizontal XZ cell quads. Do not pre-warp into screen diamonds then project again. Range topology comes from authoritative game state."
+  },
+  "movement_overlays": {
+    "manifest": {
+      "schema_version": 1,
+      "asset_id": "amber_bridge_generated_target_and_route_overlays",
+      "version": "1.0.0",
+      "status": "static_RGBA_QA_passed_Godot_import_pending",
+      "generation": {
+        "provider": "OpenAI built-in image_gen",
+        "transparent_background": true,
+        "external_paid_provider": false,
+        "user_authorization": "All UI, including icons, generated from reference reverse prompts; ground movement-range generation explicitly approved earlier.",
+        "source_images": [
+          {
+            "file": "source/target_frame_generated_rgba.png",
+            "size": [
+              1269,
+              1240
+            ],
+            "mode": "RGBA",
+            "sha256": "42d7f37b3ab3e6457798da5265d8ab911f8466320669a27d31953c46c12c2094",
+            "alpha_min": 0,
+            "alpha_max": 254,
+            "transparent_pixels": 1342810,
+            "partial_alpha_pixels": 230750,
+            "opaque_pixels": 0,
+            "nonzero_alpha_bbox": [
+              25,
+              17,
+              1245,
+              1216
+            ]
+          },
+          {
+            "file": "source/route_arrowhead_generated_rgba.png",
+            "size": [
+              1402,
+              1122
+            ],
+            "mode": "RGBA",
+            "sha256": "950d84cbe46a42029c06b72334c400768985082f741f6d1e73fa3425db461c13",
+            "alpha_min": 0,
+            "alpha_max": 255,
+            "transparent_pixels": 1320119,
+            "partial_alpha_pixels": 252649,
+            "opaque_pixels": 276,
+            "nonzero_alpha_bbox": [
+              47,
+              39,
+              1334,
+              1081
+            ]
+          }
+        ],
+        "reference": {
+          "local_path": "battle_hud_design/redesign-preview/02-movement-preview.png",
+          "sha256": "1c4cc30fd3c05d8e04e2f1d960ed7758f61fa1e8a2ff4bd9ee3705f13a717337",
+          "role": "Style only; screenshot bytes excluded from deliverable"
+        },
+        "prompts": [
+          "provenance/target_frame_prompt.txt",
+          "provenance/route_arrowhead_prompt.txt"
+        ],
+        "license_note": "Generated for this user with built-in ImageGen. No third-party stock assets. User-provided reference rights not independently audited; no SPDX license assigned."
+      },
+      "runtime_assets": [
+        {
+          "file": "runtime/target_cell_border_gold.png",
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGBA",
+          "sha256": "68870bb41805d71d92fe7ff23c2295878ca2c51394724a1472af8784f4227819",
+          "alpha_min": 0,
+          "alpha_max": 238,
+          "transparent_pixels": 220888,
+          "partial_alpha_pixels": 41256,
+          "opaque_pixels": 0,
+          "nonzero_alpha_bbox": [
+            0,
+            0,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "runtime/route_arrowhead_ivory.png",
+          "size": [
+            256,
+            256
+          ],
+          "mode": "RGBA",
+          "sha256": "faf44dcd19f5acff2711ba35f2f89b5eb64b27f7b3851a41e304e6bdff2b7702",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "transparent_pixels": 44526,
+          "partial_alpha_pixels": 20611,
+          "opaque_pixels": 399,
+          "nonzero_alpha_bbox": [
+            16,
+            43,
+            240,
+            212
+          ]
+        }
+      ],
+      "target_frame_contract": {
+        "file": "runtime/target_cell_border_gold.png",
+        "dimensions": [
+          512,
+          512
+        ],
+        "format": "straight/unassociated RGBA8 sRGB",
+        "alpha_range": [
+          0,
+          238
+        ],
+        "interior": "Fully transparent. No baked fill, ground, character or scene.",
+        "texture_space": "Square world-XZ ground plane, NEVER pre-warped isometric diamond",
+        "uv_to_local_xz": {
+          "0,0": [
+            -0.5,
+            -0.5
+          ],
+          "1,0": [
+            0.5,
+            -0.5
+          ],
+          "1,1": [
+            0.5,
+            0.5
+          ],
+          "0,1": [
+            -0.5,
+            0.5
+          ]
+        },
+        "screen_projection_reference_only": {
+          "basisX": [
+            47.94,
+            33.9
+          ],
+          "basisZ": [
+            -47.94,
+            33.9
+          ],
+          "corners": [
+            [
+              0,
+              -33.9
+            ],
+            [
+              47.94,
+              0
+            ],
+            [
+              0,
+              33.9
+            ],
+            [
+              -47.94,
+              0
+            ]
+          ]
+        },
+        "critical": "The screen diamond is a projection reference only. Apply the real engine camera/ground projection exactly once, not a pre-warp followed by another projection.",
+        "neighbor_rule": "Frame cropped at stroke centre; same clipped-half-stroke contract as cyan range. Do not duplicate overlapping target-cell geometry. Opposite edges byte-identical.",
+        "sampling": "Linear + mipmaps, clamp-to-edge, normal alpha blend. Use actual target or selected cell only."
+      },
+      "route_arrowhead_contract": {
+        "file": "runtime/route_arrowhead_ivory.png",
+        "dimensions": [
+          256,
+          256
+        ],
+        "format": "straight/unassociated RGBA8 sRGB",
+        "nonzero_alpha_bbox": [
+          16,
+          43,
+          240,
+          212
+        ],
+        "alpha_range": [
+          0,
+          255
+        ],
+        "orientation": "Pointing right / +U. No perspective baked.",
+        "pivot_pixels": [
+          128,
+          128
+        ],
+        "suggested_screen_size_pixels": [
+          24,
+          32
+        ],
+        "rotation_rule": "For a screen overlay rotate from +X to the tangent of the actual projected route segment. If instead rendered on a ground quad, rotate in world XZ to the route direction and then let the camera project ONCE. Choose one route, not both.",
+        "shape": "One ivory arrowhead, shallow notched back, no shaft or baked path. Transparent outer margin.",
+        "sampling": "Linear; preserve alpha. No repeating texture wrap."
+      },
+      "runtime_only_character_ghost": "Do not substitute generated actor art. Derive destination ghost from the selected actor sprite/mesh and matching runtime translucent material, retaining identity and animation.",
+      "transformations": [
+        "Frame measured source stroke-centre crop [180,180,1088.5,1060], square normalize512",
+        "Frame D4 symmetry average of generated pixels, alpha×0.94, remove alpha<3 stray pixels, preserve 22px inner border band",
+        "Frame 11×11 source-pixel morphological dilation (RGBA) for native-scale legibility; not vector redraw",
+        "Arrow source alpha<4 removed to clear near-invisible stray noise; tight crop [334,281,1076,840]",
+        "Arrow resampled proportionally to224×169 and centred in256×256 transparent canvas; source aspect ratio and shape preserved"
+      ],
+      "verification": {
+        "data": "provenance/validation.json",
+        "reproduce": "python provenance/derive_assets.py",
+        "local_preview": "previews/overlays-neutral-qa.png",
+        "Godot_import_verified": false,
+        "Godot_GPU_verified": false,
+        "exact_pixel_match_claim": false,
+        "game_dev_cli_available": false
+      },
+      "distribution": {
+        "git_payload": [
+          "runtime/target_cell_border_gold.png",
+          "runtime/route_arrowhead_ivory.png",
+          "manifest.json",
+          "README.md",
+          "provenance/target_frame_prompt.txt",
+          "provenance/route_arrowhead_prompt.txt",
+          "provenance/validation.json"
+        ],
+        "source_art_optional": [
+          "source/target_frame_generated_rgba.png",
+          "source/route_arrowhead_generated_rgba.png",
+          "provenance/derive_assets.py"
+        ],
+        "do_not_upload": [
+          "previews/",
+          "reference screenshot",
+          "game demo screenshots",
+          "game demo videos"
+        ],
+        "git_owner": "Parent packaging owner; asset worker did not modify game code or write Git."
+      }
+    },
+    "validation": {
+      "passed": true,
+      "runtime": [
+        {
+          "file": "runtime/target_cell_border_gold.png",
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGBA",
+          "sha256": "68870bb41805d71d92fe7ff23c2295878ca2c51394724a1472af8784f4227819",
+          "alpha_min": 0,
+          "alpha_max": 238,
+          "transparent_pixels": 220888,
+          "partial_alpha_pixels": 41256,
+          "opaque_pixels": 0,
+          "nonzero_alpha_bbox": [
+            0,
+            0,
+            512,
+            512
+          ]
+        },
+        {
+          "file": "runtime/route_arrowhead_ivory.png",
+          "size": [
+            256,
+            256
+          ],
+          "mode": "RGBA",
+          "sha256": "faf44dcd19f5acff2711ba35f2f89b5eb64b27f7b3851a41e304e6bdff2b7702",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "transparent_pixels": 44526,
+          "partial_alpha_pixels": 20611,
+          "opaque_pixels": 399,
+          "nonzero_alpha_bbox": [
+            16,
+            43,
+            240,
+            212
+          ]
+        }
+      ],
+      "source": [
+        {
+          "file": "source/target_frame_generated_rgba.png",
+          "size": [
+            1269,
+            1240
+          ],
+          "mode": "RGBA",
+          "sha256": "42d7f37b3ab3e6457798da5265d8ab911f8466320669a27d31953c46c12c2094",
+          "alpha_min": 0,
+          "alpha_max": 254,
+          "transparent_pixels": 1342810,
+          "partial_alpha_pixels": 230750,
+          "opaque_pixels": 0,
+          "nonzero_alpha_bbox": [
+            25,
+            17,
+            1245,
+            1216
+          ]
+        },
+        {
+          "file": "source/route_arrowhead_generated_rgba.png",
+          "size": [
+            1402,
+            1122
+          ],
+          "mode": "RGBA",
+          "sha256": "950d84cbe46a42029c06b72334c400768985082f741f6d1e73fa3425db461c13",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "transparent_pixels": 1320119,
+          "partial_alpha_pixels": 252649,
+          "opaque_pixels": 276,
+          "nonzero_alpha_bbox": [
+            47,
+            39,
+            1334,
+            1081
+          ]
+        }
+      ],
+      "checks": {
+        "frame_centre_transparent": true,
+        "frame_opposite_edges_identical": true,
+        "arrow_outer_margin_transparent": true,
+        "separate_assets_no_baked_terrain_text_characters": true
+      },
+      "frame_crop": [
+        180.0,
+        180.0,
+        1088.5,
+        1060.0
+      ],
+      "arrow_source_crop": [
+        334,
+        281,
+        1076,
+        840
+      ],
+      "arrow_scaled_content_size": [
+        224,
+        169
+      ],
+      "godot_import_verified": false,
+      "godot_gpu_verified": false
+    },
+    "runtime_files": [
+      "ground/target_cell_border_gold.png",
+      "ground/route_arrowhead_ivory.png"
+    ],
+    "integration": "Gold target uses same square-ground UV as cyan range; no double iso projection. Arrow is +U/right-pointing; pivot(128,128), rotate along screen tangent OR world ground route before one projection, not both. Runtime selected actor supplies ghost silhouette."
   }
 }
