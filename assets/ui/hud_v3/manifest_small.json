@@ -1,0 +1,100 @@
+{
+  "version": "3-small",
+  "preferred_when_actual_render_px_lte": 20,
+  "filter": "nearest",
+  "logical_px": [
+    20,
+    20
+  ],
+  "preserve_large_variants": true,
+  "assets": {
+    "icon_hp_small": {
+      "file": "icon_hp_small.png",
+      "source_px": [
+        32,
+        32
+      ],
+      "logical_px": [
+        20,
+        20
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "crop_threshold_for_bounds_only": 80,
+      "source_crop": [
+        189,
+        146,
+        1235,
+        1038
+      ]
+    },
+    "icon_mp_small": {
+      "file": "icon_mp_small.png",
+      "source_px": [
+        32,
+        32
+      ],
+      "logical_px": [
+        20,
+        20
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "crop_threshold_for_bounds_only": 80,
+      "source_crop": [
+        214,
+        94,
+        991,
+        1224
+      ]
+    },
+    "symbol_movement_small": {
+      "file": "symbol_movement_small.png",
+      "source_px": [
+        32,
+        32
+      ],
+      "logical_px": [
+        20,
+        20
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "crop_threshold_for_bounds_only": 80,
+      "source_crop": [
+        199,
+        166,
+        1138,
+        1073
+      ]
+    },
+    "symbol_action_small": {
+      "file": "symbol_action_small.png",
+      "source_px": [
+        32,
+        32
+      ],
+      "logical_px": [
+        20,
+        20
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "crop_threshold_for_bounds_only": 80,
+      "source_crop": [
+        167,
+        117,
+        1163,
+        1147
+      ]
+    }
+  }
+}
