@@ -1,0 +1,728 @@
+{
+  "frame_size": [
+    192,
+    160
+  ],
+  "foot_anchor": [
+    96,
+    144
+  ],
+  "filter": "nearest",
+  "method": "alpha component isolation, common nearest scale per source, foot-center anchor; no painted pixels",
+  "characters": {
+    "oren": {
+      "unique_keyframes": 8,
+      "facing": "right",
+      "scale": 0.28,
+      "frames": [
+        {
+          "index": 0,
+          "state": "idle",
+          "path": "runtime/oren/00_idle.png",
+          "source_component": 1,
+          "source_crop": [
+            88,
+            26,
+            342,
+            382
+          ],
+          "source_foot_x": 204.5,
+          "placement": [
+            63,
+            44
+          ],
+          "sha256": "77518eeb41e35fa384adb0d6cd3fa2db55dd32aa03a26f2f81b29bd536762bea"
+        },
+        {
+          "index": 1,
+          "state": "anticipation",
+          "path": "runtime/oren/01_anticipation.png",
+          "source_component": 4,
+          "source_crop": [
+            530,
+            57,
+            832,
+            382
+          ],
+          "source_foot_x": 658.5,
+          "placement": [
+            60,
+            53
+          ],
+          "sha256": "96453100fc59e2096a6f5d5c6fc44508665c7288676ef4d5013978c4e4c8349d"
+        },
+        {
+          "index": 2,
+          "state": "windup",
+          "path": "runtime/oren/02_windup.png",
+          "source_component": 2,
+          "source_crop": [
+            988,
+            45,
+            1319,
+            382
+          ],
+          "source_foot_x": 1126.0,
+          "placement": [
+            57,
+            50
+          ],
+          "sha256": "3e9a3de6ac37e8b22ca3f68c12bf794c684213810d9a395ef96e3397c6fb1372"
+        },
+        {
+          "index": 3,
+          "state": "contact",
+          "path": "runtime/oren/03_contact.png",
+          "source_component": 3,
+          "source_crop": [
+            1430,
+            53,
+            1918,
+            382
+          ],
+          "source_foot_x": 1578.0,
+          "placement": [
+            55,
+            52
+          ],
+          "sha256": "23a2fe3669af1436556b63e09f6c9375529aa0c385dab9bf557c5d1c8aa51f6d"
+        },
+        {
+          "index": 4,
+          "state": "followthrough",
+          "path": "runtime/oren/04_followthrough.png",
+          "source_component": 28,
+          "source_crop": [
+            51,
+            435,
+            482,
+            767
+          ],
+          "source_foot_x": 197.5,
+          "placement": [
+            55,
+            51
+          ],
+          "sha256": "af85005b5efa98d4dd126e1663b0a2741eb5a84063ea274c060cbb45686fbdfc"
+        },
+        {
+          "index": 5,
+          "state": "recover",
+          "path": "runtime/oren/05_recover.png",
+          "source_component": 27,
+          "source_crop": [
+            566,
+            423,
+            875,
+            771
+          ],
+          "source_foot_x": 707.0,
+          "placement": [
+            57,
+            47
+          ],
+          "sha256": "2d9a01b811dd884c4d0eeef38a5950f7ff3b6de13b0c82ee083c4d937d57eeaa"
+        },
+        {
+          "index": 6,
+          "state": "return_step",
+          "path": "runtime/oren/06_return_step.png",
+          "source_component": 25,
+          "source_crop": [
+            1039,
+            413,
+            1313,
+            771
+          ],
+          "source_foot_x": 1171.5,
+          "placement": [
+            59,
+            44
+          ],
+          "sha256": "79980e9e68f1d8e1c796840749c1220c740f16f456c8b0fc1ffc083aba51e9ee"
+        },
+        {
+          "index": 7,
+          "state": "settle",
+          "path": "runtime/oren/07_settle.png",
+          "source_component": 26,
+          "source_crop": [
+            1540,
+            413,
+            1795,
+            772
+          ],
+          "source_foot_x": 1660.0,
+          "placement": [
+            62,
+            43
+          ],
+          "sha256": "bf6d1e77415780da36622dd827846b4e57f56308cd7d4eee29a2a3a5de89d551"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7
+      ],
+      "contact_tick": 9,
+      "note": "Sparse keyframes, engine playback not yet accepted."
+    },
+    "tessa": {
+      "unique_keyframes": 8,
+      "facing": "right",
+      "scale": 0.28,
+      "frames": [
+        {
+          "index": 0,
+          "state": "idle",
+          "path": "runtime/tessa/00_idle.png",
+          "source_component": 1,
+          "source_crop": [
+            138,
+            18,
+            369,
+            392
+          ],
+          "source_foot_x": 270.5,
+          "placement": [
+            59,
+            39
+          ],
+          "sha256": "f6add3f0826a4d4eb2a93211e1bd062a1cf62c17703bb0ef65865ccf720ac4a1"
+        },
+        {
+          "index": 1,
+          "state": "anticipation",
+          "path": "runtime/tessa/01_anticipation.png",
+          "source_component": 4,
+          "source_crop": [
+            555,
+            64,
+            855,
+            392
+          ],
+          "source_foot_x": 730.0,
+          "placement": [
+            47,
+            52
+          ],
+          "sha256": "cfa508e58c58be449c7fbc56879a0425557dba7a61f80b5bc07f99416b8a5ba6"
+        },
+        {
+          "index": 2,
+          "state": "windup",
+          "path": "runtime/tessa/02_windup.png",
+          "source_component": 2,
+          "source_crop": [
+            1026,
+            51,
+            1354,
+            393
+          ],
+          "source_foot_x": 1200.5,
+          "placement": [
+            47,
+            48
+          ],
+          "sha256": "e2af57cfd36dc3bac0535a204d4a43420621a236218b14d908c02968f6ba9d56"
+        },
+        {
+          "index": 3,
+          "state": "contact",
+          "path": "runtime/tessa/03_contact.png",
+          "source_component": 3,
+          "source_crop": [
+            1478,
+            59,
+            1927,
+            391
+          ],
+          "source_foot_x": 1643.5,
+          "placement": [
+            50,
+            51
+          ],
+          "sha256": "ab9c85910f50af9f35839314536b934b21e59b5e72ed42aaf93bf1c4ea387165"
+        },
+        {
+          "index": 4,
+          "state": "followthrough",
+          "path": "runtime/tessa/04_followthrough.png",
+          "source_component": 23,
+          "source_crop": [
+            98,
+            466,
+            451,
+            780
+          ],
+          "source_foot_x": 245.5,
+          "placement": [
+            55,
+            56
+          ],
+          "sha256": "9613700b93f3968565905f67028b0fe94553bc251f55db62cc6507c59b4ccb2e"
+        },
+        {
+          "index": 5,
+          "state": "recover",
+          "path": "runtime/tessa/05_recover.png",
+          "source_component": 22,
+          "source_crop": [
+            593,
+            431,
+            879,
+            777
+          ],
+          "source_foot_x": 724.0,
+          "placement": [
+            59,
+            47
+          ],
+          "sha256": "e7cd9d94e59502f153cdb6dba4b21521238ba2015c92d34fd2afb40dfabb5a98"
+        },
+        {
+          "index": 6,
+          "state": "return_step",
+          "path": "runtime/tessa/06_return_step.png",
+          "source_component": 21,
+          "source_crop": [
+            1037,
+            429,
+            1315,
+            783
+          ],
+          "source_foot_x": 1216.5,
+          "placement": [
+            46,
+            45
+          ],
+          "sha256": "44ba33c6f6ea66139fb14ecff7d74fc01f8f3c7807245ab677b3b40c53948a9e"
+        },
+        {
+          "index": 7,
+          "state": "settle",
+          "path": "runtime/tessa/07_settle.png",
+          "source_component": 20,
+          "source_crop": [
+            1553,
+            417,
+            1796,
+            783
+          ],
+          "source_foot_x": 1686.0,
+          "placement": [
+            59,
+            42
+          ],
+          "sha256": "e5fcfe44a34ba139eb8168b881555aecacd4b6d1e2937dc842b6f10fae356da9"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7
+      ],
+      "contact_tick": 9,
+      "note": "Sparse keyframes, engine playback not yet accepted."
+    },
+    "bram": {
+      "unique_keyframes": 8,
+      "facing": "right",
+      "scale": 0.28,
+      "frames": [
+        {
+          "index": 0,
+          "state": "idle",
+          "path": "runtime/bram/00_idle.png",
+          "source_component": 3,
+          "source_crop": [
+            105,
+            56,
+            366,
+            390
+          ],
+          "source_foot_x": 211.0,
+          "placement": [
+            66,
+            50
+          ],
+          "sha256": "f42badc0d94a37f03a5bff9c729114eb92172b2abf5eed6624a9d629382fdad8"
+        },
+        {
+          "index": 1,
+          "state": "anticipation",
+          "path": "runtime/bram/01_anticipation.png",
+          "source_component": 4,
+          "source_crop": [
+            512,
+            72,
+            832,
+            390
+          ],
+          "source_foot_x": 704.0,
+          "placement": [
+            42,
+            55
+          ],
+          "sha256": "1ee0ef6c6aad49e66b2bcf792684fd6c37f040e95601f791b89a65cef84462fd"
+        },
+        {
+          "index": 2,
+          "state": "windup",
+          "path": "runtime/bram/02_windup.png",
+          "source_component": 1,
+          "source_crop": [
+            1027,
+            12,
+            1296,
+            390
+          ],
+          "source_foot_x": 1169.0,
+          "placement": [
+            56,
+            38
+          ],
+          "sha256": "dd28dc0163756359d8720403c95fe0759dc5d08ce380de99d988107fbbd95795"
+        },
+        {
+          "index": 3,
+          "state": "contact",
+          "path": "runtime/bram/03_contact.png",
+          "source_component": 5,
+          "source_crop": [
+            1434,
+            74,
+            1909,
+            390
+          ],
+          "source_foot_x": 1586.5,
+          "placement": [
+            53,
+            56
+          ],
+          "sha256": "579e18d04eeebc58f49d46df6d3e7fb25e3a32cb44709a2f47cc5e27b15e0fc2"
+        },
+        {
+          "index": 4,
+          "state": "followthrough",
+          "path": "runtime/bram/04_followthrough.png",
+          "source_component": 25,
+          "source_crop": [
+            64,
+            441,
+            443,
+            764
+          ],
+          "source_foot_x": 191.5,
+          "placement": [
+            60,
+            54
+          ],
+          "sha256": "d26cb33e4e66185f41175810ea4cfc1953769f05c8d1b940e3f65c5a578df3ee"
+        },
+        {
+          "index": 5,
+          "state": "recover",
+          "path": "runtime/bram/05_recover.png",
+          "source_component": 24,
+          "source_crop": [
+            577,
+            431,
+            896,
+            764
+          ],
+          "source_foot_x": 706.5,
+          "placement": [
+            60,
+            51
+          ],
+          "sha256": "cbf8268cd43cc90a37d93296fda0fbaa0dfce21ba00061a2497da2a42e163bf0"
+        },
+        {
+          "index": 6,
+          "state": "return_step",
+          "path": "runtime/bram/06_return_step.png",
+          "source_component": 22,
+          "source_crop": [
+            1043,
+            419,
+            1303,
+            764
+          ],
+          "source_foot_x": 1168.5,
+          "placement": [
+            61,
+            47
+          ],
+          "sha256": "9f907ba1181cf698a6a4c53d8f3902a10125375563104b4425fc9ae2d0e368e3"
+        },
+        {
+          "index": 7,
+          "state": "settle",
+          "path": "runtime/bram/07_settle.png",
+          "source_component": 23,
+          "source_crop": [
+            1558,
+            423,
+            1819,
+            764
+          ],
+          "source_foot_x": 1667.5,
+          "placement": [
+            65,
+            49
+          ],
+          "sha256": "dd6594385fc7dc5d147fd92646547b179545f0074f3ad296b956e03f8f1223a0"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7
+      ],
+      "contact_tick": 9,
+      "note": "Sparse keyframes, engine playback not yet accepted."
+    },
+    "finn_hit": {
+      "unique_keyframes": 2,
+      "facing": "right",
+      "scale": 0.148,
+      "frames": [
+        {
+          "index": 0,
+          "state": "hit",
+          "path": "runtime/finn_hit/00_hit.png",
+          "source_component": 2,
+          "source_crop": [
+            153,
+            87,
+            754,
+            797
+          ],
+          "source_foot_x": 497.0,
+          "placement": [
+            45,
+            39
+          ],
+          "sha256": "b0e7f522619dd5bb2f2dc1aa1a160cd7d951d803b25044b785829961835588a6"
+        },
+        {
+          "index": 1,
+          "state": "recover",
+          "path": "runtime/finn_hit/01_recover.png",
+          "source_component": 1,
+          "source_crop": [
+            967,
+            67,
+            1623,
+            797
+          ],
+          "source_foot_x": 1266.0,
+          "placement": [
+            52,
+            36
+          ],
+          "sha256": "6e4d3dd30e34f6b22e778de06df8401f4cca4fa70f9e02a0e1dd9f31e920921e"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "contact_tick": null,
+      "note": "Held ticks are not additional drawings. Hit begins on contact, return to existing idle after recover."
+    },
+    "neri_hit": {
+      "unique_keyframes": 2,
+      "facing": "right",
+      "scale": 0.148,
+      "frames": [
+        {
+          "index": 0,
+          "state": "hit",
+          "path": "runtime/neri_hit/00_hit.png",
+          "source_component": 1,
+          "source_crop": [
+            266,
+            133,
+            787,
+            802
+          ],
+          "source_foot_x": 425.0,
+          "placement": [
+            72,
+            45
+          ],
+          "sha256": "f6855bc2f5d1467448e9da1f9561d9349b827984641da8e6bf08d4540036994a"
+        },
+        {
+          "index": 1,
+          "state": "recover",
+          "path": "runtime/neri_hit/01_recover.png",
+          "source_component": 2,
+          "source_crop": [
+            982,
+            145,
+            1601,
+            802
+          ],
+          "source_foot_x": 1310.0,
+          "placement": [
+            47,
+            47
+          ],
+          "sha256": "57ffa02d5148b2eaa364e19e01c7dbaef5ed7d59e9dcab7055ef6e5fa0e17b9e"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "contact_tick": null,
+      "note": "Held ticks are not additional drawings. Hit begins on contact, return to existing idle after recover."
+    },
+    "mara_hit": {
+      "unique_keyframes": 2,
+      "facing": "right",
+      "scale": 0.148,
+      "frames": [
+        {
+          "index": 0,
+          "state": "hit",
+          "path": "runtime/mara_hit/00_hit.png",
+          "source_component": 1,
+          "source_crop": [
+            82,
+            131,
+            790,
+            804
+          ],
+          "source_foot_x": 529.5,
+          "placement": [
+            30,
+            44
+          ],
+          "sha256": "ee6ce7d2b198abb6c1b12f9e4c5cafc8a7a53b3e9663adeb556a6ca1ebee37e4"
+        },
+        {
+          "index": 1,
+          "state": "recover",
+          "path": "runtime/mara_hit/01_recover.png",
+          "source_component": 2,
+          "source_crop": [
+            977,
+            139,
+            1655,
+            804
+          ],
+          "source_foot_x": 1303.0,
+          "placement": [
+            48,
+            46
+          ],
+          "sha256": "7c4583315e67fe6bae3ae9016a76a0a976a2bffdd5d291f6b2b543d4e82aa3b1"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "contact_tick": null,
+      "note": "Held ticks are not additional drawings. Hit begins on contact, return to existing idle after recover."
+    }
+  }
+}
