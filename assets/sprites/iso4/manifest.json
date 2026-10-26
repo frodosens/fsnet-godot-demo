@@ -373,5 +373,233 @@
         }
       ]
     }
+  },
+  "foot_landmarks": {
+    "knight_front_right_walk": {
+      "schema": 1,
+      "role": "knight",
+      "character": "Mara",
+      "direction": "front_right",
+      "coordinate_system": "96x128 image pixels; origin top-left; +x right,+y down; pixel centers; anatomical left/right inferred from hip continuity, NOT screen left/right",
+      "measurement": "manual estimates from nearest-neighbor crops plus alpha boundary scan; landmarks approximate bottom sole center, not motion-capture or exact contact sensor",
+      "registration": {
+        "nominal_ground_anchor": [
+          48,
+          120
+        ],
+        "torso_registration_anchor": [
+          48,
+          20
+        ],
+        "torso_anchor_meaning": "registered torso x center and fixed silhouette top; not an anatomical head joint",
+        "approximate_torso_center": [
+          48,
+          53
+        ],
+        "runtime_rule": "render full96x128 canvas; do not recenter alpha bbox or clamp each visible sole to120"
+      },
+      "projection": {
+        "world_motion": "+X",
+        "elevation_deg": 45.08,
+        "azimuth_deg": 32.2,
+        "forward_screen_direction": [
+          1,
+          0.4459102113183002
+        ],
+        "formula": "dx=cos(azimuth); dy=sin(elevation)*sin(azimuth); dy/dx=sin(elevation)*tan(azimuth)",
+        "expected_planted_relative_delta": "negative scalar times [1,slope] while the same foot remains planted"
+      },
+      "frames": [
+        {
+          "frame": 0,
+          "phase": "left_contact",
+          "stance_leg": "left",
+          "torso_registration_anchor": [
+            48,
+            20
+          ],
+          "torso_center_estimate": [
+            48,
+            53
+          ],
+          "feet": {
+            "left": {
+              "visible_sole_landmark": [
+                60,
+                119
+              ],
+              "grounded": true,
+              "uncertainty_px": 2,
+              "interpretation": "support contact estimate"
+            },
+            "right": {
+              "visible_sole_landmark": [
+                34,
+                101
+              ],
+              "grounded": null,
+              "uncertainty_px": 3,
+              "interpretation": "trailing boot bottom; source does not establish ground contact reliably"
+            }
+          },
+          "sha256": "f1eb3ffbb28b249ff3e83d78ee884fca02e75c7103d60fbc2115c987ccb256b4"
+        },
+        {
+          "frame": 1,
+          "phase": "left_support_right_passing",
+          "stance_leg": "left",
+          "torso_registration_anchor": [
+            48,
+            20
+          ],
+          "torso_center_estimate": [
+            48,
+            53
+          ],
+          "feet": {
+            "left": {
+              "visible_sole_landmark": [
+                50,
+                117
+              ],
+              "grounded": true,
+              "uncertainty_px": 2,
+              "interpretation": "support contact estimate"
+            },
+            "right": {
+              "visible_sole_landmark": [
+                34,
+                98
+              ],
+              "grounded": false,
+              "uncertainty_px": 3,
+              "interpretation": "airborne passing boot bottom; not ground contact"
+            }
+          },
+          "sha256": "ab76166bad0931df3a07e0a34e939785c4ba7e653abdaec6aad601dee53b4e17"
+        },
+        {
+          "frame": 2,
+          "phase": "right_contact",
+          "stance_leg": "right",
+          "torso_registration_anchor": [
+            48,
+            20
+          ],
+          "torso_center_estimate": [
+            48,
+            53
+          ],
+          "feet": {
+            "left": {
+              "visible_sole_landmark": [
+                59,
+                98
+              ],
+              "grounded": null,
+              "uncertainty_px": 3,
+              "interpretation": "trailing boot bottom; source does not establish ground contact reliably"
+            },
+            "right": {
+              "visible_sole_landmark": [
+                60,
+                118
+              ],
+              "grounded": true,
+              "uncertainty_px": 2,
+              "interpretation": "support contact estimate"
+            }
+          },
+          "sha256": "d2185b0609cc00687bffed059b78e8e3b7c37fd2dda5b3909d3f6cac125bffce"
+        },
+        {
+          "frame": 3,
+          "phase": "right_support_left_passing",
+          "stance_leg": "right",
+          "torso_registration_anchor": [
+            48,
+            20
+          ],
+          "torso_center_estimate": [
+            48,
+            53
+          ],
+          "feet": {
+            "left": {
+              "visible_sole_landmark": [
+                53,
+                97
+              ],
+              "grounded": false,
+              "uncertainty_px": 3,
+              "interpretation": "airborne passing boot bottom; not ground contact"
+            },
+            "right": {
+              "visible_sole_landmark": [
+                46,
+                118
+              ],
+              "grounded": true,
+              "uncertainty_px": 2,
+              "interpretation": "support contact estimate"
+            }
+          },
+          "sha256": "69df3ac918038c5144fb43eba86e3e773ea66e323adf22f00012338d45a0e770"
+        }
+      ],
+      "transitions": [
+        {
+          "from": 0,
+          "to": 1,
+          "stance_leg": "left",
+          "observed_relative_delta": [
+            -10,
+            -2
+          ],
+          "world_sprite_displacement_to_match_x": [
+            10,
+            4.459102113183002
+          ],
+          "expected_relative_delta_matching_x": [
+            -10,
+            -4.459102113183002
+          ],
+          "residual_screen_drift_matching_x": [
+            0,
+            2.459102113183002
+          ],
+          "units": "sprite texture pixels before display scaling"
+        },
+        {
+          "from": 2,
+          "to": 3,
+          "stance_leg": "right",
+          "observed_relative_delta": [
+            -14,
+            0
+          ],
+          "world_sprite_displacement_to_match_x": [
+            14,
+            6.242742958456203
+          ],
+          "expected_relative_delta_matching_x": [
+            -14,
+            -6.242742958456203
+          ],
+          "residual_screen_drift_matching_x": [
+            0,
+            6.242742958456203
+          ],
+          "units": "sprite texture pixels before display scaling"
+        }
+      ],
+      "limitations": [
+        "Trailing contact in frames00/02 is not visually reliable; do not use both feet as simultaneous hard constraints.",
+        "Only00\u219201 and02\u219203 have same support foot.01\u219202 and03\u219200 are handoffs, not persistent planted foot.",
+        "Contact-to-pass intervals are unequal in horizontal sweep and undertravel vertically. A single constant stride length cannot exactly ground-lock these four poses.",
+        "Engine may fit stride timing to these estimates and report residual; do not claim source-perfect no-slip gait.",
+        "Confidence moderate; uncertainty \u00b12px support,\u00b13px swing. Camera sign assumes parent +X\u2192front_right mapping."
+      ]
+    }
   }
 }
