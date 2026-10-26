@@ -49,10 +49,31 @@ static func objective_valid(goal,ids,data,depth):
         "protect":return ids.has(goal.get("unit",""))
         "reach":return ids.has(goal.get("unit","")) and integer(goal.get("x"),0,data.width-1) and integer(goal.get("y"),0,data.height-1) and data.terrain[goal.y][goal.x] not in ["W","X"]
     return false
+static func array_unique_count(values):
+    var unique={}
+    for value in values:unique[str(value)]=true
+    return unique.size()
+static func bridge_cost(value,depth=0):
+    if depth>12:return 131073
+    var cost=16
+    if value is String or value is StringName:return cost+str(value).to_utf8_buffer().size()
+    if value is Dictionary:
+        if value.size()>32:return 131073
+        for key in value:
+            if not key is String and not key is StringName:return 131073
+            cost+=bridge_cost(key,depth+1)+bridge_cost(value[key],depth+1)
+            if cost>131072:return cost
+    elif value is Array:
+        if value.size()>256:return 131073
+        for item in value:
+            cost+=bridge_cost(item,depth+1)
+            if cost>131072:return cost
+    elif value!=null and not value is int and not value is bool:return 131073
+    return cost
 static func validate(data):
     if not data is Dictionary:return "内容必须是 JSON 对象。"
     for key in data:
-        if key not in ["version","id","revision","title","width","height","terrain","units","victory","defeat","story","equipment"]:return "未知内容字段："+str(key)
+        if key not in ["version","id","revision","title","width","height","terrain","units","victory","defeat","story","equipment","abilities","consumables"]:return "未知内容字段："+str(key)
     if data.get("version")!=1:return "不支持的内容版本。"
     if not identifier(data.get("id")) or not integer(data.get("revision"),1,1000000) or not short_text(data.get("title"),64):return "内容 ID、版本号或标题无效。"
     if not integer(data.get("width"),4,16) or not integer(data.get("height"),4,16):return "地图宽高须为 4–16。"
@@ -62,11 +83,29 @@ static func validate(data):
         for cell in row:
             if cell not in ["G","W","B","X"]:return "地形只允许 G 草地 / W 水 / B 桥 / X 障碍。"
     if not data.get("units") is Array or data.units.size()<2 or data.units.size()>16:return "单位数量须为 2–16。"
+    var ability_ids={}
+    if not data.get("abilities") is Array or data.abilities.is_empty() or data.abilities.size()>16:return "技能数量须为 1–16。"
+    for ability in data.abilities:
+        if not ability is Dictionary or not identifier(ability.get("id")) or ability_ids.has(ability.id) or not short_text(ability.get("name"),32):return "技能 ID 或名称无效。"
+        if ability.get("target") not in ["self","ally","enemy"] or not ability.get("stationary") is bool:return "技能目标或静止限制无效。"
+        if ability.get("damage_type") not in ["physical","magic"]:return "伤害类型无效。"
+        if ability.has("los") and not ability.los is bool:return "视线要求无效。"
+        for field in ["reach_bonus","mp_cost","cooldown","charges"]:
+            if not integer(ability.get(field),0,8):return "技能消耗或冷却越界。"
+        if not ability.get("effects") is Array or ability.effects.is_empty() or ability.effects.size()>4:return "技能效果数量无效。"
+        for effect in ability.effects:
+            if not effect is Dictionary or effect.get("op") not in ["damage","heal"] or not integer(effect.get("value"),0,20) or not integer(effect.get("radius"),0,2):return "技能效果不在许可表或越界。"
+        ability_ids[ability.id]=true
+    if not data.get("consumables") is Array or data.consumables.size()>16:return "消耗品表无效。"
+    var consumable_ids={}
+    for item in data.consumables:
+        if not item is Dictionary or not identifier(item.get("id")) or consumable_ids.has(item.id) or not short_text(item.get("name"),32) or not ability_ids.has(item.get("ability","")) or not integer(item.get("count"),0,99):return "消耗品引用或数量无效。"
+        consumable_ids[item.id]=true
     var ids={};var occupied={};var allies=0;var enemies=0
     for u in data.units:
         if not u is Dictionary:return "单位必须是对象。"
         for key in u:
-            if key not in ["id","name","role","ally","x","y","hp","movement","reach","damage","armor","resist","mp","controller","faction"]:return "未知单位字段："+str(key)
+            if key not in ["id","name","role","ally","x","y","hp","movement","reach","damage","armor","resist","mp","controller","faction","abilities","skill_id","policy","leash","escort"]:return "未知单位字段："+str(key)
         if not identifier(u.get("id")) or ids.has(u.id) or not short_text(u.get("name"),32) or u.get("role") not in ROLES or not u.get("ally") is bool:return "单位身份/职业无效或重复。"
         if not integer(u.get("x"),0,data.width-1) or not integer(u.get("y"),0,data.height-1):return "单位出生点超出地图。"
         var key=u.y*data.width+u.x
@@ -74,11 +113,21 @@ static func validate(data):
         for field in ["hp","movement","reach","damage","armor","resist","mp"]:
             var bounds={"hp":[1,200],"movement":[1,8],"reach":[1,8],"damage":[1,40],"armor":[0,20],"resist":[0,20],"mp":[0,30]}[field]
             if not integer(u.get(field),bounds[0],bounds[1]):return "单位属性越界："+field
+        if u.has("policy") and u.policy not in ["offensive","defensive","support","escort"]:return "未知 AI 策略。"
+        if u.has("leash") and not integer(u.leash,1,16):return "AI 活动半径无效。"
         if u.has("controller") and u.controller not in ["player","ai"]:return "控制器仅支持 player / ai。"
         if u.has("faction") and not identifier(u.faction):return "阵营 ID 无效。"
+        if not u.get("abilities") is Array or u.abilities.is_empty() or u.abilities.size()>8:return "单位技能列表无效。"
+        var known={}
+        for id in u.abilities:
+            if not ability_ids.has(id) or known.has(id):return "单位技能引用无效或重复。"
+            known[id]=true
+        if not known.has("attack") or not known.has(u.get("skill_id","")):return "单位缺少普攻或默认技能。"
         ids[u.id]=true;occupied[key]=true
         if u.ally:allies+=1
         else:enemies+=1
+    for u in data.units:
+        if u.get("policy")=="escort" and (not ids.has(u.get("escort","")) or u.escort==u.id):return "护送 AI 目标无效。"
     if allies==0 or enemies==0:return "至少需要一个友方和一个敌方。"
     if not objective_valid(data.get("victory"),ids,data,0) or not objective_valid(data.get("defeat"),ids,data,0):return "目标条件、引用或组合深度无效。"
     var story=data.get("story")
@@ -111,13 +160,13 @@ static func validate(data):
         if not b is Dictionary or not identifier(b.get("id")) or base_ids.has(b.id) or not short_text(b.get("name"),32) or b.get("slot") not in SLOTS or not stats_valid(b.get("stats")):return "装备底材无效。"
         if b.get("set_id","")!="" and not set_ids.has(b.set_id):return "未知套装引用。"
         for field in ["affix_pool","unique_affixes"]:
-            if not b.get(field) is Array or b[field].size()>16:return "词缀池无效。"
+            if not b.get(field) is Array or b[field].size()>16 or b[field].size()!=array_unique_count(b[field]):return "词缀池无效。"
             for id in b[field]:
                 if not affix_ids.has(id):return "未知词缀引用。"
         if b.unique_affixes.size()>2 or not short_text(b.get("unique_name"),64):return "独特装备配置无效。"
         base_ids[b.id]=true
     for item in equip.starting:
-        if not item is Dictionary or not base_ids.has(item.get("base","")) or not integer(item.get("quality"),0,3) or not item.get("affixes") is Array or item.affixes.size()>2:return "初始物品无效。"
+        if not item is Dictionary or not base_ids.has(item.get("base","")) or not integer(item.get("quality"),0,3) or not item.get("affixes") is Array or item.affixes.size()>2 or item.affixes.size()!=array_unique_count(item.affixes):return "初始物品无效。"
         for id in item.affixes:
             if not affix_ids.has(id):return "初始物品词缀引用无效。"
     var drops=equip.get("drops")
@@ -129,6 +178,7 @@ static func validate(data):
     if total!=100:return "品质权重之和须为 100。"
     for id in drops.base_pool:
         if not base_ids.has(id):return "掉落底材不存在。"
+    if bridge_cost({"seed":12345,"content":data})>131072:return "内容超过原生桥接的层级、集合或内存预算。"
     if JSON.stringify(data).to_utf8_buffer().size()>MAX_BYTES:return "内容超过 128 KiB。"
     return ""
 static func from_file(path):

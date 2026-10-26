@@ -17,6 +17,9 @@ var status: Label
 var detail: Label
 var message: Label
 var buttons = []
+var facing={}
+var last_positions={}
+var direction_textures={}
 
 func material(color):
     var m = StandardMaterial3D.new()
@@ -123,6 +126,11 @@ func build_world():
         if not ResourceLoader.exists(art):art="res://assets/sprites/"+u.role+".png"
         sprite.texture = load(art) if ResourceLoader.exists(art) else pixel_person(u.role,u.ally)
         sprite.set_meta("formal_art",ResourceLoader.exists(art))
+        for direction in ["front","back","left","right"]:
+            var path="res://assets/sprites/directional/"+u.role+"_"+direction+".png"
+            if ResourceLoader.exists(path):direction_textures[u.id+":"+direction]=load(path)
+        facing[u.id]="back" if u.ally else "front"
+        last_positions[u.id]=u.pos
         sprite.pixel_size = 0.01125 if sprite.get_meta("formal_art") else 0.045
         sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
         sprite.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
@@ -217,6 +225,15 @@ func refresh():
         var u = battle.units[i]
         figures[i].visible = u.hp > 0
         badges[i].visible = u.hp > 0
+        if last_positions.has(u.id) and last_positions[u.id]!=u.pos:
+            facing[u.id]=projected_facing(last_positions[u.id],u.pos)
+        last_positions[u.id]=u.pos
+        for event in battle.events:
+            if event.get("kind")=="attack" and event.get("actor")==u.id:
+                for target in battle.units:
+                    if target.id==event.target:facing[u.id]=projected_facing(u.pos,target.pos)
+        var texture_key=u.id+":"+facing.get(u.id,"front")
+        if direction_textures.has(texture_key):figures[i].texture=direction_textures[texture_key]
         figures[i].position = Vector3(u.pos.x,0.63 if figures[i].get_meta("formal_art") else 0.72,u.pos.y)
         badges[i].position = Vector3(u.pos.x,1.62,u.pos.y)
         badges[i].text = "%s  %d/%d" % [u.name,u.hp,u.max_hp]
@@ -243,10 +260,14 @@ func _unhandled_input(event):
         var hit = origin + direction * (-origin.y/direction.y)
         var cell = Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
         var target = battle.at(cell)
-        if target >= 0 and battle.units[target].ally and not (mode == "skill" and target == selected):
+        if target >= 0 and battle.units[target].ally and not (mode == "skill" or mode.begins_with("ability:") or mode.begins_with("item:")):
             selected = target
         elif mode == "move":
             session.submit({"kind":"move","unit":selected,"x":cell.x,"y":cell.y})
+        elif mode.begins_with("item:"):
+            session.submit({"kind":"item","consumable":mode.trim_prefix("item:"),"unit":selected,"target":target})
+        elif mode.begins_with("ability:"):
+            session.submit({"kind":"ability","ability":mode.trim_prefix("ability:"),"unit":selected,"target":target})
         else:
             session.submit({"kind":"skill" if mode=="skill" else "attack","unit":selected,"target":target})
         battle=session.logic
@@ -263,3 +284,10 @@ func _exit_tree():
     pass # App owns session across menus; explicit leave closes transport.
 
 func request_exit():hud.confirm_leave(true)
+
+func projected_facing(from_cell,to_cell):
+    var start=camera.unproject_position(Vector3(from_cell.x,0,from_cell.y))
+    var finish=camera.unproject_position(Vector3(to_cell.x,0,to_cell.y))
+    var delta=finish-start
+    if absf(delta.x)>absf(delta.y):return "right" if delta.x>0 else "left"
+    return "front" if delta.y>0 else "back"

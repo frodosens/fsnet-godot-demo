@@ -16,10 +16,10 @@ static func command_from_json(value):
     if not value is Dictionary: return {}
     var result = {}
     for key in value:
-        if key in ["kind","actor_id"]:
+        if key in ["kind","actor_id","target_id","ability","consumable"]:
             if not value[key] is String: return {}
             result[key] = value[key]
-        elif key in ["step","unit","target","x","y"]:
+        elif key in ["step","unit","target","x","y","slot","item"]:
             var v = value[key]
             if not (v is int or v is float) or not is_finite(float(v)) or float(v) != floor(float(v)) or abs(float(v)) > 1000000: return {}
             result[key] = int(v)

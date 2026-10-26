@@ -23,6 +23,8 @@ func run():
     game.restart()
     if game.battle.step!=0 or game.battle.units[0].pos!=Vector2i(3,6):
         printerr("restart failed");quit(1);return
+    if game.projected_facing(Vector2i(0,0),Vector2i(1,0))!="right" or game.projected_facing(Vector2i(0,0),Vector2i(0,1))!="front":
+        printerr("camera facing mapping failed");quit(1);return
     print("SCENE_INPUT_TEST_PASS mouse move + keyboard end turn + restart")
     game.queue_free()
     await process_frame

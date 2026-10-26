@@ -16,6 +16,7 @@ var portrait
 var portrait_initial
 var story_key=""
 var modal
+var gear_open=false
 var last_step=-1
 var previous=[]
 var log_lines=[]
@@ -37,7 +38,8 @@ func _ready():
     var actions=UI.column(layout,8)
     var line=HBoxContainer.new();actions.add_child(line)
     for entry in [["移动","move"],["普通攻击","attack"],["职业技能","skill"]]:
-        var b=UI.button(entry[0],game.select_mode.bind(entry[1]));line.add_child(b);action_buttons[entry[1]]=b
+        var b=UI.button("技能列表" if entry[1]=="skill" else entry[0],show_abilities if entry[1]=="skill" else game.select_mode.bind(entry[1]));line.add_child(b);action_buttons[entry[1]]=b
+    var item_button=UI.button("道具",show_items);line.add_child(item_button);action_buttons["item"]=item_button
     var finish=UI.button("结束本回合 · 空格",game.finish_turn);actions.add_child(finish);action_buttons["end"]=finish
     var hint=UI.label("点选队员 → 选择行动 → 点击目标。",14);actions.add_child(hint)
     var journal=UI.column(layout,4);journal.add_child(UI.label("战斗记录",17));log_label=UI.paragraph("委托开始。",270);log_label.add_theme_font_size_override("font_size",14);journal.add_child(log_label)
@@ -83,9 +85,10 @@ func refresh():
         action_buttons.move.text="移动 · 余 %d"%maxi(0,u.move_actions-u.moves_used)
         action_buttons.move.disabled=u.moves_used>=u.move_actions
         action_buttons.attack.disabled=u.acted
-        action_buttons.skill.disabled=u.acted or not u.skill
+        action_buttons.skill.disabled=u.acted
+        action_buttons.item.disabled=u.acted
     else:
-        for kind in ["move","attack","skill"]:action_buttons[kind].disabled=true
+        for kind in ["move","attack","skill","item"]:action_buttons[kind].disabled=true
     action_buttons.end.disabled=logic.outcome!="playing"
     if last_step!=logic.step:
         if last_step>=0 and logic.step>last_step:
@@ -99,6 +102,7 @@ func refresh():
             for text in changes:log_lines.append(text)
             while log_lines.size()>5:log_lines.pop_front()
         last_step=logic.step;previous=logic.units.duplicate(true)
+        if gear_open:call_deferred("show_gear")
     log_label.text="\n".join(log_lines) if not log_lines.is_empty() else "药箱与家书等待过桥。"
     refresh_story()
 func refresh_story():
@@ -117,6 +121,7 @@ func refresh_story():
 func advance(skip):
     App.advance_story(skip);refresh_story()
 func clear_modal():
+    gear_open=false
     if is_instance_valid(modal):root.remove_child(modal);modal.queue_free();modal=null
     refresh_story()
 func modal_page(title):
@@ -130,7 +135,7 @@ func toggle_pause():
     c.add_child(UI.paragraph("本地暂停操作不会暂停网络房间。" if game.session.online else "休息片刻，旅程会等你。",550))
     c.add_child(UI.button("继续战斗",clear_modal))
     var save=UI.button("保存旅程",show_save);save.disabled=game.session.online;save.tooltip_text="网络房间由主机维护，本版不允许客户端写本地战斗存档。";c.add_child(save)
-    var gear=UI.button("装备整备（开发中）",func():pass);gear.disabled=true;c.add_child(gear)
+    var gear=UI.button("装备整备 / 背包",show_gear);c.add_child(gear)
     if not game.session.online:c.add_child(UI.button("重新开始本场",confirm_restart))
     c.add_child(UI.button("返回主界面",confirm_leave.bind(false)))
     c.add_child(UI.button("退出游戏",confirm_leave.bind(true)))
@@ -177,3 +182,80 @@ func save_and_leave(quit_game):
 func leave(quit_game):
     if quit_game:App.close_room();get_tree().quit()
     else:App.return_to_menu()
+
+func show_abilities():
+    if blocks_input() or game.selected<0:return
+    var u=game.battle.units[game.selected]
+    var page=modal_page(u.name+" · 技能")
+    for i in range(game.battle.content.abilities.size()):
+        var ability=game.battle.content.abilities[i]
+        if ability.id=="attack" or ability.id not in u.abilities:continue
+        var note="法力 %d · 冷却 %d 回合"%[ability.mp_cost,u.cooldowns[i]]
+        if ability.charges>0:note+=" · 余 %d 次"%u.charges[i]
+        if ability.stationary:note+=" · 移动后不可施放" if not u.get("mobile_cast",false) else " · 行走施法已生效"
+        var button=UI.button(ability.name+"　"+note,choose_ability.bind(ability.id))
+        button.disabled=u.acted or u.mp<ability.mp_cost or u.cooldowns[i]>0 or (ability.charges>0 and u.charges[i]==0) or (ability.stationary and u.moves_used>0 and not u.get("mobile_cast",false))
+        page.add_child(button)
+    page.add_child(UI.button("返回",clear_modal))
+func choose_ability(id):
+    clear_modal();game.select_mode("ability:"+id)
+
+var gear_unit=0
+var gear_slot=0
+func item_text(item):
+    var data=game.battle.content.equipment
+    var base=data.bases[item.base-1]
+    var text=["普通","魔法","稀有","独特"][item.quality]+" · "+(base.unique_name if item.quality==3 else base.name)+" #"+str(item.uid)
+    var bonuses=[]
+    for key in base.stats:bonuses.append(str(key)+" +"+str(base.stats[key]))
+    for entry in item.affixes:
+        var affix=data.affixes[entry.index-1]
+        bonuses.append(affix.name+(" +"+str(entry.value) if affix.stat!="none" else ""))
+    if not bonuses.is_empty():text+="\n"+" / ".join(bonuses)
+    return text
+func show_gear():
+    var logic=game.battle
+    var page=modal_page("小队整备 · 背包")
+    gear_open=true;modal.get_child(0).position.y=24
+    var selectors=HBoxContainer.new();page.add_child(selectors)
+    var people=OptionButton.new();selectors.add_child(people)
+    for i in range(logic.units.size()):
+        if logic.units[i].controller=="player":people.add_item(logic.units[i].name,i)
+    people.select(people.get_item_index(gear_unit))
+    people.item_selected.connect(func(index):gear_unit=people.get_item_id(index);show_gear())
+    var slots=OptionButton.new();selectors.add_child(slots)
+    for name in ["主手","副手","头部","身体","双手","双脚","项链","戒指一","戒指二"]:slots.add_item(name)
+    slots.select(gear_slot);slots.item_selected.connect(func(index):gear_slot=index;show_gear())
+    var u=logic.units[gear_unit]
+    page.add_child(UI.paragraph("生命上限 %d · 攻击 %d · 法术加成 %d · 护甲 %d · 抗性 %d\n每回合移动 %d 次；%s"%[u.max_hp,u.damage,u.spell_bonus,u.armor,u.resist,u.move_actions,"行走施法" if u.mobile_cast else "凝神光矢需原地施放"],550))
+    var allowed=(logic.preparation or logic.outcome!="playing") and not game.session.pending
+    page.add_child(UI.paragraph("整备开放。装备变化不会恢复生命或行动次数。" if allowed else "战斗开始后装备锁定，胜负结算后重新开放。",550))
+    var current=u.equipment[gear_slot]
+    var equipped_text="此槽位为空"
+    for item in logic.inventory:
+        if item.uid==current:equipped_text="当前："+item_text(item)
+    page.add_child(UI.paragraph(equipped_text,550))
+    var remove=UI.button("卸下当前装备",equip_item.bind(0));remove.disabled=not allowed or current==0;page.add_child(remove)
+    var scroll=ScrollContainer.new();scroll.custom_minimum_size=Vector2(550,160);page.add_child(scroll)
+    var list=UI.column(scroll,8);list.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+    var slot_id=["main_hand","off_hand","head","body","hands","feet","neck","ring","ring"][gear_slot]
+    for item in logic.inventory:
+        if logic.content.equipment.bases[item.base-1].slot!=slot_id:continue
+        var owned=false
+        for unit in logic.units:
+            if item.uid in unit.equipment:owned=true
+        var button=UI.button(item_text(item)+(" · 已穿戴" if owned else " · 装备"),equip_item.bind(item.uid));button.disabled=not allowed or owned;list.add_child(button)
+    page.add_child(UI.button("返回旅程菜单",func():clear_modal();toggle_pause()))
+func equip_item(uid):
+    game.session.submit({"kind":"equip","unit":gear_unit,"slot":gear_slot,"item":uid})
+    game.battle=game.session.logic;game.refresh();show_gear()
+
+func show_items():
+    if blocks_input() or game.selected<0:return
+    var page=modal_page("共用行囊 · 消耗品")
+    page.add_child(UI.paragraph("使用道具消耗当前单位的本回合行动。选择后点击合法友方目标。",550))
+    for i in range(game.battle.content.consumables.size()):
+        var item=game.battle.content.consumables[i]
+        var button=UI.button(item.name+" ×"+str(game.battle.supplies[i]),choose_item.bind(item.id));button.disabled=game.battle.supplies[i]<=0;page.add_child(button)
+    page.add_child(UI.button("返回",clear_modal))
+func choose_item(id):clear_modal();game.select_mode("item:"+id)

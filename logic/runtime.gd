@@ -7,6 +7,8 @@ var story_flags=0
 var preparation=true
 var size=Vector2i(10,8)
 var events=[]
+var inventory=[]
+var supplies=[]
 var vm = AmberLogic.new()
 var units = []
 var round_number = 1
@@ -27,7 +29,7 @@ func _init(data={}):
 static func rule_source():
     var source = FileAccess.get_file_as_string("res://logic/battle.lua")
     # Fixed trusted modules only. Their complete source participates in peer/save compatibility.
-    for module in ["board","objectives","actions","ai","snapshot"]:
+    for module in ["board","equipment","objectives","abilities","actions","ai","snapshot"]:
         var code=FileAccess.get_file_as_string("res://logic/rules/"+module+".lua")
         assert(not code.is_empty(),"Missing trusted rule module: "+module)
         source=source.replace("-- @module "+module,code)
@@ -45,6 +47,8 @@ func reset():
 func refresh():
     var data = call_rule("view")
     units = data.units
+    inventory=data.inventory
+    supplies=data.supplies
     for u in units: u.pos = Vector2i(u.x,u.y)
     round_number = data.round_number
     outcome = data.outcome

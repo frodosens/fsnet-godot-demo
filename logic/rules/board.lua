@@ -22,3 +22,15 @@ local function reachable(i)
   end
   return cells
 end
+-- Integer Bresenham sight line; solid X terrain blocks projectiles, water does not.
+local function line_of_sight(a,b)
+  local x,y=a.x,a.y;local dx,dy=math.abs(b.x-x),math.abs(b.y-y)
+  local sx,sy=x<b.x and 1 or -1,y<b.y and 1 or -1;local err=dx-dy
+  while x~=b.x or y~=b.y do
+    local doubled=2*err
+    if doubled>-dy then err=err-dy;x=x+sx end
+    if doubled<dx then err=err+dx;y=y+sy end
+    if content.terrain[y+1]:sub(x+1,x+1)=='X' then return false end
+  end
+  return true
+end

@@ -83,7 +83,7 @@ public:
   luaL_requiref(vm,LUA_MATHLIBNAME,luaopen_math,1);lua_pop(vm,1);
   for(const char *name:{"dofile","loadfile","load","collectgarbage","print","warn"}){lua_pushnil(vm);lua_setglobal(vm,name);}
   lua_getglobal(vm,"math");for(const char*name:{"random","randomseed"}){lua_pushnil(vm);lua_setfield(vm,-2,name);}lua_pop(vm,1);
-  auto bytes=source.utf8();lua_sethook(vm,budget,LUA_MASKCOUNT,200000);
+  auto bytes=source.utf8();lua_sethook(vm,budget,LUA_MASKCOUNT,2000000);
   if(luaL_loadbufferx(vm,bytes.get_data(),bytes.length(),"battle.lua","t")||lua_pcall(vm,0,1,0)){
    error=String::utf8(lua_tostring(vm,-1));close();return false;
   }
@@ -97,7 +97,7 @@ public:
    size_t bytes=0;validate(args,bytes);
    lua_rawgeti(vm,LUA_REGISTRYINDEX,module);auto name=method.utf8();lua_getfield(vm,-1,name.get_data());
    if(!lua_isfunction(vm,-1))throw std::runtime_error("unknown rules method");
-   push(vm,args);lua_sethook(vm,budget,LUA_MASKCOUNT,200000);
+   push(vm,args);lua_sethook(vm,budget,LUA_MASKCOUNT,2000000);
    if(lua_pcall(vm,1,1,0)){error=String::utf8(lua_tostring(vm,-1));lua_settop(vm,base);return Variant();}
    Variant out=read(vm,-1);lua_settop(vm,base);return out;
   }catch(const std::exception&e){error=String::utf8(e.what());lua_settop(vm,base);return Variant();}

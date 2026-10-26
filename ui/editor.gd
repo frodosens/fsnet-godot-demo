@@ -18,6 +18,7 @@ func _ready():
     var col=UI.column(outer,10)
     var bar=HBoxContainer.new();bar.add_theme_constant_override("separation",10);col.add_child(bar)
     var heading=UI.label("关卡工坊",26);heading.size_flags_horizontal=Control.SIZE_EXPAND_FILL;bar.add_child(heading)
+    bar.add_child(UI.button("内容表单",open_forms))
     bar.add_child(UI.button("导入 JSON",import_dialog))
     bar.add_child(UI.button("保存 Mod",save_mod))
     bar.add_child(UI.button("试玩",play))
@@ -106,3 +107,10 @@ func request_back():
     else:get_tree().call_deferred("change_scene_to_file","res://ui/menu.tscn")
 func request_exit():
     var dialog=ConfirmationDialog.new();dialog.title="退出工坊与游戏？";dialog.dialog_text="未保存的 Mod 编辑将丢失。";dialog.ok_button_text="退出";dialog.cancel_button_text="返回编辑";dialog.theme=theme;dialog.exclusive=true;add_child(dialog);dialog.confirmed.connect(func():get_tree().quit());dialog.canceled.connect(dialog.queue_free);dialog.popup_centered(Vector2i(520,190))
+
+func open_forms():
+    if not apply_json():return
+    var form=preload("res://ui/content_form.gd").new();form.draft=data.duplicate(true)
+    form.accepted.connect(func(value):data=value;sync_view();feedback.text="表单已应用；保存 Mod 才会写入磁盘。")
+    add_child(form);form.popup_centered()
+    return form

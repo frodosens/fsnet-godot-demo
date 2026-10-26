@@ -4,18 +4,23 @@ local M = {}
 local state
 local content
 local effects={}
+local initialize_inventory,derive_equipment,equip_action,drop_reward
 local directions = {{-1,0},{1,0},{0,-1},{0,1}}
 local function unit(name,role,ally,x,y,hp,movement,reach,damage)
   return {name=name,role=role,ally=ally,x=x,y=y,hp=hp,max_hp=hp,movement=movement,
     reach=reach,damage=damage,moved=false,acted=false,skill=true}
 end
 local function fresh(seed)
-  local result={version=2,step=0,rng=seed,round_number=1,outcome='playing',story_flags=0,preparation=true,units={}}
+  local result={version=5,step=0,rng=seed,round_number=1,outcome='playing',story_flags=0,preparation=true,units={}}
   for _,d in ipairs(content.units) do
     local u=unit(d.name,d.role,d.ally,d.x,d.y,d.hp,d.movement,d.reach,d.damage)
     u.id=d.id;u.controller=d.controller or (d.ally and "player" or "ai");u.faction=d.faction or (d.ally and "crew" or "guards");u.mp=d.mp;u.max_mp=d.mp;u.moves_used=0;u.move_actions=1;u.armor=d.armor;u.resist=d.resist
+    u.abilities=d.abilities;u.skill_id=d.skill_id;u.cooldowns={};u.charges={}
+    for j,ability in ipairs(content.abilities) do u.cooldowns[j]=0;u.charges[j]=ability.charges end
     result.units[#result.units+1]=u
   end
+  initialize_inventory(result);derive_equipment(result)
+  result.supplies={};for i,item in ipairs(content.consumables) do result.supplies[i]=item.count end
   return result
 end
 -- @module board
@@ -30,12 +35,13 @@ local function roll()
   state.rng=(state.rng*16807)%2147483647
   return state.rng%2
 end
+-- @module equipment
 -- @module objectives
 function M.reset(args)
   local seed=args.seed or 12345
   assert(integer(seed,1,2147483646),'invalid seed')
   assert(type(args.content)=='table','content required')
-  content=args.content;state=fresh(seed);effects={};story_update(true,false);return M.view()
+  content=args.content;state=fresh(seed);effects={};outcome();drop_reward();story_update(true,false);return M.view()
 end
 function M.view()
   state.width=content.width;state.height=content.height;state.terrain=content.terrain
@@ -43,15 +49,18 @@ function M.view()
 end
 function M.events() return effects end
 function M.reachable(args) return reachable((args.unit or -1)+1) end
+-- @module abilities
 -- @module actions
 -- @module ai
 local function apply_command(c)
   effects={}
-  if state.outcome~='playing' or not integer(c.step,1,1000000) or c.step~=state.step+1 then return false end
+  if (state.outcome~='playing' and c.kind~='equip') or not integer(c.step,1,1000000) or c.step~=state.step+1 then return false end
   if c.kind=='end_turn' then
     run_ai_phase()
     state.round_number=state.round_number+1
-    for _,u in ipairs(state.units) do u.moved=false;u.moves_used=0;u.acted=false;u.mp=math.min(u.max_mp,u.mp+1) end
+    for _,u in ipairs(state.units) do u.moved=false;u.moves_used=0;u.acted=false;u.mp=math.min(u.max_mp,u.mp+1)
+      for j,value in ipairs(u.cooldowns) do u.cooldowns[j]=math.max(0,value-1) end
+    end
   else
     local index
     if type(c.actor_id)=='string' then
@@ -60,10 +69,19 @@ local function apply_command(c)
       if c.unit~=nil and c.unit~=index-1 then return false end
     elseif integer(c.unit,0,#state.units-1) then index=c.unit+1 end
     if not index or state.units[index].controller~='player' then return false end
-    if not execute_action(c,index) then return false end
+    if type(c.target_id)=='string' then
+      local target
+      for j,v in ipairs(state.units) do if v.id==c.target_id then target=j-1;break end end
+      if target==nil or (c.target~=nil and c.target~=target) then return false end
+      c.target=target
+    end
+    if c.kind=='equip' then
+      if not equip_action(c,index) then return false end
+    elseif not execute_action(c,index) then return false end
   end
   outcome()
-  state.step=c.step;state.preparation=false
+  state.step=c.step;if c.kind~='equip' then state.preparation=false end
+  drop_reward()
   story_update(false,c.kind=='end_turn')
   return true
 end
