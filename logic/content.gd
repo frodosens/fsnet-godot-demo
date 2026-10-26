@@ -132,6 +132,7 @@ static func validate(data):
     if not objective_valid(data.get("victory"),ids,data,0) or not objective_valid(data.get("defeat"),ids,data,0):return "目标条件、引用或组合深度无效。"
     var story=data.get("story")
     if not story is Dictionary or story.get("schemaVersion")!=1 or not identifier(story.get("storyId")) or not story.get("characters") is Array or not story.get("events") is Array or story.events.size()>24:return "剧情格式/版本无效。"
+    if not identifier(story.get("chapterId")) or not short_text(story.get("chapterTitle"),96):return "剧情章节 ID 或标题无效。"
     var speakers={"narrator":true};var event_ids={}
     for person in story.characters:
         if not person is Dictionary or not identifier(person.get("id")) or not short_text(person.get("name"),32) or speakers.has(person.id):return "剧情角色身份无效。"

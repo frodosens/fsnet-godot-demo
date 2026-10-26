@@ -35,7 +35,11 @@ func run():
     for i in range(editor.mod_picker.item_count):
         if editor.mod_picker.get_item_text(i)==id+".json":editor.mod_picker.select(i)
     editor.data.title="unsaved title";editor.reload_selected()
-    check(Content.hash_of(editor.data)==original,"reload restores saved content")
+    check(editor.data.title=="unsaved title" and is_instance_valid(editor.replace_dialog),"reload asks before discarding unsaved content")
+    editor.replace_dialog.canceled.emit();await frames()
+    check(editor.data.title=="unsaved title","cancel reload preserves edits")
+    editor.reload_selected();editor.replace_dialog.confirmed.emit();await frames()
+    check(Content.hash_of(editor.data)==original,"confirmed reload restores saved content")
     editor.play();await frames()
     check(current_scene is Node3D and app.session.logic.content.id==id,"editor launches mod battle")
     check(not app.session.logic.walkable(Vector2i(0,0)),"painted terrain reaches shared gameplay content")
@@ -43,6 +47,16 @@ func run():
     var oversized=Content.default_content()
     for i in range(257):oversized.story.characters.append({"id":"speaker_"+str(i),"name":"角色"})
     check(Content.validate(oversized).contains("预算"),"oversized nested bridge array rejected before VM")
+    var incomplete=Content.default_content();incomplete.story.erase("chapterTitle")
+    check(not Content.validate(incomplete).is_empty(),"missing narrator chapter title rejected before scene")
+    change_scene_to_file("res://ui/editor.tscn")
+    await frames();editor=current_scene
+    editor.raw.text="{ unfinished JSON draft";editor.raw.text_changed.emit()
+    editor.request_back()
+    for child in editor.get_children():
+        if child is ConfirmationDialog and child.title=="离开工坊？":child.confirmed.emit();break
+    await frames();change_scene_to_file("res://ui/editor.tscn");await frames()
+    check(current_scene.raw.text=="{ unfinished JSON draft","unapplied even invalid JSON survives menu roundtrip")
     DirAccess.remove_absolute(path)
     print("EDITOR_TESTS checks=",checks," failures=",failures)
     quit(0 if failures==0 else 1)

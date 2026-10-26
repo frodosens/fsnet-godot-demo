@@ -24,14 +24,14 @@ func _ready():
     root=Control.new();root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);root.mouse_filter=Control.MOUSE_FILTER_IGNORE;root.theme=UI.make_theme();add_child(root)
     var top=panel(Vector2(20,16),Vector2(1240,64))
     var row=HBoxContainer.new();row.add_theme_constant_override("separation",20);top.add_child(row)
-    row.add_child(UI.label("琥珀桥来信",24))
+    row.add_child(UI.label(game.battle.content.title,24))
     round_label=UI.label("");round_label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;row.add_child(round_label)
     net_label=UI.label("",14);row.add_child(net_label)
     row.add_child(UI.button("旅程菜单 · Esc",toggle_pause))
-    var party=panel(Vector2(20,98),Vector2(210,0));hero_column=UI.column(party,10)
+    var party=panel(Vector2(20,98),Vector2(210,0));var party_scroll=ScrollContainer.new();party_scroll.custom_minimum_size=Vector2(178,460);party.add_child(party_scroll);hero_column=UI.column(party_scroll,10);hero_column.size_flags_horizontal=Control.SIZE_EXPAND_FILL
     hero_column.add_child(UI.label("护送小队",22))
     for i in range(game.battle.units.size()):
-        if game.battle.units[i].ally:hero_column.add_child(UI.button(game.battle.units[i].name,select_hero.bind(i)))
+        if game.battle.units[i].ally or game.battle.units[i].controller=="player":hero_column.add_child(UI.button(game.battle.units[i].name,select_hero.bind(i)))
     var bottom=panel(Vector2(254,610),Vector2(1006,172))
     var layout=HBoxContainer.new();layout.add_theme_constant_override("separation",22);bottom.add_child(layout)
     detail=UI.paragraph("",270);layout.add_child(detail)
@@ -72,15 +72,17 @@ func refresh():
     var button_index=1
     for i in range(logic.units.size()):
         var u=logic.units[i]
-        if u.ally:
+        if u.ally or u.controller=="player":
             var b=hero_column.get_child(button_index);button_index+=1
-            b.text="%s  %d/%d\n%s"%[u.name,u.hp,u.max_hp,"失去战力" if u.hp<=0 else ("当前选中" if game.selected==i else "点击选择")]
-            b.disabled=u.hp<=0
+            b.text="%s  %d/%d\n%s"%[u.name,u.hp,u.max_hp,"失去战力" if u.hp<=0 else ("友军 AI" if u.controller=="ai" else ("当前选中" if game.selected==i else "点击选择"))]
+            b.disabled=u.hp<=0 or u.controller!="player"
     detail.text="队伍休整中。"
     var active=game.selected>=0 and logic.usable(game.selected)
     if active:
         var u=logic.units[game.selected]
-        var skill={"knight":"重整：自身恢复 3 生命","archer":"强射：射程 +1，伤害 +1","mage":"余烬：射程 +1，小范围伤害"}.get(u.role,"无职业技能")
+        var skill="默认技能："+u.skill_id
+        for ability in logic.content.abilities:
+            if ability.id==u.skill_id:skill="默认技能："+ability.name;detail.tooltip_text=ability_description(ability)
         detail.text="%s · %s\n生命 %d/%d  法力 %d/%d\n移动 %d 格 · 攻击距离 %d\n%s"%[u.name,{"knight":"骑士","archer":"弓手","mage":"法师"}.get(u.role,u.role),u.hp,u.max_hp,u.mp,u.max_mp,u.movement,u.reach,skill]
         action_buttons.move.text="移动 · 余 %d"%maxi(0,u.move_actions-u.moves_used)
         action_buttons.move.disabled=u.moves_used>=u.move_actions
@@ -183,10 +185,19 @@ func leave(quit_game):
     if quit_game:App.close_room();get_tree().quit()
     else:App.return_to_menu()
 
+func ability_description(ability):
+    var parts=["目标："+{"self":"自身","ally":"同阵营","enemy":"其他阵营"}[ability.target],"额外射程 +%d · 法力 %d · 冷却 %d 回合"%[ability.reach_bonus,ability.mp_cost,ability.cooldown]]
+    for effect in ability.effects:
+        parts.append(("治疗 %d"%effect.value if effect.op=="heal" else "攻击 +%d（%s）"%[effect.value,"法术" if ability.damage_type=="magic" else "物理"])+(" · 半径 %d"%effect.radius if effect.radius>0 else ""))
+    if ability.stationary:parts.append("移动后需行咒装备方可施放")
+    return "\n".join(parts)
+func scroll_list(parent):
+    var scroll=ScrollContainer.new();scroll.custom_minimum_size=Vector2(550,280);parent.add_child(scroll)
+    var list=UI.column(scroll,8);list.size_flags_horizontal=Control.SIZE_EXPAND_FILL;return list
 func show_abilities():
     if blocks_input() or game.selected<0:return
     var u=game.battle.units[game.selected]
-    var page=modal_page(u.name+" · 技能")
+    var page=modal_page(u.name+" · 技能");var list=scroll_list(page)
     for i in range(game.battle.content.abilities.size()):
         var ability=game.battle.content.abilities[i]
         if ability.id=="attack" or ability.id not in u.abilities:continue
@@ -195,7 +206,7 @@ func show_abilities():
         if ability.stationary:note+=" · 移动后不可施放" if not u.get("mobile_cast",false) else " · 行走施法已生效"
         var button=UI.button(ability.name+"　"+note,choose_ability.bind(ability.id))
         button.disabled=u.acted or u.mp<ability.mp_cost or u.cooldowns[i]>0 or (ability.charges>0 and u.charges[i]==0) or (ability.stationary and u.moves_used>0 and not u.get("mobile_cast",false))
-        page.add_child(button)
+        button.tooltip_text=ability_description(ability);list.add_child(button)
     page.add_child(UI.button("返回",clear_modal))
 func choose_ability(id):
     clear_modal();game.select_mode("ability:"+id)
@@ -226,6 +237,9 @@ func show_gear():
     var slots=OptionButton.new();selectors.add_child(slots)
     for name in ["主手","副手","头部","身体","双手","双脚","项链","戒指一","戒指二"]:slots.add_item(name)
     slots.select(gear_slot);slots.item_selected.connect(func(index):gear_slot=index;show_gear())
+    if people.item_count==0:
+        page.add_child(UI.paragraph("此关卡没有玩家控制的单位，无法整备。",550));page.add_child(UI.button("返回",clear_modal));return
+    if people.get_item_index(gear_unit)<0:gear_unit=people.get_item_id(0);people.select(0)
     var u=logic.units[gear_unit]
     page.add_child(UI.paragraph("生命上限 %d · 攻击 %d · 法术加成 %d · 护甲 %d · 抗性 %d\n每回合移动 %d 次；%s"%[u.max_hp,u.damage,u.spell_bonus,u.armor,u.resist,u.move_actions,"行走施法" if u.mobile_cast else "凝神光矢需原地施放"],550))
     var allowed=(logic.preparation or logic.outcome!="playing") and not game.session.pending
@@ -253,9 +267,16 @@ func equip_item(uid):
 func show_items():
     if blocks_input() or game.selected<0:return
     var page=modal_page("共用行囊 · 消耗品")
-    page.add_child(UI.paragraph("使用道具消耗当前单位的本回合行动。选择后点击合法友方目标。",550))
+    page.add_child(UI.paragraph("使用道具消耗本回合行动；目标与消耗遵循对应技能说明。",550))
+    var list=scroll_list(page);var u=game.battle.units[game.selected]
     for i in range(game.battle.content.consumables.size()):
         var item=game.battle.content.consumables[i]
-        var button=UI.button(item.name+" ×"+str(game.battle.supplies[i]),choose_item.bind(item.id));button.disabled=game.battle.supplies[i]<=0;page.add_child(button)
+        var button=UI.button(item.name+" ×"+str(game.battle.supplies[i]),choose_item.bind(item.id));button.disabled=game.battle.supplies[i]<=0 or u.acted
+        for j in range(game.battle.content.abilities.size()):
+            var ability=game.battle.content.abilities[j]
+            if ability.id==item.ability:
+                button.tooltip_text=ability_description(ability)
+                button.disabled=button.disabled or u.mp<ability.mp_cost or u.cooldowns[j]>0 or (ability.charges>0 and u.charges[j]==0) or (ability.stationary and u.moves_used>0 and not u.mobile_cast)
+        list.add_child(button)
     page.add_child(UI.button("返回",clear_modal))
 func choose_item(id):clear_modal();game.select_mode("item:"+id)

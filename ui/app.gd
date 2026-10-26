@@ -5,6 +5,8 @@ const Authority=preload("res://logic/authority.gd")
 const Content=preload("res://logic/content.gd")
 var session
 var editor_draft={}
+var editor_raw_draft=""
+var editor_saved_hash=""
 var save_root="user://saves"
 var server
 var server_authority

@@ -310,7 +310,7 @@ func _unhandled_input(event):
         var hit = origin + direction * (-origin.y/direction.y)
         var cell = Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
         var target = battle.at(cell)
-        if target >= 0 and battle.units[target].ally and not (mode == "skill" or mode.begins_with("ability:") or mode.begins_with("item:")):
+        if target >= 0 and battle.units[target].controller=="player" and (mode=="move" or (mode=="attack" and selected>=0 and battle.units[target].faction==battle.units[selected].faction)):
             selected = target
         elif mode == "move":
             session.submit({"kind":"move","unit":selected,"x":cell.x,"y":cell.y})

@@ -11,6 +11,7 @@ var unit_picker
 var mod_picker
 var saved_hash=""
 var transitioning=false
+var replace_dialog
 func _ready():
     theme=UI.make_theme()
     var bg=ColorRect.new();bg.color=Color("202b29");bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(bg)
@@ -38,12 +39,15 @@ func _ready():
     feedback=UI.paragraph("",1170);feedback.add_theme_font_size_override("font_size",16);col.add_child(feedback)
     data=App.editor_draft.duplicate(true) if not App.editor_draft.is_empty() else Content.default_content()
     if data.id=="amber_bridge":data.id="my_bridge";data.title="我的琥珀桥"
-    sync_view();refresh_mods();saved_hash=Content.hash_of(data)
+    var pending_raw=App.editor_raw_draft
+    sync_view();refresh_mods();saved_hash=App.editor_saved_hash if not App.editor_saved_hash.is_empty() else Content.hash_of(data)
+    if not pending_raw.is_empty():raw.text=pending_raw
+    raw.text_changed.connect(func():App.editor_raw_draft=raw.text)
 func sync_view():
     raw.text=JSON.stringify(data,"  ",true);grid.data=data;grid.queue_redraw()
     unit_picker.clear()
     for u in data.units:unit_picker.add_item(u.name+" · "+u.id)
-    App.editor_draft=data.duplicate(true)
+    App.editor_draft=data.duplicate(true);App.editor_raw_draft=raw.text
 func apply_json():
     if raw.text.to_utf8_buffer().size()>Content.MAX_BYTES:feedback.text="内容超过 128 KiB。";return false
     var candidate=Content.normalize(Content.parse_json(raw.text))
@@ -80,28 +84,37 @@ func save_mod():
 func perform_save(overwrite):
     var error=Content.write_mod(data,overwrite)
     feedback.text="已保存 Mod："+data.id if error.is_empty() else error
-    if error.is_empty():saved_hash=Content.hash_of(data);refresh_mods()
+    if error.is_empty():saved_hash=Content.hash_of(data);App.editor_saved_hash=saved_hash;refresh_mods()
 func reload_selected():
     if mod_picker.item_count==0 or mod_picker.is_item_disabled(mod_picker.selected):feedback.text="没有可加载的 Mod。";return
     var name=mod_picker.get_item_text(mod_picker.selected)
     if name.contains("/") or name.contains("\\"):feedback.text="无效文件名。";return
     var result=Content.from_file("user://mods/"+name)
     if not result.error.is_empty():feedback.text=result.error;return
-    data=result.data;sync_view();saved_hash=Content.hash_of(data);feedback.text="已重新加载："+data.title
+    confirm_replace(func():
+        data=result.data;sync_view();saved_hash=Content.hash_of(data);App.editor_saved_hash=saved_hash;feedback.text="已重新加载："+data.title)
 func import_dialog():
     var dialog=FileDialog.new();dialog.file_mode=FileDialog.FILE_MODE_OPEN_FILE;dialog.access=FileDialog.ACCESS_FILESYSTEM;dialog.filters=PackedStringArray(["*.json ; 数据型 Mod"]);dialog.title="导入数据型 Mod";dialog.theme=theme;add_child(dialog)
     dialog.file_selected.connect(func(path):
         var result=Content.from_file(path)
         if not result.error.is_empty():feedback.text="未导入："+result.error
-        else:data=result.data;sync_view();feedback.text="已载入编辑缓冲；点击保存才会写入用户 Mod 目录。"
+        else:confirm_replace(func():data=result.data;sync_view();feedback.text="已载入编辑缓冲；点击保存才会写入用户 Mod 目录。")
         dialog.queue_free())
     dialog.canceled.connect(dialog.queue_free);dialog.popup_centered_ratio(0.8)
 func play():
     if transitioning or not apply_json():return
-    transitioning=true;App.editor_draft=data.duplicate(true);App.new_game(data)
+    transitioning=true;App.editor_draft=data.duplicate(true);App.editor_raw_draft=raw.text;App.new_game(data)
     get_tree().call_deferred("change_scene_to_file","res://main.tscn")
+func is_dirty():return raw.text!=JSON.stringify(data,"  ",true) or Content.hash_of(data)!=saved_hash
+func confirm_replace(action):
+    if not is_dirty():action.call();return
+    if is_instance_valid(replace_dialog):return
+    replace_dialog=ConfirmationDialog.new();replace_dialog.title="替换当前编辑？";replace_dialog.dialog_text="当前未保存的编辑将被替换。取消可继续编辑或先保存。";replace_dialog.ok_button_text="替换编辑";replace_dialog.cancel_button_text="取消";replace_dialog.exclusive=true;replace_dialog.theme=theme;add_child(replace_dialog)
+    var dialog=replace_dialog
+    dialog.confirmed.connect(func():action.call();dialog.queue_free());dialog.canceled.connect(dialog.queue_free);dialog.popup_centered(Vector2i(580,190))
 func request_back():
-    if raw.text!=JSON.stringify(data,"  ",true) or Content.hash_of(data)!=saved_hash:
+    App.editor_raw_draft=raw.text;App.editor_saved_hash=saved_hash
+    if is_dirty():
         var dialog=ConfirmationDialog.new();dialog.title="离开工坊？";dialog.dialog_text="未保存编辑会保留在本次运行的草稿中，但退出程序后不会保留。先保存可避免丢失。";dialog.ok_button_text="离开";dialog.cancel_button_text="继续编辑";dialog.theme=theme;dialog.exclusive=true;add_child(dialog)
         dialog.confirmed.connect(func():get_tree().change_scene_to_file("res://ui/menu.tscn"));dialog.canceled.connect(dialog.queue_free);dialog.popup_centered(Vector2i(620,210))
     else:get_tree().call_deferred("change_scene_to_file","res://ui/menu.tscn")
