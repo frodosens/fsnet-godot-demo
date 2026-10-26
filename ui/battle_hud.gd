@@ -319,7 +319,7 @@ func toggle_pause():
     c.add_child(scene_button)
     var brightness=HBoxContainer.new();c.add_child(brightness)
     brightness.add_child(UI.label("角色补光",18))
-    var level=HSlider.new();level.min_value=0;level.max_value=0.6;level.step=0.05;level.value=App.character_emission;level.custom_minimum_size=Vector2(320,32);level.tooltip_text="只调整角色原色补光，保留场景光照与阴影。"
+    var level=HSlider.new();level.min_value=0;level.max_value=0.6;level.step=0.05;level.value=App.character_emission;level.custom_minimum_size=Vector2(320,44);level.tooltip_text="只调整角色原色补光，保留场景光照与阴影。"
     level.value_changed.connect(func(value):App.character_emission=value)
     brightness.add_child(level)
     c.get_child(2).grab_focus()

@@ -28,6 +28,7 @@ static func make_theme():
     t.set_stylebox("hover","PopupMenu",generated_skin("buttons/selected.png"))
     t.set_color("font_color","PopupMenu",INK)
     t.set_color("font_hover_color","PopupMenu",INK)
+    small_controls(t)
     return t
 static func generated_skin(path,tint=Color.WHITE):
     var style=StyleBoxTexture.new();style.texture=load("res://assets/ui/bottom_dock_reference/"+path);style.modulate_color=tint
@@ -77,3 +78,26 @@ static func framed_portrait(id):
     # Retain all nontransparent pixels, removing delivery padding rather than stretching the face.
     var atlas=AtlasTexture.new();atlas.atlas=texture;atlas.region=bounds;atlas.filter_clip=true
     portrait_regions[id]=atlas;return atlas
+
+static func control_texture(name):
+    return load("res://assets/ui/bottom_dock_reference/controls/"+name+".png")
+static func control_track(name,margins,tint=Color.WHITE):
+    var style=StyleBoxTexture.new();style.texture=control_texture(name);style.modulate_color=tint
+    for side in [SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM]:style.set_texture_margin(side,margins[side])
+    return style
+static func small_controls(t):
+    for kind in ["CheckBox","CheckButton"]:
+        for checked in ["checked","unchecked"]:
+            t.set_icon(checked,kind,control_texture("checkbox_"+checked))
+            t.set_icon(checked+"_disabled",kind,control_texture("checkbox_"+checked))
+        t.set_color("font_disabled_color",kind,Color("a4aaa4"))
+        for state in ["normal","hover","pressed","hover_pressed","focus"]:
+            t.set_stylebox(state,kind,generated_skin("buttons/selected.png" if state=="focus" else "buttons/normal.png"))
+    for state in ["slider","grabber_area","grabber_area_highlight"]:t.set_stylebox(state,"HSlider",control_track("slider_track",[4,2,4,2]))
+    for state in ["grabber","grabber_highlight","grabber_disabled"]:t.set_icon(state,"HSlider",control_texture("slider_thumb"))
+    for state in ["scroll","scroll_focus"]:t.set_stylebox(state,"VScrollBar",control_track("scrollbar_track",[2,4,2,4]))
+    for state in ["grabber","grabber_highlight","grabber_pressed"]:t.set_stylebox(state,"VScrollBar",control_track("scrollbar_thumb",[2,4,2,4],Color(1.1,1.1,1.1) if state!="grabber" else Color.WHITE))
+    for direction in ["up","down"]:
+        t.set_icon("increment" if direction=="down" else "decrement","VScrollBar",control_texture("indicator_"+direction))
+    t.set_icon("arrow","OptionButton",control_texture("indicator_down"))
+    t.set_icon("submenu","PopupMenu",control_texture("indicator_right"))
