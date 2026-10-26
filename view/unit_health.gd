@@ -9,6 +9,8 @@ var previous_hp=-1
 var damage_time=0.0
 var rendered_size=Vector2.ZERO
 var faction_ally=true
+var unit_index=-1
+var horizontal_offset=0.0
 func _init():
     backing=make_sprite("",0)
     var texture=GradientTexture2D.new();texture.width=320;texture.height=24
@@ -45,8 +47,28 @@ func _process(delta):
     var world_per_pixel=world_height/physical.y
     for sprite in [backing,fill,frame]:
         sprite.pixel_size=world_per_pixel*width/320.0;sprite.scale.y=(height/width)*(320.0/24.0)
+    fill.scale.y*=1.30
     backing.position=Vector3.ZERO;fill.position=camera.global_basis.z*0.002;frame.position=camera.global_basis.z*0.004
-    backing.scale=Vector3((width+4)/width,((height+4)/width)*(320.0/24.0),1)
+    backing.scale=Vector3((width+2)/width,((height+2)/width)*(320.0/24.0),1)
     frame.modulate=Color(1.3,1.3,1.1) if selected or damage_time>0 else Color.WHITE
     marker.pixel_size=world_per_pixel*10.0/32.0
     marker.position=-camera.global_basis.x*(width*0.5+9)*world_per_pixel
+
+    # Protect nearby faces without moving a meter multiple tiles away from its owner.
+    var game=get_parent()
+    if unit_index>=0 and unit_index<game.figures.size():
+        var owner_figure=game.figures[unit_index]
+        var base=owner_figure.position+Vector3.UP*(game.badge_height(unit_index)-game.figure_height(unit_index))
+        var center=camera.unproject_position(base)*pixels_per_logical
+        horizontal_offset=0
+        for offset in [0.0,width+12.0,-width-12.0]:
+            var rect=Rect2(center+Vector2(offset-width*0.5-16,-height*0.5-1),Vector2(width+18,height+2))
+            var clear=true
+            for i in range(game.figures.size()):
+                if i==unit_index or game.battle.units[i].hp<=0:continue
+                var figure=game.figures[i];var unit_pixel=figure.pixel_size
+                var top=camera.unproject_position(figure.position-camera.global_basis.x*20*unit_pixel+Vector3.UP*52*unit_pixel)*pixels_per_logical
+                var bottom=camera.unproject_position(figure.position+camera.global_basis.x*20*unit_pixel+Vector3.UP*6*unit_pixel)*pixels_per_logical
+                if rect.intersects(Rect2(top,bottom-top)):clear=false;break
+            if clear:horizontal_offset=offset;break
+        position=base+camera.global_basis.x*horizontal_offset*world_per_pixel

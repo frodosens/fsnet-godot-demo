@@ -3,6 +3,7 @@ func _initialize():call_deferred("run")
 func frames(n=8):
     for i in range(n):await process_frame
 func shot(name):
+    if "--thin-meter" in OS.get_cmdline_user_args():name="thin-"+name
     await frames();await RenderingServer.frame_post_draw
     assert(root.get_texture().get_image().save_png("res://docs/"+name+".png")==OK)
 func run():

@@ -1,0 +1,11 @@
+{
+  "mara_crop": [
+    510,
+    365,
+    570,
+    438
+  ],
+  "changed_pixels": 1313,
+  "max_channel_delta": 107,
+  "note": "same fixed rig pose; directional and painted lights toggled, emission retained; background unlit"
+}

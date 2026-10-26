@@ -81,6 +81,8 @@ func advance(delta):
             var textures=frames[motion.role][direction]
             var tuning=gait.get(motion.role,{}).get(direction,{})
             var stride=clampf(float(tuning.get("stride_world_distance",DEFAULT_STRIDE)),0.1,2.0)*game.character_scale
+            var rig_active=App.mara_layer_preview and game.layer_rig.available and id=="mara" and direction=="back_right"
+            if rig_active:stride=game.layer_rig.stride*game.character_scale
             var rate=clampf(float(tuning.get("fps",fps)),4,16)
             var velocity=stride*rate/textures.size()
             var travel=minf(1.0-motion.distance,remaining*velocity)
@@ -90,6 +92,10 @@ func advance(delta):
             game.facing[id]=direction
             game.figures[i].position=Vector3(start.x,game.figure_height(i),start.y).lerp(Vector3(end.x,game.figure_height(i),end.y),motion.distance)
             game.figures[i].texture=textures[int(floor(motion.cycles*textures.size()+0.00001))%textures.size()]
+            if rig_active:
+                var composite=game.layer_rig.draw_walk(i,direction,motion.cycles,stride,Vector2(end-start))
+                if composite:game.figures[i].texture=composite
+            elif id=="mara":game.layer_rig.stop()
             if motion.distance>=0.999999:
                 motion.segment+=1;motion.distance=0.0
         if motion.segment>=motion.path.size()-1:
