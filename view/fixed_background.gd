@@ -15,7 +15,10 @@ func compatible():
     var authored=preload("res://logic/content.gd").reference_content()
     var current=game.battle.content
     return current.id==authored.id and current.width==authored.width and current.height==authored.height and current.terrain==authored.terrain
-func available():return compatible() and ResourceLoader.exists(BACKGROUND)
+func available():
+    if not compatible() or not ResourceLoader.exists(BACKGROUND):return false
+    var texture=load(BACKGROUND)
+    return texture is Texture2D and texture.get_size()==Vector2(1280,800)
 func _ready():
     process_priority=100
     saved_size=game.camera.size;saved_aspect=game.camera.keep_aspect

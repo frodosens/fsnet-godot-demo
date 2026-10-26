@@ -1,0 +1,54 @@
+{
+  "background_sha256": "1bbb8d93bd390f726adba0cf762c5624e21b143ce97ccdaf2d8cec81b76c3cb1",
+  "viewport": [
+    1280,
+    800
+  ],
+  "fixture": false,
+  "actual_move": {
+    "unit": "mara",
+    "to": [
+      4,
+      4
+    ]
+  },
+  "light_toggle_changed_pixels_gt1": 8383,
+  "light_toggle_difference_bounds": [
+    427,
+    181,
+    997,
+    505
+  ],
+  "shadow_type": "six independent soft contact planes, not directional cast shadows",
+  "known_edge_cells": [
+    [
+      6,
+      2
+    ],
+    [
+      7,
+      2
+    ],
+    [
+      8,
+      2
+    ],
+    [
+      9,
+      2
+    ],
+    [
+      0,
+      6
+    ],
+    [
+      1,
+      6
+    ]
+  ],
+  "screenshots": {
+    "fixed-background-runtime": "744040d0abda591d9af98c4569f4788cd80843c851fa4b8091411217ebec4ba6",
+    "fixed-background-character-light-off": "5365cf6a03c5960264aeb7c91aa1674f63486f7f02f6a5692f4e897443051580",
+    "fixed-background-3d-comparison": "2f6ef47e44b251e3c28c92da78dbc531210868bc0e0290b6534f80cc6c697b89"
+  }
+}

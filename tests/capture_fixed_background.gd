@@ -10,6 +10,9 @@ func run():
     var app=root.get_node("App");app.scene_renderer="three_d";app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh()
+    if "--bridge-position" in OS.get_cmdline_user_args():
+        assert(app.session.submit({"kind":"move","unit":0,"x":4,"y":4}))
+        game.battle=app.session.logic;game.refresh();game.skip_presentation();game.mode="attack";game.refresh()
     Input.warp_mouse(game.camera.unproject_position(Vector3(4,0,4)));await frames();game.update_move_preview(Vector2i(4,4))
     var truth=game.battle.snapshot()
     var fixture="--fixture-guide" in OS.get_cmdline_user_args()
@@ -18,7 +21,7 @@ func run():
         assert(game.scene_view.set_fixed(true,ImageTexture.create_from_image(image)))
         await frames();game.update_move_preview(Vector2i(4,4));await capture("/tmp/amber-fixed-guide-runtime.png")
     else:
-        assert(game.scene_view.available())
+        if not game.scene_view.available():printerr("BACKGROUND_UNAVAILABLE");quit(1);return
         await capture("res://docs/fixed-background-3d-comparison.png")
         assert(game.scene_view.set_fixed(true));await frames()
         Input.warp_mouse(game.camera.unproject_position(Vector3(4,0,4)));game.update_move_preview(Vector2i(4,4))
