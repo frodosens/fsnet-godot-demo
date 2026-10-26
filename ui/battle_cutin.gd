@@ -19,14 +19,14 @@ func _ready():
     surface=Control.new();surface.theme=UI.make_theme();surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(surface)
     var shade=ColorRect.new();shade.color=Color(0.10,0.09,0.08,0.88);shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);surface.add_child(shade)
     var stage=PanelContainer.new();stage.position=Vector2(100,130);stage.size=Vector2(1080,480);surface.add_child(stage)
-    var floor_panel=ColorRect.new();floor_panel.color=Color("a98c61");floor_panel.position=Vector2(120,495);floor_panel.size=Vector2(1040,90);surface.add_child(floor_panel)
+    var floor_panel=ColorRect.new();floor_panel.color=Color("59624b");floor_panel.position=Vector2(120,495);floor_panel.size=Vector2(1040,90);surface.add_child(floor_panel)
     title=UI.label("玛拉 · 突刺",26);title.position=Vector2(145,155);surface.add_child(title)
     attacker=figure();defender=figure()
-    damage_label=UI.label("",42,Color("8a352b"));damage_label.position=Vector2(850,275);surface.add_child(damage_label)
+    damage_label=UI.label("",42,Color("d5a18b"));damage_label.position=Vector2(850,275);surface.add_child(damage_label)
     var quick=UI.button("加速 ×1",func():speed=3.0 if speed==1.0 else 1.0)
     quick.position=Vector2(850,630);quick.pressed.connect(func():quick.text="加速 ×"+str(int(speed)));surface.add_child(quick)
     var skip=UI.button("跳过 · 空格",finish);skip.position=Vector2(1000,630);surface.add_child(skip)
-    var note=UI.label("战斗结果已结算；此处仅播放演出。",16,Color("eadbbd"));note.position=Vector2(120,635);surface.add_child(note)
+    var note=UI.label("战斗结果已结算；此处仅播放演出。",16,Color("adb3a6"));note.position=Vector2(120,635);surface.add_child(note)
     surface.hide()
 func figure():
     var image=TextureRect.new();image.size=Vector2(384,320);image.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;image.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(image);return image

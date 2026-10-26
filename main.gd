@@ -4,6 +4,7 @@ var session
 const Hud=preload("res://ui/battle_hud.gd")
 var hud
 var cutin
+var motion
 var battle
 var last_step = -1
 var network_label: Label
@@ -68,15 +69,15 @@ func build_world():
     var environment = WorldEnvironment.new()
     var settings = Environment.new()
     settings.background_mode = Environment.BG_COLOR
-    settings.background_color = Color("c7ac87")
+    settings.background_color = Color("202b29")
     settings.ambient_light_source = Environment.AMBIENT_SOURCE_COLOR
-    settings.ambient_light_color = Color("e9d9bb")
+    settings.ambient_light_color = Color("d6d9ce")
     settings.ambient_light_energy = 0.35
     environment.environment = settings
     add_child(environment)
     var sun = DirectionalLight3D.new()
     sun.rotation_degrees = Vector3(-48,-35,0)
-    sun.light_color = Color("ffd58b")
+    sun.light_color = Color("e8dfcf")
     sun.light_energy = 0.85
     sun.shadow_enabled = true
     add_child(sun)
@@ -85,7 +86,7 @@ func build_world():
             var pos = Vector2i(x,z)
             var water = battle.content.terrain[z][x]=="W"
             var bridge = battle.content.terrain[z][x]=="B"
-            var color = "547f89" if water else ("bdab8b" if bridge else ("8e9d64" if (x+z)%2 else "9eaa70"))
+            var color = "596d76" if water else ("85847a" if bridge else ("59624b" if (x+z)%2 else "626a52"))
             var tile = box(Vector3(x,-0.18 if not water else -0.38,z),Vector3(0.98,0.3 if not water else 0.12,0.98),color)
             tiles[pos] = {"node":tile,"color":color}
     # Bridge rails follow the data map; X cells are actual blocked obstacles.
@@ -97,20 +98,20 @@ func build_world():
                     if x+side>=0 and x+side<battle.size.x and battle.content.terrain[z][x+side]=="W":
                         box(Vector3(x+side*0.47,0.13,z),Vector3(0.12,0.5,0.8),"a08e77")
     # Small original low-poly roadside inn: no imported models or textures.
-    box(Vector3(-1.1,0.6,6.7),Vector3(1.5,1.4,1.0),"d9b986")
-    box(Vector3(-1.1,1.4,6.7),Vector3(1.8,0.3,1.3),"9d6749")
+    box(Vector3(-1.1,0.6,6.7),Vector3(1.5,1.4,1.0),"8b887b")
+    box(Vector3(-1.1,1.4,6.7),Vector3(1.8,0.3,1.3),"73594d")
     box(Vector3(-1.1,0.3,7.22),Vector3(0.38,0.8,0.04),"694d3b")
-    for x in [-1.52,-0.65]: box(Vector3(x,0.85,7.23),Vector3(0.26,0.28,0.05),"ffdc88")
+    for x in [-1.52,-0.65]: box(Vector3(x,0.85,7.23),Vector3(0.26,0.28,0.05),"d7b87d")
     for p in [Vector3(2,0,7),Vector3(7,0,0)]:
         box(p+Vector3(0,0.5,0),Vector3(0.08,1,0.08),"594633")
         var lamp = OmniLight3D.new()
         lamp.position = p+Vector3(0,1,0)
-        lamp.light_color = Color("ffb954")
-        lamp.light_energy = 0.8
+        lamp.light_color = Color("ceab7c")
+        lamp.light_energy = 0.30
         lamp.omni_range = 3
         lamp.shadow_enabled = true
         add_child(lamp)
-        box(p+Vector3(0,1,0),Vector3(0.2,0.24,0.2),"ffcf78")
+        box(p+Vector3(0,1,0),Vector3(0.2,0.24,0.2),"ce9a57")
     camera = Camera3D.new()
     camera.projection = Camera3D.PROJECTION_ORTHOGONAL
     camera.size = maxf(battle.size.x,battle.size.y)+4.4
@@ -185,14 +186,15 @@ func pixel_person(role,ally):
 func build_hud():
     hud=Hud.new();hud.game=self;add_child(hud)
     cutin=preload("res://ui/battle_cutin.gd").new();add_child(cutin)
+    motion=preload("res://view/unit_motion.gd").new();motion.game=self;add_child(motion);motion.last_step=battle.step
 
 func select_mode(value):
-    if (cutin and cutin.active) or (hud and hud.blocks_input()):return
+    if presentation_active() or (hud and hud.blocks_input()):return
     mode = value
     refresh()
 
 func finish_turn():
-    if (cutin and cutin.active) or (hud and hud.blocks_input()):return
+    if presentation_active() or (hud and hud.blocks_input()):return
     session.submit({"kind":"end_turn"})
     battle=session.logic
     refresh()
@@ -209,6 +211,7 @@ func restart():
     refresh()
 
 func refresh():
+    if motion:motion.consume(battle.step,battle.events)
     if not battle.usable(selected):
         selected = -1
         for i in range(battle.units.size()):
@@ -218,8 +221,8 @@ func refresh():
     var possible = battle.reachable(selected) if selected >= 0 else {}
     for pos in tiles:
         var color = Color(tiles[pos].color)
-        if selected >= 0 and battle.units[selected].pos == pos: color = Color("e7c36c")
-        elif selected >= 0 and mode == "move" and not battle.units[selected].moved and possible.has(pos): color = color.lerp(Color("f8d991"),0.4)
+        if selected >= 0 and battle.units[selected].pos == pos: color = Color("91aaa3")
+        elif selected >= 0 and mode == "move" and not battle.units[selected].moved and possible.has(pos): color = color.lerp(Color("b3b7a1"),0.4)
         tiles[pos].node.material_override.albedo_color = color
     for i in range(battle.units.size()):
         var u = battle.units[i]
@@ -233,19 +236,20 @@ func refresh():
                 for target in battle.units:
                     if target.id==event.target:facing[u.id]=projected_facing(u.pos,target.pos)
         var texture_key=u.id+":"+facing.get(u.id,"front")
-        if direction_textures.has(texture_key):figures[i].texture=direction_textures[texture_key]
-        figures[i].position = Vector3(u.pos.x,0.63 if figures[i].get_meta("formal_art") else 0.72,u.pos.y)
+        if direction_textures.has(texture_key) and not motion.motions.has(u.id):figures[i].texture=direction_textures[texture_key]
+        if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,0.63 if figures[i].get_meta("formal_art") else 0.72,u.pos.y)
         badges[i].position = Vector3(u.pos.x,1.62,u.pos.y)
         badges[i].text = "%s  %d/%d" % [u.name,u.hp,u.max_hp]
         badges[i].modulate = Color("fff0c9") if u.ally else Color("ffd2b4")
     if hud:hud.refresh()
-    if cutin:cutin.consume(battle.step,battle.events)
+    if cutin and not motion.active():cutin.consume(battle.step,battle.events)
 
 func _unhandled_input(event):
     if event is InputEventKey and event.pressed and not event.echo:
+        if presentation_active() and event.physical_keycode in [KEY_SPACE,KEY_ENTER,KEY_ESCAPE]:skip_presentation();get_viewport().set_input_as_handled();return
         if event.physical_keycode==KEY_ESCAPE:hud.toggle_pause();return
         if hud.story_panel.visible and event.physical_keycode in [KEY_SPACE,KEY_ENTER]:hud.advance(false);return
-    if cutin.active or hud.blocks_input():return
+    if presentation_active() or hud.blocks_input():return
     if event is InputEventKey and event.pressed and not event.echo:
         match event.physical_keycode:
             KEY_1: select_mode("move")
@@ -291,3 +295,10 @@ func projected_facing(from_cell,to_cell):
     var delta=finish-start
     if absf(delta.x)>absf(delta.y):return "right" if delta.x>0 else "left"
     return "front" if delta.y>0 else "back"
+
+func presentation_active():return (motion and motion.active()) or (cutin and cutin.active)
+func motion_finished():
+    if cutin:cutin.consume(battle.step,battle.events)
+func skip_presentation():
+    if motion:motion.finish()
+    if cutin:cutin.finish()

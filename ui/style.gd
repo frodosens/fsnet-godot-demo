@@ -1,8 +1,8 @@
 extends RefCounted
 static var font
-const INK=Color("302d28")
-const PAPER=Color("f0e5cb")
-const GOLD=Color("b68b44")
+const INK=Color("e4dcc5")
+const PAPER=Color("293432")
+const GOLD=Color("ce9a57")
 static func make_theme():
     if not font:
         var base=FontFile.new()
@@ -10,18 +10,18 @@ static func make_theme():
         font=FontVariation.new();font.base_font=base;font.variation_face_index=2
     var t=Theme.new();t.default_font=font;t.default_font_size=18
     for kind in ["Label","Button","CheckButton","LineEdit","TextEdit","OptionButton","SpinBox"]:t.set_color("font_color",kind,INK)
-    t.set_stylebox("panel","PanelContainer",box(PAPER,GOLD,12))
+    t.set_stylebox("panel","PanelContainer",skin("panel",Color.WHITE,32,32))
     for kind in ["Button","OptionButton"]:
-        t.set_stylebox("normal",kind,box(Color("e6d7b5"),Color("bc9b64"),7))
-        t.set_stylebox("hover",kind,box(Color("f8e7ba"),GOLD,7))
-        t.set_stylebox("pressed",kind,box(Color("d5ba83"),Color("91682e"),7))
-        t.set_stylebox("disabled",kind,box(Color("d8d1bf"),Color("b6af9f"),7))
-        t.set_stylebox("focus",kind,box(Color(0,0,0,0),Color("855d29"),7,3))
-        t.set_color("font_disabled_color",kind,Color("888275"))
+        t.set_stylebox("normal",kind,skin("button",Color.WHITE,24,20))
+        t.set_stylebox("hover",kind,skin("button",Color(1.15,1.15,1.10),24,20))
+        t.set_stylebox("pressed",kind,skin("button",Color(0.8,0.85,0.8),24,20))
+        t.set_stylebox("disabled",kind,skin("button",Color(0.65,0.65,0.65),24,20))
+        t.set_stylebox("focus",kind,box(Color(0,0,0,0),GOLD,0,1))
+        t.set_color("font_disabled_color",kind,Color("777f77"))
         for state in ["font_hover_color","font_focus_color","font_pressed_color","font_hover_pressed_color"]:t.set_color(state,kind,INK)
     for kind in ["LineEdit","TextEdit"]:
-        t.set_stylebox("normal",kind,box(Color("fff8e8"),Color("bca77f"),5))
-        t.set_stylebox("focus",kind,box(Color("fff8e8"),GOLD,5,2))
+        t.set_stylebox("normal",kind,box(Color("202b29"),Color("59624b"),5))
+        t.set_stylebox("focus",kind,box(Color("202b29"),GOLD,5,2))
         t.set_color("caret_color",kind,INK)
     return t
 static func box(fill,border,radius=8,width=1):
@@ -41,3 +41,12 @@ static func portrait(id,size=128):
     var path="res://assets/portraits/"+id+".png"
     if ResourceLoader.exists(path):control.texture=load(path)
     return control
+
+static func skin(name,tint=Color.WHITE,xmargin=32,ymargin=32):
+    var style=StyleBoxTexture.new();style.texture=load("res://assets/ui/v2/"+name+".png");style.modulate_color=tint
+    for side in [SIDE_LEFT,SIDE_RIGHT]:style.set_texture_margin(side,xmargin)
+    for side in [SIDE_TOP,SIDE_BOTTOM]:style.set_texture_margin(side,ymargin)
+    style.content_margin_left=16;style.content_margin_right=16;style.content_margin_top=10;style.content_margin_bottom=10
+    return style
+static func menu_button(text,action):
+    var control=preload("res://ui/menu_button.gd").new();control.text=text;control.pressed.connect(action);return control

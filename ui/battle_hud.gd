@@ -62,7 +62,7 @@ func panel(pos,size):
 func select_hero(index):
     if blocks_input():return
     game.selected=index;game.refresh()
-func blocks_input():return is_instance_valid(modal) or (story_panel and story_panel.visible)
+func blocks_input():return game.presentation_active() or is_instance_valid(modal) or (story_panel and story_panel.visible)
 func refresh():
     if not root:return
     var logic=game.battle
@@ -107,7 +107,7 @@ func refresh():
     refresh_story()
 func refresh_story():
     var line=App.next_story()
-    story_panel.visible=not line.is_empty() and not is_instance_valid(modal)
+    story_panel.visible=not line.is_empty() and not is_instance_valid(modal) and not game.presentation_active()
     if line.is_empty():story_key="";return
     var key=line.id+":"+str(line.index)
     if key==story_key:return

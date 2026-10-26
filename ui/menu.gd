@@ -9,15 +9,15 @@ var network_status
 var enter_button
 var token_edit
 var exit_dialog
+var workshop_link
 var port_edit
 func _ready():
     theme=UI.make_theme()
-    var bg=ColorRect.new();bg.color=Color("b7a17b");bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(bg)
-    var sun=ColorRect.new();sun.color=Color("d5bd86");sun.position=Vector2(650,0);sun.size=Vector2(630,800);sun.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(sun)
-    var title=UI.label("琥珀桥来信",52);title.position=Vector2(100,98);add_child(title)
-    var subtitle=UI.label("一封信，一箱药，一座需要重新通行的桥。",20);subtitle.position=Vector2(104,178);add_child(subtitle)
-    card=PanelContainer.new();card.position=Vector2(100,245);card.custom_minimum_size=Vector2(530,465);add_child(card)
-    var note=UI.label("第一章 · 桥上的欠条\n暖色幻想 / 回合战棋 / 本机合作",18);note.position=Vector2(740,580);add_child(note)
+    var bg=TextureRect.new();bg.texture=load("res://assets/ui/v2/menu_background.png");bg.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;bg.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED;bg.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);bg.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(bg)
+    var title=UI.label("琥珀桥来信",42);title.position=Vector2(54,144);add_child(title)
+    var subtitle=UI.label("AMBER BRIDGE",19,Color("adb3a6"));subtitle.position=Vector2(55,218);add_child(subtitle)
+    card=PanelContainer.new();add_child(card)
+    workshop_link=UI.menu_button("关卡工坊",show_workshop);workshop_link.position=Vector2(48,696);workshop_link.add_theme_font_size_override("font_size",18);add_child(workshop_link)
     show_home()
     for arg in OS.get_cmdline_user_args():
         if arg=="--battle" or arg=="--scene-smoke":start_new()
@@ -26,14 +26,16 @@ func _ready():
     capture_if_requested()
 func clear_page(title):
     if page:card.remove_child(page);page.queue_free()
+    card.position=Vector2(420,140);card.custom_minimum_size=Vector2(740,0);card.size=Vector2(740,0);card.remove_theme_stylebox_override("panel");workshop_link.hide()
     page=UI.column(card,12);page.add_child(UI.label(title,26));network_status=null;enter_button=null
 func show_home():
-    busy=false;clear_page("启程")
-    page.add_child(UI.button("开始新游戏",start_new))
-    page.add_child(UI.button("读取存档",show_load))
-    page.add_child(UI.button("网络对局",show_network))
-    var workshop=UI.button("关卡工坊",show_workshop);page.add_child(workshop)
-    page.add_child(UI.button("退出游戏",request_exit))
+    busy=false;clear_page("")
+    card.position=Vector2(48,326);card.custom_minimum_size=Vector2(330,0);card.size=Vector2(330,0);card.add_theme_stylebox_override("panel",StyleBoxEmpty.new())
+    page.get_child(0).hide();page.add_theme_constant_override("separation",20);workshop_link.show()
+    page.add_child(UI.menu_button("开始新游戏",start_new))
+    page.add_child(UI.menu_button("读取存档",show_load))
+    page.add_child(UI.menu_button("网络对局",show_network))
+    page.add_child(UI.menu_button("退出游戏",request_exit))
     page.get_child(1).grab_focus()
 func start_new():
     if busy:return

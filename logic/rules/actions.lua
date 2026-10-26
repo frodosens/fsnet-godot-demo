@@ -5,9 +5,13 @@ local function execute_action(c,index)
     if not u or u.hp<=0 then return false end
     if c.kind=='move' then
       if u.moves_used>=u.move_actions or not walkable(c.x,c.y) or at(c.x,c.y) then return false end
-      local found=false
-      for _,p in ipairs(reachable(index)) do if p.x==c.x and p.y==c.y then found=true; break end end
+      local found
+      local cells=reachable(index)
+      for j,p in ipairs(cells) do if p.x==c.x and p.y==c.y then found=j; break end end
       if not found then return false end
+      local path={};local cursor=found
+      while cursor>0 do local p=cells[cursor];table.insert(path,1,{x=p.x,y=p.y});cursor=p.parent end
+      effects[#effects+1]={kind='move',actor=u.id,path=path}
       u.x,u.y=c.x,c.y;u.moves_used=u.moves_used+1;u.moved=u.moves_used>=u.move_actions
     elseif c.kind=='item' then
       local item,slot

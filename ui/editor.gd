@@ -13,7 +13,7 @@ var saved_hash=""
 var transitioning=false
 func _ready():
     theme=UI.make_theme()
-    var bg=ColorRect.new();bg.color=Color("c6b58f");bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(bg)
+    var bg=ColorRect.new();bg.color=Color("202b29");bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(bg)
     var outer=PanelContainer.new();outer.position=Vector2(20,18);outer.custom_minimum_size=Vector2(1240,762);add_child(outer)
     var col=UI.column(outer,10)
     var bar=HBoxContainer.new();bar.add_theme_constant_override("separation",10);col.add_child(bar)
