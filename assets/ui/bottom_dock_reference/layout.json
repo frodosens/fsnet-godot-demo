@@ -1,0 +1,143 @@
+{
+  "canvas": [
+    1586,
+    992
+  ],
+  "rect_format": "x,y,width,height; source design pixels",
+  "rects": {
+    "character_panel": [
+      12,
+      811,
+      517,
+      157
+    ],
+    "portrait": [
+      15,
+      762,
+      169,
+      203
+    ],
+    "action_and_movement_dock": [
+      545,
+      819,
+      690,
+      149
+    ],
+    "first_action_button": [
+      565,
+      830,
+      124,
+      127
+    ],
+    "action_button_pitch": 132,
+    "end_turn": [
+      1287,
+      873,
+      280,
+      79
+    ],
+    "phase": [
+      620,
+      27,
+      347,
+      50
+    ],
+    "hp_shell": [
+      236,
+      866,
+      204,
+      20
+    ],
+    "mp_shell": [
+      236,
+      893,
+      204,
+      20
+    ]
+  },
+  "action_rects": {
+    "move": [
+      565,
+      830,
+      124,
+      127
+    ],
+    "attack": [
+      697,
+      830,
+      124,
+      127
+    ],
+    "skill": [
+      829,
+      830,
+      124,
+      127
+    ],
+    "item": [
+      961,
+      830,
+      124,
+      127
+    ],
+    "wait": [
+      1093,
+      830,
+      124,
+      127
+    ],
+    "confirm": [
+      871,
+      848,
+      202,
+      88
+    ],
+    "cancel": [
+      1085,
+      848,
+      123,
+      88
+    ]
+  },
+  "text_regions": {
+    "name": [
+      194,
+      823,
+      66,
+      34
+    ],
+    "class": [
+      290,
+      829,
+      47,
+      24
+    ],
+    "hp_value": [
+      450,
+      866,
+      52,
+      24
+    ],
+    "mp_value": [
+      451,
+      894,
+      38,
+      24
+    ],
+    "move_title": [
+      655,
+      859,
+      116,
+      31
+    ],
+    "move_cost": [
+      655,
+      901,
+      175,
+      26
+    ]
+  },
+  "uniform_fit": "scale=min(viewport_width/1586,viewport_height/992); center canvas, then pixel snap; do not stretch full layout nonuniformly",
+  "font_appearance": "Warm ivory Chinese Song/Ming-style serif and traditional serif numerals. Exact original generated font is not a recoverable font file. Use runtime text for dynamic values, not screenshot glyphs.",
+  "ground_rule": "Bind all range/path/preview UI to authoritative Lua cells and selected actor, not the reference screenshot coordinates."
+}

@@ -1,0 +1,1159 @@
+{
+  "pack_name": "approved_reference_conditioned_ui",
+  "status": "runtime art assets; integration/gameplay validation belongs to engineering",
+  "panels_and_character": {
+    "name": "bottom_dock_reference_generated_ui",
+    "design_canvas": [
+      1586,
+      992
+    ],
+    "source_sheet_sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c",
+    "source_prompt_sha256": "9622b6fc22d6a6c21da857e58b2784625fde4183dd78ff5f33a7b5b5885768f4",
+    "generation": "Built-in imagegen, reference-conditioned on approved selected/movement concepts and approved three-state button skins. No paid external provider.",
+    "runtime_pack_policy": "Generated UI chrome/icons/range only, plus separately identified approved character illustration. Never include full concept or trial sheets, screenshots, video, QA proof or old extracted UI skins/icons.",
+    "assets": [
+      {
+        "file": "panels/action-dock.png",
+        "size": [
+          690,
+          149
+        ],
+        "source_rect_xywh": [
+          113,
+          101,
+          1360,
+          228
+        ],
+        "source_sheet": "01-panels-bars-transparent-sheet.png",
+        "source_sheet_sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c",
+        "method": "Reference-conditioned generated texture, crop; clear alpha<=4/255; uniform Lanczos fit; nine-slice expand center/edges preserving normalized corner art.",
+        "uniform_prefit_size": [
+          690,
+          116
+        ],
+        "nine_slice_cap_pixels": [
+          16,
+          16
+        ],
+        "notes": "Shared by action selection and movement-confirmation states.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized; no baked scenery."
+      },
+      {
+        "file": "panels/character-status.png",
+        "size": [
+          517,
+          157
+        ],
+        "source_rect_xywh": [
+          34,
+          379,
+          928,
+          324
+        ],
+        "source_sheet": "01-panels-bars-transparent-sheet.png",
+        "source_sheet_sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c",
+        "method": "Reference-conditioned generated texture, crop; clear alpha<=4/255; uniform Lanczos fit; nine-slice expand center/edges preserving normalized corner art.",
+        "uniform_prefit_size": [
+          450,
+          157
+        ],
+        "nine_slice_cap_pixels": [
+          16,
+          16
+        ],
+        "notes": "Empty full panel; approved character portrait overlays its left edge.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized; no baked scenery."
+      },
+      {
+        "file": "panels/end-turn.png",
+        "size": [
+          280,
+          79
+        ],
+        "source_rect_xywh": [
+          1000,
+          379,
+          552,
+          176
+        ],
+        "source_sheet": "01-panels-bars-transparent-sheet.png",
+        "source_sheet_sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c",
+        "method": "Reference-conditioned generated texture, crop; clear alpha<=4/255; uniform Lanczos fit; nine-slice expand center/edges preserving normalized corner art.",
+        "uniform_prefit_size": [
+          248,
+          79
+        ],
+        "nine_slice_cap_pixels": [
+          14,
+          14
+        ],
+        "notes": "Empty frame, text/keycaps are runtime UI.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized; no baked scenery."
+      },
+      {
+        "file": "panels/round-phase.png",
+        "size": [
+          347,
+          50
+        ],
+        "source_rect_xywh": [
+          989,
+          600,
+          575,
+          83
+        ],
+        "source_sheet": "01-panels-bars-transparent-sheet.png",
+        "source_sheet_sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c",
+        "method": "Reference-conditioned generated texture, crop; clear alpha<=4/255; uniform Lanczos fit; nine-slice expand center/edges preserving normalized corner art.",
+        "uniform_prefit_size": [
+          346,
+          50
+        ],
+        "nine_slice_cap_pixels": [
+          25,
+          16
+        ],
+        "notes": "Empty phase strip; no round or phase text baked in.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized; no baked scenery."
+      },
+      {
+        "file": "bars/hp-shell.png",
+        "size": [
+          204,
+          20
+        ],
+        "source_rect_xywh": [
+          39,
+          761,
+          707,
+          70
+        ],
+        "source_sheet": "01-panels-bars-transparent-sheet.png",
+        "source_sheet_sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c",
+        "method": "Reference-conditioned generated texture, crop; clear alpha<=4/255; uniform Lanczos fit; nine-slice expand center/edges preserving normalized corner art.",
+        "uniform_prefit_size": [
+          202,
+          20
+        ],
+        "nine_slice_cap_pixels": [
+          10,
+          6
+        ],
+        "notes": "Empty dark track. Use independent green fill.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized; no baked scenery."
+      },
+      {
+        "file": "bars/mp-shell.png",
+        "size": [
+          204,
+          20
+        ],
+        "source_rect_xywh": [
+          841,
+          761,
+          707,
+          70
+        ],
+        "source_sheet": "01-panels-bars-transparent-sheet.png",
+        "source_sheet_sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c",
+        "method": "Reference-conditioned generated texture, crop; clear alpha<=4/255; uniform Lanczos fit; nine-slice expand center/edges preserving normalized corner art.",
+        "uniform_prefit_size": [
+          202,
+          20
+        ],
+        "nine_slice_cap_pixels": [
+          10,
+          6
+        ],
+        "notes": "Empty dark track. Use independent blue fill.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized; no baked scenery."
+      },
+      {
+        "file": "bars/hp-fill.png",
+        "size": [
+          190,
+          10
+        ],
+        "source_rect_xywh": [
+          75,
+          842,
+          637,
+          51
+        ],
+        "source_sheet": "01-panels-bars-transparent-sheet.png",
+        "source_sheet_sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c",
+        "method": "Reference-conditioned generated texture, crop; clear alpha<=4/255; uniform Lanczos fit; nine-slice expand center/edges preserving normalized corner art.",
+        "uniform_prefit_size": [
+          125,
+          10
+        ],
+        "nine_slice_cap_pixels": [
+          6,
+          3
+        ],
+        "notes": "Independent sage fill; clip/scale based on current HP.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized; no baked scenery."
+      },
+      {
+        "file": "bars/mp-fill.png",
+        "size": [
+          190,
+          10
+        ],
+        "source_rect_xywh": [
+          875,
+          842,
+          636,
+          51
+        ],
+        "source_sheet": "01-panels-bars-transparent-sheet.png",
+        "source_sheet_sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c",
+        "method": "Reference-conditioned generated texture, crop; clear alpha<=4/255; uniform Lanczos fit; nine-slice expand center/edges preserving normalized corner art.",
+        "uniform_prefit_size": [
+          125,
+          10
+        ],
+        "nine_slice_cap_pixels": [
+          6,
+          3
+        ],
+        "notes": "Independent blue-gray fill; clip/scale based on current MP.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized; no baked scenery."
+      },
+      {
+        "file": "buttons/normal.png",
+        "size": [
+          124,
+          127
+        ],
+        "source": "approved skin-trial/02-button-states-refined-transparent.png",
+        "source_sha256": "26faf231b207516978d071d7869ea5af00f3e666e2a4a1b5212c37c789526087",
+        "method": "User-approved reference-conditioned generation; uniform 496x508 normalization, then Lanczos downsample to native124x127.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized.",
+        "state": "normal"
+      },
+      {
+        "file": "buttons/selected.png",
+        "size": [
+          124,
+          127
+        ],
+        "source": "approved skin-trial/02-button-states-refined-transparent.png",
+        "source_sha256": "26faf231b207516978d071d7869ea5af00f3e666e2a4a1b5212c37c789526087",
+        "method": "User-approved reference-conditioned generation; uniform 496x508 normalization, then Lanczos downsample to native124x127.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized.",
+        "state": "selected"
+      },
+      {
+        "file": "buttons/disabled.png",
+        "size": [
+          124,
+          127
+        ],
+        "source": "approved skin-trial/02-button-states-refined-transparent.png",
+        "source_sha256": "26faf231b207516978d071d7869ea5af00f3e666e2a4a1b5212c37c789526087",
+        "method": "User-approved reference-conditioned generation; uniform 496x508 normalization, then Lanczos downsample to native124x127.",
+        "rgb_exact_to_concept": false,
+        "alpha": "Generated RGBA, normalized.",
+        "state": "disabled"
+      },
+      {
+        "file": "character/portrait-mara.png",
+        "size": [
+          169,
+          203
+        ],
+        "source": "01-selected-mara.png",
+        "source_rect_xywh": [
+          15,
+          762,
+          169,
+          203
+        ],
+        "source_sha256": "5df90e6afe08e7495ec8b9ace6fd95338781f072efb75c2d2e74822f8ceaa6d7",
+        "method": "Approved character illustration, extracted alpha. Source RGB retained; alpha estimated, not regenerated.",
+        "rgb_exact_to_concept": true,
+        "alpha": "Estimated binary silhouette; original source has no native alpha.",
+        "exception": "Character identity retained per explicit instruction; not newly generated UI chrome."
+      }
+    ],
+    "layout": {
+      "character_panel": [
+        12,
+        811,
+        517,
+        157
+      ],
+      "portrait": [
+        15,
+        762,
+        169,
+        203
+      ],
+      "action_and_movement_dock": [
+        545,
+        819,
+        690,
+        149
+      ],
+      "first_action_button": [
+        565,
+        830,
+        124,
+        127
+      ],
+      "action_button_pitch": 132,
+      "end_turn": [
+        1287,
+        873,
+        280,
+        79
+      ],
+      "phase": [
+        620,
+        27,
+        347,
+        50
+      ],
+      "hp_shell": [
+        236,
+        866,
+        204,
+        20
+      ],
+      "mp_shell": [
+        236,
+        893,
+        204,
+        20
+      ]
+    },
+    "requirements": [
+      "Action and movement confirmation use the same dock texture and bounds.",
+      "Live labels, numbers, state and game commands remain runtime UI; textures contain none.",
+      "Destination ghost uses the actual selected actor silhouette; no static Mara target sprite for other actors.",
+      "Movement range and path topology come from authoritative Lua logic.",
+      "Generated assets are visually reference-conditioned, not exact screenshot reconstruction.",
+      "No canonical game-dev CLI, Godot import or GPU/gameplay validation is claimed by this art-only manifest."
+    ]
+  },
+  "icons": {
+    "manifest": {
+      "schema": 1,
+      "production": "built-in image_gen imagegen; reference-conditioned style transfer and one flatness refinement",
+      "source": "originals/02-refined-icon-sheet.png",
+      "runtime_size": [
+        128,
+        128
+      ],
+      "logical_use_px": [
+        24,
+        32,
+        40
+      ],
+      "max_ink_dimension_px": 104,
+      "alpha_cleanup": "Remove only source alpha <=16/255 (low-opacity generated residue); preserve all 13 intentional connected components; no recoloring, tracing, redrawing or screenshot extraction. Resample generated raster with premultiplied-alpha Lanczos and transparent square padding.",
+      "references": [
+        "../01-selected-mara.png",
+        "../02-movement-preview.png",
+        "../skin-trial/02-button-states-refined-transparent.png"
+      ],
+      "prompts": [
+        "metadata/generation-prompt.txt",
+        "metadata/refinement-prompt.txt"
+      ],
+      "review_only": "review/; do not commit screenshots/contact sheets to Git",
+      "assets": [
+        {
+          "name": "move",
+          "file": "runtime/icon_move.png",
+          "semantic": "Move / boot",
+          "source_cell_xyxy": [
+            0,
+            0,
+            444,
+            500
+          ],
+          "source_ink_bbox_xyxy": [
+            134,
+            174,
+            402,
+            459
+          ],
+          "source_components": 1,
+          "runtime_ink_bbox_xyxy": [
+            15,
+            12,
+            113,
+            116
+          ],
+          "visible_size_px": [
+            98,
+            104
+          ],
+          "sha256": "e5c3eb35e41c9eaacdf5e5ef528c662d45a712657f579258786a2670fbfe1458",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "fully_transparent_percent": 63.29,
+          "border_clear": true
+        },
+        {
+          "name": "attack",
+          "file": "runtime/icon_attack.png",
+          "semantic": "Attack / sword",
+          "source_cell_xyxy": [
+            444,
+            0,
+            887,
+            500
+          ],
+          "source_ink_bbox_xyxy": [
+            548,
+            162,
+            834,
+            456
+          ],
+          "source_components": 1,
+          "runtime_ink_bbox_xyxy": [
+            13,
+            12,
+            114,
+            116
+          ],
+          "visible_size_px": [
+            101,
+            104
+          ],
+          "sha256": "0bbaf25fdfc562d158324223929e794ca565d4c497eff028082205eccabb1547",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "fully_transparent_percent": 80.44,
+          "border_clear": true
+        },
+        {
+          "name": "skill",
+          "file": "runtime/icon_skill.png",
+          "semantic": "Skill / sparkles",
+          "source_cell_xyxy": [
+            887,
+            0,
+            1331,
+            500
+          ],
+          "source_ink_bbox_xyxy": [
+            984,
+            168,
+            1221,
+            458
+          ],
+          "source_components": 5,
+          "runtime_ink_bbox_xyxy": [
+            21,
+            12,
+            106,
+            116
+          ],
+          "visible_size_px": [
+            85,
+            104
+          ],
+          "sha256": "acfb6a532597cff3599e7f5e22efaf69f7f8764d268cd81d1d3909b7807dc87e",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "fully_transparent_percent": 77.86,
+          "border_clear": true
+        },
+        {
+          "name": "item",
+          "file": "runtime/icon_item.png",
+          "semantic": "Item / pouch",
+          "source_cell_xyxy": [
+            1331,
+            0,
+            1774,
+            500
+          ],
+          "source_ink_bbox_xyxy": [
+            1413,
+            184,
+            1653,
+            449
+          ],
+          "source_components": 1,
+          "runtime_ink_bbox_xyxy": [
+            17,
+            12,
+            111,
+            116
+          ],
+          "visible_size_px": [
+            94,
+            104
+          ],
+          "sha256": "5d56983427c4c1bd086edbf0da4c07e239d878a45263088a4f8d200922cca43c",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "fully_transparent_percent": 56.45,
+          "border_clear": true
+        },
+        {
+          "name": "wait",
+          "file": "runtime/icon_wait.png",
+          "semantic": "Wait / hourglass",
+          "source_cell_xyxy": [
+            0,
+            500,
+            444,
+            887
+          ],
+          "source_ink_bbox_xyxy": [
+            170,
+            536,
+            364,
+            804
+          ],
+          "source_components": 1,
+          "runtime_ink_bbox_xyxy": [
+            26,
+            12,
+            101,
+            116
+          ],
+          "visible_size_px": [
+            75,
+            104
+          ],
+          "sha256": "535061759b460e289cec78d605008177d70b8f16634dbb92e6a7cf566484be56",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "fully_transparent_percent": 63.44,
+          "border_clear": true
+        },
+        {
+          "name": "confirm",
+          "file": "runtime/icon_confirm.png",
+          "semantic": "Confirm / check",
+          "source_cell_xyxy": [
+            444,
+            500,
+            887,
+            887
+          ],
+          "source_ink_bbox_xyxy": [
+            568,
+            589,
+            825,
+            793
+          ],
+          "source_components": 1,
+          "runtime_ink_bbox_xyxy": [
+            12,
+            22,
+            116,
+            105
+          ],
+          "visible_size_px": [
+            104,
+            83
+          ],
+          "sha256": "02c270c72aba1b930a59ddabb9688cf0f2134593540b0c90974ff88562d839f2",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "fully_transparent_percent": 81.35,
+          "border_clear": true
+        },
+        {
+          "name": "cancel",
+          "file": "runtime/icon_cancel.png",
+          "semantic": "Cancel / return",
+          "source_cell_xyxy": [
+            887,
+            500,
+            1331,
+            887
+          ],
+          "source_ink_bbox_xyxy": [
+            975,
+            562,
+            1230,
+            792
+          ],
+          "source_components": 1,
+          "runtime_ink_bbox_xyxy": [
+            12,
+            17,
+            116,
+            111
+          ],
+          "visible_size_px": [
+            104,
+            94
+          ],
+          "sha256": "40c27b94cc1b05986877f0e9acee1dcd1f10aa874a1b4ab1e337f69b2852dec8",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "fully_transparent_percent": 68.19,
+          "border_clear": true
+        },
+        {
+          "name": "action_resource",
+          "file": "runtime/icon_action_resource.png",
+          "semantic": "Action / diamond",
+          "source_cell_xyxy": [
+            1331,
+            500,
+            1774,
+            887
+          ],
+          "source_ink_bbox_xyxy": [
+            1412,
+            555,
+            1649,
+            795
+          ],
+          "source_components": 2,
+          "runtime_ink_bbox_xyxy": [
+            12,
+            12,
+            115,
+            116
+          ],
+          "visible_size_px": [
+            103,
+            104
+          ],
+          "sha256": "844c88b8527091e3da7c04be8542fa3f5b21e587edafe948ad46d2a95d14a582",
+          "alpha_min": 0,
+          "alpha_max": 255,
+          "fully_transparent_percent": 74.68,
+          "border_clear": true
+        }
+      ],
+      "source_sha256": "8a228e9f6f8b61d443beba9683ac68f114014dc8b7cb2370d85e79b8651d36f3"
+    },
+    "provenance": {
+      "provider": "OpenAI built-in image_gen.imagegen",
+      "generation_mode": "reference-conditioned, transparent_background=true",
+      "paid_external_service_used": false,
+      "source_art_repainted_by_script": false,
+      "reference_files": [
+        {
+          "path": "battle_hud_design/redesign-preview/01-selected-mara.png",
+          "sha256": "5df90e6afe08e7495ec8b9ace6fd95338781f072efb75c2d2e74822f8ceaa6d7"
+        },
+        {
+          "path": "battle_hud_design/redesign-preview/02-movement-preview.png",
+          "sha256": "1c4cc30fd3c05d8e04e2f1d960ed7758f61fa1e8a2ff4bd9ee3705f13a717337"
+        },
+        {
+          "path": "battle_hud_design/redesign-preview/skin-trial/02-button-states-refined-transparent.png",
+          "sha256": "26faf231b207516978d071d7869ea5af00f3e666e2a4a1b5212c37c789526087"
+        }
+      ],
+      "generation_attempts": [
+        {
+          "local_original": "originals/01-generated-icon-sheet.png",
+          "tool_saved_source": "generated_images/exec-464a85fe-6c8b-4da6-91c7-5dbfe924a50e.png",
+          "prompt": "metadata/generation-prompt.txt",
+          "selected": false,
+          "reason": "Heavier brown bevel than approved reference; flattened with built-in imagegen edit.",
+          "sha256": "fe70d674a2fdcd80444be919d197842134962b799171b36ab6fb48b60c2505c5"
+        },
+        {
+          "local_original": "originals/02-refined-icon-sheet.png",
+          "tool_saved_source": "generated_images/exec-f526ff36-02a8-4d01-a67c-2aa07e95a279.png",
+          "prompt": "metadata/refinement-prompt.txt",
+          "selected": true,
+          "sha256": "8a228e9f6f8b61d443beba9683ac68f114014dc8b7cb2370d85e79b8651d36f3"
+        }
+      ],
+      "runtime_transform_script": "metadata/normalize_icons.py",
+      "runtime_files_source": "Only newly generated refined source sheet; approved HUD screenshot is a visual prompt reference, never the runtime crop source."
+    },
+    "qa": {
+      "runtime_count": 8,
+      "all_runtime_png_rgba_128x128": true,
+      "all_canvas_borders_transparent": true,
+      "background_rectangle_or_backplate": false,
+      "logical_sizes": {
+        "24": [
+          {
+            "icon": "move",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "attack",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "skill",
+            "alpha32_components_8connected": 5
+          },
+          {
+            "icon": "item",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "wait",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "confirm",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "cancel",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "action_resource",
+            "alpha32_components_8connected": 1
+          }
+        ],
+        "32": [
+          {
+            "icon": "move",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "attack",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "skill",
+            "alpha32_components_8connected": 5
+          },
+          {
+            "icon": "item",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "wait",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "confirm",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "cancel",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "action_resource",
+            "alpha32_components_8connected": 1
+          }
+        ],
+        "40": [
+          {
+            "icon": "move",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "attack",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "skill",
+            "alpha32_components_8connected": 5
+          },
+          {
+            "icon": "item",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "wait",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "confirm",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "cancel",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "action_resource",
+            "alpha32_components_8connected": 2
+          }
+        ],
+        "128": [
+          {
+            "icon": "move",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "attack",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "skill",
+            "alpha32_components_8connected": 5
+          },
+          {
+            "icon": "item",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "wait",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "confirm",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "cancel",
+            "alpha32_components_8connected": 1
+          },
+          {
+            "icon": "action_resource",
+            "alpha32_components_8connected": 2
+          }
+        ]
+      },
+      "visual_review": "PASS: eight intended symbols; silhouettes clear on approved dark panel at 24, 32 and 40 px. Thin ivory/copper accents, consistent simple style. Light-ground review confirms no baked field or edge islands. Ivory set intentionally optimised for dark HUD; do not use unchanged on pale panels."
+    }
+  },
+  "excluded": [
+    "full concept screenshots",
+    "trial/reference sheets",
+    "demo videos",
+    "QA proof images",
+    "old crop-derived UI skins/icons/ground",
+    "static Mara destination ghost"
+  ],
+  "publication_scope": "Only actual in-game assets and associated source/provenance specifications are published. Source full images stay local.",
+  "movement_range": {
+    "manifest": {
+      "schema_version": 1,
+      "asset_id": "amber_bridge_movement_range_cell",
+      "version": "1.0.0",
+      "status": "static_rgba_and_repeated_projection_QA_passed_engine_import_pending",
+      "purpose": "Reusable cell art for true Lua-reachable tactical movement cells only",
+      "source": {
+        "provider": "OpenAI built-in image_gen",
+        "invocation": "image_gen__imagegen",
+        "transparent_background": true,
+        "external_paid_provider": false,
+        "generated_original": "source/movement_cell_generated_rgba.png",
+        "original_generation_path": "generated_images/exec-ff6356f6-7e93-4ea2-9981-eeb40dc97ebd.png",
+        "original_sha256": "eb0ae8cd1296f12157d842768a19722ac56aaee6d60a2bf3a5805e1800050756",
+        "dimensions": [
+          1254,
+          1254
+        ],
+        "prompt": "provenance/prompt.txt",
+        "reference": {
+          "local_path": "battle_hud_design/redesign-preview/02-movement-preview.png",
+          "sha256": "1c4cc30fd3c05d8e04e2f1d960ed7758f61fa1e8a2ff4bd9ee3705f13a717337",
+          "role": "Style reference only: cyan movement-cell outline plus faint teal wash. Reference screenshot NOT included in delivery or Git payload."
+        },
+        "license_note": "Generated for this user with built-in ImageGen. No third-party stock assets or paid external provider used. No independent rights audit of the user-provided reference; no SPDX license assigned."
+      },
+      "runtime_assets": [
+        {
+          "filename": "runtime/movement_cell_border.png",
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGBA",
+          "sha256": "9570cfa0ac500f3a10fb39afe2cea2e74f12889237230cdc12963651a237357b",
+          "alpha_min": 0,
+          "alpha_max": 213,
+          "alpha_median": 0.0,
+          "alpha_zero_pixels": 219396,
+          "alpha_partial_pixels": 42748,
+          "alpha_opaque_pixels": 0,
+          "opposite_edge_max_rgba_difference": 0
+        },
+        {
+          "filename": "runtime/movement_cell_fill.png",
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGBA",
+          "sha256": "7a601e0248077b3ceb9b075fb6c7606394237eef135033de4c036e0bacabc92e",
+          "alpha_min": 24,
+          "alpha_max": 37,
+          "alpha_median": 32.0,
+          "alpha_zero_pixels": 0,
+          "alpha_partial_pixels": 262144,
+          "alpha_opaque_pixels": 0,
+          "opposite_edge_max_rgba_difference": 0
+        },
+        {
+          "filename": "runtime/movement_cell_combined.png",
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGBA",
+          "sha256": "e506924347c86b3e5bdf45c1f5f3f9f71d43b63a22afecbe645b4bfc5728925a",
+          "alpha_min": 24,
+          "alpha_max": 218,
+          "alpha_median": 34.0,
+          "alpha_zero_pixels": 0,
+          "alpha_partial_pixels": 262144,
+          "alpha_opaque_pixels": 0,
+          "opposite_edge_max_rgba_difference": 0
+        }
+      ],
+      "primary_runtime_files": [
+        "runtime/movement_cell_border.png",
+        "runtime/movement_cell_fill.png"
+      ],
+      "optional_single_pass_fallback": "runtime/movement_cell_combined.png",
+      "rgba_contract": {
+        "dimensions": [
+          512,
+          512
+        ],
+        "color_space": "sRGB",
+        "storage": "8-bit straight/unassociated RGBA PNG; not premultiplied",
+        "border_alpha_range": [
+          0,
+          213
+        ],
+        "border_center_alpha": 0,
+        "fill_alpha_range": [
+          24,
+          37
+        ],
+        "fill_alpha_median": 32,
+        "recommended_border_alpha_multiplier": 1.0,
+        "recommended_fill_alpha_multiplier": 1.0,
+        "alpha0_rgb_note": "RGB may be nonzero where alpha is zero; this is intentional bleed-safe straight-alpha colour, not a baked backdrop.",
+        "no_opaque_runtime_pixels": true
+      },
+      "geometry_contract": {
+        "texture_space": "square ground plane, no isometric perspective baked",
+        "world_plane": "XZ",
+        "cell_size_world_units": 1.0,
+        "world_origin": "cell centre",
+        "uv_to_local_xz": {
+          "0,0": [
+            -0.5,
+            -0.5
+          ],
+          "1,0": [
+            0.5,
+            -0.5
+          ],
+          "1,1": [
+            0.5,
+            0.5
+          ],
+          "0,1": [
+            -0.5,
+            0.5
+          ]
+        },
+        "projection_reference_only": {
+          "basisX": [
+            47.94,
+            33.9
+          ],
+          "basisZ": [
+            -47.94,
+            33.9
+          ],
+          "uv_corners_screen_relative_to_cell_centre": {
+            "0,0": [
+              0,
+              -33.9
+            ],
+            "1,0": [
+              47.94,
+              0
+            ],
+            "1,1": [
+              0,
+              33.9
+            ],
+            "0,1": [
+              -47.94,
+              0
+            ]
+          },
+          "screen_bounds": [
+            95.88,
+            67.8
+          ],
+          "edge_abs_slope": 0.7071339173967459
+        },
+        "critical": "Project the square ground UV exactly once with the actual camera/engine mesh. These screen diamond coordinates are reference geometry only. NEVER diamond-warp this PNG and then apply ground projection again.",
+        "placement": "Only instantiate actual Lua reachable cells; shared vertices/cell positions use exact coordinates, not per-cell integer rounding."
+      },
+      "layer_compositing": {
+        "preferred": "Sample border and fill in ONE material and use separate alpha multipliers. Merge border-over-fill once; do not stack coplanar transparent surfaces.",
+        "straight_alpha_formula": "Ab=border.a*border_strength; Af=fill.a*fill_strength; A=Ab+Af*(1-Ab); RGB=(border.rgb*Ab+fill.rgb*Af*(1-Ab))/max(A,epsilon). Output straight RGB,A to normal alpha blending.",
+        "fallback": "Use movement_cell_combined.png if independent border/fill opacity is not required; do not also draw the two separate layers."
+      },
+      "sampling_guidance": {
+        "filter": "linear with mipmaps for minified ~96x68 screen cells; nearest sampling will alias fine diagonal borders",
+        "wrap": "clamp-to-edge / repeat disabled per cell",
+        "lighting": "unshaded/overlay colour, with normal alpha blending",
+        "depth": "Test against terrain as appropriate; small consistent ground offset to avoid z-fighting. Transparent draw/depth policy must be checked in engine.",
+        "import_note": "Use colour/sRGB interpretation. Do not import alpha as opaque. Confirm alpha edges in actual Godot renderer before calling this in-game verified."
+      },
+      "neighbor_contract": {
+        "opposite_rgba_edges_identical": true,
+        "edge_stroke": "Cropped at source stroke centrelines. Each texture carries a clipped half-stroke; adjacent cells meet as two halves, not two full strokes drawn on top of each other.",
+        "shared_edge_rule": "One cell instance per unique reachable coordinate, no duplicate coplanar cells, no overlapping full-cell sprite glow margins.",
+        "outer_perimeter": "An exposed outer edge is one half-stroke and therefore slightly finer than an interior shared edge. This is intentional in this version and visible in QA; do not claim equal outer/inner stroke width.",
+        "colour_seam_check": "Opposite edges have maximum RGBA difference 0/255 after generated-pixel D4 symmetry normalization.",
+        "grid_preview_limit": "Local 4x supersampled compositing preview, not a Godot GPU test."
+      },
+      "transforms": [
+        "Preserved original generated RGBA unchanged",
+        "Measured source frame crop [238.5,263.0,1016.0,1016.0], normalized to square 512x512",
+        "Border alpha extracted from source over interior baseline 67/255, source edge band selected, alpha normalized to at most 84%",
+        "D4 generated-pixel symmetry averaging for identical neighbors",
+        "Border alpha MaxFilter(5): 2px inward expansion for legibility at native cell scale; no vector/procedural replacement drawing",
+        "Fill from generated interior crop [280.0,305.0,975.0,975.0], D4 averaged and alpha scaled to median 32/255",
+        "Optional combined generated by ordinary border-over-fill compositing"
+      ],
+      "verification": {
+        "data": "provenance/validation.json",
+        "reproduce": "python provenance/derive_assets.py",
+        "local_previews": [
+          "previews/channels-neutral-qa.png",
+          "previews/projected-repeat-qa.png"
+        ],
+        "godot_import_tested": false,
+        "engine_render_tested": false,
+        "human_user_approved_final_visual": false,
+        "game_dev_cli_available": false,
+        "canonical_game_dev_package_claim": false
+      },
+      "distribution": {
+        "git_runtime_payload": [
+          "runtime/movement_cell_border.png",
+          "runtime/movement_cell_fill.png",
+          "runtime/movement_cell_combined.png",
+          "manifest.json",
+          "README.md",
+          "provenance/prompt.txt",
+          "provenance/validation.json"
+        ],
+        "source_art_optional": "source/movement_cell_generated_rgba.png and provenance/derive_assets.py may be preserved as source art/provenance by packaging owner; generated source is not a game screenshot.",
+        "do_not_upload": [
+          "previews/",
+          "reference screenshot",
+          "game demo screenshots",
+          "game demo videos"
+        ],
+        "git_owner": "Parent packaging owner; this worker did not write Git or modify game code."
+      }
+    },
+    "validation": {
+      "source": {
+        "filename": "source/movement_cell_generated_rgba.png",
+        "size": [
+          1254,
+          1254
+        ],
+        "mode": "RGBA",
+        "sha256": "eb0ae8cd1296f12157d842768a19722ac56aaee6d60a2bf3a5805e1800050756",
+        "alpha_min": 0,
+        "alpha_max": 255,
+        "alpha_median": 0.0,
+        "alpha_zero_pixels": 878008,
+        "alpha_partial_pixels": 693906,
+        "alpha_opaque_pixels": 602,
+        "opposite_edge_max_rgba_difference": 1
+      },
+      "runtime": [
+        {
+          "filename": "runtime/movement_cell_border.png",
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGBA",
+          "sha256": "9570cfa0ac500f3a10fb39afe2cea2e74f12889237230cdc12963651a237357b",
+          "alpha_min": 0,
+          "alpha_max": 213,
+          "alpha_median": 0.0,
+          "alpha_zero_pixels": 219396,
+          "alpha_partial_pixels": 42748,
+          "alpha_opaque_pixels": 0,
+          "opposite_edge_max_rgba_difference": 0
+        },
+        {
+          "filename": "runtime/movement_cell_fill.png",
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGBA",
+          "sha256": "7a601e0248077b3ceb9b075fb6c7606394237eef135033de4c036e0bacabc92e",
+          "alpha_min": 24,
+          "alpha_max": 37,
+          "alpha_median": 32.0,
+          "alpha_zero_pixels": 0,
+          "alpha_partial_pixels": 262144,
+          "alpha_opaque_pixels": 0,
+          "opposite_edge_max_rgba_difference": 0
+        },
+        {
+          "filename": "runtime/movement_cell_combined.png",
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGBA",
+          "sha256": "e506924347c86b3e5bdf45c1f5f3f9f71d43b63a22afecbe645b4bfc5728925a",
+          "alpha_min": 24,
+          "alpha_max": 218,
+          "alpha_median": 34.0,
+          "alpha_zero_pixels": 0,
+          "alpha_partial_pixels": 262144,
+          "alpha_opaque_pixels": 0,
+          "opposite_edge_max_rgba_difference": 0
+        }
+      ],
+      "passed": true,
+      "tests": {
+        "opposite_edges_identical_rgba": true,
+        "no_opaque_runtime_pixels": true,
+        "border_center_transparent": true,
+        "fill_low_alpha": true,
+        "source_has_transparent_exterior": true
+      },
+      "render_claim": "Local compositing/static QA only. Not a Godot GPU import or in-engine visual approval.",
+      "seam_note": "Generated pixels were D4 symmetry averaged. Opposite runtime RGBA edges are byte-identical. Shared grid lines are two clipped half-strokes; do not overlap duplicate coplanar cells.",
+      "source_frame_crop": [
+        238.5,
+        263.0,
+        1016.0,
+        1016.0
+      ],
+      "source_fill_crop": [
+        280.0,
+        305.0,
+        975.0,
+        975.0
+      ]
+    },
+    "runtime_files": [
+      "ground/movement_cell_border.png",
+      "ground/movement_cell_fill.png"
+    ],
+    "integration": "Use square UV on horizontal XZ cell quads. Do not pre-warp into screen diamonds then project again. Range topology comes from authoritative game state."
+  }
+}
