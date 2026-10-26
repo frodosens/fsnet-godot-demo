@@ -1,6 +1,6 @@
 {
-  "version": "v2 trial candidate",
-  "status": "BRIDGE_CENTER_PASS_BANK_EDGE_FAIL_NOT_FULL_PLAYABILITY_ACCEPTED",
+  "version": "v5 shoreline center repair candidate",
+  "status": "SIX_SHORE_CENTERS_AND_SIX_BRIDGE_CENTERS_VISUAL_PASS_RUNTIME_ACCEPTANCE_PENDING",
   "canvas": [
     1280,
     800
@@ -28,19 +28,52 @@
     ]
   },
   "known_caveats": [
-    "Bank edge cells [6,2],[7,2],[8,2],[9,2],[0,6],[1,6] on rocks/reeds; NOT full playability accepted.",
-    "No foreground alpha layer; baked environmental lighting only, runtime actors/shadows separate.",
-    "No game logic or map changed. Reversible art trial only."
+    "All six previously flagged shoreline foot centers now visually on flat ground; six bridge centers retained on deck.",
+    "Full tile-corner clearance, actor walking routes and lighting anchors require engine acceptance; no full-playability claim from overlay alone.",
+    "No foreground alpha layer; baked environmental lighting, separate runtime actor shadows.",
+    "Map and game logic unchanged. Earlier v2 retained separately locally and in Library."
   ],
   "prompts": [
     "Use case: sketch-to-render. Create a production fixed-camera game BACKGROUND, 1280 by 800, 16:10. Input image1 geometry-guide is the EXACT composition and flat ground footprint. Input image2 is STYLE reference ONLY, never copy its geometry or UI. Transform image1 into beautiful detailed muted HD2D pixel art environment matching image2 craftsmanship. Preserve image1 camera, framing, river banks, bridge deck, grass and dirt footprints EXACTLY. Blue band is broad diagonal flowing river from upper left to bottom right; tan central crossing is stone bridge from southwest to northeast. Bridge WALKABLE deck quadrilateral pixel corners (731.77,267.80),(827.65,335.59),(683.83,437.29),(587.95,369.49). Do not move, narrow or distort this full clear walkable deck. Bridge axis from(779.71,301.69) to(635.89,403.39). River banks parallel slope+0.7071. Ground plane has diagonals slope+-0.7071. Entire light green and ochre areas must remain clear traversable meadow or worn dirt, no buildings/tree/rail rocks on them. Dark green outside playable ground is forest background and framing. Add cozy half-timbered inn with terracotta roof, warmly glowing windows in the LEFT dark forest area roughly x120..335 y175..310, safely OUTSIDE playable land; path leads toward central crossing. Add lush irregular deciduous trees and dark conifers only in outside dark areas, small warm lanterns at outer bank edges, mossy riverbank rocks and stone bridge arch visible below clear deck. Near bridge side must use VERY low curb below walking plane, no tall foreground railing obscuring feet; no foliage obscuring any light green walkable area. Cool blue evening ambient, single soft upper-left moon/key light, restrained amber pools from lamps/windows and reflections on water; rich pixel clusters, crisp details, tactile stone/wood and foliage, not flat polygon art. Natural grass ground without tile lines, natural bridge flagstones much smaller than gameplay cells. Dark quiet corners and bottom margin for later HUD; NO UI actually in image. NO characters, portraits, people, enemies, figures, character shadows, text, letters, symbols, labels, healthbars, arrows, gridlines, selection tiles, framing border. Geometry guide itself must disappear, replaced by finished richly textured art while its exact color-region boundaries remain geometrically honored. Full opaque scene edge-to-edge. Do not use image2's terrain position.",
-    "Precise-object-edit of image1, a fixed camera pixel-art tactics backdrop. Image2 is diagnostic overlay of SAME image with CYAN polygons and MAGENTA required foot centers. Image3 is exact ground footprint guide. Fix ONLY ground geometry mismatch; preserve inn, forest, art style, beautiful lighting, palette and framing. Output 1280x800 ratio16:10.\nCRITICAL: stone bridge must have EMPTY FLAT WALKABLE DECK filling the ENTIRE cyan six-cell rectangle shown image2, not just its southeast half. Current northwest parapet wrongly runs through required magenta foot centers (4,3),(4,4),(4,5). Move that entire northwest bridge edge/parapet about 45px UP-LEFT (negative screen x/y), replacing former water behind it with broad flat stone deck. Deck polygon exact corners at1280x800: (731.77,267.80),(827.65,335.59),(683.83,437.29),(587.95,369.49). Make bridge wider toward northwest so all these six magenta centers stand on OPEN FLAT STONE not rail: (731.77,301.69),(779.71,335.59),(683.83,335.59),(731.77,369.49),(635.89,369.49),(683.83,403.39). Rails/arch face only OUTSIDE this polygon. Do not translate whole image. Opposite dirt approach and meadow banks must be widened slightly INTO the river so every nonwater magenta foot point in image2 stands on flat clear grass/dirt, not rocks. In particular northeast shoreline near(684,200),(732,234),(876,336),(924,369),(972,403),(1019,437), southwest near(396,268),(444,302),(492,336),(540,370),(780,540) need flat ground with 15px clearance around foot center; move rock walls DOWN into water or outside playable footprint. Keep flow middle of river, broad free ground where image3 green/tan.\nREMOVE all diagnostic overlay dots/cyan lines/numbers entirely from final output. NO text or symbols, NO game grid, NO characters/UI. Change no other compositional features. Must solve actual geometry not reinterpret guide."
+    "Precise-object-edit of image1, a fixed camera pixel-art tactics backdrop. Image2 is diagnostic overlay of SAME image with CYAN polygons and MAGENTA required foot centers. Image3 is exact ground footprint guide. Fix ONLY ground geometry mismatch; preserve inn, forest, art style, beautiful lighting, palette and framing. Output 1280x800 ratio16:10.\nCRITICAL: stone bridge must have EMPTY FLAT WALKABLE DECK filling the ENTIRE cyan six-cell rectangle shown image2, not just its southeast half. Current northwest parapet wrongly runs through required magenta foot centers (4,3),(4,4),(4,5). Move that entire northwest bridge edge/parapet about 45px UP-LEFT (negative screen x/y), replacing former water behind it with broad flat stone deck. Deck polygon exact corners at1280x800: (731.77,267.80),(827.65,335.59),(683.83,437.29),(587.95,369.49). Make bridge wider toward northwest so all these six magenta centers stand on OPEN FLAT STONE not rail: (731.77,301.69),(779.71,335.59),(683.83,335.59),(731.77,369.49),(635.89,369.49),(683.83,403.39). Rails/arch face only OUTSIDE this polygon. Do not translate whole image. Opposite dirt approach and meadow banks must be widened slightly INTO the river so every nonwater magenta foot point in image2 stands on flat clear grass/dirt, not rocks. In particular northeast shoreline near(684,200),(732,234),(876,336),(924,369),(972,403),(1019,437), southwest near(396,268),(444,302),(492,336),(540,370),(780,540) need flat ground with 15px clearance around foot center; move rock walls DOWN into water or outside playable footprint. Keep flow middle of river, broad free ground where image3 green/tan.\nREMOVE all diagnostic overlay dots/cyan lines/numbers entirely from final output. NO text or symbols, NO game grid, NO characters/UI. Change no other compositional features. Must solve actual geometry not reinterpret guide.",
+    "Edit image1 minimally. Output full original scene16:10. Image2 diagnostic shows exact foot positions; Image3 zooms into ONLY area needing repair. DELETE the entire chain of tall rocks and reeds on the NORTHEAST riverbank, from right end of bridge diagonally DOWN-RIGHT along river to right image edge, and replace that chain with a FLAT WALKABLE GRASS TERRACE. This is the bank beneath the right-hand meadow, NOT the bottom-left bank. The four pink points labelled(6,2),(7,2),(8,2),(9,2) in image2 must all stand on uninterrupted level grassy ground, with at least30pixels clear grass on their river-facing/down-left side. Required new terrace polygon in1280x800 coordinates approximately(840,305),(1085,475),(1050,520),(800,350); blend this grassy strip into meadow above, remove every vertical rock/reed obstruction inside it. NO rocks within35pixels of(875.58,335.59),(923.52,369.49),(971.46,403.39),(1019.4,437.29). Shift actual water edge southwest/down-left to outside this strip. Grass terrace is same elevation as existing meadow, no raised stones or isolated islands. The bridge itself MUST STAY EXACTLY where it is: no changes to bridge deck, rails, arch, shape, location. Inn, all forest, warm lights, composition, rest of river, opposite bank remain unchanged. Keep original crisp muted HD2D pixel art texture and light quality. Do not merely reduce rocks: completely remove the rock wall from THIS bank and replace with flat terrain. Final is clean image with NO magenta dots, cyan lines, labels, numbers, characters, grid or UI. Image1 is final-image source; other images guidance only.",
+    "Precise minimal edit of image1. Image2 diagnostic position reference only. Preserve entire scene, exact bridge deck footprint and grassy northeast bank of image1. ONLY THREE SMALL OBSTACLES TO REMOVE:\nA: At1280x800 coordinate(875.58,335.59), right/northeast end of bridge's near-side parapet, there is a tall square stone ENDPOST occupying a required walking cell. Remove this endpost and the last30px of this near-side railing at that end. Replace its footprint with level cobblestone-to-grass approach, continuous with meadow. The bridge rail should terminate SHORT of this foot position toward down-left, not protrude into meadow. Keep remainder of bridge and its six clear walking centers unchanged.\nB: At(396.19,267.80), left bank upstream near inn, replace tall rock/reeds with a broad clear flat low mossy-grass patch radius30px. No standing rock/reeds in this area.\nC: At(444.13,301.69), adjacent downstream left bank, likewise remove tall reeds/rock around radius30px and extend flat meadow ground toward water by20pixels. Connect B/C as one smooth clear grassy shoreline terrace; never stepping-stones or vertical rocks. Keep inn, lamp, bridge, trees and other terrain unchanged.\nNew flat terrain must sit at same height as existing walk plane and be suitable for small game characters standing. Preserve crisp original muted pixel HD2D style, lighting, color, exact camera and composition, output full1280x80016:10 scene. Do not move bridge. Remove diagnostic overlays entirely: no labels numbers magenta dots cyan lines UI or characters. No new objects."
   ],
   "file_integrity": {
-    "bytes": 2124419,
-    "sha256": "1bbb8d93bd390f726adba0cf762c5624e21b143ce97ccdaf2d8cec81b76c3cb1",
-    "git_blob_sha": "1ee80ae8c04ae01b3a0e83fbc8d452e96f032ea9",
-    "validation": "Pillow verify and load passed; uploaded blob SHA equals local git-object hash"
+    "bytes": 1960155,
+    "sha256": "aa810fdbea840ca90d5a4d6700de4b64d0c944588accc0cc2e98352d964fb5ab",
+    "git_blob_sha": "da751edfb9cf8d71d1f2d7c05d40e9357de97df4"
   },
-  "discarded_v3_reason": "Northeast bank rocks remain and slight northwest bridge parapet regression; v2 retained, no additional regeneration."
+  "discarded_v3_reason": "Northeast bank rocks remain and slight northwest bridge parapet regression; v2 retained, no additional regeneration.",
+  "repair": {
+    "cells": [
+      [
+        6,
+        2
+      ],
+      [
+        7,
+        2
+      ],
+      [
+        8,
+        2
+      ],
+      [
+        9,
+        2
+      ],
+      [
+        0,
+        6
+      ],
+      [
+        1,
+        6
+      ]
+    ],
+    "changes": "NE rocks replaced low grass, NE bridge endpost shortened, SW rocks/reeds replaced flat grass",
+    "qa": "1280x800 contract overlay; visual foot center pass; no full tile-corner promise",
+    "light_anchors": "Lamp positions approximately preserved; engine should recheck"
+  }
 }
