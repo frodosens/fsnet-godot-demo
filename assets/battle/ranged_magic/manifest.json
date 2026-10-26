@@ -1,0 +1,432 @@
+{
+  "frame_size": [
+    192,
+    160
+  ],
+  "foot_anchor": [
+    96,
+    144
+  ],
+  "filter": "nearest",
+  "method": "alpha>=16 component isolation; common scale per role; grounded foot-center anchor; no redrawing",
+  "characters": {
+    "finn": {
+      "unique_keyframes": 8,
+      "facing": "right",
+      "scale": 0.238,
+      "frames": [
+        {
+          "index": 0,
+          "state": "idle",
+          "path": "runtime/finn/00_idle.png",
+          "source_crop": [
+            32,
+            57,
+            333,
+            480
+          ],
+          "source_foot_x": 183,
+          "placement": [
+            60,
+            43
+          ],
+          "sha256": "958ed34754c178d49785abab0e02c24a0da9e2cf6634968372aa51316a54e658"
+        },
+        {
+          "index": 1,
+          "state": "nock_anticipation",
+          "path": "runtime/finn/01_nock_anticipation.png",
+          "source_crop": [
+            414,
+            84,
+            727,
+            480
+          ],
+          "source_foot_x": 546,
+          "placement": [
+            65,
+            50
+          ],
+          "sha256": "51b09a2e553a031da71f9bef6d6c70dd0eca05605c9de04f33394a9dc7e651b8"
+        },
+        {
+          "index": 2,
+          "state": "half_draw",
+          "path": "runtime/finn/02_half_draw.png",
+          "source_crop": [
+            747,
+            44,
+            1095,
+            480
+          ],
+          "source_foot_x": 897,
+          "placement": [
+            60,
+            40
+          ],
+          "sha256": "e96cedf4098ed38e2e62eb5424b7d3eb99098a6c044ab7814145b88e6ca8fc09"
+        },
+        {
+          "index": 3,
+          "state": "full_draw",
+          "path": "runtime/finn/03_full_draw.png",
+          "source_crop": [
+            1160,
+            27,
+            1526,
+            480
+          ],
+          "source_foot_x": 1305,
+          "placement": [
+            61,
+            36
+          ],
+          "sha256": "79f38c915e5a3fd820a4572b5a49240a012f32ec0e71b43d0bf51d40f6c11717"
+        },
+        {
+          "index": 4,
+          "state": "release",
+          "path": "runtime/finn/04_release.png",
+          "source_crop": [
+            39,
+            533,
+            386,
+            974
+          ],
+          "source_foot_x": 180,
+          "placement": [
+            62,
+            39
+          ],
+          "sha256": "fe45c1c638611f9a503f8f26798081be779c0536a526b6a2eccdaa9a90a73d93"
+        },
+        {
+          "index": 5,
+          "state": "followthrough",
+          "path": "runtime/finn/05_followthrough.png",
+          "source_crop": [
+            432,
+            519,
+            768,
+            975
+          ],
+          "source_foot_x": 573,
+          "placement": [
+            62,
+            35
+          ],
+          "sha256": "795ddaa954572aa6d16d57833d2aff9e10cd41370f17d776c89c52b9060c22af"
+        },
+        {
+          "index": 6,
+          "state": "lower_bow",
+          "path": "runtime/finn/06_lower_bow.png",
+          "source_crop": [
+            801,
+            554,
+            1133,
+            975
+          ],
+          "source_foot_x": 970,
+          "placement": [
+            56,
+            44
+          ],
+          "sha256": "5ba434bbb90ed41b30c183d6a949829f4d750144f13641eb1cea5e1827275cb9"
+        },
+        {
+          "index": 7,
+          "state": "settle",
+          "path": "runtime/finn/07_settle.png",
+          "source_crop": [
+            1183,
+            555,
+            1468,
+            975
+          ],
+          "source_foot_x": 1331,
+          "placement": [
+            61,
+            44
+          ],
+          "sha256": "1c951da430b04b513dd0c6d7a5ff934ba4900773fb39f7b94e41af67b8ae64b6"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline_24ticks": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7
+      ],
+      "release_tick": 12,
+      "note": "24 held ticks, not 24 distinct drawings; sparse first-playable keyframes, engine playback required"
+    },
+    "neri": {
+      "unique_keyframes": 8,
+      "facing": "right",
+      "scale": 0.231,
+      "frames": [
+        {
+          "index": 0,
+          "state": "idle",
+          "path": "runtime/neri/00_idle.png",
+          "source_crop": [
+            75,
+            98,
+            311,
+            528
+          ],
+          "source_foot_x": 205,
+          "placement": [
+            66,
+            45
+          ],
+          "sha256": "9d129c59bdec8f1572f0cadc301115e4ad10f518c875106037ead447269fd4ea"
+        },
+        {
+          "index": 1,
+          "state": "anticipation",
+          "path": "runtime/neri/01_anticipation.png",
+          "source_crop": [
+            402,
+            131,
+            697,
+            528
+          ],
+          "source_foot_x": 570,
+          "placement": [
+            57,
+            52
+          ],
+          "sha256": "2c6b1311a173055eba18953e566d56d3a98357e4727e66a2795e836b60896ea1"
+        },
+        {
+          "index": 2,
+          "state": "raise_staff",
+          "path": "runtime/neri/02_raise_staff.png",
+          "source_crop": [
+            770,
+            142,
+            1111,
+            526
+          ],
+          "source_foot_x": 948,
+          "placement": [
+            55,
+            55
+          ],
+          "sha256": "e24c920523ba796a91910e16bf08fedd5450b48071e6a580770f3af4ff9ffc30"
+        },
+        {
+          "index": 3,
+          "state": "charge",
+          "path": "runtime/neri/03_charge.png",
+          "source_crop": [
+            1151,
+            24,
+            1510,
+            528
+          ],
+          "source_foot_x": 1337,
+          "placement": [
+            53,
+            28
+          ],
+          "sha256": "2fe826607d7299ce2104fe79260e062a30ec3ff9be3b748ebf6977bd900baf0d"
+        },
+        {
+          "index": 4,
+          "state": "cast",
+          "path": "runtime/neri/04_cast.png",
+          "source_crop": [
+            26,
+            584,
+            484,
+            963
+          ],
+          "source_foot_x": 224,
+          "placement": [
+            50,
+            56
+          ],
+          "sha256": "35560b407903cb658654784875a0b6552ef8aacf95ecb0918d9d75c0c160a9ab"
+        },
+        {
+          "index": 5,
+          "state": "followthrough",
+          "path": "runtime/neri/05_followthrough.png",
+          "source_crop": [
+            429,
+            580,
+            867,
+            962
+          ],
+          "source_foot_x": 636,
+          "placement": [
+            48,
+            56
+          ],
+          "sha256": "44893d5065fc23456acad238e435d0b2fe220d33525dc07f12d983cb959e2de1"
+        },
+        {
+          "index": 6,
+          "state": "recover",
+          "path": "runtime/neri/06_recover.png",
+          "source_crop": [
+            867,
+            563,
+            1146,
+            967
+          ],
+          "source_foot_x": 1029,
+          "placement": [
+            59,
+            51
+          ],
+          "sha256": "4a992c5782aa3f16a77957b86385a11031f0fad3094f9ff495ffb78b54cd6a51"
+        },
+        {
+          "index": 7,
+          "state": "settle",
+          "path": "runtime/neri/07_settle.png",
+          "source_crop": [
+            1213,
+            562,
+            1469,
+            967
+          ],
+          "source_foot_x": 1358,
+          "placement": [
+            63,
+            50
+          ],
+          "sha256": "19af1c5ed1d72ef574059448c3d982328d9f6a3ca185dcf88c37ca53d4981b5c"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline_24ticks": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        4,
+        4,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7
+      ],
+      "release_tick": 12,
+      "note": "24 held ticks, not 24 distinct drawings; sparse first-playable keyframes, engine playback required"
+    }
+  },
+  "effects": [
+    {
+      "state": "arrow",
+      "path": "runtime/vfx_arrow.png",
+      "size": [
+        64,
+        48
+      ],
+      "pivot": [
+        32,
+        24
+      ]
+    },
+    {
+      "state": "gather",
+      "path": "runtime/vfx_gather.png",
+      "size": [
+        64,
+        48
+      ],
+      "pivot": [
+        32,
+        24
+      ]
+    },
+    {
+      "state": "charge",
+      "path": "runtime/vfx_charge.png",
+      "size": [
+        64,
+        48
+      ],
+      "pivot": [
+        32,
+        24
+      ]
+    },
+    {
+      "state": "bolt",
+      "path": "runtime/vfx_bolt.png",
+      "size": [
+        64,
+        48
+      ],
+      "pivot": [
+        32,
+        24
+      ]
+    },
+    {
+      "state": "impact",
+      "path": "runtime/vfx_impact.png",
+      "size": [
+        64,
+        48
+      ],
+      "pivot": [
+        32,
+        24
+      ]
+    },
+    {
+      "state": "dissipate",
+      "path": "runtime/vfx_dissipate.png",
+      "size": [
+        64,
+        48
+      ],
+      "pivot": [
+        32,
+        24
+      ]
+    }
+  ]
+}
