@@ -19,10 +19,19 @@ func _init(data={}):
     content=Content.default_content() if data.is_empty() else data.duplicate(true)
     content_hash=Content.hash_of(content)
     size=Vector2i(content.width,content.height)
-    var source = FileAccess.get_file_as_string("res://logic/battle.lua")
+    var source = rule_source()
     rules_hash = source.sha256_text()
     assert(vm.load_rules(source),vm.last_error())
     reset()
+
+static func rule_source():
+    var source = FileAccess.get_file_as_string("res://logic/battle.lua")
+    # Fixed trusted modules only. Their complete source participates in peer/save compatibility.
+    for module in ["board","objectives","actions","ai","snapshot"]:
+        var code=FileAccess.get_file_as_string("res://logic/rules/"+module+".lua")
+        assert(not code.is_empty(),"Missing trusted rule module: "+module)
+        source=source.replace("-- @module "+module,code)
+    return source
 
 func call_rule(method,args={}):
     var value = vm.invoke(method,args)
@@ -69,4 +78,4 @@ func at(pos):
     for i in range(units.size()):
         if units[i].hp > 0 and units[i].pos == pos: return i
     return -1
-func usable(index): return outcome == "playing" and index >= 0 and index < units.size() and units[index].ally and units[index].hp > 0
+func usable(index): return outcome == "playing" and index >= 0 and index < units.size() and units[index].controller == "player" and units[index].hp > 0

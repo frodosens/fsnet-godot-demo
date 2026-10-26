@@ -16,7 +16,7 @@ static func command_from_json(value):
     if not value is Dictionary: return {}
     var result = {}
     for key in value:
-        if key == "kind":
+        if key in ["kind","actor_id"]:
             if not value[key] is String: return {}
             result[key] = value[key]
         elif key in ["step","unit","target","x","y"]:

@@ -36,6 +36,19 @@ static func stats_valid(value):
     for key in value:
         if key not in STATS or not integer(value[key],0,20):return false
     return true
+static func objective_valid(goal,ids,data,depth):
+    if depth>3 or not goal is Dictionary:return false
+    match goal.get("kind"):
+        "all","any":
+            if not goal.get("children") is Array or goal.children.is_empty() or goal.children.size()>4:return false
+            for child in goal.children:
+                if not objective_valid(child,ids,data,depth+1):return false
+            return true
+        "defeat_all","all_allies":return true
+        "survive":return integer(goal.get("round"),2,99)
+        "protect":return ids.has(goal.get("unit",""))
+        "reach":return ids.has(goal.get("unit","")) and integer(goal.get("x"),0,data.width-1) and integer(goal.get("y"),0,data.height-1) and data.terrain[goal.y][goal.x] not in ["W","X"]
+    return false
 static func validate(data):
     if not data is Dictionary:return "内容必须是 JSON 对象。"
     for key in data:
@@ -53,7 +66,7 @@ static func validate(data):
     for u in data.units:
         if not u is Dictionary:return "单位必须是对象。"
         for key in u:
-            if key not in ["id","name","role","ally","x","y","hp","movement","reach","damage","armor","resist","mp"]:return "未知单位字段："+str(key)
+            if key not in ["id","name","role","ally","x","y","hp","movement","reach","damage","armor","resist","mp","controller","faction"]:return "未知单位字段："+str(key)
         if not identifier(u.get("id")) or ids.has(u.id) or not short_text(u.get("name"),32) or u.get("role") not in ROLES or not u.get("ally") is bool:return "单位身份/职业无效或重复。"
         if not integer(u.get("x"),0,data.width-1) or not integer(u.get("y"),0,data.height-1):return "单位出生点超出地图。"
         var key=u.y*data.width+u.x
@@ -61,15 +74,13 @@ static func validate(data):
         for field in ["hp","movement","reach","damage","armor","resist","mp"]:
             var bounds={"hp":[1,200],"movement":[1,8],"reach":[1,8],"damage":[1,40],"armor":[0,20],"resist":[0,20],"mp":[0,30]}[field]
             if not integer(u.get(field),bounds[0],bounds[1]):return "单位属性越界："+field
+        if u.has("controller") and u.controller not in ["player","ai"]:return "控制器仅支持 player / ai。"
+        if u.has("faction") and not identifier(u.faction):return "阵营 ID 无效。"
         ids[u.id]=true;occupied[key]=true
         if u.ally:allies+=1
         else:enemies+=1
     if allies==0 or enemies==0:return "至少需要一个友方和一个敌方。"
-    if not data.get("victory") is Dictionary or data.victory.get("kind") not in ["defeat_all","reach"]:return "胜利条件无效。"
-    if data.victory.kind=="reach":
-        if not ids.has(data.victory.get("unit","")) or not integer(data.victory.get("x"),0,data.width-1) or not integer(data.victory.get("y"),0,data.height-1):return "到达目标的引用/坐标无效。"
-    if not data.get("defeat") is Dictionary or data.defeat.get("kind") not in ["all_allies","protect"]:return "失败条件无效。"
-    if data.defeat.kind=="protect" and not ids.has(data.defeat.get("unit","")):return "保护目标不存在。"
+    if not objective_valid(data.get("victory"),ids,data,0) or not objective_valid(data.get("defeat"),ids,data,0):return "目标条件、引用或组合深度无效。"
     var story=data.get("story")
     if not story is Dictionary or story.get("schemaVersion")!=1 or not identifier(story.get("storyId")) or not story.get("characters") is Array or not story.get("events") is Array or story.events.size()>24:return "剧情格式/版本无效。"
     var speakers={"narrator":true};var event_ids={}

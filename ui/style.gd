@@ -39,7 +39,5 @@ static func column(parent,separation=10):
 static func portrait(id,size=128):
     var control=TextureRect.new();control.custom_minimum_size=Vector2(size,size);control.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;control.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
     var path="res://assets/portraits/"+id+".png"
-    if FileAccess.file_exists(path):
-        var img=Image.load_from_file(path)
-        if img:control.texture=ImageTexture.create_from_image(img)
+    if ResourceLoader.exists(path):control.texture=load(path)
     return control

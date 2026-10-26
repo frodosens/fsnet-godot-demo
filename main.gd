@@ -3,6 +3,7 @@ const Session = preload("res://logic/session.gd")
 var session
 const Hud=preload("res://ui/battle_hud.gd")
 var hud
+var cutin
 var battle
 var last_step = -1
 var network_label: Label
@@ -119,9 +120,9 @@ func build_world():
     for u in battle.units:
         var sprite = Sprite3D.new()
         var art="res://assets/characters/"+u.id+".png"
-        if not FileAccess.file_exists(art):art="res://assets/characters/"+u.role+".png"
-        sprite.texture = ImageTexture.create_from_image(Image.load_from_file(art)) if FileAccess.file_exists(art) else pixel_person(u.role,u.ally)
-        sprite.set_meta("formal_art",FileAccess.file_exists(art))
+        if not ResourceLoader.exists(art):art="res://assets/sprites/"+u.role+".png"
+        sprite.texture = load(art) if ResourceLoader.exists(art) else pixel_person(u.role,u.ally)
+        sprite.set_meta("formal_art",ResourceLoader.exists(art))
         sprite.pixel_size = 0.01125 if sprite.get_meta("formal_art") else 0.045
         sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
         sprite.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
@@ -175,14 +176,15 @@ func pixel_person(role,ally):
 
 func build_hud():
     hud=Hud.new();hud.game=self;add_child(hud)
+    cutin=preload("res://ui/battle_cutin.gd").new();add_child(cutin)
 
 func select_mode(value):
-    if hud and hud.blocks_input():return
+    if (cutin and cutin.active) or (hud and hud.blocks_input()):return
     mode = value
     refresh()
 
 func finish_turn():
-    if hud and hud.blocks_input():return
+    if (cutin and cutin.active) or (hud and hud.blocks_input()):return
     session.submit({"kind":"end_turn"})
     battle=session.logic
     refresh()
@@ -220,12 +222,13 @@ func refresh():
         badges[i].text = "%s  %d/%d" % [u.name,u.hp,u.max_hp]
         badges[i].modulate = Color("fff0c9") if u.ally else Color("ffd2b4")
     if hud:hud.refresh()
+    if cutin:cutin.consume(battle.step,battle.events)
 
 func _unhandled_input(event):
     if event is InputEventKey and event.pressed and not event.echo:
         if event.physical_keycode==KEY_ESCAPE:hud.toggle_pause();return
         if hud.story_panel.visible and event.physical_keycode in [KEY_SPACE,KEY_ENTER]:hud.advance(false);return
-    if hud.blocks_input():return
+    if cutin.active or hud.blocks_input():return
     if event is InputEventKey and event.pressed and not event.echo:
         match event.physical_keycode:
             KEY_1: select_mode("move")

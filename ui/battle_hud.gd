@@ -110,9 +110,8 @@ func refresh_story():
     story_key=key;story_name.text=App.speaker_name(line.speaker);story_text.text=line.text;story_count.text="%d / %d · 剧情仅控制本地阅读，联机对局不会因此暂停。"%[line.index,line.total] if game.session.online else "%d / %d"%[line.index,line.total]
     portrait.texture=null
     var path="res://assets/portraits/"+line.speaker+".png"
-    if FileAccess.file_exists(path):
-        var img=Image.load_from_file(path)
-        if img:portrait.texture=ImageTexture.create_from_image(img)
+    if ResourceLoader.exists(path):
+        portrait.texture=load(path)
     portrait_initial.visible=portrait.texture==null
     portrait_initial.text="信" if line.speaker=="narrator" else App.speaker_name(line.speaker).left(1)
 func advance(skip):

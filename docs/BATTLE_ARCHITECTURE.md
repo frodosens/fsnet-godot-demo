@@ -2,7 +2,7 @@
 
 Status: design/implementation contract, **not a claim that the following systems already exist**. Updated after the user's request to retain all features while correcting extensibility. Keep Lua as shared deterministic rules, GDScript as presentation, and fsnet as transport. No ECS rewrite.
 
-## Current facts
+## Original checkpoint facts (before the following incremental implementation)
 
 - `logic/battle.lua:93` is a single reducer with movement, role-based skill branches, enemy scheduling, costs, damage and outcome decisions in one function.
 - `battle.lua:96` directly changes enemy positions/HP in end-turn; it does not use the player action validator. Only a nearest-target heuristic exists. No friendly-AI controller system exists.
@@ -74,3 +74,9 @@ Rules hash must cover the full fixed module list, not just the entry file. Conte
 6. Final playable flow: new game -> opening dialogue -> movement/ability/item -> AI phase -> shared round story -> save/load exact RNG/step/cursor -> win/lose ending -> return. Repeat online with two client VMs, reconnect/replay and mismatched-content rejection. Capture only real completed scenes with the exact source commit recorded.
 
 Existing bridge budgets (8 MiB VM, instruction hook, bounded native values) are constraints to measure, not a promise of arbitrary mod scale. If the planned maximum content exceeds a measured budget, reduce supported bounds or change an explicitly documented limit; do not ignore budget failures.
+
+## Implemented increment
+
+The UI/editor/art checkpoint is now exercised. Rules are assembled from a fixed lexical module list (`board`, `objectives`, `actions`, `ai`, `snapshot`) into one sandboxed chunk; no external loader or Mod code execution exists. Both saves and peers hash the complete assembled source. AI invokes the common action executor; optional faction/controller fields and stable actor IDs are supported. Rejected actions execute on a candidate state and do not commit. Composite objectives and settled attack events are implemented. Original bridge replay still ends at step 17 with the same state hash.
+
+This is the first compatible extraction, not the complete six-responsibility destination: role-based skill selection, inventory/equipment runtime, reusable ability cost/cooldown definitions, advanced AI policies and richer editor forms remain pending. The screenshot cut-in is only the Mara/Oren sword slice.
