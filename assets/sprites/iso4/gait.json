@@ -1,0 +1,114 @@
+{
+  "schema": 1,
+  "note": "Initial conservative tuning, not measured foot-lock certification. Distance drives frame phase; source poses still require visual gait QA.",
+  "characters": {
+    "knight": {
+      "front_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "front_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      }
+    },
+    "archer": {
+      "front_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "front_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      }
+    },
+    "mage": {
+      "front_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "front_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      }
+    },
+    "raider": {
+      "front_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "front_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      }
+    },
+    "scout": {
+      "front_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "front_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      }
+    },
+    "brute": {
+      "front_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "front_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_left": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      },
+      "back_right": {
+        "fps": 8,
+        "stride_world_distance": 0.5
+      }
+    }
+  }
+}

@@ -22,7 +22,7 @@ func run():
                 while not app.next_story().is_empty():app.advance_story(true)
             assert(app.session.submit({"kind":"move","unit":actor,"x":target.x,"y":target.y}))
             game.battle=app.session.logic;game.refresh();assert(game.motion.active());var snapshot=game.battle.snapshot()
-            await frames(22)
+            await frames(40)
             assert(not game.motion.active() and game.battle.snapshot()==snapshot)
             print("SIX_ROLE_ISO4_WALK ",data.units[actor].role," ",game.facing[data.units[actor].id])
             step+=1

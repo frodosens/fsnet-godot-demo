@@ -110,7 +110,7 @@ func build_world():
             var bridge = battle.content.terrain[z][x]=="B"
             var dirt=battle.content.terrain[z][x]=="D"
             var color = "596d76" if water else ("85847a" if bridge else ("87775b" if dirt else ("59624b" if (x+z)%2 else "626a52")))
-            var tile = box(Vector3(x,-0.15 if not water else water_level-0.06,z),Vector3(0.98,0.3 if not water else 0.12,0.98),color)
+            var tile = box(Vector3(x,-0.15 if not water else water_level-0.06,z),Vector3(1.002,0.3 if not water else 0.12,1.002),color)
             var overlay=MeshInstance3D.new();var plane=PlaneMesh.new();plane.size=Vector2(0.93,0.93);overlay.mesh=plane
             var highlight=StandardMaterial3D.new();highlight.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;highlight.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA;highlight.albedo_color=Color(0.42,0.61,0.61,0.22)
             overlay.material_override=highlight;overlay.position=Vector3(x,0.012,z);overlay.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;overlay.visible=false;add_child(overlay)
@@ -136,8 +136,12 @@ func build_world():
                 var near=clampi(int(edge+0.5 if edge==start else edge-0.5),0,battle.size.y-1)
                 if x>=0 and x<battle.size.x and battle.content.terrain[near][x]=="B":continue
                 for course in range(3):
-                    var stone=box(Vector3(x+0.12*(course%2),-0.22-course*0.33+0.025*sin(x*2.1),edge+0.07*sin(x*1.7)),Vector3(0.90,0.30,0.32+0.06*((x+24)%2)),"a08e77")
-                    stone.rotation.y=0.035*sin(x*1.9+course)
+                    # Broken, staggered bank stones below the walk plane, not a canal parapet.
+                    # Geometry is decorative; logical W/B cells remain unchanged.
+                    if course==0 and posmod(x,5)==2:continue
+                    var inset=0.12*sin(x*1.7+course*0.8)
+                    var stone=box(Vector3(x+0.17*(course%2),-0.31-course*0.30+0.04*sin(x*2.1),edge+inset),Vector3(0.70+0.12*sin(x*2.4),0.24,0.26+0.10*absf(sin(x*1.3))),"a08e77")
+                    stone.rotation.y=0.11*sin(x*1.9+course)
     else:
         landscape_box(Vector3(-10.5,-0.28,(battle.size.y-1)*0.5),Vector3(20,0.3,60),"59624b")
         landscape_box(Vector3(battle.size.x+9.5,-0.28,(battle.size.y-1)*0.5),Vector3(20,0.3,60),"59624b")
@@ -272,13 +276,9 @@ func build_world():
         sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
         add_child(sprite)
         figures.append(sprite)
-        var label = Label3D.new()
-        label.billboard = BaseMaterial3D.BILLBOARD_ENABLED
-        label.font_size = 30
-        label.pixel_size = 0.007
-        label.outline_size = 8
-        add_child(label)
-        badges.append(label)
+        var meter=preload("res://view/unit_health.gd").new()
+        add_child(meter)
+        badges.append(meter)
 
 func pixel_person(role,ally):
     var image = Image.create(24,32,false,Image.FORMAT_RGBA8)
@@ -377,8 +377,7 @@ func refresh():
         if direction_textures.has(texture_key) and not motion.motions.has(u.id):figures[i].texture=direction_textures[texture_key]
         if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,0.63 if figures[i].get_meta("formal_art") else 0.72,u.pos.y)
         badges[i].position = Vector3(u.pos.x,1.62,u.pos.y)
-        badges[i].text = "%s  %d/%d" % [u.name,u.hp,u.max_hp]
-        badges[i].modulate = Color("fff0c9") if u.ally else Color("ffd2b4")
+        badges[i].update_health(u.hp,u.max_hp,u.ally)
     if hud:hud.refresh()
     if cutin and not motion.active():cutin.consume(battle.step,battle.events)
     if heal_feedback:heal_feedback.consume(battle.step,battle.events)

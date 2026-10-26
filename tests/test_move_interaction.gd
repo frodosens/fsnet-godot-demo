@@ -29,7 +29,7 @@ func run():
     check(game.motion.active() and game.motion.motions.mara.path==route,"walk animation consumes full authoritative path")
     var committed=app.session.logic.snapshot();click(game,Vector2i(4,3))
     check(app.session.logic.snapshot()==committed,"second click during motion cannot issue another command")
-    game.motion.advance(2.0);game.hud.refresh()
+    game.motion.advance(4.0);game.hud.refresh()
     check(not game.motion.active() and Vector2i(roundi(game.figures[0].position.x),roundi(game.figures[0].position.z))==Vector2i(4,4),"automatic movement reaches final destination")
     check(game.hud.action_panel.visible and game.hud.action_buttons.move.disabled,"returns to actions with spent move disabled")
     print("MOVE_EVENT_PATH ",JSON.stringify(app.session.logic.events[0].path))

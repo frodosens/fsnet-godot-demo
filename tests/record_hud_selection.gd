@@ -17,7 +17,7 @@ func run():
     key(KEY_1);current_scene.update_move_preview(Vector2i(4,4));await frames(30)
     assert(current_scene.hud.action_panel.visible and app.session.logic.snapshot()==initial)
     var click=InputEventMouseButton.new();click.button_index=MOUSE_BUTTON_LEFT;click.pressed=true;click.position=current_scene.camera.unproject_position(Vector3(4,0,4));current_scene._unhandled_input(click)
-    await frames(75)
+    await frames(120)
     assert(app.session.logic.step==1 and current_scene.hud.action_buttons.move.disabled)
     await frames(30)
     print("HUD_SELECTION_RECORD_PASS keyboard_mouse_preview_move_disabled=true")
