@@ -1,0 +1,472 @@
+{
+  "schema": 1,
+  "pack": "reference_generated_small_controls_v1",
+  "source": "originals/01-generated-controls-sheet.png",
+  "source_sha256": "39e5ebd79bee0f58d5f51d22b51e2b97ddec8b95e40ebc86a4b9bee7d51fe606",
+  "prompt": "generation-prompt.txt",
+  "prompt_sha256": "ebe3195e9bb084036f2ac48e244f824829f91b5de6dfac203febf26ae6620b17",
+  "source_workflow": "Built-in image_gen.imagegen, transparent_background=true, reference-conditioned on approved generated button/panel/icon art; no paid provider.",
+  "alpha_cleanup": "Remove <=16/255-alpha generated residual background; preserve all ten primary source components. Source rectangles isolate intended controls only.",
+  "direction_consistency": "All four directions use the generated UP triangle normalized once and losslessly rotated. Other generated directional cells retained in original for provenance only.",
+  "rendering": "PNG native pixel dimensions are logical render dimensions at UI scale 1. Preserve pixel ratios for icons; only stretch track/scroll thumb centers using provided logical slice margins. 44px hit targets are engine layout, not baked art.",
+  "disabled_recommendation": "Engine state only: retain full alpha; restrained RGB modulation around 0.82,0.82,0.82. Do not fade to low alpha. Keep checked glyph and blocked-input/disabled semantics. Final contextual contrast must be verified by integration owner; no formal accessibility conformance claim.",
+  "git_policy": "Commit only runtime/*.png and textual metadata; originals and review are local provenance/review, not runtime upload.",
+  "assets": [
+    {
+      "name": "checkbox_unchecked",
+      "file": "checkbox_unchecked.png",
+      "native_logical_size": [
+        24,
+        24
+      ],
+      "source_cell_xyxy": [
+        100,
+        145,
+        315,
+        355
+      ],
+      "source_ink_xyxy": [
+        120,
+        167,
+        294,
+        335
+      ],
+      "normalization": "fit",
+      "nine_slice_margins_ltrb": null,
+      "sha256": "5f04f68f29f8c465bf6f4a57336bb0845d708bf96a79285e068520f8f7f5cd2f",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        1,
+        1,
+        23,
+        22
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    },
+    {
+      "name": "checkbox_checked",
+      "file": "checkbox_checked.png",
+      "native_logical_size": [
+        24,
+        24
+      ],
+      "source_cell_xyxy": [
+        430,
+        145,
+        650,
+        355
+      ],
+      "source_ink_xyxy": [
+        451,
+        168,
+        624,
+        336
+      ],
+      "normalization": "fit",
+      "nine_slice_margins_ltrb": null,
+      "sha256": "dd5d9e12991044e5114c5707174dbe4c39bcd8cb72edfc1a2a26d6a73c6cfa51",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        1,
+        1,
+        23,
+        22
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    },
+    {
+      "name": "slider_track",
+      "file": "slider_track.png",
+      "native_logical_size": [
+        96,
+        8
+      ],
+      "source_cell_xyxy": [
+        710,
+        205,
+        1350,
+        310
+      ],
+      "source_ink_xyxy": [
+        734,
+        224,
+        1330,
+        284
+      ],
+      "normalization": "horizontal",
+      "nine_slice_margins_ltrb": [
+        4,
+        2,
+        4,
+        2
+      ],
+      "sha256": "aecc5d5810a7ec2ad16da715f8871d13cf0a6754d8a81277050fffa35bd672d1",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        1,
+        1,
+        95,
+        7
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    },
+    {
+      "name": "slider_thumb",
+      "file": "slider_thumb.png",
+      "native_logical_size": [
+        20,
+        24
+      ],
+      "source_cell_xyxy": [
+        1420,
+        145,
+        1580,
+        360
+      ],
+      "source_ink_xyxy": [
+        1446,
+        168,
+        1555,
+        337
+      ],
+      "normalization": "fit",
+      "nine_slice_margins_ltrb": null,
+      "sha256": "09f367844c60914ebc454ee9dbca6d45fe02f9e95e765ad4804c9c578aab7852",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        3,
+        1,
+        17,
+        23
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    },
+    {
+      "name": "scrollbar_track",
+      "file": "scrollbar_track.png",
+      "native_logical_size": [
+        8,
+        96
+      ],
+      "source_cell_xyxy": [
+        1770,
+        50,
+        1880,
+        440
+      ],
+      "source_ink_xyxy": [
+        1794,
+        73,
+        1848,
+        418
+      ],
+      "normalization": "vertical",
+      "nine_slice_margins_ltrb": [
+        2,
+        4,
+        2,
+        4
+      ],
+      "sha256": "0f9479f050138874b117001a126bb3d28c35a2156dd5b0ad37e3fa649b65a6c7",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        1,
+        1,
+        7,
+        95
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    },
+    {
+      "name": "scrollbar_thumb",
+      "file": "scrollbar_thumb.png",
+      "native_logical_size": [
+        10,
+        32
+      ],
+      "source_cell_xyxy": [
+        140,
+        470,
+        270,
+        720
+      ],
+      "source_ink_xyxy": [
+        167,
+        492,
+        246,
+        697
+      ],
+      "normalization": "vertical",
+      "nine_slice_margins_ltrb": [
+        2,
+        4,
+        2,
+        4
+      ],
+      "sha256": "5a289057934ccbfbebd44e044de41230fce28d5819313d63c07954347a19bf95",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        1,
+        1,
+        9,
+        31
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    },
+    {
+      "name": "indicator_up",
+      "file": "indicator_up.png",
+      "native_logical_size": [
+        16,
+        16
+      ],
+      "source_cell_xyxy": [
+        490,
+        520,
+        710,
+        660
+      ],
+      "source_ink_xyxy": [
+        513,
+        543,
+        688,
+        639
+      ],
+      "normalization": "fit",
+      "nine_slice_margins_ltrb": null,
+      "sha256": "cc3afb56cf2e5f92eb927eac59e5a4f23c8db8bb3bdb208fd3a6e8e186fa1d86",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        2,
+        4,
+        14,
+        11
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    },
+    {
+      "name": "indicator_down",
+      "file": "indicator_down.png",
+      "native_logical_size": [
+        16,
+        16
+      ],
+      "source_symbol": "indicator_up",
+      "normalization": "Lossless right-angle rotation indicator_down; canonical generated up triangle, not drawn; all direction silhouettes exactly congruent.",
+      "nine_slice_margins_ltrb": null,
+      "sha256": "b3864ff95a0af037a107202da02c04027123af68033b9d39e3ce36368d9f0eaf",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        2,
+        5,
+        14,
+        12
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    },
+    {
+      "name": "indicator_left",
+      "file": "indicator_left.png",
+      "native_logical_size": [
+        16,
+        16
+      ],
+      "source_symbol": "indicator_up",
+      "normalization": "Lossless right-angle rotation indicator_left; canonical generated up triangle, not drawn; all direction silhouettes exactly congruent.",
+      "nine_slice_margins_ltrb": null,
+      "sha256": "5c2ec1a59803e27cc802e90955c56042af8f8562b068fc7d67b730ca9bf22ce5",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        4,
+        2,
+        11,
+        14
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    },
+    {
+      "name": "indicator_right",
+      "file": "indicator_right.png",
+      "native_logical_size": [
+        16,
+        16
+      ],
+      "source_symbol": "indicator_up",
+      "normalization": "Lossless right-angle rotation indicator_right; canonical generated up triangle, not drawn; all direction silhouettes exactly congruent.",
+      "nine_slice_margins_ltrb": null,
+      "sha256": "f298452a3186692cb627cd3030dc0d546d688a77b7f57a4753bb0aa92a18c8d4",
+      "rgba": true,
+      "ink_bbox_xyxy": [
+        5,
+        2,
+        12,
+        14
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "clear_canvas_border": true
+    }
+  ],
+  "provenance": {
+    "provider": "OpenAI built-in image_gen.imagegen",
+    "paid_external_service": false,
+    "generation": "Single coordinated reference-conditioned generation, transparent_background=true; no additional style variants.",
+    "tool_saved_source": "generated_images/exec-51aabd73-af3a-4dbb-9c4e-c3636a947181.png",
+    "local_original": "originals/01-generated-controls-sheet.png",
+    "source_sha256": "39e5ebd79bee0f58d5f51d22b51e2b97ddec8b95e40ebc86a4b9bee7d51fe606",
+    "prompt": "metadata/generation-prompt.txt",
+    "prompt_sha256": "ebe3195e9bb084036f2ac48e244f824829f91b5de6dfac203febf26ae6620b17",
+    "reference_files": [
+      {
+        "path": "battle_hud_design/redesign-preview/skin-trial/02-button-states-refined-transparent.png",
+        "sha256": "26faf231b207516978d071d7869ea5af00f3e666e2a4a1b5212c37c789526087"
+      },
+      {
+        "path": "battle_hud_design/redesign-preview/generated-ui-pack/01-panels-bars-transparent-sheet.png",
+        "sha256": "8fa8ba6f363d94763631d5666b3b0beade834abb5273572ef73ebb146193451c"
+      },
+      {
+        "path": "battle_hud_design/redesign-preview/generated-icons-v1/originals/02-refined-icon-sheet.png",
+        "sha256": "8a228e9f6f8b61d443beba9683ac68f114014dc8b7cb2370d85e79b8651d36f3"
+      }
+    ],
+    "normalization_script": "metadata/normalize_controls.py",
+    "art_synthesis_by_script": false,
+    "transformations": [
+      "Source region extraction",
+      "Alpha<=16 residue removal",
+      "Proportional scale and transparent padding",
+      "Nine-slice center extension for tracks and scroll thumb",
+      "Lossless 90 degree rotations of canonical generated indicator"
+    ],
+    "not_uploaded_to_git": [
+      "originals/",
+      "review/"
+    ]
+  },
+  "qa_report": {
+    "all_runtime_images_rgba": true,
+    "all_clear_borders": true,
+    "component_checks": [
+      {
+        "asset": "checkbox_unchecked",
+        "alpha32_components": 1
+      },
+      {
+        "asset": "checkbox_checked",
+        "alpha32_components": 1
+      },
+      {
+        "asset": "slider_track",
+        "alpha32_components": 1
+      },
+      {
+        "asset": "slider_thumb",
+        "alpha32_components": 1
+      },
+      {
+        "asset": "scrollbar_track",
+        "alpha32_components": 1
+      },
+      {
+        "asset": "scrollbar_thumb",
+        "alpha32_components": 1
+      },
+      {
+        "asset": "indicator_up",
+        "alpha32_components": 1
+      },
+      {
+        "asset": "indicator_down",
+        "alpha32_components": 1
+      },
+      {
+        "asset": "indicator_left",
+        "alpha32_components": 1
+      },
+      {
+        "asset": "indicator_right",
+        "alpha32_components": 1
+      }
+    ],
+    "scale_checks": {
+      "16": [
+        {
+          "asset": "checkbox_unchecked",
+          "components": 1
+        },
+        {
+          "asset": "checkbox_checked",
+          "components": 1
+        }
+      ],
+      "20": [
+        {
+          "asset": "checkbox_unchecked",
+          "components": 1
+        },
+        {
+          "asset": "checkbox_checked",
+          "components": 1
+        }
+      ],
+      "24": [
+        {
+          "asset": "checkbox_unchecked",
+          "components": 1
+        },
+        {
+          "asset": "checkbox_checked",
+          "components": 1
+        }
+      ]
+    },
+    "visual_review": "PASS: actual-native separate controls and composed checkbox/slider/scrollbar readable on approved dark-bluegray. Light review confirms transparent field and no stray islands. Checked and unchecked differ by both checkmark and fill; no labels baked. Four directional symbols are congruent by rotation.",
+    "limitations": [
+      "No engine integration or UI-scale regression test performed by asset producer.",
+      "Recommended disabled RGB modulation retains alpha and state glyphs, but final screen context and semantic disabled indication remain engine responsibility.",
+      "Light background is a transparency check only; palette is for dark UI.",
+      "Nine-slice center stretching preserves generated endcaps; only dimension normalization was used, not original drawing.",
+      "44px interaction targets must be provided by engine layout, not image canvas."
+    ]
+  },
+  "asset_worker_validation_boundary": "Source image, PNG decode, alpha, dimensions and static native-scale inspection only. No fresh Godot import or runtime QA by this asset packager."
+}
