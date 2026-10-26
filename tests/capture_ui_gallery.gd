@@ -13,7 +13,7 @@ func run():
     current_scene.show_network();await shot("network")
     root.size=Vector2i(960,600);await shot("network-960");root.size=Vector2i(1280,800)
     current_scene.cancel_network();current_scene.start_new();await frames()
-    var game=current_scene;game.scene_view.set_fixed(true);await shot("story")
+    var game=current_scene;assert(game.scene_view.active);await shot("story")
     while not root.get_node("App").next_story().is_empty():root.get_node("App").advance_story(true)
     game.refresh();game.hud.toggle_pause();await shot("pause")
     game.hud.clear_modal();game.selected=2;game.hud.show_abilities();await shot("skills")

@@ -71,7 +71,7 @@ func _ready():
     ground_overlay=preload("res://view/path_preview.gd").new();ground_overlay.game=self;add_child(ground_overlay)
     build_hud()
     scene_view=preload("res://view/fixed_background.gd").new();scene_view.game=self;add_child(scene_view)
-    if App.scene_renderer=="fixed":scene_view.set_fixed(true)
+    if App.scene_renderer in ["auto","fixed"]:scene_view.set_fixed(true)
     refresh()
     print("PROTOTYPE_READY shared_lua=true units=",figures.size()," tiles=",tiles.size()," renderer=",RenderingServer.get_video_adapter_name())
     for arg in OS.get_cmdline_user_args():
