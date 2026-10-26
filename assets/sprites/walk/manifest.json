@@ -1,0 +1,82 @@
+{
+  "batch": "walk-cycles-batch01",
+  "fps": 8,
+  "frame_ms": 125,
+  "runtime_size": [
+    96,
+    128
+  ],
+  "foot_anchor": [
+    48,
+    120
+  ],
+  "state": "walk",
+  "idle": "Existing four-direction idle textures remain separate and unchanged.",
+  "qa_status": "Engine-validation candidate, not final polish. Limb and cloth pose changes authored via imagegen. Near/far side-leg occlusion is subtle; knight back contact alternation requires engine review.",
+  "characters": {
+    "knight": {
+      "front": [
+        "assets/sprites/walk/knight_front_00.png",
+        "assets/sprites/walk/knight_front_01.png",
+        "assets/sprites/walk/knight_front_02.png",
+        "assets/sprites/walk/knight_front_03.png"
+      ],
+      "back": [
+        "assets/sprites/walk/knight_back_00.png",
+        "assets/sprites/walk/knight_back_01.png",
+        "assets/sprites/walk/knight_back_02.png",
+        "assets/sprites/walk/knight_back_03.png"
+      ],
+      "left": [
+        "assets/sprites/walk/knight_left_00.png",
+        "assets/sprites/walk/knight_left_01.png",
+        "assets/sprites/walk/knight_left_02.png",
+        "assets/sprites/walk/knight_left_03.png"
+      ],
+      "right": [
+        "assets/sprites/walk/knight_right_00.png",
+        "assets/sprites/walk/knight_right_01.png",
+        "assets/sprites/walk/knight_right_02.png",
+        "assets/sprites/walk/knight_right_03.png"
+      ]
+    },
+    "brute": {
+      "front": [
+        "assets/sprites/walk/brute_front_00.png",
+        "assets/sprites/walk/brute_front_01.png",
+        "assets/sprites/walk/brute_front_02.png",
+        "assets/sprites/walk/brute_front_03.png"
+      ],
+      "back": [
+        "assets/sprites/walk/brute_back_00.png",
+        "assets/sprites/walk/brute_back_01.png",
+        "assets/sprites/walk/brute_back_02.png",
+        "assets/sprites/walk/brute_back_03.png"
+      ],
+      "left": [
+        "assets/sprites/walk/brute_left_00.png",
+        "assets/sprites/walk/brute_left_01.png",
+        "assets/sprites/walk/brute_left_02.png",
+        "assets/sprites/walk/brute_left_03.png"
+      ],
+      "right": [
+        "assets/sprites/walk/brute_right_00.png",
+        "assets/sprites/walk/brute_right_01.png",
+        "assets/sprites/walk/brute_right_02.png",
+        "assets/sprites/walk/brute_right_03.png"
+      ]
+    }
+  },
+  "generator": "OpenAI built-in imagegen",
+  "processing": "User-authorized crop, nearest-neighbor scale and body/foot alignment only; no painted or mirrored frames. Raw sources retained in Library archive.",
+  "source_sha256": {
+    "knight_back.png": "73487119f2a4fd0ba3cd9cd99472e6440afe06719d219890966c821e462b4112",
+    "brute_front.png": "951c0fe6054bc89552b9e5e5956511449f7e6aa44f0a4269d3b9bc42d7241f44",
+    "knight_right.png": "6d3f0d125a8b424b487d0e21297e13f747e117d0353e881d86c4d166522325e0",
+    "knight_front.png": "f611561030131bd16a071dd67b5129af6be882777fc7cdddce6de4fe2fef6e95",
+    "brute_left.png": "8774f257828761f0db613048dd80f4e0707e5e393ed23396d2a82f20c3f05943",
+    "knight_left.png": "f70883792b62abd582dbf5e5caef8617a9cc147d21da606b351cc10f2657612c",
+    "brute_back.png": "0302ca441d704dfd389952bf018ece46a3b645965c3a6b6365d8a6c6681a6f36",
+    "brute_right.png": "f578eaca516b8444db10258345a499b459801cc0c1e4d6bae7c72400de0aede5"
+  }
+}
