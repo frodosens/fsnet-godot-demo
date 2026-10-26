@@ -57,3 +57,13 @@ static func impact_font():
     var face=FontVariation.new();face.base_font=font;face.variation_embolden=0.3
     face.spacing_glyph=2
     return face
+
+static var portrait_regions={}
+static func framed_portrait(id):
+    if portrait_regions.has(id):return portrait_regions[id]
+    var path="res://assets/portraits/"+id+".png"
+    if not ResourceLoader.exists(path):return null
+    var texture=load(path);var image=texture.get_image();var bounds=image.get_used_rect()
+    # Retain all nontransparent pixels, removing delivery padding rather than stretching the face.
+    var atlas=AtlasTexture.new();atlas.atlas=texture;atlas.region=bounds;atlas.filter_clip=true
+    portrait_regions[id]=atlas;return atlas

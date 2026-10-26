@@ -9,6 +9,7 @@ func frames(count=4):
     for i in range(count):await process_frame
 func _initialize():call_deferred("run")
 func run():
+    root.size=Vector2i(1280,800)
     var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content())
     change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
@@ -30,7 +31,7 @@ func run():
         var center=button.get_global_transform()*Vector2(32,32);var target=Vector2(view.x*0.88,view.y*[0.31,0.41,0.50,0.59][i])
         measurements[kind]={"actual":[center.x,center.y],"target":[target.x,target.y],"error_logical_px":center.distance_to(target)}
         check(center.distance_to(target)<0.1,"action anchor "+kind)
-    for icon in [hud.hp_icon,hud.mp_icon,hud.action_summary.get_child(0),hud.action_summary.get_child(2)]:
+    for icon in [hud.hp_icon,hud.mp_icon,hud.action_summary.get_child(0).get_child(1),hud.action_summary.get_child(2).get_child(1)]:
         icon.update_variant()
         var expected_px=20.0*minf(float(root.size.x)/view.x,float(root.size.y)/view.y)
         check(absf(icon.rendered_px-expected_px)<0.1,"icon uses physical viewport scale")

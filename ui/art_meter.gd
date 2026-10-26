@@ -11,8 +11,8 @@ func _ready():
 func layout():
     if not fill:return
     var factor=size.x/320.0
-    frame.size=Vector2(320,24);frame.scale=Vector2.ONE*factor
-    fill.size=Vector2(312,16);fill.scale=Vector2.ONE*factor;fill.position=Vector2(4,4)*factor
+    frame.size=Vector2(320,24);frame.scale=Vector2(factor,size.y/24.0)
+    fill.size=Vector2(312,16);fill.scale=Vector2(factor,size.y/24.0);fill.position=Vector2(4*factor,size.y/6.0)
 func sync():
     if not fill:return
     fill.min_value=min_value;fill.max_value=max_value;fill.value=value

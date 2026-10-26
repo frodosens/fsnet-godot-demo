@@ -1,0 +1,8 @@
+{
+  "version": 1,
+  "character_scale": 1.25,
+  "scope": "fixed-background reference map only; original 3D remains 1.0",
+  "ground_anchor_px": [48, 120],
+  "canvas_px": [96, 128],
+  "note": "Scale texture pixels, center height, badge offset, soft contact footprint and presentation stride together. Never change logical grid/action costs. Background lamp/door pixels are not resized."
+}

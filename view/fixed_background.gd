@@ -13,6 +13,7 @@ var original_lights=[]
 var saved_size=11.8
 var saved_aspect=Camera3D.KEEP_HEIGHT
 var art_rect=Rect2()
+var original_character_scale=1.0
 func compatible():
     var authored=preload("res://logic/content.gd").reference_content()
     var current=game.battle.content
@@ -42,12 +43,17 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
             if node in keep:continue
             if node is GeometryInstance3D or node.get_class()=="Node3D":
                 hidden.append([node,node.visible]);node.hide()
+        original_character_scale=game.character_scale
+        var settings_path="res://assets/backgrounds/amber_bridge/presentation.json"
+        var scale_factor=1.0
+        if FileAccess.file_exists(settings_path):scale_factor=float(JSON.parse_string(FileAccess.get_file_as_string(settings_path)).get("character_scale",1.0))
+        game.set_character_scale(scale_factor)
         backdrop=plate(fixture_texture if fixture_texture!=null else load(BACKGROUND),50)
         if fixture_texture==null and ResourceLoader.exists(FOREGROUND):foreground=plate(load(FOREGROUND),2,true)
         var shader=Shader.new();shader.code="shader_type spatial; render_mode unshaded, fog_disabled, cull_disabled, depth_draw_never; void fragment(){float d=length((UV-vec2(0.5))*2.0);ALBEDO=vec3(0.06,0.08,0.07);ALPHA=(1.0-smoothstep(0.15,1.0,d))*0.32;}"
         var material=ShaderMaterial.new();material.shader=shader
         for unit in game.battle.units:
-            var shadow=MeshInstance3D.new();var plane=PlaneMesh.new();plane.size=Vector2(0.56,0.38);shadow.mesh=plane;shadow.material_override=material;shadow.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;game.add_child(shadow);shadows.append(shadow)
+            var shadow=MeshInstance3D.new();var plane=PlaneMesh.new();plane.size=Vector2(0.56,0.38)*game.character_scale;shadow.mesh=plane;shadow.material_override=material;shadow.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;game.add_child(shadow);shadows.append(shadow)
         active=true;fit();setup_lights();sync_shadows()
     else:
         for entry in hidden:
@@ -61,6 +67,7 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
         for node in [backdrop,foreground]+shadows:
             if is_instance_valid(node):node.queue_free()
         backdrop=null;foreground=null;shadows.clear();active=false
+        game.set_character_scale(original_character_scale)
         game.camera.size=saved_size;game.camera.keep_aspect=saved_aspect
     game.clear_move_preview()
     return true
@@ -74,6 +81,8 @@ func accepts_point(point):return not active or art_rect.has_point(point)
 func sync_shadows():
     for i in range(shadows.size()):
         var p=game.figures[i].position
+        var footprint=Vector2(0.56,0.38)*game.character_scale
+        if not shadows[i].mesh.size.is_equal_approx(footprint):shadows[i].mesh.size=footprint
         shadows[i].position=Vector3(p.x,0.008,p.z);shadows[i].visible=game.battle.units[i].hp>0
 func _process(_delta):
     if active:fit();sync_shadows()

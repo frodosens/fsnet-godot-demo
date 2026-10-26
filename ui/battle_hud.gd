@@ -5,6 +5,7 @@ var root
 var round_label
 var net_label
 var detail
+var profession_label
 var log_label
 var hero_column
 var action_buttons={}
@@ -21,6 +22,7 @@ var last_step=-1
 var action_panel
 var action_menu_open=true
 var status_panel
+var status_shade
 var companion_panel
 var pause_button
 var turn_button
@@ -48,6 +50,11 @@ func _ready():
     round_label=UI.label("",22);round_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;round_label.position=Vector2(530,20);round_label.size=Vector2(220,42);root.add_child(round_label)
     net_label=UI.label("",14);net_label.position=Vector2(28,97);root.add_child(net_label)
     pause_button=UI.menu_button("暂停 Esc",toggle_pause);pause_button.add_theme_font_size_override("font_size",18);pause_button.custom_minimum_size=Vector2(132,40);root.add_child(pause_button)
+    # Soft local separation from busy foliage; no opaque rectangular software panel.
+    status_shade=TextureRect.new();status_shade.mouse_filter=Control.MOUSE_FILTER_IGNORE
+    var shade=GradientTexture2D.new();shade.width=256;shade.height=128;shade.fill=GradientTexture2D.FILL_RADIAL;shade.fill_from=Vector2(0.3,0.65);shade.fill_to=Vector2(1.0,0.65)
+    var shade_colors=Gradient.new();shade_colors.set_color(0,Color(0.07,0.12,0.12,0.85));shade_colors.set_color(1,Color(0.07,0.12,0.12,0));shade.gradient=shade_colors
+    status_shade.texture=shade;status_shade.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;root.add_child(status_shade)
     companion_panel=ScrollContainer.new();companion_panel.position=Vector2(24,540);companion_panel.custom_minimum_size=Vector2(380,66);root.add_child(companion_panel)
     hero_column=HBoxContainer.new();hero_column.add_theme_constant_override("separation",10);companion_panel.add_child(hero_column)
     var hidden_heading=UI.label("");hidden_heading.hide();hero_column.add_child(hidden_heading)
@@ -55,20 +62,21 @@ func _ready():
         var unit=game.battle.units[i]
         if unit.ally or unit.controller=="player":
             var button=Button.new();button.custom_minimum_size=Vector2(48,60);button.tooltip_text=unit.name;button.pressed.connect(select_hero.bind(i));hero_column.add_child(button)
-            var image=UI.portrait(unit.id,48);image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);image.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(image)
+            var image=UI.portrait(unit.id,48);image.texture=UI.framed_portrait(unit.id);image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);image.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(image)
             if image.texture==null:button.text=unit.name.left(1)
             var health=preload("res://ui/art_meter.gd").new();health.position=Vector2(4,56);health.size=Vector2(40,3);health.max_value=unit.max_hp;health.value=unit.hp;health.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(health)
             art_frame(button,"ally_portrait_frame")
     status_panel=Control.new();status_panel.mouse_filter=Control.MOUSE_FILTER_IGNORE;status_panel.size=Vector2(500,160);root.add_child(status_panel)
     selected_portrait=UI.portrait("mara",88);selected_portrait.position=Vector2(0,-26);selected_portrait.size=Vector2(112,152);status_panel.add_child(selected_portrait);art_frame(selected_portrait,"portrait_frame")
-    detail=UI.paragraph("",270);detail.position=Vector2(124,2);detail.add_theme_font_size_override("font_size",22);status_panel.add_child(detail)
-    action_summary=HBoxContainer.new();action_summary.add_theme_constant_override("separation",8);status_panel.add_child(action_summary)
-    action_summary.add_child(art_icon("symbol_movement"));move_label=UI.label("",20);action_summary.add_child(move_label)
-    action_summary.add_child(art_icon("symbol_action"));act_label=UI.label("",20);action_summary.add_child(act_label)
+    detail=UI.paragraph("",270);detail.position=Vector2(124,2);detail.add_theme_font_size_override("font_size",24);status_panel.add_child(detail)
+    profession_label=UI.label("",16);profession_label.add_theme_color_override("font_color",Color("a4aea2"));status_panel.add_child(profession_label)
+    action_summary=HBoxContainer.new();action_summary.add_theme_constant_override("separation",7);status_panel.add_child(action_summary)
+    action_summary.add_child(action_emblem("symbol_movement"));move_label=UI.label("",20);action_summary.add_child(move_label)
+    action_summary.add_child(action_emblem("symbol_action"));act_label=UI.label("",20);action_summary.add_child(act_label)
     hp_icon=art_icon("icon_hp");status_panel.add_child(hp_icon);mp_icon=art_icon("icon_mp");status_panel.add_child(mp_icon)
     hp_bar=stat_bar(status_panel,Vector2(124,62),Color("8ba078"),"hp");mp_bar=stat_bar(status_panel,Vector2(124,91),Color("6c9c9b"),"mp")
-    hp_label=UI.label("",22);hp_label.position=Vector2(292,54);status_panel.add_child(hp_label)
-    mp_label=UI.label("",22);mp_label.position=Vector2(292,83);status_panel.add_child(mp_label)
+    hp_label=UI.label("",18);hp_label.position=Vector2(292,54);status_panel.add_child(hp_label)
+    mp_label=UI.label("",18);mp_label.position=Vector2(292,83);status_panel.add_child(mp_label)
     hint_label=UI.label("选择角色，Enter 打开行动",22);hint_label.position=Vector2(440,744);root.add_child(hint_label)
     log_label=UI.label("",16);log_label.position=Vector2(440,710);root.add_child(log_label)
     turn_button=UI.button("空格 · 结束回合",request_end_turn);turn_button.add_theme_font_size_override("font_size",18);turn_button.custom_minimum_size=Vector2(210,44);root.add_child(turn_button);action_buttons["end"]=turn_button
@@ -151,12 +159,13 @@ func refresh():
     round_label.text="第 %d 回合 · %s"%[logic.round_number,{"playing":"我方行动","victory":"胜利","defeat":"失败"}.get(logic.outcome,logic.outcome)]
     var view=root.get_viewport_rect().size
     round_label.position.x=(view.x-220)*0.5;pause_button.position=Vector2(view.x-maxf(132,pause_button.size.x)-24,24)
+    status_shade.position=Vector2(0,view.y*0.73);status_shade.size=Vector2(view.x*0.37,view.y*0.31)
     status_panel.position=Vector2(view.x*0.02,view.y*0.84);status_panel.size=Vector2(view.x*0.40,view.y*0.16)
     selected_portrait.position=Vector2(0,-view.y*0.04);selected_portrait.size=Vector2(view.x*0.085,view.y*0.16)
     detail.position=Vector2(view.x*0.10,0);action_summary.position=Vector2(view.x*0.10,view.y*0.105)
     hp_bar.position=Vector2(view.x*0.12,view.y*0.045);mp_bar.position=Vector2(view.x*0.12,view.y*0.075)
-    hp_bar.size=Vector2(view.x*0.12,view.x*0.009);mp_bar.size=hp_bar.size
-    hp_icon.position=hp_bar.position+Vector2(-28,-4);mp_icon.position=mp_bar.position+Vector2(-28,-4)
+    hp_bar.size=Vector2(view.x*0.12,view.x*0.012);mp_bar.size=hp_bar.size
+    hp_icon.position=hp_bar.position+Vector2(-28,-2);mp_icon.position=mp_bar.position+Vector2(-28,-2)
     hp_label.position=Vector2(view.x*0.245,view.y*0.035);mp_label.position=Vector2(view.x*0.245,view.y*0.065)
     companion_panel.position=Vector2(view.x*0.135-24,view.y*0.80-30);companion_panel.custom_minimum_size=Vector2(380,64);companion_panel.size.y=64
     hero_column.add_theme_constant_override("separation",maxi(0,int(view.x*0.04)-48))
@@ -176,16 +185,18 @@ func refresh():
             b.visible=game.selected!=i
             b.get_child(1).max_value=u.max_hp;b.get_child(1).value=u.hp
             var border=StyleBoxFlat.new();border.bg_color=Color(0.12,0.17,0.16,0.7);border.border_color=Color("dfa75f") if game.selected==i else Color("59624b");border.set_border_width_all(2 if game.selected==i else 1);b.add_theme_stylebox_override("normal",border)
-    detail.text="队伍休整中。";move_label.text="";act_label.text=""
+    detail.text="队伍休整中。";profession_label.text="";move_label.text="";act_label.text=""
     var active=game.selected>=0 and logic.usable(game.selected)
     if active:
         var u=logic.units[game.selected]
         var image="res://assets/portraits/"+u.id+".png"
-        selected_portrait.texture=load(image) if ResourceLoader.exists(image) else null
+        selected_portrait.texture=UI.framed_portrait(u.id)
         var skill="默认技能："+u.skill_id
         for ability in logic.content.abilities:
             if ability.id==u.skill_id:skill="默认技能："+ability.name;detail.tooltip_text=ability_description(ability)
-        detail.text="%s · %s"%[u.name,{"knight":"骑士","archer":"弓手","mage":"法师","raider":"卫队长","scout":"斥候","brute":"桥工"}.get(u.role,u.role)]
+        detail.text=u.name
+        profession_label.text="· "+{"knight":"骑士","archer":"弓手","mage":"法师","raider":"卫队长","scout":"斥候","brute":"桥工"}.get(u.role,u.role)
+        profession_label.position=detail.position+Vector2(detail.get_theme_font("font").get_string_size(u.name,HORIZONTAL_ALIGNMENT_LEFT,-1,24).x+10,6)
         detail.tooltip_text=skill+"\n"+detail.tooltip_text
         move_label.text="移动 %d"%maxi(0,u.move_actions-u.moves_used);act_label.text="行动 %d"%(0 if u.acted else 1)
         hp_bar.max_value=u.max_hp;hp_bar.value=u.hp;mp_bar.max_value=maxi(1,u.max_mp);mp_bar.value=u.mp
@@ -422,3 +433,8 @@ func show_items():
         list.add_child(button)
     page.add_child(UI.button("返回",clear_modal))
 func choose_item(id):clear_modal();game.select_mode("item:"+id)
+
+func action_emblem(name):
+    var holder=Control.new();holder.custom_minimum_size=Vector2(28,28);holder.mouse_filter=Control.MOUSE_FILTER_IGNORE
+    var frame=TextureRect.new();frame.texture=load("res://assets/ui/hud_v3/action_unselected.png");frame.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;frame.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;frame.mouse_filter=Control.MOUSE_FILTER_IGNORE;frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);holder.add_child(frame)
+    var icon=art_icon(name);icon.position=Vector2(4,4);holder.add_child(icon);return holder

@@ -4,6 +4,10 @@ extends MeshInstance3D
 var game
 var signature=""
 var building=false
+var last_path=[]
+var reveal=0.0
+var route_length=0.0
+var clock=0.0
 const HEIGHT=0.025
 func _ready():
     mesh=ImmediateMesh.new();cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
@@ -24,8 +28,61 @@ func stroke(a,b,width,color):
     triangle(a+normal,b+normal,b-normal,color);triangle(a+normal,b-normal,a-normal,color)
 func polyline(points,width,color):
     for i in range(points.size()-1):stroke(points[i],points[i+1],width,color)
-func _process(_delta):
-    var state=str([game.mode,game.selected,game.battle.step,game.preview_path,game.preview_reachable,game.presentation_active(),game.camera.global_transform,game.camera.size,game.camera.keep_aspect,get_viewport().get_visible_rect()])
+# Round only inside the turn cell: radius < half a tile. No shortcut across blocked neighbours.
+func rounded_route(path):
+    var result=[]
+    if path.size()<2:return result
+    result.append(Vector2(path[0].x,path[0].y))
+    for i in range(1,path.size()-1):
+        var previous=Vector2(path[i-1].x,path[i-1].y);var current=Vector2(path[i].x,path[i].y);var next=Vector2(path[i+1].x,path[i+1].y)
+        var incoming=(current-previous).normalized();var outgoing=(next-current).normalized()
+        if absf(incoming.dot(outgoing))>0.99:result.append(current);continue
+        var a=current-incoming*0.20;var b=current+outgoing*0.20
+        result.append(a)
+        for sample in range(1,9):
+            var t=sample/8.0;result.append(a.lerp(current,t).lerp(current.lerp(b,t),t))
+    result.append(Vector2(path[-1].x,path[-1].y))
+    return result
+func prefix(points,length):
+    var result=[]
+    if points.is_empty():return result
+    result.append(points[0])
+    for i in range(points.size()-1):
+        var distance=points[i].distance_to(points[i+1])
+        if length<=0:break
+        result.append(points[i].lerp(points[i+1],minf(1,length/maxf(distance,0.0001))))
+        length-=distance
+    return result
+func ribbon(points,width,color):
+    # Shared vertices at each join prevent translucent overlapping segment seams.
+    if points.size()<2:return
+    var left=[];var right=[]
+    for i in range(points.size()):
+        var before=(points[i]-points[maxi(0,i-1)]).normalized()
+        var after=(points[mini(points.size()-1,i+1)]-points[i]).normalized()
+        if i==0:before=after
+        if i==points.size()-1:after=before
+        var tangent=(before+after).normalized()
+        if tangent.length_squared()<0.1:tangent=after
+        var normal=Vector2(-tangent.y,tangent.x)
+        var segment_normal=Vector2(-after.y,after.x)
+        var offset=normal*(width*0.5/maxf(0.75,absf(normal.dot(segment_normal))))
+        left.append(points[i]+offset);right.append(points[i]-offset)
+    for i in range(points.size()-1):
+        triangle(left[i],left[i+1],right[i+1],color);triangle(left[i],right[i+1],right[i],color)
+func _process(delta):
+    clock+=delta
+    var path=game.preview_path if game.preview_path is Array and not game.presentation_active() else []
+    if path!=last_path:
+        var common=0
+        while common<mini(path.size(),last_path.size()) and path[common]==last_path[common]:common+=1
+        reveal=minf(reveal,maxf(0,common-1.0));last_path=path.duplicate(true)
+    var route=rounded_route(path);route_length=0.0
+    for i in range(route.size()-1):route_length+=route[i].distance_to(route[i+1])
+    reveal=route_length if App.reduced_motion else minf(route_length,reveal+delta*18.0)
+    var animated=route_length>0 and not App.reduced_motion
+    var tick=int(clock*30.0) if animated else 0
+    var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.camera.global_transform,game.camera.size,game.camera.keep_aspect,get_viewport().get_visible_rect(),tick])
     if state==signature:return
     signature=state;mesh.clear_surfaces();building=false
     if game.presentation_active():return
@@ -35,17 +92,27 @@ func _process(_delta):
             var outline=[]
             for corner in [Vector2(-0.46,-0.46),Vector2(0.46,-0.46),Vector2(0.46,0.46),Vector2(-0.46,0.46),Vector2(-0.46,-0.46)]:outline.append(projected(Vector2(cell)+corner))
             polyline(outline,1.0,Color(0.42,0.61,0.61,0.55))
-    if game.preview_path.size()>=2:
+    if route.size()>=2:
         var points=[]
-        for cell in game.preview_path:points.append(projected(Vector2(cell.x,cell.y)))
-        polyline(points,6,Color("23332f"));polyline(points,3,Color("e4c58a"))
-        var circle=[]
-        for i in range(25):circle.append(points[0]+Vector2(cos(TAU*i/24.0),sin(TAU*i/24.0))*8)
-        polyline(circle,2,Color("e4c58a"))
-        for i in range(points.size()-1):
-            var direction=(points[i+1]-points[i]).normalized();var side=Vector2(-direction.y,direction.x)*4
-            var tip=points[i].lerp(points[i+1],0.72)
-            triangle(tip,tip-direction*9+side,tip-direction*9-side,Color("eee2c6"))
-        var end=points[-1]
+        for cell in prefix(route,reveal):points.append(projected(cell))
+        if points.size()>=2:
+            ribbon(points,9,Color("23332f"));ribbon(points,5,Color("e4c58a"))
+            # One continuous arrow, not a chain of detached per-cell arrows.
+            var tip=points[-1];var direction=(tip-points[-2]).normalized();var normal=Vector2(-direction.y,direction.x)
+            triangle(tip+direction*3,tip-direction*13+normal*8,tip-direction*13-normal*8,Color("23332f"))
+            triangle(tip+direction*1,tip-direction*10+normal*5.5,tip-direction*10-normal*5.5,Color("eee2c6"))
+            if not App.reduced_motion and reveal>=route_length:
+                var travel=fmod(clock*0.8,route_length)
+                var highlight=prefix(route,minf(route_length,travel+0.20))
+                var begin=prefix(route,travel)
+                if not begin.is_empty():
+                    var segment=[projected(begin[-1])]
+                    # A short travelling sheen follows the exact rounded polyline.
+                    var total=0.0
+                    for i in range(route.size()-1):
+                        total+=route[i].distance_to(route[i+1])
+                        if total>travel and total<travel+0.20:segment.append(projected(route[i+1]))
+                    segment.append(projected(highlight[-1]));ribbon(segment,2,Color(1,0.93,0.73,0.7))
+        var end=projected(route[-1])
         polyline([end+Vector2(0,-12),end+Vector2(12,0),end+Vector2(0,12),end+Vector2(-12,0),end+Vector2(0,-12)],2,Color("dfa75f"))
     if building:mesh.surface_end()

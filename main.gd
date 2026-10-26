@@ -38,6 +38,7 @@ var route_arrows
 var selection_ring
 var scene_view
 var ground_overlay
+var character_scale=1.0
 
 func material(color):
     var m = StandardMaterial3D.new()
@@ -380,8 +381,8 @@ func refresh():
                     if target.id==event.target:facing[u.id]=projected_facing(u.pos,target.pos,iso_roles.has(u.role))
         var texture_key=u.id+":"+facing.get(u.id,"front")
         if direction_textures.has(texture_key) and not motion.motions.has(u.id):figures[i].texture=direction_textures[texture_key]
-        if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,0.63 if figures[i].get_meta("formal_art") else 0.72,u.pos.y)
-        badges[i].position = Vector3(u.pos.x,1.62,u.pos.y)
+        if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,figure_height(i),u.pos.y)
+        badges[i].position = Vector3(u.pos.x,badge_height(i),u.pos.y)
         badges[i].update_health(u.hp,u.max_hp,u.ally)
     if hud:hud.refresh()
     if cutin and not motion.active():cutin.consume(battle.step,battle.events)
@@ -557,3 +558,16 @@ func landscape_box(pos,size,color):
     var node=box(pos,size,color)
     node.material_override.albedo_color=Color(0.55,0.64,0.58)
     return node
+
+func figure_height(index):
+    return 56.0*figures[index].pixel_size if figures[index].get_meta("formal_art") else 0.72
+func badge_height(index):
+    return figure_height(index)+0.99*character_scale if figures[index].get_meta("formal_art") else 1.62
+func set_character_scale(value):
+    character_scale=clampf(value,0.5,1.5)
+    for i in range(figures.size()):
+        if figures[i].get_meta("formal_art"):figures[i].pixel_size=0.01125*character_scale
+        figures[i].position.y=figure_height(i)
+        badges[i].position=Vector3(figures[i].position.x,badge_height(i),figures[i].position.z)
+    preview_ghost.pixel_size=0.01125*character_scale
+    if preview_ghost.visible and selected>=0:preview_ghost.position.y=figure_height(selected)

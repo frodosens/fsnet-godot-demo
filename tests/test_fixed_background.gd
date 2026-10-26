@@ -16,6 +16,9 @@ func run():
     var fixture=ImageTexture.create_from_image(image) # Explicit synthetic test fixture, never a production background.
     check(adapter.set_fixed(true,fixture),"compatible authored map enables fixture background")
     check(game.figures[0].visible and game.figures[0].shaded and not game.tiles[Vector2i(4,7)].node.visible,"retain shaded units, hide physical terrain")
+    check(is_equal_approx(game.character_scale,1.25),"fixed-only character scale")
+    for figure in game.figures:
+        check(is_equal_approx(figure.position.y,56.0*figure.pixel_size),"scaled sole anchor remains on ground")
     var contract=JSON.parse_string(FileAccess.get_file_as_string("res://docs/fixed-background-contract.json"))
     for size in [Vector2i(960,600),Vector2i(1280,720),Vector2i(1280,800),Vector2i(1920,1080),Vector2i(2560,1440),Vector2i(2560,1080),Vector2i(1280,1024)]:
         root.size=size;await frames();adapter.fit()
@@ -41,6 +44,7 @@ func run():
     check(adapter.shadows[0].position.is_equal_approx(Vector3(4,0.008,4)),"skip settles shadow on authoritative tile")
     var after=game.battle.snapshot();check(after!=truth,"test issued a real move")
     check(adapter.set_fixed(false) and game.tiles[Vector2i(4,7)].node.visible,"restore original 3D visibility")
+    check(is_equal_approx(game.character_scale,1.0),"3D original scale restored")
     check(game.battle.snapshot()==after and game.camera.keep_aspect==adapter.saved_aspect,"renderer toggle preserves rules and restores camera")
     app.new_game(preload("res://logic/content.gd").default_content());change_scene_to_file("res://main.tscn");await frames()
     check(not current_scene.scene_view.set_fixed(true,fixture),"legacy/other map cannot use mismatched painting")
