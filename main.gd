@@ -4,6 +4,7 @@ var session
 const Hud=preload("res://ui/battle_hud.gd")
 var hud
 var cutin
+var heal_feedback
 var motion
 var battle
 var last_step = -1
@@ -22,6 +23,15 @@ var facing={}
 var last_positions={}
 var direction_textures={}
 var iso_roles={}
+var target_preview={}
+var target_preview_index=-1
+var preview_reason=""
+var preview_reachable={}
+var preview_path=[]
+var preview_cell=Vector2i(-1,-1)
+var route_mesh
+var decorative_props=[]
+var route_arrows
 var selection_ring
 
 func material(color):
@@ -98,9 +108,35 @@ func build_world():
             var color = "596d76" if water else ("85847a" if bridge else ("87775b" if dirt else ("59624b" if (x+z)%2 else "626a52")))
             var tile = box(Vector3(x,-0.15 if not water else -0.72,z),Vector3(0.98,0.3 if not water else 0.12,0.98),color)
             var overlay=MeshInstance3D.new();var plane=PlaneMesh.new();plane.size=Vector2(0.93,0.93);overlay.mesh=plane
-            var highlight=StandardMaterial3D.new();highlight.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;highlight.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA;highlight.albedo_color=Color(0.65,0.74,0.67,0.16)
+            var highlight=StandardMaterial3D.new();highlight.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;highlight.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA;highlight.albedo_color=Color(0.42,0.61,0.61,0.22)
             overlay.material_override=highlight;overlay.position=Vector3(x,0.012,z);overlay.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;overlay.visible=false;add_child(overlay)
             tiles[pos] = {"node":tile,"color":tile.material_override.albedo_color,"overlay":overlay}
+    # Continuous non-playable landscape extends behind the authored tactical cells.
+    # Only the bridge fixture's complete W/B rows get a continuous river strip.
+    var river_rows=[]
+    for z in range(battle.size.y):
+        var water_row=true;var has_water=false
+        for c in battle.content.terrain[z]:
+            if c not in ["W","B"]:water_row=false
+            if c=="W":has_water=true
+        if water_row and has_water:river_rows.append(z)
+    if not river_rows.is_empty():
+        var start=river_rows[0]-0.5;var end=river_rows[-1]+0.5
+        landscape_box(Vector3((battle.size.x-1)*0.5,-0.28,(start-20)*0.5),Vector3(60,0.3,start+20),"59624b")
+        landscape_box(Vector3((battle.size.x-1)*0.5,-0.28,(end+30)*0.5),Vector3(60,0.3,30-end),"59624b")
+        box(Vector3((battle.size.x-1)*0.5,-0.74,(start+end)*0.5),Vector3(60,0.12,end-start),"596d76")
+        for pos in tiles:
+            if battle.content.terrain[pos.y][pos.x]=="W":tiles[pos].node.visible=false
+        for x in range(-12,battle.size.x+12):
+            for edge in [start,end]:
+                var near=clampi(int(edge+0.5 if edge==start else edge-0.5),0,battle.size.y-1)
+                if x>=0 and x<battle.size.x and battle.content.terrain[near][x]=="B":continue
+                box(Vector3(x,-0.30,edge),Vector3(0.94,0.52+0.04*((x+24)%3),0.22),"a08e77")
+    else:
+        landscape_box(Vector3(-10.5,-0.28,(battle.size.y-1)*0.5),Vector3(20,0.3,60),"59624b")
+        landscape_box(Vector3(battle.size.x+9.5,-0.28,(battle.size.y-1)*0.5),Vector3(20,0.3,60),"59624b")
+        landscape_box(Vector3((battle.size.x-1)*0.5,-0.28,-10.5),Vector3(battle.size.x,0.3,20),"59624b")
+        landscape_box(Vector3((battle.size.x-1)*0.5,-0.28,battle.size.y+9.5),Vector3(battle.size.x,0.3,20),"59624b")
     # Bridge rails follow the data map; X cells are actual blocked obstacles.
     for z in range(battle.size.y):
         for x in range(battle.size.x):
@@ -125,6 +161,19 @@ func build_world():
                         var height=-0.15-bottom
                         box(Vector3(x+side*0.47,bottom+height*0.5,start-0.5+(piece+0.5)/8.0),Vector3(0.16,height,0.13),"a08e77")
                 start=-1
+    # Border-only irregular soil banks and river continuation: no traversable cells added.
+    for z in range(battle.size.y):
+        for side in [-1,1]:
+            var x=0 if side<0 else battle.size.x-1
+            if battle.content.terrain[z][x]=="W":
+                box(Vector3(x+side*1.0,-0.72,z),Vector3(1.05,0.12,0.98),"596d76")
+            else:
+                var width=0.38+0.12*((z+2)%3)
+                box(Vector3(x+side*(0.49+width*0.5),-0.20,z),Vector3(width,0.30,1.02),"59624b")
+    for x in range(battle.size.x):
+        for z in [-0.83,battle.size.y-0.17]:box(Vector3(x,-0.20,z),Vector3(1.02,0.30,0.66),"59624b")
+    box(Vector3(-1.4,-0.18,6.6),Vector3(2.8,0.30,2.9),"87775b")
+    var inn_start=get_child_count()
     # Small original roadside inn geometry using the authored environment albedos.
     box(Vector3(-1.1,0.6,6.7),Vector3(1.5,1.4,1.0),"8b887b")
     var roof=MeshInstance3D.new();var roof_shape=PrismMesh.new();roof_shape.size=Vector3(1.9,0.8,1.4)
@@ -133,6 +182,14 @@ func build_world():
     box(Vector3(-1.1,1.22,7.23),Vector3(1.5,0.09,0.07),"694d3b")
     box(Vector3(-1.1,0.3,7.22),Vector3(0.38,0.8,0.04),"694d3b")
     for x in [-1.52,-0.65]: box(Vector3(x,0.85,7.23),Vector3(0.26,0.28,0.05),"d7b87d")
+    box(Vector3(-1.55,1.85,6.45),Vector3(0.30,0.9,0.30),"a08e77")
+    for x in [-1.52,-0.65]:
+        for side in [-1,1]:box(Vector3(x+side*0.17,0.85,7.26),Vector3(0.06,0.38,0.06),"694d3b")
+        box(Vector3(x,0.62,7.28),Vector3(0.40,0.08,0.10),"694d3b")
+    var inn_nodes=get_children().slice(inn_start)
+    var inn=Node3D.new();inn.position=Vector3(-1.1,0,6.7);add_child(inn)
+    for node in inn_nodes:node.reparent(inn,true)
+    inn.scale=Vector3.ONE*1.35;inn.position.x=-1.5
     for p in [Vector3(2,0,7),Vector3(7,0,0)]:
         box(p+Vector3(0,0.5,0),Vector3(0.08,1,0.08),"594633")
         var lamp = OmniLight3D.new()
@@ -154,6 +211,11 @@ func build_world():
     camera.position -= camera.global_basis.x * 1.0
     camera.position -= camera.global_basis.y * 1.0
     camera.current = true
+    route_mesh=MeshInstance3D.new();route_mesh.mesh=ImmediateMesh.new();add_child(route_mesh)
+    route_arrows=MeshInstance3D.new();route_arrows.mesh=ImmediateMesh.new();add_child(route_arrows)
+    var route_material=StandardMaterial3D.new();route_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;route_material.albedo_color=Color("e4c58a");route_material.cull_mode=BaseMaterial3D.CULL_DISABLED
+    for node in [route_mesh,route_arrows]:node.material_override=route_material;node.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;node.visible=false
+    build_border_props()
     var iso_characters={}
     if FileAccess.file_exists("res://assets/sprites/iso4/manifest.json"):
         var manifest=JSON.parse_string(FileAccess.get_file_as_string("res://assets/sprites/iso4/manifest.json"))
@@ -232,10 +294,12 @@ func build_hud():
     hud=Hud.new();hud.game=self;add_child(hud)
     cutin=preload("res://ui/battle_cutin.gd").new();add_child(cutin)
     motion=preload("res://view/unit_motion.gd").new();motion.game=self;add_child(motion);motion.last_step=battle.step
+    heal_feedback=preload("res://view/heal_feedback.gd").new();heal_feedback.game=self;add_child(heal_feedback);heal_feedback.last_step=battle.step
 
 func select_mode(value):
     if presentation_active() or (hud and hud.blocks_input()):return
     mode = value
+    if hud:hud.action_menu_open=false
     refresh()
 
 func finish_turn():
@@ -256,6 +320,8 @@ func restart():
     refresh()
 
 func refresh():
+    if route_mesh:clear_move_preview()
+    target_preview={};target_preview_index=-1
     if cutin and battle.step!=cutin.last_seen_step:cutin.finish()
     if motion:motion.consume(battle.step,battle.events)
     if not battle.usable(selected):
@@ -265,11 +331,12 @@ func refresh():
                 selected = i
                 break
     var possible = battle.reachable(selected) if selected >= 0 else {}
+    preview_reachable=possible
     selection_ring.visible=selected>=0
     if selected>=0:selection_ring.position=Vector3(battle.units[selected].x,0.04,battle.units[selected].y)
     for pos in tiles:
         tiles[pos].node.material_override.albedo_color=tiles[pos].color
-        tiles[pos].overlay.visible=selected>=0 and mode=="move" and not battle.units[selected].moved and possible.has(pos)
+        tiles[pos].overlay.visible=selected>=0 and mode=="move" and not battle.units[selected].moved and possible.has(pos) and pos!=battle.units[selected].pos
     for i in range(battle.units.size()):
         var u = battle.units[i]
         figures[i].visible = u.hp > 0
@@ -289,20 +356,33 @@ func refresh():
         badges[i].modulate = Color("fff0c9") if u.ally else Color("ffd2b4")
     if hud:hud.refresh()
     if cutin and not motion.active():cutin.consume(battle.step,battle.events)
+    if heal_feedback:heal_feedback.consume(battle.step,battle.events)
 
 func _unhandled_input(event):
     if event is InputEventKey and event.pressed and not event.echo:
         if presentation_active() and event.physical_keycode in [KEY_SPACE,KEY_ENTER,KEY_ESCAPE]:skip_presentation();get_viewport().set_input_as_handled();return
-        if event.physical_keycode==KEY_ESCAPE:hud.toggle_pause();return
+        if event.physical_keycode==KEY_ESCAPE:
+            if not hud.blocks_input() and not hud.action_menu_open:hud.cancel_targeting()
+            else:hud.toggle_pause()
+            return
         if hud.story_panel.visible and event.physical_keycode in [KEY_SPACE,KEY_ENTER]:hud.advance(false);return
     if presentation_active() or hud.blocks_input():return
     if event is InputEventKey and event.pressed and not event.echo:
         match event.physical_keycode:
-            KEY_1: select_mode("move")
-            KEY_2: select_mode("attack")
+            KEY_1,KEY_M: select_mode("move")
+            KEY_2,KEY_A: select_mode("attack")
             KEY_3: select_mode("skill")
-            KEY_SPACE: finish_turn()
+            KEY_S: hud.choose_action("skill")
+            KEY_I: hud.choose_action("item")
+            KEY_ENTER: hud.open_action_menu()
+            KEY_SPACE: hud.request_end_turn()
             KEY_R: restart()
+    if event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_RIGHT:
+        hud.cancel_targeting();return
+    if event is InputEventMouseMotion:
+        if mode=="move":update_move_preview(mouse_cell(event.position))
+        else:update_target_preview(mouse_cell(event.position))
+        return
     if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
         var origin = camera.project_ray_origin(event.position)
         var direction = camera.project_ray_normal(event.position)
@@ -312,8 +392,10 @@ func _unhandled_input(event):
         var target = battle.at(cell)
         if target >= 0 and battle.units[target].controller=="player" and (mode=="move" or (mode=="attack" and selected>=0 and battle.units[target].faction==battle.units[selected].faction)):
             selected = target
+            hud.action_menu_open=true
         elif mode == "move":
-            session.submit({"kind":"move","unit":selected,"x":cell.x,"y":cell.y})
+            update_move_preview(cell)
+            if not preview_path.is_empty():session.submit({"kind":"move","unit":selected,"x":cell.x,"y":cell.y})
         elif mode.begins_with("item:"):
             session.submit({"kind":"item","consumable":mode.trim_prefix("item:"),"unit":selected,"target":target})
         elif mode.begins_with("ability:"):
@@ -347,5 +429,75 @@ func presentation_active():return (motion and motion.active()) or (cutin and cut
 func motion_finished():
     if cutin:cutin.consume(battle.step,battle.events)
 func skip_presentation():
+    if heal_feedback:heal_feedback.clear()
     if motion:motion.finish()
     if cutin:cutin.finish()
+
+func mouse_cell(screen):
+    var origin=camera.project_ray_origin(screen);var direction=camera.project_ray_normal(screen)
+    if absf(direction.y)<0.001:return Vector2i(-1,-1)
+    var hit=origin+direction*(-origin.y/direction.y)
+    return Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
+func clear_move_preview():
+    preview_path=[];preview_reason="";preview_cell=Vector2i(-1,-1)
+    route_mesh.mesh.clear_surfaces();route_arrows.mesh.clear_surfaces()
+func update_move_preview(cell):
+    if cell==preview_cell:return
+    clear_move_preview();preview_cell=cell
+    if selected<0 or mode!="move" or presentation_active() or hud.blocks_input():return
+    preview_path=battle.path_to(selected,cell)
+    if preview_path.is_empty():preview_reason="此格不可达 · 选择范围内的空格";return
+    hud.action_menu_open=false
+    var line=route_mesh.mesh;var arrows=route_arrows.mesh
+    line.surface_begin(Mesh.PRIMITIVE_LINES);arrows.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
+    for i in range(preview_path.size()-1):
+        var a=preview_path[i];var b=preview_path[i+1]
+        var start=Vector3(a.x,0.06,a.y);var finish=Vector3(b.x,0.06,b.y)
+        line.surface_add_vertex(start);line.surface_add_vertex(finish)
+        var direction=(finish-start).normalized();var side=Vector3(-direction.z,0,direction.x)*0.10
+        var tip=finish-direction*0.12;var back=tip-direction*0.22
+        arrows.surface_add_vertex(tip);arrows.surface_add_vertex(back+side);arrows.surface_add_vertex(back-side)
+    var end=preview_path[-1];var center=Vector3(end.x,0.06,end.y)
+    for i in range(4):
+        var corners=[Vector3(-0.25,0,-0.25),Vector3(0.25,0,-0.25),Vector3(0.25,0,0.25),Vector3(-0.25,0,0.25)]
+        line.surface_add_vertex(center+corners[i]);line.surface_add_vertex(center+corners[(i+1)%4])
+    line.surface_end();arrows.surface_end()
+
+func update_target_preview(cell):
+    target_preview={};target_preview_index=-1
+    if selected<0 or mode=="move" or presentation_active() or hud.blocks_input():return
+    var target=battle.at(cell)
+    if target<0:return
+    var command={"unit":selected,"target":target,"kind":mode}
+    if mode.begins_with("ability:"):command.kind="ability";command.ability=mode.trim_prefix("ability:")
+    if mode.begins_with("item:"):command.kind="item";command.consumable=mode.trim_prefix("item:")
+    var result=battle.preview_action(command)
+    if result.get("legal",false):target_preview=result;target_preview_index=target
+
+func build_border_props():
+    var path="res://assets/environment/props_v3/manifest.json"
+    if not FileAccess.file_exists(path):return
+    var definitions=JSON.parse_string(FileAccess.get_file_as_string(path)).props
+    var placements=[["tree",Vector2(3.5,-1.35)],["tree",Vector2(battle.size.x-3,-1.5)],["tree",Vector2(-1.5,1.5)],["shrub",Vector2(3,-0.9)],["shrub",Vector2(battle.size.x+0.15,1.4)],["shrub",Vector2(battle.size.x-1,battle.size.y+0.05)],["reeds_rocks",Vector2(-0.8,3.0)],["reeds_rocks",Vector2(battle.size.x+0.2,4.0)],["supplies",Vector2(-1.8,7.55)],["lantern",Vector2(-0.2,7.8)]]
+    for x in range(-4,battle.size.x+5,2):
+        placements.append(["tree",Vector2(x+0.5*sin(x*1.7),-3.3-0.6*((x+8)%3))])
+        if x<1 or x>battle.size.x-3:placements.append(["tree",Vector2(x+0.5*cos(x*1.3),battle.size.y+2.4+0.4*sin(x))])
+    for z in range(-1,battle.size.y+2,2):
+        if z not in [3,4]:
+            placements.append(["tree",Vector2(-4.0,z)]);placements.append(["tree",Vector2(battle.size.x+3.0,z)])
+    for placement in placements:
+        var cell=placement[1]
+        if cell.x>=-0.5 and cell.x<battle.size.x-0.5 and cell.y>=-0.5 and cell.y<battle.size.y-0.5:continue
+        var d=definitions[placement[0]];var sprite=Sprite3D.new();sprite.texture=load("res://"+d.path);sprite.pixel_size=d.pixel_size
+        sprite.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y;sprite.shaded=true;sprite.modulate=Color.WHITE;sprite.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST
+        sprite.alpha_cut=SpriteBase3D.ALPHA_CUT_DISCARD;sprite.alpha_scissor_threshold=0.5;sprite.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_ON
+        var base_y=-0.60 if placement[0]=="reeds_rocks" else (-0.13 if placement[0]=="tree" else -0.03)
+        if placement[0]=="tree" and (cell.x<-2 or cell.x>battle.size.x+1 or cell.y<-2 or cell.y>battle.size.y+1):
+            var variation=0.95+0.12*sin(cell.x*2.3+cell.y);sprite.pixel_size*=variation
+            sprite.modulate=Color(0.65,0.76,0.72)
+        sprite.position=Vector3(cell.x,base_y+(d.pivot_px[1]-128)*sprite.pixel_size,cell.y);sprite.set_meta("decorative_kind",placement[0]);add_child(sprite);decorative_props.append(sprite)
+
+func landscape_box(pos,size,color):
+    var node=box(pos,size,color)
+    node.material_override.albedo_color=Color(0.55,0.64,0.58)
+    return node

@@ -19,6 +19,9 @@ func run():
     key.physical_keycode=KEY_SPACE
     key.pressed=true
     game._unhandled_input(key)
+    if game.battle.step!=1 or not is_instance_valid(game.hud.modal):
+        printerr("unused-actions confirmation missing");quit(1);return
+    game.hud.confirm_end_turn()
     if game.battle.step!=2 or game.battle.round_number!=2:
         printerr("end turn input failed");quit(1);return
     game.restart()

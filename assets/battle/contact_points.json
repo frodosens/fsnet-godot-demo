@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "pixel_scale": 2,
+  "mara": {
+    "contact_frame": "03_thrust",
+    "weapon_tip": [
+      180,
+      92
+    ],
+    "contact_tick": 10,
+    "hurt_point": [
+      96,
+      88
+    ],
+    "hurt_radius": 16
+  },
+  "oren": {
+    "hit_frame": "02_hit",
+    "hurt_point": [
+      100,
+      92
+    ],
+    "hurt_radius": 12,
+    "weapon_tip": [
+      187,
+      78
+    ],
+    "contact_tick": 9
+  },
+  "finn": {
+    "release_point": [
+      143,
+      80
+    ],
+    "projectile_tip": [
+      46,
+      23
+    ],
+    "hurt_point": [
+      96,
+      88
+    ],
+    "hurt_radius": 16
+  },
+  "neri": {
+    "release_point": [
+      147,
+      78
+    ],
+    "projectile_tip": [
+      32,
+      24
+    ],
+    "hurt_point": [
+      96,
+      88
+    ],
+    "hurt_radius": 16
+  },
+  "note": "Measured on current normalized source pixels. Landed strikes target torso, not the shield. Re-author sockets when artwork changes; screen centers are not weapon contact points.",
+  "tessa": {
+    "weapon_tip": [
+      168,
+      80
+    ],
+    "contact_tick": 9,
+    "hurt_point": [
+      96,
+      88
+    ],
+    "hurt_radius": 16
+  },
+  "bram": {
+    "weapon_tip": [
+      181,
+      86
+    ],
+    "contact_tick": 9,
+    "hurt_point": [
+      96,
+      88
+    ],
+    "hurt_radius": 16
+  }
+}

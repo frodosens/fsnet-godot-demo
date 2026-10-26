@@ -2,7 +2,7 @@
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 godot_bin=${GODOT:-godot}
-for test in test_bridge test_logic test_rules_modules test_abilities test_equipment test_items_ai test_content_budget test_cutin test_ranged_animation test_scene test_directions test_motion test_vertical test_gear_ui test_menu test_editor test_content_ui; do
+for test in test_bridge test_logic test_rules_modules test_abilities test_equipment test_items_ai test_content_budget test_cutin test_ranged_animation test_scene test_directions test_motion test_vertical test_gear_ui test_menu test_editor test_content_ui test_contact_paths_crit; do
   output=$(mktemp)
   if ! "$godot_bin" --headless --path "$root" --script "res://tests/$test.gd" >"$output" 2>&1; then
     cat "$output"; rm "$output"; exit 1

@@ -18,31 +18,57 @@ var story_key=""
 var modal
 var gear_open=false
 var last_step=-1
+var action_panel
+var action_menu_open=true
+var status_panel
+var companion_panel
+var pause_button
+var turn_button
+var hint_label
+var target_panel
+var target_portrait
+var target_detail
+var hp_bar
+var mp_bar
+var hp_label
+var mp_label
+var selected_portrait
 var previous=[]
 var log_lines=[]
 func _ready():
     root=Control.new();root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);root.mouse_filter=Control.MOUSE_FILTER_IGNORE;root.theme=UI.make_theme();add_child(root)
-    var top=panel(Vector2(20,16),Vector2(1240,64))
-    var row=HBoxContainer.new();row.add_theme_constant_override("separation",20);top.add_child(row)
-    row.add_child(UI.label(game.battle.content.title,24))
-    round_label=UI.label("");round_label.size_flags_horizontal=Control.SIZE_EXPAND_FILL;row.add_child(round_label)
-    net_label=UI.label("",14);row.add_child(net_label)
-    row.add_child(UI.button("旅程菜单 · Esc",toggle_pause))
-    var party=panel(Vector2(20,98),Vector2(210,0));var party_scroll=ScrollContainer.new();party_scroll.custom_minimum_size=Vector2(178,460);party.add_child(party_scroll);hero_column=UI.column(party_scroll,10);hero_column.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-    hero_column.add_child(UI.label("护送小队",22))
+    var route=preload("res://view/path_preview.gd").new();route.game=game;root.add_child(route)
+    soft_panel(Vector2(20,18),Vector2(310,104))
+    var heading=UI.label(game.battle.content.title,28);heading.position=Vector2(28,24);root.add_child(heading)
+    var objective=UI.paragraph(objective_text(game.battle.content.victory),280);objective.position=Vector2(28,66);objective.add_theme_font_size_override("font_size",18);root.add_child(objective)
+    round_label=UI.label("",22);round_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;round_label.position=Vector2(530,20);round_label.size=Vector2(220,42);root.add_child(round_label)
+    net_label=UI.label("",14);net_label.position=Vector2(28,97);root.add_child(net_label)
+    pause_button=UI.menu_button("暂停 Esc",toggle_pause);pause_button.add_theme_font_size_override("font_size",18);pause_button.custom_minimum_size=Vector2(132,40);root.add_child(pause_button)
+    companion_panel=ScrollContainer.new();companion_panel.position=Vector2(24,540);companion_panel.custom_minimum_size=Vector2(380,66);root.add_child(companion_panel)
+    hero_column=HBoxContainer.new();hero_column.add_theme_constant_override("separation",10);companion_panel.add_child(hero_column)
+    var hidden_heading=UI.label("");hidden_heading.hide();hero_column.add_child(hidden_heading)
     for i in range(game.battle.units.size()):
-        if game.battle.units[i].ally or game.battle.units[i].controller=="player":hero_column.add_child(UI.button(game.battle.units[i].name,select_hero.bind(i)))
-    var bottom=panel(Vector2(254,610),Vector2(1006,172))
-    var layout=HBoxContainer.new();layout.add_theme_constant_override("separation",22);bottom.add_child(layout)
-    detail=UI.paragraph("",270);layout.add_child(detail)
-    var actions=UI.column(layout,8)
-    var line=HBoxContainer.new();actions.add_child(line)
-    for entry in [["移动","move"],["普通攻击","attack"],["职业技能","skill"]]:
-        var b=UI.button("技能列表" if entry[1]=="skill" else entry[0],show_abilities if entry[1]=="skill" else game.select_mode.bind(entry[1]));line.add_child(b);action_buttons[entry[1]]=b
-    var item_button=UI.button("道具",show_items);line.add_child(item_button);action_buttons["item"]=item_button
-    var finish=UI.button("结束本回合 · 空格",game.finish_turn);actions.add_child(finish);action_buttons["end"]=finish
-    var hint=UI.label("点选队员 → 选择行动 → 点击目标。",14);actions.add_child(hint)
-    var journal=UI.column(layout,4);journal.add_child(UI.label("战斗记录",17));log_label=UI.paragraph("委托开始。",270);log_label.add_theme_font_size_override("font_size",14);journal.add_child(log_label)
+        var unit=game.battle.units[i]
+        if unit.ally or unit.controller=="player":
+            var button=Button.new();button.custom_minimum_size=Vector2(52,60);button.tooltip_text=unit.name;button.pressed.connect(select_hero.bind(i));hero_column.add_child(button)
+            var image=UI.portrait(unit.id,48);image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);image.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(image)
+            if image.texture==null:button.text=unit.name.left(1)
+            var health=ProgressBar.new();health.show_percentage=false;health.position=Vector2(2,55);health.size=Vector2(48,3);health.max_value=unit.max_hp;health.value=unit.hp;health.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(health)
+    status_panel=soft_panel(Vector2(24,630),Vector2(380,142))
+    selected_portrait=UI.portrait("mara",88);selected_portrait.position=Vector2(0,10);selected_portrait.size=Vector2(88,112);status_panel.add_child(selected_portrait)
+    detail=UI.paragraph("",270);detail.position=Vector2(104,2);detail.add_theme_font_size_override("font_size",18);status_panel.add_child(detail)
+    hp_bar=stat_bar(status_panel,Vector2(104,62),Color("8ba078"));mp_bar=stat_bar(status_panel,Vector2(104,91),Color("6c9c9b"))
+    hp_label=UI.label("",16);hp_label.position=Vector2(272,54);status_panel.add_child(hp_label)
+    mp_label=UI.label("",16);mp_label.position=Vector2(272,83);status_panel.add_child(mp_label)
+    hint_label=UI.label("选择角色，Enter 打开行动",16);hint_label.position=Vector2(440,744);root.add_child(hint_label)
+    log_label=UI.label("",16);log_label.position=Vector2(440,710);root.add_child(log_label)
+    turn_button=UI.menu_button("结束回合 空格",request_end_turn);turn_button.add_theme_font_size_override("font_size",18);turn_button.custom_minimum_size=Vector2(210,44);root.add_child(turn_button);action_buttons["end"]=turn_button
+    action_panel=Control.new();action_panel.size=Vector2(158,216);action_panel.z_index=10;root.add_child(action_panel)
+    for i in range(4):
+        var kind=["move","attack","skill","item"][i];var button=preload("res://ui/action_button.gd").new();button.kind=kind;button.text=["移动 M","攻击 A","技能 S","道具 I"][i];button.position=Vector2(0,i*54);button.pressed.connect(choose_action.bind(kind));action_panel.add_child(button);action_buttons[kind]=button
+    target_panel=soft_panel(Vector2(960,90),Vector2(280,110));target_panel.hide()
+    target_portrait=UI.portrait("oren",56);target_portrait.position=Vector2(0,8);target_panel.add_child(target_portrait)
+    target_detail=UI.paragraph("",220);target_detail.position=Vector2(62,0);target_detail.add_theme_font_size_override("font_size",16);target_panel.add_child(target_detail)
     story_panel=panel(Vector2(20,558),Vector2(1240,224));story_panel.z_index=30
     var story_row=HBoxContainer.new();story_row.add_theme_constant_override("separation",20);story_panel.add_child(story_row)
     var image_box=PanelContainer.new();image_box.custom_minimum_size=Vector2(164,184);story_row.add_child(image_box)
@@ -57,16 +83,61 @@ func _ready():
     choices.add_child(UI.button("跳过本段",advance.bind(true)))
     choices.add_child(UI.button("暂停 / 保存",toggle_pause))
     refresh()
+func objective_text(goal):
+    match goal.kind:
+        "defeat_all":return "目标 · 击退所有敌人"
+        "all_allies":return "目标 · 所有友方失去战力"
+        "reach":return "目标 · %s到达 (%d,%d)"%[goal.unit,goal.x,goal.y]
+        "survive":return "目标 · 坚持到第 %d 回合"%goal.round
+        "protect":return "条件 · %s失去战力"%goal.unit
+        "all","any":
+            var parts=[]
+            for child in goal.children:parts.append(objective_text(child).trim_prefix("目标 · "))
+            return ("全部：" if goal.kind=="all" else "任一：")+"；".join(parts)
+    return "目标条件"
+func soft_panel(pos,size):
+    var control=Control.new();control.position=pos;control.size=size;root.add_child(control)
+    var bg=TextureRect.new();var texture=GradientTexture2D.new();texture.width=128;texture.height=32
+    var gradient=Gradient.new();gradient.set_color(0,Color(0.12,0.17,0.16,0.9));gradient.set_color(1,Color(0.12,0.17,0.16,0));texture.gradient=gradient;texture.fill_from=Vector2.ZERO;texture.fill_to=Vector2.RIGHT
+    bg.texture=texture;bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);bg.mouse_filter=Control.MOUSE_FILTER_IGNORE;control.add_child(bg);return control
+func stat_bar(parent,pos,color):
+    var bar=ProgressBar.new();bar.position=pos;bar.size=Vector2(160,10);bar.show_percentage=false
+    var fill=StyleBoxFlat.new();fill.bg_color=color;var background=StyleBoxFlat.new();background.bg_color=Color("182421");bar.add_theme_stylebox_override("fill",fill);bar.add_theme_stylebox_override("background",background);parent.add_child(bar);return bar
 func panel(pos,size):
     var p=PanelContainer.new();p.position=pos;p.custom_minimum_size=size;root.add_child(p);return p
 func select_hero(index):
     if blocks_input():return
-    game.selected=index;game.refresh()
+    game.selected=index;action_menu_open=true;game.refresh()
+func request_end_turn():
+    if blocks_input():return
+    var remaining=false
+    for unit in game.battle.units:
+        if unit.controller=="player" and unit.hp>0 and (not unit.acted or unit.moves_used<unit.move_actions):remaining=true
+    if not remaining:game.finish_turn();return
+    var page=modal_page("结束本回合？")
+    page.add_child(UI.paragraph("仍有队员可以移动或行动。结束后将交由 AI 行动。",550))
+    page.add_child(UI.button("确认结束",confirm_end_turn));page.add_child(UI.button("继续行动",clear_modal))
+func confirm_end_turn():clear_modal();game.finish_turn()
+func cancel_targeting():
+    game.mode="move";game.clear_move_preview();game.target_preview={};game.target_preview_index=-1;action_menu_open=true;refresh()
+func open_action_menu():
+    if blocks_input() or game.selected<0:return
+    action_menu_open=true;game.clear_move_preview();refresh();action_buttons.move.grab_focus()
+func choose_action(kind):
+    action_menu_open=false
+    if kind=="skill":show_abilities()
+    elif kind=="item":show_items()
+    else:game.select_mode(kind)
+    refresh()
 func blocks_input():return game.presentation_active() or is_instance_valid(modal) or (story_panel and story_panel.visible)
 func refresh():
     if not root:return
     var logic=game.battle
-    round_label.text="第 %d 回合  ·  %s"%[logic.round_number,{"playing":"护送进行中","victory":"桥已通行","defeat":"暂退河岸"}.get(logic.outcome,logic.outcome)]
+    round_label.text="第 %d 回合 · %s"%[logic.round_number,{"playing":"我方行动","victory":"胜利","defeat":"失败"}.get(logic.outcome,logic.outcome)]
+    var view=root.get_viewport_rect().size
+    round_label.position.x=(view.x-220)*0.5;pause_button.position=Vector2(view.x-156,24)
+    status_panel.position=Vector2(24,view.y-170);companion_panel.position=Vector2(24,view.y-248)
+    turn_button.position=Vector2(view.x-234,view.y-90);hint_label.position=Vector2(430,view.y-56);log_label.position=Vector2(430,view.y-90)
     net_label.text="离线旅程" if not game.session.online else ("已连接 · 合作小队" if game.session.status.begins_with("Online") else "连接中 / 正在重连")
     if game.session.failed:net_label.text="连接失败 · 请返回重试"
     var button_index=1
@@ -74,24 +145,49 @@ func refresh():
         var u=logic.units[i]
         if u.ally or u.controller=="player":
             var b=hero_column.get_child(button_index);button_index+=1
-            b.text="%s  %d/%d\n%s"%[u.name,u.hp,u.max_hp,"失去战力" if u.hp<=0 else ("友军 AI" if u.controller=="ai" else ("当前选中" if game.selected==i else "点击选择"))]
+            b.tooltip_text="%s %d/%d · %s"%[u.name,u.hp,u.max_hp,"友军 AI" if u.controller=="ai" else "选择队员"]
             b.disabled=u.hp<=0 or u.controller!="player"
+            b.get_child(1).max_value=u.max_hp;b.get_child(1).value=u.hp
+            var border=StyleBoxFlat.new();border.bg_color=Color(0.12,0.17,0.16,0.7);border.border_color=Color("dfa75f") if game.selected==i else Color("59624b");border.set_border_width_all(2 if game.selected==i else 1);b.add_theme_stylebox_override("normal",border)
     detail.text="队伍休整中。"
     var active=game.selected>=0 and logic.usable(game.selected)
     if active:
         var u=logic.units[game.selected]
+        var image="res://assets/portraits/"+u.id+".png"
+        selected_portrait.texture=load(image) if ResourceLoader.exists(image) else null
         var skill="默认技能："+u.skill_id
         for ability in logic.content.abilities:
             if ability.id==u.skill_id:skill="默认技能："+ability.name;detail.tooltip_text=ability_description(ability)
-        detail.text="%s · %s\n生命 %d/%d  法力 %d/%d\n移动 %d 格 · 攻击距离 %d\n%s"%[u.name,{"knight":"骑士","archer":"弓手","mage":"法师"}.get(u.role,u.role),u.hp,u.max_hp,u.mp,u.max_mp,u.movement,u.reach,skill]
-        action_buttons.move.text="移动 · 余 %d"%maxi(0,u.move_actions-u.moves_used)
+        detail.text="%s · %s\n%s\n\n\n移动 %d次 · 行动 %d"%[u.name,{"knight":"骑士","archer":"弓手","mage":"法师"}.get(u.role,u.role),skill,maxi(0,u.move_actions-u.moves_used),0 if u.acted else 1]
+        hp_bar.max_value=u.max_hp;hp_bar.value=u.hp;mp_bar.max_value=maxi(1,u.max_mp);mp_bar.value=u.mp
+        hp_label.text="%d/%d"%[u.hp,u.max_hp];mp_label.text="%d/%d"%[u.mp,u.max_mp]
+        action_buttons.move.text="移动 M"
         action_buttons.move.disabled=u.moves_used>=u.move_actions
         action_buttons.attack.disabled=u.acted
         action_buttons.skill.disabled=u.acted
         action_buttons.item.disabled=u.acted
+        action_buttons.move.tooltip_text="本回合移动次数已用尽" if action_buttons.move.disabled else "指向地块预览合法路线，点击确认移动"
+        for kind in ["attack","skill","item"]:action_buttons[kind].tooltip_text="本回合行动已用尽" if u.acted else "选择目标后由共同规则校验"
     else:
         for kind in ["move","attack","skill","item"]:action_buttons[kind].disabled=true
     action_buttons.end.disabled=logic.outcome!="playing"
+    action_panel.visible=active and action_menu_open and not blocks_input()
+    target_panel.visible=not game.target_preview.is_empty() and game.mode!="move" and not blocks_input()
+    if target_panel.visible:
+        var victim=logic.units[game.target_preview_index];var prediction=game.target_preview
+        target_panel.position=Vector2(view.x-304,90)
+        var image="res://assets/portraits/"+victim.id+".png";target_portrait.texture=load(image) if ResourceLoader.exists(image) else null
+        target_detail.text="%s · HP %d/%d\n伤害 %d–%d"%[victim.name,victim.hp,victim.max_hp,prediction.low,prediction.high]
+        if prediction.crit_chance>0:target_detail.text+="\n每段暴击 %d%% · %d–%d"%[prediction.crit_chance,prediction.critical_low,prediction.critical_high]
+        if prediction.healing>0:target_detail.text+="\n治疗 +%d"%prediction.healing
+    if active:
+        var position=game.camera.unproject_position(game.figures[game.selected].position)
+        var preferred=position+Vector2(90,-64)
+        if preferred.x+158>view.x-24:preferred.x=position.x-248
+        if preferred.y+216>view.y-260:preferred.y=maxf(120,view.y-476)
+        action_panel.position=Vector2(clampf(preferred.x,24,view.x-182),clampf(preferred.y,120,view.y-260))
+        hint_label.text=("移动 %d/%d · 点击落点确认"%[game.preview_path.size()-1,logic.units[game.selected].movement]) if not game.preview_path.is_empty() else ("指向地块预览路线 · Enter 行动" if game.mode=="move" else "选择合法目标 · Esc 返回")
+        if game.mode=="move" and not game.preview_reason.is_empty():hint_label.text=game.preview_reason
     if last_step!=logic.step:
         if last_step>=0 and logic.step>last_step:
             var changes=[]
@@ -105,7 +201,7 @@ func refresh():
             while log_lines.size()>5:log_lines.pop_front()
         last_step=logic.step;previous=logic.units.duplicate(true)
         if gear_open:call_deferred("show_gear")
-    log_label.text="\n".join(log_lines) if not log_lines.is_empty() else "药箱与家书等待过桥。"
+    log_label.text=log_lines[-1] if not log_lines.is_empty() else ""
     refresh_story()
 func refresh_story():
     var line=App.next_story()
@@ -189,6 +285,7 @@ func ability_description(ability):
     var parts=["目标："+{"self":"自身","ally":"同阵营","enemy":"其他阵营"}[ability.target],"额外射程 +%d · 法力 %d · 冷却 %d 回合"%[ability.reach_bonus,ability.mp_cost,ability.cooldown]]
     for effect in ability.effects:
         parts.append(("治疗 %d"%effect.value if effect.op=="heal" else "攻击 +%d（%s）"%[effect.value,"法术" if ability.damage_type=="magic" else "物理"])+(" · 半径 %d"%effect.radius if effect.radius>0 else ""))
+    parts.append("暴击 %d%% · 倍率 %d%%"%[ability.get("crit_chance",0),ability.get("crit_multiplier",150)])
     if ability.stationary:parts.append("移动后需行咒装备方可施放")
     return "\n".join(parts)
 func scroll_list(parent):

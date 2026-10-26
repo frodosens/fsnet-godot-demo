@@ -72,6 +72,8 @@ func apply_command(command):
         if outcome == "victory": last_event = "Bridge secured. Supper at the inn is on us!"
         elif outcome == "defeat": last_event = "The crew retreats. Start a new local battle to try again."
     return ok
+func preview_action(command):return call_rule("preview",command)
+func path_to(index,pos):return call_rule("path",{"unit":index,"x":pos.x,"y":pos.y})
 func reachable(index):
     var result = {}
     for cell in call_rule("reachable",{"unit":index}): result[Vector2i(cell.x,cell.y)] = cell.d

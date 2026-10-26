@@ -49,6 +49,17 @@ function M.view()
 end
 function M.events() return effects end
 function M.reachable(args) return reachable((args.unit or -1)+1) end
+function M.path(args)
+  local index=(args.unit or -1)+1;local u=state.units[index]
+  if not u or u.hp<=0 or u.controller~='player' or state.outcome~='playing' or u.moves_used>=u.move_actions then return {} end
+  local cells=reachable(index)
+  for j,p in ipairs(cells) do if p.x==args.x and p.y==args.y and p.d>0 then
+    local result={};local cursor=j
+    while cursor>0 do local cell=cells[cursor];table.insert(result,1,{x=cell.x,y=cell.y});cursor=cell.parent end
+    return result
+  end end
+  return {}
+end
 -- @module abilities
 -- @module actions
 -- @module ai

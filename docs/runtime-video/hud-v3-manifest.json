@@ -1,0 +1,48 @@
+{
+  "capture": "Godot 4.6.3 MovieMaker, actual Lua commands, 30 fixed FPS offline; not real-time performance",
+  "combat_audio": "Original synthesized temporary WAV effects, AAC; peak -27.4 dB",
+  "walk_audio": "Silent; no footsteps implemented",
+  "files": [
+    {
+      "file": "hud-v3-six-combat.mp4",
+      "sha256": "e998e47c862d2457b844518ab3a200e11eee84c18f64ce5dbf1444d713607977",
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 800
+          },
+          {
+            "codec_name": "aac"
+          }
+        ],
+        "format": {
+          "duration": "20.000000",
+          "size": "3114894"
+        }
+      }
+    },
+    {
+      "file": "hud-v3-six-iso-walk.mp4",
+      "sha256": "2d3ab59e2a88cbc0cc7f969a6be32edf168c61863f4400706cc7b830408253f0",
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 800
+          }
+        ],
+        "format": {
+          "duration": "19.200000",
+          "size": "1888621"
+        }
+      }
+    }
+  ]
+}

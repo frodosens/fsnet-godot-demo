@@ -89,6 +89,7 @@ static func validate(data):
         if not ability is Dictionary or not identifier(ability.get("id")) or ability_ids.has(ability.id) or not short_text(ability.get("name"),32):return "技能 ID 或名称无效。"
         if ability.get("target") not in ["self","ally","enemy"] or not ability.get("stationary") is bool:return "技能目标或静止限制无效。"
         if ability.get("damage_type") not in ["physical","magic"]:return "伤害类型无效。"
+        if not integer(ability.get("crit_chance",0),0,100) or not integer(ability.get("crit_multiplier",150),100,300):return "暴击概率或倍率越界。"
         if ability.has("los") and not ability.los is bool:return "视线要求无效。"
         for field in ["reach_bonus","mp_cost","cooldown","charges"]:
             if not integer(ability.get(field),0,8):return "技能消耗或冷却越界。"

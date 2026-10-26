@@ -1,0 +1,2 @@
+Original synthesized prototype feedback sounds for Amber Bridge.
+Generated with Python standard library by tools/make_original_sfx.py, deterministic seed4021+index, mono22050Hz16-bitPCM. No downloaded or sampled commercial material. Five short bounded-envelope sounds: swing, impact, arrow, magic, critical. Peak generation limit .22; runtime defaults -12dB, at most two simultaneous voices. These are functional temporary synthesized effects, NOT an audio-art final mix. Same original-code MIT license as repository; script reproduces exact bytes.

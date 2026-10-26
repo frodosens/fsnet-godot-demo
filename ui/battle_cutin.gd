@@ -4,6 +4,18 @@ const UI=preload("res://ui/style.gd")
 const MARA=["00_idle","01_anticipation","02_dash","03_thrust","04_follow_through","05_recovery","06_return_step","07_settle_guard"]
 const OREN=["00_idle","01_brace","02_hit","03_recover"]
 const TIMELINE=[0,0,1,1,1,1,2,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7]
+var sound_player
+var release_played=false
+var impact_play_count=0
+var sounds={}
+var arena
+var contact_points={}
+var flash_material
+var impact
+var pending_events=[]
+var hitstop_remaining=0.0
+var hitstop_done=false
+var feedback_strength=1.0
 var active=false
 var elapsed=0.0
 var speed=1.0
@@ -15,6 +27,8 @@ var damage_label
 var title
 var last_seen_step=-1
 var actor_sets={}
+var defender_sets={}
+var contact_target=Vector2.ZERO
 var fx={}
 var projectile
 var tick_seconds=1.0/12.0
@@ -23,70 +37,151 @@ func _ready():
     layer=30
     surface=Control.new();surface.theme=UI.make_theme();surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(surface)
     var shade=ColorRect.new();shade.color=Color(0.10,0.09,0.08,0.88);shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);surface.add_child(shade)
-    var stage=PanelContainer.new();stage.position=Vector2(100,130);stage.size=Vector2(1080,480);surface.add_child(stage)
-    var floor_panel=ColorRect.new();floor_panel.color=Color("59624b");floor_panel.position=Vector2(120,495);floor_panel.size=Vector2(1040,90);surface.add_child(floor_panel)
+    arena=Control.new();arena.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(arena)
+    contact_points=JSON.parse_string(FileAccess.get_file_as_string("res://assets/battle/contact_points.json"))
+    var stage=TextureRect.new();stage.position=Vector2(100,130);stage.size=Vector2(1080,480)
+    var backdrop=GradientTexture2D.new();backdrop.width=128;backdrop.height=128;var gradient=Gradient.new();gradient.set_color(0,Color("182c2a"));gradient.set_color(1,Color("65704e"));backdrop.gradient=gradient;backdrop.fill_from=Vector2.ZERO;backdrop.fill_to=Vector2.DOWN;stage.texture=backdrop;arena.add_child(stage)
+    for placement in [Vector2(110,205),Vector2(900,180),Vector2(720,130)]:
+        var tree=TextureRect.new();tree.texture=load("res://assets/environment/props_v3/tree.png");tree.position=placement;tree.size=Vector2(300,300);tree.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;tree.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;tree.modulate=Color(0.48,0.58,0.52,0.85);arena.add_child(tree)
+    var floor_panel=TextureRect.new();floor_panel.texture=load("res://assets/environment/v2/grass.png");floor_panel.stretch_mode=TextureRect.STRETCH_TILE;floor_panel.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;floor_panel.modulate=Color(0.65,0.72,0.61);floor_panel.position=Vector2(100,495);floor_panel.size=Vector2(1080,115);arena.add_child(floor_panel)
     title=UI.label("玛拉 · 突刺",26);title.position=Vector2(145,155);surface.add_child(title)
     attacker=figure();defender=figure()
-    projectile=TextureRect.new();projectile.size=Vector2(128,96);projectile.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;projectile.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(projectile)
+    flash_material=ShaderMaterial.new();flash_material.shader=load("res://view/hit_flash.gdshader");defender.material=flash_material
+    impact=TextureRect.new();impact.size=Vector2(80,60);impact.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;impact.mouse_filter=Control.MOUSE_FILTER_IGNORE;arena.add_child(impact)
+    projectile=TextureRect.new();projectile.size=Vector2(128,96);projectile.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;projectile.mouse_filter=Control.MOUSE_FILTER_IGNORE;arena.add_child(projectile)
     var manifest=JSON.parse_string(FileAccess.get_file_as_string("res://assets/battle/ranged_magic/manifest.json"))
     for id in manifest.characters:
         var data=manifest.characters[id];var textures=[]
         for frame in data.frames:textures.append(load("res://assets/battle/ranged_magic/"+frame.path))
         actor_sets[id]={"textures":textures,"timeline":data.timeline_24ticks,"tick_seconds":data.tick_ms/1000.0,"release":int(data.release_tick)}
     for effect in manifest.effects:fx[effect.state]=load("res://assets/battle/ranged_magic/"+effect.path)
-    damage_label=UI.label("",42,Color("d5a18b"));damage_label.position=Vector2(850,275);surface.add_child(damage_label)
+    var enemies=JSON.parse_string(FileAccess.get_file_as_string("res://assets/battle/enemy_combat/manifest.json"))
+    for id in ["oren","tessa","bram"]:
+        var data=enemies.characters[id];var textures=[]
+        for frame in data.frames:textures.append(load("res://assets/battle/enemy_combat/"+frame.path))
+        actor_sets[id]={"textures":textures,"timeline":data.timeline,"tick_seconds":data.tick_ms/1000.0,"release":int(contact_points[id].contact_tick)}
+    var mara_idle=load("res://assets/battle/mara/00_idle.png")
+    for id in ["mara","finn","neri","tessa","bram"]:
+        var data=enemies.characters[id+"_hit"];var textures=[]
+        for frame in data.frames:textures.append(load("res://assets/battle/enemy_combat/"+frame.path))
+        defender_sets[id]={"idle":mara_idle if id=="mara" else actor_sets[id].textures[0],"hit":textures[0],"recover":textures[1]}
+    damage_label=UI.label("",42,Color("d5a18b"));damage_label.position=Vector2(850,275);arena.add_child(damage_label)
+    damage_label.add_theme_color_override("font_outline_color",Color("182421"));damage_label.add_theme_constant_override("outline_size",5)
     var quick=UI.button("加速 ×1",func():speed=3.0 if speed==1.0 else 1.0)
     quick.position=Vector2(850,630);quick.pressed.connect(func():quick.text="加速 ×"+str(int(speed)));surface.add_child(quick)
     var skip=UI.button("跳过 · 空格",finish);skip.position=Vector2(1000,630);surface.add_child(skip)
-    var note=UI.label("战斗结果已结算；此处仅播放演出。",16,Color("adb3a6"));note.position=Vector2(120,635);surface.add_child(note)
+    var reduced=CheckButton.new();reduced.text="减弱震动与闪光";reduced.position=Vector2(120,635);reduced.button_pressed=App.reduced_motion;feedback_strength=0.0 if App.reduced_motion else 1.0;reduced.toggled.connect(func(on):App.reduced_motion=on;feedback_strength=0.0 if on else 1.0);surface.add_child(reduced)
+    sound_player=AudioStreamPlayer.new();sound_player.max_polyphony=2;add_child(sound_player)
+    for name in ["swing","impact","arrow","magic","critical"]:sounds[name]=load("res://assets/audio/"+name+".wav")
+    var mute=CheckButton.new();mute.text="音效";mute.button_pressed=App.sfx_enabled;mute.position=Vector2(410,635);mute.toggled.connect(func(on):App.sfx_enabled=on;if_not_enabled_stop());surface.add_child(mute)
+    var volume=HSlider.new();volume.min_value=-30;volume.max_value=0;volume.step=1;volume.value=App.sfx_volume_db;volume.position=Vector2(560,647);volume.size=Vector2(140,24);volume.tooltip_text="音效音量 dB";volume.value_changed.connect(func(value):App.sfx_volume_db=value);surface.add_child(volume)
     surface.hide()
+func if_not_enabled_stop():
+    if not App.sfx_enabled:sound_player.stop()
+func play_sound(name):
+    if App.sfx_enabled and sounds.has(name):sound_player.volume_db=App.sfx_volume_db;sound_player.stream=sounds[name];sound_player.play()
 func figure():
-    var image=TextureRect.new();image.size=Vector2(384,320);image.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;image.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(image);return image
+    var image=TextureRect.new();image.size=Vector2(384,320);image.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;image.mouse_filter=Control.MOUSE_FILTER_IGNORE;arena.add_child(image);return image
 func consume(step,events):
     if step==last_seen_step:return
     finish();last_seen_step=step
     for item in events:
-        if item.get("kind")!="attack" or item.get("target")!="oren":continue
+        if item.get("kind")!="attack" or (item.get("target")!="oren" and not defender_sets.has(item.get("target"))):continue
         if item.actor!="mara" and not actor_sets.has(item.actor):continue
         if item.actor=="neri" and item.get("ability") not in ["ember","focus_bolt"]:continue
-        event=item;elapsed=0.0;active=true
-        tick_seconds=1.0/12.0 if item.actor=="mara" else actor_sets[item.actor].tick_seconds
-        release_tick=10 if item.actor=="mara" else actor_sets[item.actor].release
-        title.text={"mara":"玛拉 · 突刺","finn":"芬恩 · 放箭","neri":"奈莉 · 施法"}[item.actor]
-        surface.show();draw_tick(0);return
-func draw_tick(tick):
-    tick=clampi(tick,0,23)
-    var melee=event.get("actor")=="mara"
-    if melee:attacker.texture=load("res://assets/battle/mara/"+MARA[TIMELINE[tick]]+".png")
+        pending_events.append(item.duplicate(true))
+    play_next()
+func play_next():
+    if pending_events.is_empty():finish();return
+    event=pending_events.pop_front();elapsed=0.0;active=true;hitstop_done=false;hitstop_remaining=0.0;release_played=false
+    tick_seconds=1.0/12.0 if event.actor=="mara" else actor_sets[event.actor].tick_seconds
+    release_tick=int(contact_points.mara.contact_tick) if event.actor=="mara" else actor_sets[event.actor].release
+    title.text={"mara":"玛拉 · 突刺","finn":"芬恩 · 放箭","neri":"奈莉 · 施法","oren":"奥伦 · 突刺","tessa":"苔莎 · 短刃","bram":"布兰 · 重锤"}[event.actor]
+    surface.show();draw_tick(0)
+func is_melee():return event.get("actor") in ["mara","oren","tessa","bram"]
+func hit_tick():return release_tick if is_melee() else release_tick+4
+func socket_point(values):return Vector2(values[0],values[1])
+func hurt_screen_point():return arena.position+defender.position+contact_target*2.0
+func weapon_screen_point():return arena.position+attacker.position+socket_point(contact_points[event.actor].weapon_tip)*2.0
+func projectile_screen_point():return arena.position+projectile.position+socket_point(contact_points[event.actor].projectile_tip)*2.0
+func draw_tick(frame):
+    var tick=clampi(int(frame),0,23)
+    var melee=is_melee();var critical=event.get("is_critical",false)
+    if event.actor=="mara":attacker.texture=load("res://assets/battle/mara/"+MARA[TIMELINE[tick]]+".png")
     else:
         var data=actor_sets[event.actor];attacker.texture=data.textures[int(data.timeline[tick])]
-    var hit_tick=release_tick if melee else release_tick+4
-    var defend=0 if tick<release_tick-2 else (1 if tick<hit_tick else (2 if tick<hit_tick+4 else 3))
-    if event.get("hp",1)==0 and tick>=hit_tick:defend=2
-    defender.texture=load("res://assets/battle/oren/"+OREN[defend]+".png")
-    defender.modulate.a=clampf(1.0-(tick-hit_tick-2)/5.0,0,1) if event.get("hp",1)==0 and tick>=hit_tick else 1.0
-    var offset=0.0
-    if melee:offset=clampf((tick-6)/4.0,0,1)*260.0 if tick<18 else clampf((24-tick)/6.0,0,1)*260.0
-    attacker.position=Vector2(180+offset,205);defender.position=Vector2(700,205)
-    damage_label.text="−"+str(event.get("damage",0)) if tick>=hit_tick else ""
-    projectile.hide()
+    var hit=hit_tick();var after=maxf(0.0,(frame-hit)*tick_seconds)
+    var defend=0 if tick<release_tick-2 else (1 if tick<hit else (2 if tick<hit+4 else 3))
+    if event.get("hp",1)==0 and tick>=hit:defend=2
+    defender.flip_h=event.target!="oren"
+    if event.target=="oren":defender.texture=load("res://assets/battle/oren/"+OREN[defend]+".png")
+    else:
+        var poses=defender_sets[event.target];defender.texture=poses.hit if defend==2 else (poses.recover if defend==3 else poses.idle)
+    contact_target=socket_point(contact_points[event.target].hurt_point)
+    if melee:
+        # Contact may land anywhere in the authored torso hurt region, preserving grounded feet.
+        var tip=socket_point(contact_points[event.actor].weapon_tip)
+        contact_target.y=clampf(tip.y,contact_target.y-contact_points[event.target].get("hurt_radius",12),contact_target.y+contact_points[event.target].get("hurt_radius",12))
+    defender.modulate.a=clampf(1.0-(tick-hit-2)/5.0,0,1) if event.get("hp",1)==0 and tick>=hit else 1.0
+    defender.position=Vector2(700,205)
+    var base=Vector2(180,205)
+    if melee:
+        # Align actual sword tip to actual hit-pose torso socket at impact.
+        var contact=defender.position+(contact_target-socket_point(contact_points[event.actor].weapon_tip))*2.0
+        var approach=clampf((frame-6.0)/(hit-6.0),0,1)
+        if frame>=18:approach=clampf((24.0-frame)/6.0,0,1)
+        attacker.position=base.lerp(contact,approach)
+    else:attacker.position=base
+    var intensity=(1.5 if critical else 1.0)*feedback_strength
+    if tick>=hit:
+        defender.position.x+=sin(clampf(after/0.40,0,1)*PI)*10.0*intensity
+    flash_material.set_shader_parameter("flash_strength",(maxf(0,1.0-after/0.11)*0.85*feedback_strength) if tick>=hit else 0.0)
+    arena.position=Vector2(sin(after*70.0)*3.0,-sin(after*45.0)*1.5)*maxf(0,1-after/0.22)*intensity if tick>=hit else Vector2.ZERO
+    var target=defender.position+contact_target*2.0
+    damage_label.visible=tick>=hit
+    damage_label.text=("暴击 " if critical else "")+"−"+str(event.get("damage",0)) if tick>=hit else ""
+    damage_label.add_theme_font_size_override("font_size",52 if critical else 40)
+    damage_label.modulate=Color("f2cc87") if critical else Color("f0e5c9")
+    var t=clampf(after/0.72,0,1)
+    damage_label.position=target+(Vector2(-25,-95) if feedback_strength==0 else Vector2(-25+12*t,-95-65*4*t*(1-t)))
+    damage_label.scale=Vector2.ONE*(1.0+maxf(0,1-after/0.12)*0.45*feedback_strength)
+    damage_label.modulate.a=clampf((1.0-t)/0.25,0,1)
+    projectile.hide();impact.hide()
+    if melee and tick>=hit and after<0.16:
+        impact.texture=fx.impact;impact.position=target-impact.size*0.5;impact.modulate.a=(1-after/0.16)*feedback_strength;impact.show()
     if not melee:
         var magic=event.actor=="neri"
-        var origin=Vector2(480 if magic else 456,365);var impact=Vector2(890,365)
+        var origin=attacker.position+socket_point(contact_points[event.actor].release_point)*2.0
         if magic and tick>=5 and tick<release_tick:
-            projectile.texture=fx.gather if tick<8 else fx.charge;projectile.position=origin-Vector2(64,65);projectile.show()
-        elif tick>=release_tick and tick<hit_tick:
+            projectile.texture=fx.gather if tick<8 else fx.charge;projectile.position=origin-Vector2(64,48);projectile.show()
+        elif tick>=release_tick and tick<=hit:
             projectile.texture=fx.bolt if magic else fx.arrow
-            projectile.position=origin.lerp(impact,(tick-release_tick)/4.0)-Vector2(64,48);projectile.show()
-        elif magic and tick>=hit_tick and tick<22:
-            projectile.texture=fx.impact if tick<hit_tick+3 else fx.dissipate;projectile.position=impact-Vector2(64,48);projectile.show()
+            projectile.position=origin.lerp(target,clampf((frame-release_tick)/4.0,0,1))-socket_point(contact_points[event.actor].projectile_tip)*2.0;projectile.show()
+        if tick>=hit and after<0.22:
+            impact.texture=fx.impact if after<0.12 else fx.dissipate;impact.position=target-impact.size*0.5;impact.modulate.a=(1-after/0.22)*feedback_strength;impact.show()
 func _process(delta):
     if not active:return
-    elapsed+=delta*speed
-    var tick=int(elapsed/tick_seconds)
-    if tick>=24:finish()
-    else:draw_tick(tick)
-func finish():active=false;surface.hide()
+    if hitstop_remaining>0:
+        hitstop_remaining=maxf(0,hitstop_remaining-delta*speed);return
+    var next=elapsed+delta*speed;var contact_time=hit_tick()*tick_seconds
+    var sound_time=(maxi(0,release_tick-3) if is_melee() else release_tick)*tick_seconds
+    if not release_played and next>=sound_time:
+        release_played=true;play_sound("swing" if is_melee() else ("arrow" if event.actor=="finn" else "magic"))
+    if not hitstop_done and next>=contact_time:
+        elapsed=contact_time;hitstop_done=true;impact_play_count+=1;play_sound("critical" if event.get("is_critical",false) else "impact");hitstop_remaining=(0.10 if event.get("is_critical",false) else 0.055)*feedback_strength
+    else:elapsed=next
+    if elapsed/tick_seconds>=24:play_next()
+    else:draw_tick(elapsed/tick_seconds)
+func finish():
+    active=false;pending_events.clear();hitstop_remaining=0;elapsed=0
+    if arena:arena.position=Vector2.ZERO
+    if flash_material:flash_material.set_shader_parameter("flash_strength",0.0)
+    if defender:defender.modulate=Color.WHITE
+    if damage_label:damage_label.hide();damage_label.scale=Vector2.ONE
+    if projectile:projectile.hide()
+    if impact:impact.hide()
+    if surface:surface.hide()
+    if sound_player:sound_player.stop()
 func _input(input):
     if active and input is InputEventKey and input.pressed and not input.echo and input.physical_keycode in [KEY_SPACE,KEY_ESCAPE,KEY_ENTER]:
         finish();get_viewport().set_input_as_handled()
