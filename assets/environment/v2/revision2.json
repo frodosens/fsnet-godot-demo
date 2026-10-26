@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-26",
+  "reason": "Actual tactical camera feedback: noisy grass and visible stone wall repeat seam",
+  "generator": "built-in image_gen",
+  "processing": "RGB convert, nearest 128 square then nearest 256; no painted pixels, blending or fake normals",
+  "prompts": {
+    "grass": "Original game flat seamless albedo texture: quiet moss-olive grass ground. Extremely restrained broad pixel clusters, apparent 32x32 logical pixels enlarged nearest-neighbor. Three closely related low-saturation olive-grey tones only, base around #646b51, variations #5d644c and #6b7158. Broad irregular connected patches of 3 to 8 logical pixels, mostly calm base fill. NO individual blades, NO hatching, NO speckles, NO grain, NO dither, NO tiny pebbles, NO outlines, NO shading or light gradients. Completely top down flat. Perfect periodic continuity on all edges. Whole square texture only, no border or label. It is tactical terrain under small units and must remain visually quiet at distance.",
+    "stone_wall": "Original game flat seamless albedo texture: weathered warm greige bridge wall masonry. Apparent 64x64 logical pixels enlarged nearest-neighbor. Four horizontal courses of medium rectangular stones, each row four stones; staggered joints. Colors very close: warm grey stone #858477 and muted joints #77776b; no dark mortar, no border line. Mostly flat stone interiors with only two or three broad subtly colored chipped patches. NO noise, grain, tiny cracks, moss, directional shadows, bevel lighting, gradients, or outlines. Strictly periodic pattern: top and bottom must meet within same stone course rather than at border, left and right continue half-blocks seamlessly. NO perimeter frame or strip. Square fills whole image, straight-on flat albedo, no labels."
+  },
+  "qa": {
+    "grass": {
+      "edge_mae_x": 1.8541666666666667,
+      "edge_mae_y": 2.4765625,
+      "internal_mae_x": 1.743397309711286,
+      "internal_mae_y": 1.7421054790026247
+    },
+    "stone_wall": {
+      "edge_mae_x": 3.3541666666666665,
+      "edge_mae_y": 1.0416666666666667,
+      "internal_mae_x": 1.6994340551181102,
+      "internal_mae_y": 1.9784694881889764
+    }
+  },
+  "limitations": "3x3 repeat visual QA passed as quieter candidate. Not exact edge equality; actual engine capture and readability acceptance still required. Existing SHA256.json and generation.json describe revision1; revision2 hashes in revision2.json override only grass/stone_wall.",
+  "previous_commit": "4f1fab83ba9429e47ded51bd38eb152fab5d8037",
+  "sha256": "366e3fc294961b04c0595a7ff465610efc872b8765a22e11b1c2fbc014656b1c  environment_v2/revision2/grass.png\ne5c505567383b075be848a7429c7802bcc7a80b547e74fb840f980c23b9db23b  environment_v2/revision2/stone_wall.png\n"
+}
