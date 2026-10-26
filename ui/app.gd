@@ -40,17 +40,25 @@ func close_room():
     if session and session.transport:session.transport.shutdown()
     if server:server.shutdown()
     server=null;server_authority=null
+func startup_error():
+    if ClassDB.class_exists("AmberLogic") and ClassDB.class_exists("AmberTransport"):return ""
+    return "原生组件未加载，暂时无法开始游戏。\n当前平台：%s / %s\n源码仓库不包含原生二进制。Linux x86_64 请按 README 构建 bin/libamber.so 和外部 libfsnet，再关闭并重新打开 Godot。Windows/macOS 尚无已验证的构建包；不能使用 Linux .so。\n请检查 Godot 输出中的 GDExtension 加载错误。" % [OS.get_name(),Engine.get_architecture_name()]
 func new_game(data={}):
+    last_error=startup_error()
+    if not last_error.is_empty():return false
     close_room();session=Session.new();session.offline(data)
     presentation={"seen":[],"active":"","line":0};saved_snapshot="";saved_presentation="";last_error=""
+    return true
 func start_room(host,port,secret,data={}):
+    last_error=startup_error()
+    if not last_error.is_empty():return false
     if data.is_empty() and not OS.get_environment("AMBER_MOD").is_empty():
         var loaded=Content.from_file(OS.get_environment("AMBER_MOD"))
         if not loaded.error.is_empty():last_error=loaded.error;return false
         data=loaded.data
     close_room();new_game(data);room_port=port;room_token=secret;connection_age=0.0
     if host:
-        server_authority=Authority.new(session.logic.content);server=AmberTransport.new()
+        server_authority=Authority.new(session.logic.content);server=ClassDB.instantiate("AmberTransport")
         if not server.start(true,port,secret):last_error=server.last_error();close_room();return false
     if not session.connect_local(port,secret):last_error=session.status;close_room();return false
     return true
@@ -72,6 +80,8 @@ func save_slot(slot):
     saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation)
     return ""
 func inspect_slot(slot):
+    var issue_startup=startup_error()
+    if not issue_startup.is_empty():return {"error":issue_startup}
     if slot not in SLOT_IDS:return {"error":"无效存档槽。"}
     if not FileAccess.file_exists(save_path(slot)):return {"error":"无存档","empty":true}
     var file=FileAccess.open(save_path(slot),FileAccess.READ)

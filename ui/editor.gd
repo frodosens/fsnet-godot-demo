@@ -71,7 +71,7 @@ func paint(cell):
     data=candidate;sync_view();feedback.text="地图已修改；保存后可重新载入，或直接试玩。"
 func refresh_mods():
     mod_picker.clear();DirAccess.make_dir_recursive_absolute("user://mods")
-    for file in DirAccess.get_files_at("user://mods"):
+    for file in (DirAccess.get_files_at("user://mods") if DirAccess.dir_exists_absolute("user://mods") else PackedStringArray()):
         if file.ends_with(".json"):mod_picker.add_item(file)
     if mod_picker.item_count==0:mod_picker.add_item("暂无已保存 Mod");mod_picker.set_item_disabled(0,true)
 func save_mod():

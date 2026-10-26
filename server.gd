@@ -3,6 +3,8 @@ const Authority=preload("res://logic/authority.gd")
 var authority
 var transport
 func _initialize():
+    if not ClassDB.class_exists("AmberLogic") or not ClassDB.class_exists("AmberTransport"):
+        printerr("Missing native extension. Build bin/libamber.so and external fsnet; see README.");quit(1);return
     var data={}
     var mod_path=OS.get_environment("AMBER_MOD")
     if not mod_path.is_empty():
@@ -10,7 +12,7 @@ func _initialize():
         if not loaded.error.is_empty():printerr("Invalid server Mod: ",loaded.error);quit(1);return
         data=loaded.data
     authority=Authority.new(data)
-    transport=AmberTransport.new()
+    transport=ClassDB.instantiate("AmberTransport")
     var port=27840
     var token=OS.get_environment("AMBER_TOKEN")
     for arg in OS.get_cmdline_user_args():

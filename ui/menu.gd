@@ -42,7 +42,13 @@ func show_home():
     page.get_child(1).grab_focus()
 func start_new():
     if busy:return
-    busy=true;App.new_game(preload("res://logic/content.gd").reference_content());open_battle()
+    if not App.new_game(preload("res://logic/content.gd").reference_content()):
+        show_startup_error();return
+    busy=true;open_battle()
+func show_startup_error():
+    busy=false;transitioning=false;clear_page("无法开始游戏")
+    feedback=UI.paragraph(App.last_error,460);page.add_child(feedback)
+    page.add_child(UI.button("返回主菜单",show_home))
 func open_battle():
     if transitioning:return
     transitioning=true;busy=true;get_tree().call_deferred("change_scene_to_file","res://main.tscn")
@@ -67,7 +73,7 @@ func show_network():
     network_choices=[preload("res://logic/content.gd").reference_content(),preload("res://logic/content.gd").default_content()]
     content_picker.add_item("内置战役 · 琥珀桥来信（新版场景）")
     content_picker.add_item("旧桥场景 · 回归兼容版")
-    for file in DirAccess.get_files_at("user://mods"):
+    for file in (DirAccess.get_files_at("user://mods") if DirAccess.dir_exists_absolute("user://mods") else PackedStringArray()):
         if network_choices.size()>=33:break
         if not file.ends_with(".json"):continue
         var loaded=preload("res://logic/content.gd").from_file("user://mods/"+file)
@@ -107,6 +113,8 @@ func _process(_delta):
             network_status.text="已连接 · 共享内容校验通过\n主机端口 %d，进入后可合作行动。"%App.room_port;enter_button.disabled=false
         else:network_status.text="连接中 / 正在重连……"
 func show_workshop():
+    App.last_error=App.startup_error()
+    if not App.last_error.is_empty():show_startup_error();return
     if ResourceLoader.exists("res://ui/editor.tscn"):get_tree().change_scene_to_file("res://ui/editor.tscn")
     else:
         clear_page("关卡工坊")

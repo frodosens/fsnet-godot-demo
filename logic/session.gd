@@ -27,7 +27,7 @@ func offline(data={}):
 
 func connect_local(p,secret):
     port=p; token=secret;online=true;failed=false
-    transport=AmberTransport.new()
+    transport=ClassDB.instantiate("AmberTransport")
     if not transport.start(false,port,token):
         status=transport.last_error();failed=true;return false
     status="Connecting to local authority…";pending=false;retry_clock=0.0
