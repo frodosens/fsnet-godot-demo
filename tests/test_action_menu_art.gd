@@ -23,7 +23,7 @@ func run():
             check(b.get_theme_font_size("font_size")*ratio>=16,"physical action font minimum")
             check(b.key_label.text in ["1","2","3","4"] and not b.text.begins_with(b.key_label.text),"key and label are separate native controls")
             check(b.symbol.material is ShaderMaterial,"existing icon has two-tone readability material")
-        check(hud.action_shade.visible and hud.action_shade.mouse_filter==Control.MOUSE_FILTER_IGNORE,"local quiet area cannot intercept picking")
+        check(hud.action_panel.mouse_filter==Control.MOUSE_FILTER_IGNORE,"transparent arc container cannot intercept picking")
     var move=hud.action_buttons.move;move.grab_focus();await frames();await key(KEY_DOWN)
     check(hud.action_buttons.attack.has_focus(),"keyboard down traverses action menu")
     var pad=InputEventJoypadButton.new();pad.button_index=JOY_BUTTON_DPAD_DOWN;pad.pressed=true;root.push_input(pad,true);await frames();pad.pressed=false;root.push_input(pad,true)

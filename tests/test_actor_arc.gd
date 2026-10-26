@@ -23,6 +23,10 @@ func run():
     check(hud.action_panel.visible and hud.arc_actor_id=="mara","arc attached to selected actor")
     hud.focus_arc_choice("attack");await create_timer(.2).timeout
     check(is_equal_approx(hud.action_buttons.attack.selection_shift,-14) and is_zero_approx(hud.action_buttons.move.selection_shift),"selected left slide and previous return")
+    check(is_equal_approx(hud.action_buttons.attack.scale.x,1.0) and is_equal_approx(hud.action_buttons.move.scale.x,0.85),"selected normal scale, other items smaller")
+    app.reduced_motion=true;hud.focus_arc_choice("item");await frames()
+    check(is_equal_approx(hud.action_buttons.item.scale.x,1.0) and is_equal_approx(hud.action_buttons.item.selection_shift,-14),"reduced motion settles selection without animation")
+    app.reduced_motion=false
     var anchor=hud.arc_layout.anchor;game.camera.position.x+=.2;await frames()
     check(hud.arc_layout.anchor!=anchor,"projection follows camera")
     hud.select_hero(1);await frames();check(hud.arc_actor_id=="finn","reselection discards old attachment")

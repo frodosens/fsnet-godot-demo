@@ -1,6 +1,6 @@
 extends RefCounted
 # Screen-space presentation only. Does not inspect or mutate battle rules.
-const BUTTON_SIZE=Vector2(170,64)
+const BUTTON_SIZE=Vector2(170,76)
 const OFFSETS=[
     [Vector2(60,-140),Vector2(145,-50),Vector2(145,50),Vector2(60,140)],
     [Vector2(-220,-140),Vector2(-305,-50),Vector2(-305,50),Vector2(-220,140)],
@@ -8,8 +8,8 @@ const OFFSETS=[
     [Vector2(-330,64),Vector2(-170,156),Vector2(30,156),Vector2(190,64)]
 ]
 static func visual_rect(position):
-    # Includes selected LEFT travel, pointer, rim and maximum 1.02 selection scale.
-    return Rect2(position-Vector2(40,10),Vector2(214,84))
+    # Includes selected LEFT travel, pointer, rim and maximum 1.00 selection scale.
+    return Rect2(position-Vector2(44,12),Vector2(226,90))
 static func area(rect):return maxf(0,rect.size.x)*maxf(0,rect.size.y)
 static func solve(anchor,view,keepout,reserved=[]):
     var safe=Rect2(Vector2(20,80),Vector2(view.x-40,view.y-150))

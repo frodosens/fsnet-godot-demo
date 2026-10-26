@@ -20,7 +20,6 @@ var modal
 var gear_open=false
 var last_step=-1
 var action_panel
-var action_shade
 var action_menu_open=true
 var arc_choice="move"
 var arc_actor_id=""
@@ -85,10 +84,6 @@ func _ready():
     hint_label=UI.label("选择角色，Enter 打开行动",22);hint_label.position=Vector2(440,744);root.add_child(hint_label)
     log_label=UI.label("",16);log_label.position=Vector2(440,710);root.add_child(log_label)
     turn_button=UI.button("空格 · 结束回合",request_end_turn);turn_button.add_theme_font_size_override("font_size",18);turn_button.custom_minimum_size=Vector2(210,44);root.add_child(turn_button);action_buttons["end"]=turn_button
-    action_shade=TextureRect.new();action_shade.mouse_filter=Control.MOUSE_FILTER_IGNORE;action_shade.z_index=9
-    var quiet=GradientTexture2D.new();quiet.width=256;quiet.height=256;quiet.fill=GradientTexture2D.FILL_RADIAL;quiet.fill_from=Vector2(0.75,0.5);quiet.fill_to=Vector2(0.05,0.5)
-    var quiet_colors=Gradient.new();quiet_colors.set_color(0,Color(0.06,0.10,0.10,0.86));quiet_colors.set_color(1,Color(0.06,0.10,0.10,0));quiet.gradient=quiet_colors
-    action_shade.texture=quiet;action_shade.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;root.add_child(action_shade)
     action_panel=Control.new();action_panel.mouse_filter=Control.MOUSE_FILTER_IGNORE;action_panel.size=Vector2(158,216);action_panel.z_index=10;root.add_child(action_panel)
     for i in range(4):
         var kind=["move","attack","skill","item"][i];var button=preload("res://ui/action_button.gd").new();button.kind=kind;button.text=["移动","攻击","技能","道具"][i];button.position=Vector2(0,i*54);button.pressed.connect(choose_action.bind(kind));action_panel.add_child(button);action_buttons[kind]=button;button.mouse_entered.connect(focus_arc_choice.bind(kind));button.focus_entered.connect(focus_arc_choice.bind(kind))
@@ -195,7 +190,6 @@ func place_action_arc(view):
     for i in range(4):
         var button=action_buttons[keys[i]];button.custom_minimum_size=ActionArc.BUTTON_SIZE;button.size=ActionArc.BUTTON_SIZE
         button.set_layout_position(arc_layout.positions[i]);button.set_selected(keys[i]==arc_choice)
-    action_shade.position=arc_layout.bounds.position-Vector2(24,24);action_shade.size=arc_layout.bounds.size+Vector2(48,48)
 func choose_action(kind):
     action_menu_open=false
     if kind=="skill":show_abilities()
@@ -264,7 +258,6 @@ func refresh():
     action_buttons.end.disabled=logic.outcome!="playing"
     turn_button.text="空格 · 结束回合" if logic.outcome=="playing" else "战斗已结束"
     action_panel.visible=active and action_menu_open and not blocks_input()
-    action_shade.visible=action_panel.visible
     target_panel.visible=logic.outcome=="playing" and not game.target_preview.is_empty() and game.mode!="move" and not blocks_input()
     if target_panel.visible:
         var victim=logic.units[game.target_preview_index];var prediction=game.target_preview
