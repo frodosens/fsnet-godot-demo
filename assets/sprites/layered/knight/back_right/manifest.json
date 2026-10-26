@@ -1,0 +1,212 @@
+{
+  "schema": 1,
+  "status": "static-joint-contract-prototype; engine seam review pending",
+  "role": "knight",
+  "direction": "back_right",
+  "canvas": [
+    96,
+    128
+  ],
+  "ground_anchor": [
+    48,
+    120
+  ],
+  "upperbody": "upperbody.png",
+  "draw_order": [
+    "far_thigh",
+    "far_shin",
+    "far_boot",
+    "near_thigh",
+    "near_shin",
+    "near_boot",
+    "upperbody"
+  ],
+  "joints": {
+    "far": {
+      "anatomical_side": "left",
+      "hip": [
+        43,
+        79
+      ],
+      "knee": [
+        44.4,
+        92.75
+      ],
+      "ankle": [
+        44.650000000000006,
+        107.0
+      ],
+      "sole_contact_estimate": [
+        45.800000000000004,
+        114.55
+      ],
+      "sole_uncertainty_px": 1.5,
+      "thigh_length": 13.821088958544475,
+      "shin_length": 14.252192813739224,
+      "boot_axis_screen": [
+        1,
+        -0.35
+      ],
+      "phase_offset": 0
+    },
+    "near": {
+      "anatomical_side": "right",
+      "hip": [
+        54,
+        81
+      ],
+      "knee": [
+        53.175,
+        95.3
+      ],
+      "ankle": [
+        51.525,
+        110.69999999999999
+      ],
+      "sole_contact_estimate": [
+        53.175,
+        118.46
+      ],
+      "sole_uncertainty_px": 1.5,
+      "thigh_length": 14.32377830741596,
+      "shin_length": 15.488140624361597,
+      "boot_axis_screen": [
+        1,
+        -0.35
+      ],
+      "phase_offset": 0.5
+    }
+  },
+  "layers": {
+    "far_thigh": {
+      "file": "far_thigh.png",
+      "pivot": [
+        43,
+        79
+      ],
+      "placement": [
+        37,
+        74
+      ],
+      "source_part": "layers/left_thigh.png",
+      "size": [
+        96,
+        128
+      ],
+      "rotation_enabled": true,
+      "sha256": "48f6c89c726365d9e9bf8298467a616044dcc2bf51f0e8fff3e9f4c99b0aa5bd"
+    },
+    "far_shin": {
+      "file": "far_shin.png",
+      "pivot": [
+        44.4,
+        92.75
+      ],
+      "placement": [
+        37,
+        91
+      ],
+      "source_part": "layers/left_shin.png",
+      "size": [
+        96,
+        128
+      ],
+      "rotation_enabled": true,
+      "sha256": "8644e7599ba287c201134d74cd6ef1a2f0b843153dcdcae28f15ebd932c7357b"
+    },
+    "far_boot": {
+      "file": "far_boot.png",
+      "pivot": [
+        44.650000000000006,
+        107.0
+      ],
+      "placement": [
+        37,
+        106
+      ],
+      "source_part": "layers/left_boot.png",
+      "size": [
+        96,
+        128
+      ],
+      "rotation_enabled": false,
+      "sha256": "7eda1ec1ff47739372563d30a400acb3519d069275be659a048ea4860a274649"
+    },
+    "near_thigh": {
+      "file": "near_thigh.png",
+      "pivot": [
+        54,
+        81
+      ],
+      "placement": [
+        46,
+        75
+      ],
+      "source_part": "layers/right_thigh.png",
+      "size": [
+        96,
+        128
+      ],
+      "rotation_enabled": true,
+      "sha256": "740482a7553f7af79c837c82eb7b43090489aac581579666451beb1db04489ba"
+    },
+    "near_shin": {
+      "file": "near_shin.png",
+      "pivot": [
+        53.175,
+        95.3
+      ],
+      "placement": [
+        46,
+        94
+      ],
+      "source_part": "layers/right_shin.png",
+      "size": [
+        96,
+        128
+      ],
+      "rotation_enabled": true,
+      "sha256": "73b317424e82474afecf18fef22745f8243fb6090215c18ccdb0ae3dca6cf412"
+    },
+    "near_boot": {
+      "file": "near_boot.png",
+      "pivot": [
+        51.525,
+        110.69999999999999
+      ],
+      "placement": [
+        46,
+        110
+      ],
+      "source_part": "layers/right_boot.png",
+      "size": [
+        96,
+        128
+      ],
+      "rotation_enabled": false,
+      "sha256": "2edaea3ab41c234d11debd8ea376ef1b580aefdbf7448c88e680bec347be5d0b"
+    },
+    "upperbody": {
+      "file": "upperbody.png",
+      "pivot": [
+        48,
+        80
+      ],
+      "size": [
+        96,
+        128
+      ],
+      "rotation_enabled": false,
+      "sha256": "ae05663c001fa4bdff20096a081db2e5d1f0b03578eb34d76e44013504a9d6e3"
+    }
+  },
+  "notes": [
+    "Every PNG uses identical96x128 canvas coordinates.",
+    "Preserve full canvas; no per-image bbox recenter.",
+    "Original upperbody/gear immutable pixels except authorized lowerbody alpha extraction.",
+    "Neutral stance is source-authored, no IK or joint deformation in static export.",
+    "Runtime rotate parts about explicit pivots, boot axis stays fixed; no stretch/shear.",
+    "Static contract first; continuous gait must be engine-tested, not inferred from frame uniqueness.",
+    "Boot art axis approximately[1,-0.35], while back_right movement projects near[1,-1.12]; orientation mismatch documented for engine review, not silently solved with shear."
+  ]
+}
