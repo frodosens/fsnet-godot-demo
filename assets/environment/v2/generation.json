@@ -1,0 +1,58 @@
+[
+  {
+    "name": "grass",
+    "source": "sources/grass_source.png",
+    "prompt": "Use case: stylized-concept. Asset type: original seamless repeating square flat albedo texture for small Amber Bridge HD2D tactical game. Restrained low saturation European village palette: moss olive, smoky grey, warm greige, weathered umber; crisp intentional pixel clusters, retro pixel-art not painterly or photoreal. Produce only the texture filling entire square, no border, no labels, no preview spheres or perspective, no objects. Orthographic perpendicular view. Uniform ambient color only; NO baked directional light, shadows, AO, gradients, bevel shine or vignette. Opposite edges must continue seamlessly in both axes. Draw at apparent 128x128 logical pixels enlarged nearest-neighbor to output. Low visual contrast so units remain readable. Dense short moss-olive meadow turf, muted sage and dark olive clustered tufts with tiny sparse earth flecks; no flowers, no large plants, no rocks.",
+    "generator": "built-in image_gen",
+    "processing": "RGB conversion; nearest resize 128x128 then nearest resize 256x256; originals preserved"
+  },
+  {
+    "name": "earth",
+    "source": "sources/earth_source.png",
+    "prompt": "Use case: stylized-concept. Asset type: original seamless repeating square flat albedo texture for small Amber Bridge HD2D tactical game. Restrained low saturation European village palette: moss olive, smoky grey, warm greige, weathered umber; crisp intentional pixel clusters, retro pixel-art not painterly or photoreal. Produce only the texture filling entire square, no border, no labels, no preview spheres or perspective, no objects. Orthographic perpendicular view. Uniform ambient color only; NO baked directional light, shadows, AO, gradients, bevel shine or vignette. Opposite edges must continue seamlessly in both axes. Draw at apparent 128x128 logical pixels enlarged nearest-neighbor to output. Low visual contrast so units remain readable. Compact warm grey-umber dirt footpath surface with sparse tiny grey pebbles, flat worn earth, no path boundary or grass, non-directional.",
+    "generator": "built-in image_gen",
+    "processing": "RGB conversion; nearest resize 128x128 then nearest resize 256x256; originals preserved"
+  },
+  {
+    "name": "stone_paving",
+    "source": "sources/stone_paving_source.png",
+    "prompt": "Use case: stylized-concept. Asset type: original seamless repeating square flat albedo texture for small Amber Bridge HD2D tactical game. Restrained low saturation European village palette: moss olive, smoky grey, warm greige, weathered umber; crisp intentional pixel clusters, retro pixel-art not painterly or photoreal. Produce only the texture filling entire square, no border, no labels, no preview spheres or perspective, no objects. Orthographic perpendicular view. Uniform ambient color only; NO baked directional light, shadows, AO, gradients, bevel shine or vignette. Opposite edges must continue seamlessly in both axes. Draw at apparent 128x128 logical pixels enlarged nearest-neighbor to output. Low visual contrast so units remain readable. Worn warm-grey stone bridge paving, irregular moderately sized squared slabs laid flat, subtle mortar seams and very sparse olive moss in joints. Around 5 to 7 slabs across texture, low contrast.",
+    "generator": "built-in image_gen",
+    "processing": "RGB conversion; nearest resize 128x128 then nearest resize 256x256; originals preserved"
+  },
+  {
+    "name": "stone_masonry",
+    "source": "sources/stone_masonry_source.png",
+    "prompt": "Use case: stylized-concept. Asset type: original seamless repeating square flat albedo texture for small Amber Bridge HD2D tactical game. Restrained low saturation European village palette: moss olive, smoky grey, warm greige, weathered umber; crisp intentional pixel clusters, retro pixel-art not painterly or photoreal. Produce only the texture filling entire square, no border, no labels, no preview spheres or perspective, no objects. Orthographic perpendicular view. Uniform ambient color only; NO baked directional light, shadows, AO, gradients, bevel shine or vignette. Opposite edges must continue seamlessly in both axes. Draw at apparent 128x128 logical pixels enlarged nearest-neighbor to output. Low visual contrast so units remain readable. Weathered grey-greige bridge wall masonry, staggered courses of roughly squared blocks, about 5 blocks across and 7 courses tall, thin dull mortar gaps, very sparse olive moss, straight-on elevation but absolutely no lighting.",
+    "generator": "built-in image_gen",
+    "processing": "RGB conversion; nearest resize 128x128 then nearest resize 256x256; originals preserved"
+  },
+  {
+    "name": "plaster",
+    "source": "sources/plaster_source.png",
+    "prompt": "Use case: stylized-concept. Asset type: original seamless repeating square flat albedo texture for small Amber Bridge HD2D tactical game. Restrained low saturation European village palette: moss olive, smoky grey, warm greige, weathered umber; crisp intentional pixel clusters, retro pixel-art not painterly or photoreal. Produce only the texture filling entire square, no border, no labels, no preview spheres or perspective, no objects. Orthographic perpendicular view. Uniform ambient color only; NO baked directional light, shadows, AO, gradients, bevel shine or vignette. Opposite edges must continue seamlessly in both axes. Draw at apparent 128x128 logical pixels enlarged nearest-neighbor to output. Low visual contrast so units remain readable. Old ivory-greige lime plaster wall, quiet broad mottled clusters, fine restrained chips, no bricks or beams, entirely flat no objects.",
+    "generator": "built-in image_gen",
+    "processing": "RGB conversion; nearest resize 128x128 then nearest resize 256x256; originals preserved"
+  },
+  {
+    "name": "timber",
+    "source": "sources/timber_source.png",
+    "prompt": "Use case: stylized-concept. Asset type: original seamless repeating square flat albedo texture for small Amber Bridge HD2D tactical game. Restrained low saturation European village palette: moss olive, smoky grey, warm greige, weathered umber; crisp intentional pixel clusters, retro pixel-art not painterly or photoreal. Produce only the texture filling entire square, no border, no labels, no preview spheres or perspective, no objects. Orthographic perpendicular view. Uniform ambient color only; NO baked directional light, shadows, AO, gradients, bevel shine or vignette. Opposite edges must continue seamlessly in both axes. Draw at apparent 128x128 logical pixels enlarged nearest-neighbor to output. Low visual contrast so units remain readable. Weathered dark warm umber timber wood grain running vertically, modest knots, subtle straight-grained pixel marks, no borders or bolts. Whole image is one continuous wood surface, not many planks.",
+    "generator": "built-in image_gen",
+    "processing": "RGB conversion; nearest resize 128x128 then nearest resize 256x256; originals preserved"
+  },
+  {
+    "name": "roof",
+    "source": "sources/roof_source.png",
+    "prompt": "Single seamless repeating square texture asset, original 2D pixel art flat ALBEDO of muted terracotta roof tiles. Absolutely flat colors, no lighting, no shadows, no bevel gradients, no 3D curvature shading. Each tile is an irregular rectangular shape in dusty grey-red, dusty umber and clay. Thin dark umber joint lines. Four complete rows vertically, each row eight half-offset flat rectangular tiles. Tile rows and boundaries perfectly periodic across all four edges. Tiny sparse chips. 64x64 logical pixel-art enlarged nearest neighbor. Entire square filled with texture, no text, borders, perspective or roof silhouette. Very restrained low saturation old European village palette.",
+    "generator": "built-in image_gen",
+    "processing": "RGB conversion; nearest resize 128x128 then nearest resize 256x256; originals preserved"
+  },
+  {
+    "name": "water",
+    "source": "sources/water_source.png",
+    "prompt": "Use case: stylized-concept. Asset type: original seamless repeating square flat albedo texture for small Amber Bridge HD2D tactical game. Restrained low saturation European village palette: moss olive, smoky grey, warm greige, weathered umber; crisp intentional pixel clusters, retro pixel-art not painterly or photoreal. Produce only the texture filling entire square, no border, no labels, no preview spheres or perspective, no objects. Orthographic perpendicular view. Uniform ambient color only; NO baked directional light, shadows, AO, gradients, bevel shine or vignette. Opposite edges must continue seamlessly in both axes. Draw at apparent 128x128 logical pixels enlarged nearest-neighbor to output. Low visual contrast so units remain readable. Quiet shallow river surface, muted slate teal-blue-grey, sparse short broken horizontal ripples in slightly lighter grey-blue, no glare no reflections no shore no foam no transparency. Low contrast flat pattern, even coverage.",
+    "generator": "built-in image_gen",
+    "processing": "RGB conversion; nearest resize 128x128 then nearest resize 256x256; originals preserved"
+  }
+]

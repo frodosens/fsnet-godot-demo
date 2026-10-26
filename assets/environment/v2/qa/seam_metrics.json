@@ -1,0 +1,50 @@
+{
+  "grass": {
+    "edge_mae_x": 17.377604166666668,
+    "edge_mae_y": 14.8515625,
+    "internal_mae_x": 23.80029937664042,
+    "internal_mae_y": 23.80243192257218
+  },
+  "earth": {
+    "edge_mae_x": 9.682291666666666,
+    "edge_mae_y": 10.028645833333334,
+    "internal_mae_x": 10.23453904199475,
+    "internal_mae_y": 12.113988681102363
+  },
+  "stone_paving": {
+    "edge_mae_x": 5.9453125,
+    "edge_mae_y": 16.997395833333332,
+    "internal_mae_x": 11.42144438976378,
+    "internal_mae_y": 11.422756725721785
+  },
+  "stone_masonry": {
+    "edge_mae_x": 14.645833333333334,
+    "edge_mae_y": 31.619791666666668,
+    "internal_mae_x": 14.233636811023622,
+    "internal_mae_y": 16.803108595800524
+  },
+  "plaster": {
+    "edge_mae_x": 5.802083333333333,
+    "edge_mae_y": 7.2734375,
+    "internal_mae_x": 10.62516404199475,
+    "internal_mae_y": 10.655327263779528
+  },
+  "timber": {
+    "edge_mae_x": 9.083333333333334,
+    "edge_mae_y": 3.0677083333333335,
+    "internal_mae_x": 13.025549540682414,
+    "internal_mae_y": 3.5571686351706036
+  },
+  "roof": {
+    "edge_mae_x": 5.158854166666667,
+    "edge_mae_y": 5.893229166666667,
+    "internal_mae_x": 6.565555282152231,
+    "internal_mae_y": 4.737717355643045
+  },
+  "water": {
+    "edge_mae_x": 2.2864583333333335,
+    "edge_mae_y": 5.572916666666667,
+    "internal_mae_x": 3.092150590551181,
+    "internal_mae_y": 7.9501312335958
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "textures/dirt.png": "2ed69a85a478788164a7450e4e481fb7057fc17d0182d0b74b6d94e99f471510",
+  "textures/grass.png": "1c6846051a89a5d9b087aca289b4242663f6939d7851eb8d7c3ecdfd4418f9bc",
+  "textures/plaster.png": "f6dacfdb9d6679f32c6264dbc50d183f28bf47911170a48c85674c51657c6990",
+  "textures/roof.png": "5bb9ceb363417ece05c8c1c9304c6b2ae8ebe4fd01ed61f481950d4ea29573df",
+  "textures/stone_paving.png": "1a8f0057224ba2d915bc54f342c779301f628105804d0970cecbd0a513ce52a0",
+  "textures/stone_wall.png": "2d53245c3af6c0c16ab938a00cf6bb6e9bd26f3b12ed49011a1169baca025ff3",
+  "textures/water.png": "3ec5dd32f905fcad948779045e01015d381577286367ffe60d2cf307b82143b9",
+  "textures/wood.png": "b6d58612f3d6bbc95d3aabf9eebae99e9a2994ad2f2f33b58b03d034aad9b31b",
+  "sources/earth_source.png": "fdcbd2fee51773001dfba7eee0445c0054adb76cbe5b0a40d979013e1b65e282",
+  "sources/grass_source.png": "076f1ee8637764885ebcca3a98ab9769c2df2f1cfc98fdd7721e8162873dd3bd",
+  "sources/plaster_source.png": "5acd0b9bf4e790cf4d8ea625237d3e49713d244e0aff96e00e2d2b4874947031",
+  "sources/roof_source.png": "723436e17a237692512bf8feb6204578fdeebb88e7406ad192c67511955ff278",
+  "sources/stone_masonry_source.png": "5359acd013895313218489d3947e4ed9dd58144f4a9db2ac7bd8d77098c2ae5a",
+  "sources/stone_paving_source.png": "1df0cd7ae64516118d137a7b3c162555421b387b4d85779cfae8bbd1dd058bb4",
+  "sources/timber_source.png": "d5ca3080195d3390eb168707bae9a8d9ab01e57b4c3a43ff8a061eb0f1d0428a",
+  "sources/water_source.png": "672cbfb520f5b1e017e4481a1f149386aa26c72e724b67565b2de6bae1ce3859"
+}
