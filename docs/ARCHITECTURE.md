@@ -1,0 +1,17 @@
+# Shared Logic contract
+
+`Input -> Command -> Authority -> ordered Command -> identical Lua Logic -> value State -> Godot View`.
+
+Offline creates the same authority object locally. Online has one headless Godot authority and two or more clients; each owns an independent native Lua VM running exactly the same rules source. The server validates a proposed next action against its current state. Concurrent stale proposals are rejected, not silently rebased. No prediction or rollback is performed.
+
+The authority assigns acceptance by requiring the submitted action number to equal its next action. Request IDs are consecutive per ephemeral client identity and deduplicated, including rejected requests. The shared crew is intentionally cooperative, not per-player unit ownership. At most eight identities are admitted for the lifetime of a battle; there is no public lobby or identity service.
+
+State: six fixed units, integer grid/HP/action flags, round/action counters, outcome, explicit RNG. Canonical snapshot has 41 comma-separated decimal integers and strict validation. SHA-256 compares this canonical representation, never unordered JSON. JSON is transport only. JSON numbers are explicitly converted to bounded integers; strings, fractions, non-finite values and unknown command fields are rejected. Rules source hash gates protocol compatibility.
+
+Each sync reply contains a checkpoint and no more than 15 accepted tail commands. Clients rebuild a candidate VM, execute the tail, validate every action hash and the final hash, then replace visible state atomically. This is intentionally simple and bounded for six units, not a high-throughput frame-sync implementation. Snapshot plus replay works when a client has missed any number of commands; stale or corrupt replies fail closed. Server memory is not persisted; restart recovery is not implemented.
+
+Lua VM: trusted bundled source only, 8 MiB allocator budget, 200,000-instruction hook per invocation. Base/table/string/math subsets are initialized; no OS, I/O, debug, package library, ambient RNG, source loader or Godot references enter the rule environment. Bridge data is bounded to 64 KiB, 32 keys per dictionary and depth eight. These limits are defensive constraints for a trusted game module, not a promise to safely execute arbitrary adversarial Lua. Native C++ exceptions are caught before returning to Godot; Lua protected-call failures are returned via last_error. Rule script assets are not remotely downloaded.
+
+Transport lifetime: one owning Godot main thread drives fsnet::Node and callbacks. Node destruction suppresses late completion delivery and clears queued request continuations. Frame size, connections, pending calls, inflight requests and bridge queues are bounded. The sample only binds loopback. Individual player authentication/authorization and TLS deployment policy are out of scope; possession of a local shared token allows control of the cooperative crew.
+
+Differences from a production synchronization engine: no server persistence, command log durability, reconnect identity expiry, rate limiting by authenticated player, protocol version negotiation beyond rules hash, anti-cheat, reliable effects event journal, action animation pipeline, cross-platform determinism matrix, or production latency/throughput SLO. The view currently displays state/action messages immediately; animation timing never gates the rules.

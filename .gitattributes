@@ -1,0 +1,6 @@
+* text=auto
+*.lua text eol=lf
+*.gd text eol=lf
+*.sh text eol=lf
+*.py text eol=lf
+*.png binary

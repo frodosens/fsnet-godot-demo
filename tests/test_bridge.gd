@@ -1,0 +1,36 @@
+extends SceneTree
+var failures=0
+var checks=0
+func check(value,label):
+    checks+=1
+    if not value:failures+=1;printerr("FAIL ",label)
+func _initialize():
+    var vm=AmberLogic.new()
+    check(vm.load_rules("return {echo=function(a) return a end, fail=function() error('expected failure') end, spin=function() while true do end end, memory=function() return string.rep('x',16000000) end}"),"load rules")
+    var value={"integer":2147483646,"flag":true,"name":"Mara"}
+    value.extra=7
+    check(vm.invoke("echo",value)==value and vm.last_error()=="","structured integer/bool/string/StringName roundtrip")
+    vm.invoke("echo",{"bad":1.25})
+    check(not vm.last_error().is_empty(),"floating input rejected")
+    vm.invoke("echo",{"bad":RefCounted.new()})
+    check(not vm.last_error().is_empty(),"Godot objects rejected")
+    vm.invoke("echo",{"bad":"x".repeat(70000)})
+    check(vm.last_error().contains("input size limit"),"oversized bridge input rejected before Lua")
+    vm.invoke("missing",{})
+    check(vm.last_error()=="unknown rules method","unknown method error")
+    vm.invoke("fail",{})
+    check(vm.last_error().contains("expected failure"),"Lua error captured")
+    vm.invoke("spin",{})
+    check(vm.last_error().contains("instruction budget"),"instruction budget captured")
+    vm.invoke("memory",{})
+    check(vm.last_error().contains("memory"),"VM allocation cap captured")
+    check(vm.invoke("echo",{"ok":true})=={"ok":true},"VM usable after errors")
+    for i in range(100):
+        var transient=AmberLogic.new()
+        check(transient.load_rules("return {value=function() return 7 end}") and transient.invoke("value",{})==7,"VM creation/destruction")
+    var transport=AmberTransport.new()
+    check(not transport.start(false,0,"short"),"invalid transport settings rejected")
+    transport.shutdown()
+    transport.shutdown()
+    print("BRIDGE_TESTS checks=",checks," failures=",failures)
+    quit(0 if failures==0 else 1)
