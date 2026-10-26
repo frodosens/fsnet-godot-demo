@@ -39,7 +39,6 @@ var selection_ring
 var scene_view
 var ground_overlay
 var character_scale=1.0
-var layer_rig
 
 func material(color):
     var m = StandardMaterial3D.new()
@@ -69,7 +68,6 @@ func _ready():
     battle = session.logic
     build_world()
     ground_overlay=preload("res://view/path_preview.gd").new();ground_overlay.game=self;add_child(ground_overlay)
-    layer_rig=preload("res://view/mara_layer_rig.gd").new();layer_rig.game=self;add_child(layer_rig)
     build_hud()
     scene_view=preload("res://view/fixed_background.gd").new();scene_view.game=self;add_child(scene_view)
     if App.scene_renderer=="fixed":scene_view.set_fixed(true)
@@ -457,7 +455,6 @@ func projected_facing(from_cell,to_cell,diagonal=false):
 
 func presentation_active():return (motion and motion.active()) or (cutin and cutin.active)
 func motion_finished():
-    if layer_rig:layer_rig.stop()
     if cutin:cutin.consume(battle.step,battle.events)
 func skip_presentation():
     if heal_feedback:heal_feedback.clear()

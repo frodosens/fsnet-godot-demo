@@ -289,8 +289,6 @@ func toggle_pause():
     var level=HSlider.new();level.min_value=0;level.max_value=0.6;level.step=0.05;level.value=App.character_emission;level.custom_minimum_size=Vector2(320,32);level.tooltip_text="只调整角色原色补光，保留场景光照与阴影。"
     level.value_changed.connect(func(value):App.character_emission=value)
     brightness.add_child(level)
-    if game.layer_rig.available:
-        var rig_toggle=CheckButton.new();rig_toggle.text="玛拉右后分层步态样板（小步）";rig_toggle.button_pressed=App.mara_layer_preview;rig_toggle.toggled.connect(func(on):App.mara_layer_preview=on);c.add_child(rig_toggle)
     c.get_child(2).grab_focus()
 func toggle_scene_renderer():
     if game.scene_view.set_fixed(not game.scene_view.active):

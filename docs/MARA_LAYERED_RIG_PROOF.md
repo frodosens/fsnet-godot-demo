@@ -1,3 +1,5 @@
+> **Archived experiment — withdrawn by user decision.** Current runtime uses whole-character sprite frames only; the IK node and menu switch are removed. This record and original assets remain for provenance. To reproduce the historical IK tests/captures, check out `1de1f134d674a9292a6bf62ad5e6ed18aff94828` in a separate checkout. Do not treat the following experiment instructions as current gameplay instructions.
+
 # Mara back-right: continuous layered walk proof
 
 Scope is deliberately one character and one direction. Other directions/characters keep their existing art. The original source frames remain intact. The optional pause-menu switch `玛拉右后分层步态样板（小步）` defaults off. This is a first-look prototype, not final animation acceptance.

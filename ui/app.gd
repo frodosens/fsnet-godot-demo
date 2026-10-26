@@ -21,7 +21,6 @@ var character_emission=0.35 # Texture-colored baseline; presentation only.
 var scene_renderer="three_d" # Presentation preference only; never serialized into rules.
 var cutins_enabled=true
 var reduced_motion=false
-var mara_layer_preview=false
 var sfx_enabled=true
 var sfx_volume_db=-12.0
 const SLOT_IDS=["auto","slot1","slot2","slot3"]
