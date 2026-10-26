@@ -187,8 +187,9 @@ func refresh():
             var border=StyleBoxFlat.new();border.bg_color=Color(0.12,0.17,0.16,0.7);border.border_color=Color("dfa75f") if game.selected==i else Color("59624b");border.set_border_width_all(2 if game.selected==i else 1);b.add_theme_stylebox_override("normal",border)
     detail.text="队伍休整中。";profession_label.text="";move_label.text="";act_label.text=""
     var active=game.selected>=0 and logic.usable(game.selected)
-    if active:
-        var u=logic.units[game.selected]
+    var display_index=game.selected if game.selected>=0 else (0 if not logic.units.is_empty() else -1)
+    if display_index>=0 and display_index<logic.units.size():
+        var u=logic.units[display_index]
         var image="res://assets/portraits/"+u.id+".png"
         selected_portrait.texture=UI.framed_portrait(u.id)
         var skill="默认技能："+u.skill_id
@@ -202,17 +203,18 @@ func refresh():
         hp_bar.max_value=u.max_hp;hp_bar.value=u.hp;mp_bar.max_value=maxi(1,u.max_mp);mp_bar.value=u.mp
         hp_label.text="%d/%d"%[u.hp,u.max_hp];mp_label.text="%d/%d"%[u.mp,u.max_mp]
         action_buttons.move.text="1   移动"
-        action_buttons.move.disabled=u.moves_used>=u.move_actions
-        action_buttons.attack.disabled=u.acted
-        action_buttons.skill.disabled=u.acted
-        action_buttons.item.disabled=u.acted
+        action_buttons.move.disabled=not active or u.moves_used>=u.move_actions
+        action_buttons.attack.disabled=not active or u.acted
+        action_buttons.skill.disabled=not active or u.acted
+        action_buttons.item.disabled=not active or u.acted
         action_buttons.move.tooltip_text="本回合移动次数已用尽" if action_buttons.move.disabled else "指向地块预览合法路线，点击确认移动"
         for kind in ["attack","skill","item"]:action_buttons[kind].tooltip_text="本回合行动已用尽" if u.acted else "选择目标后由共同规则校验"
     else:
         for kind in ["move","attack","skill","item"]:action_buttons[kind].disabled=true
     action_buttons.end.disabled=logic.outcome!="playing"
+    turn_button.text="空格 · 结束回合" if logic.outcome=="playing" else "战斗已结束"
     action_panel.visible=active and not blocks_input()
-    target_panel.visible=not game.target_preview.is_empty() and game.mode!="move" and not blocks_input()
+    target_panel.visible=logic.outcome=="playing" and not game.target_preview.is_empty() and game.mode!="move" and not blocks_input()
     if target_panel.visible:
         var victim=logic.units[game.target_preview_index];var prediction=game.target_preview
         target_panel.position=Vector2(view.x-304,90)
@@ -231,6 +233,7 @@ func refresh():
             button.set_selected(game.mode==kinds[i] or (kinds[i]=="skill" and game.mode.begins_with("ability:")) or (kinds[i]=="item" and game.mode.begins_with("item:")))
         hint_label.text=("移动 %d/%d · 点击落点确认"%[game.preview_path.size()-1,logic.units[game.selected].movement]) if not game.preview_path.is_empty() else ("指向地块预览路线 · Enter 行动" if game.mode=="move" else "选择合法目标 · Esc 返回")
         if game.mode=="move" and not game.preview_reason.is_empty():hint_label.text=game.preview_reason
+    if logic.outcome!="playing":hint_label.text="旅程暂告一段落 · Esc 保存或返回"
     if last_step!=logic.step:
         if last_step>=0 and logic.step>last_step:
             var changes=[]
