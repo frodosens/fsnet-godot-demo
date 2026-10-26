@@ -10,20 +10,30 @@ static func make_theme():
         font=FontVariation.new();font.base_font=base;font.variation_face_index=2
     var t=Theme.new();t.default_font=font;t.default_font_size=18
     for kind in ["Label","Button","CheckButton","LineEdit","TextEdit","OptionButton","SpinBox"]:t.set_color("font_color",kind,INK)
-    t.set_stylebox("panel","PanelContainer",skin("panel",Color.WHITE,32,32))
+    t.set_stylebox("panel","PanelContainer",generated_skin("panels/action-dock.png"))
     for kind in ["Button","OptionButton"]:
-        t.set_stylebox("normal",kind,skin("button",Color.WHITE,24,20))
-        t.set_stylebox("hover",kind,skin("button",Color(1.15,1.15,1.10),24,20))
-        t.set_stylebox("pressed",kind,skin("button",Color(0.8,0.85,0.8),24,20))
-        t.set_stylebox("disabled",kind,skin("button",Color(0.65,0.65,0.65),24,20))
-        t.set_stylebox("focus",kind,box(Color(0,0,0,0),GOLD,0,1))
+        t.set_stylebox("normal",kind,generated_skin("buttons/normal.png"))
+        t.set_stylebox("hover",kind,generated_skin("buttons/selected.png"))
+        t.set_stylebox("pressed",kind,generated_skin("buttons/selected.png",Color(0.9,0.9,0.9)))
+        t.set_stylebox("disabled",kind,generated_skin("buttons/disabled.png"))
+        t.set_stylebox("focus",kind,generated_skin("buttons/selected.png"))
         t.set_color("font_disabled_color",kind,Color("777f77"))
         for state in ["font_hover_color","font_focus_color","font_pressed_color","font_hover_pressed_color"]:t.set_color(state,kind,INK)
     for kind in ["LineEdit","TextEdit"]:
-        t.set_stylebox("normal",kind,box(Color("202b29"),Color("59624b"),5))
-        t.set_stylebox("focus",kind,box(Color("202b29"),GOLD,5,2))
+        t.set_stylebox("normal",kind,generated_skin("buttons/normal.png"))
+        t.set_stylebox("focus",kind,generated_skin("buttons/selected.png"))
         t.set_color("caret_color",kind,INK)
+    for kind in ["PopupMenu","Window","AcceptDialog"]:
+        t.set_stylebox("panel",kind,generated_skin("panels/action-dock.png"))
+    t.set_stylebox("hover","PopupMenu",generated_skin("buttons/selected.png"))
+    t.set_color("font_color","PopupMenu",INK)
+    t.set_color("font_hover_color","PopupMenu",INK)
     return t
+static func generated_skin(path,tint=Color.WHITE):
+    var style=StyleBoxTexture.new();style.texture=load("res://assets/ui/bottom_dock_reference/"+path);style.modulate_color=tint
+    for side in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:style.set_texture_margin(side,12)
+    style.content_margin_left=18;style.content_margin_right=18;style.content_margin_top=12;style.content_margin_bottom=12
+    return style
 static func box(fill,border,radius=8,width=1):
     var b=StyleBoxFlat.new();b.bg_color=fill;b.border_color=border;b.set_border_width_all(width);b.set_corner_radius_all(radius)
     b.content_margin_left=16;b.content_margin_right=16;b.content_margin_top=10;b.content_margin_bottom=10

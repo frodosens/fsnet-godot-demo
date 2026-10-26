@@ -1,0 +1,13 @@
+# Shared generated UI theme
+
+The bottom-dock generated runtime materials now supply the common PanelContainer, Button, OptionButton, text-entry, popup-menu and dialog panel styles. The main-menu buttons also use the approved normal/selected/disabled generated skins instead of their old flat hover rectangle. All text, focus, enabled states and commands remain real controls. This is a bounded material migration, not a new layout or a screenshot overlay.
+
+Covered pages: home, load, network room, pause, story/dialogue, skills, consumables, equipment, save and confirmations. Editor forms inherit the same common theme. The existing main-menu background and approved portraits remain unchanged. Battle-dock measured geometry, path, lighting and static directional movement are unchanged.
+
+Typography remains the bundled Noto Sans CJK Regular, Simplified Chinese face index 2, under assets/fonts/LICENSE.txt. It is the available licensed Chinese font; the generated concept lettering is not a font file. No new fonts were installed. Long descriptions retain wrapping and native font rendering.
+
+Specialty art still absent: bespoke slider knobs, check marks, scrollbar handles and OS window chrome. Those controls retain their native widgets rather than fabricating reference-derived icons that do not exist. Skill/item lists use text descriptions because no distinct per-ability/item icon art was supplied. No pixel-perfect match or full original art coverage is claimed.
+
+Validation: Godot 4.6.3 on Linux, OpenGL Compatibility / Mesa llvmpipe. Full gameplay suite: 1588 checks and five server/two-client reconnect scenarios pass. Actual captures cover nine pages at 1280x800 and confirmation, items and network at 960x600. Existing menu/player-loop tests cover new game, story, skill/item use, AI, victory/defeat, save/load and confirmation/cancel. Physical touch/controller and Windows runtime remain unverified. Offscreen audio uses Dummy; no audio listening acceptance is claimed.
+
+Reproduce the gallery using tests/capture_ui_gallery.gd with a graphics display; files go to /tmp. The existing record_bottom_dock.gd records actual mouse events for destination selection, cancel, confirm and wait. All review media remains outside Git. Library tool metadata reads work, but the refreshed local upload helper still fails during hosted-app tool discovery before preparation/write, including when files are staged under /workspace/scratch. No private URL or Git-media fallback was used.
