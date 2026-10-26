@@ -1,0 +1,116 @@
+{
+  "version": 3,
+  "units": "world units",
+  "props": {
+    "tree": {
+      "path": "assets/environment/props_v3/tree.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 2.5,
+      "visible_height_px": 224,
+      "pixel_size": 0.011160714285714286,
+      "alpha_bbox_px": [
+        39,
+        17,
+        217,
+        239
+      ],
+      "sha256": "802b2965c7cfd50cc31f0808265f5da8e5cb2784737e4b98560d9d04101c1c70",
+      "placement": "border-only decorative; no collision or rule changes"
+    },
+    "shrub": {
+      "path": "assets/environment/props_v3/shrub.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 0.7,
+      "visible_height_px": 129,
+      "pixel_size": 0.005426356589147287,
+      "alpha_bbox_px": [
+        17,
+        112,
+        239,
+        239
+      ],
+      "sha256": "eb24742b8fe50ef934e92ec0eacf1b7283224c8a82caec3855079e68fe06c51b",
+      "placement": "border-only decorative; no collision or rule changes"
+    },
+    "reeds_rocks": {
+      "path": "assets/environment/props_v3/reeds_rocks.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 0.8,
+      "visible_height_px": 224,
+      "pixel_size": 0.0035714285714285718,
+      "alpha_bbox_px": [
+        38,
+        17,
+        218,
+        239
+      ],
+      "sha256": "3cb2fe2d52b9611dc8ab533e4457bbbcdc64bd3f41c8c415d9c3e1f9baca4355",
+      "placement": "border-only decorative; no collision or rule changes"
+    },
+    "supplies": {
+      "path": "assets/environment/props_v3/supplies.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 0.9,
+      "visible_height_px": 224,
+      "pixel_size": 0.004017857142857143,
+      "alpha_bbox_px": [
+        39,
+        17,
+        219,
+        239
+      ],
+      "sha256": "45fc818387775cc7bdf1ad64a6b5e67d6c8c9dec886a267cb248baad4122fc6c",
+      "placement": "border-only decorative; no collision or rule changes"
+    },
+    "lantern": {
+      "path": "assets/environment/props_v3/lantern.png",
+      "size_px": [
+        256,
+        256
+      ],
+      "pivot_px": [
+        128,
+        240
+      ],
+      "suggested_visible_height_world": 1.5,
+      "visible_height_px": 224,
+      "pixel_size": 0.006696428571428571,
+      "alpha_bbox_px": [
+        110,
+        17,
+        192,
+        239
+      ],
+      "sha256": "976003c50e282a7e519608de689016fbbf9e7ea42742c0d994413bb233ed5527",
+      "placement": "border-only decorative; no collision or rule changes"
+    }
+  }
+}

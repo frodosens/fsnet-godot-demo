@@ -1,0 +1,27 @@
+[
+  {
+    "name": "tree",
+    "source": "sources/tree_source.png",
+    "prompt": "Use case stylized-concept. One original isolated environment prop sprite for Amber Bridge HD2D tactical village, restrained fine pixel art with crisp pixel clusters, not photoreal and not smooth painting. Orthographic 45-degree three-quarter elevated view. Muted dark forest olive, blue-grey shadow colors and weathered umber, subtle diffuse form shading only, no directional cast shadow. Transparent background truly RGBA, no checkerboard, no ground plane, no base island, no text, no border. Entire prop fits with 10% clear transparent margin all sides. Ground contact bottom center. Apparent logical resolution 128x128, large coherent clusters, no fine grain. Single compact old European broadleaf tree with thick branching umber trunk and dense irregular dark olive canopy, some grey-sage clusters, clear branching silhouette, no flowers or fruit. Full tree trunk down to root contact; taller than wide, not a forest."
+  },
+  {
+    "name": "shrub",
+    "source": "sources/shrub_source.png",
+    "prompt": "Use case stylized-concept. One original isolated environment prop sprite for Amber Bridge HD2D tactical village, restrained fine pixel art with crisp pixel clusters, not photoreal and not smooth painting. Orthographic 45-degree three-quarter elevated view. Muted dark forest olive, blue-grey shadow colors and weathered umber, subtle diffuse form shading only, no directional cast shadow. Transparent background truly RGBA, no checkerboard, no ground plane, no base island, no text, no border. Entire prop fits with 10% clear transparent margin all sides. Ground contact bottom center. Apparent logical resolution 128x128, large coherent clusters, no fine grain. One low wide irregular hawthorn shrub, dark olive and desaturated sage leaves, clustered silhouette, few visible woody stems; no flowers, no berries, no individual fine leaf noise."
+  },
+  {
+    "name": "reeds_rocks",
+    "source": "sources/reeds_rocks_source.png",
+    "prompt": "Use case stylized-concept. One original isolated environment prop sprite for Amber Bridge HD2D tactical village, restrained fine pixel art with crisp pixel clusters, not photoreal and not smooth painting. Orthographic 45-degree three-quarter elevated view. Muted dark forest olive, blue-grey shadow colors and weathered umber, subtle diffuse form shading only, no directional cast shadow. Transparent background truly RGBA, no checkerboard, no ground plane, no base island, no text, no border. Entire prop fits with 10% clear transparent margin all sides. Ground contact bottom center. Apparent logical resolution 128x128, large coherent clusters, no fine grain. One small riverbank accent cluster: three worn rounded blue-grey rocks at bottom with sparse tall muted olive reeds growing between, no water or soil patch. Airy reeds silhouette, subdued colors."
+  },
+  {
+    "name": "supplies",
+    "source": "sources/supplies_source.png",
+    "prompt": "Use case stylized-concept. One original isolated environment prop sprite for Amber Bridge HD2D tactical village, restrained fine pixel art with crisp pixel clusters, not photoreal and not smooth painting. Orthographic 45-degree three-quarter elevated view. Muted dark forest olive, blue-grey shadow colors and weathered umber, subtle diffuse form shading only, no directional cast shadow. Transparent background truly RGBA, no checkerboard, no ground plane, no base island, no text, no border. Entire prop fits with 10% clear transparent margin all sides. Ground contact bottom center. Apparent logical resolution 128x128, large coherent clusters, no fine grain. One small inn doorstep supply group: two weathered wood barrels with dark iron hoops and one small wooden crate. Compact asymmetrical grouping, muted umber/grey-brown. No ground plane, signage or labels."
+  },
+  {
+    "name": "lantern",
+    "source": "sources/lantern_source.png",
+    "prompt": "Use case stylized-concept. One original isolated environment prop sprite for Amber Bridge HD2D tactical village, restrained fine pixel art with crisp pixel clusters, not photoreal and not smooth painting. Orthographic 45-degree three-quarter elevated view. Muted dark forest olive, blue-grey shadow colors and weathered umber, subtle diffuse form shading only, no directional cast shadow. Transparent background truly RGBA, no checkerboard, no ground plane, no base island, no text, no border. Entire prop fits with 10% clear transparent margin all sides. Ground contact bottom center. Apparent logical resolution 128x128, large coherent clusters, no fine grain. One single tall slim weathered wooden lantern post with short bracket and hanging square old iron lantern. Small softly amber lit glass panels confined inside the lantern frame, no bloom halo or external glow. Simple post base contact, no ground. Restrained dark brown, iron grey, tiny amber accent."
+  }
+]
