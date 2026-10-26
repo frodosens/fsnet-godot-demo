@@ -397,6 +397,9 @@ func _unhandled_input(event):
             return
         if hud.story_panel.visible and event.physical_keycode in [KEY_SPACE,KEY_ENTER]:hud.advance(false);return
     if presentation_active() or hud.blocks_input():return
+    if event is InputEventJoypadButton and event.pressed and event.button_index==JOY_BUTTON_A:
+        if hud.activate_focused_action():get_viewport().set_input_as_handled()
+        return
     if event is InputEventKey and event.pressed and not event.echo:
         match event.physical_keycode:
             KEY_1,KEY_M: select_mode("move")
@@ -404,7 +407,9 @@ func _unhandled_input(event):
             KEY_3: hud.choose_action("skill")
             KEY_S: hud.choose_action("skill")
             KEY_4,KEY_I: hud.choose_action("item")
-            KEY_ENTER: hud.open_action_menu()
+            KEY_ENTER:
+                if not hud.activate_focused_action():hud.open_action_menu()
+                get_viewport().set_input_as_handled()
             KEY_SPACE: hud.request_end_turn()
             KEY_R: restart()
     if event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_RIGHT:

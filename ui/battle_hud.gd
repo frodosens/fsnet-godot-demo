@@ -20,6 +20,7 @@ var modal
 var gear_open=false
 var last_step=-1
 var action_panel
+var action_shade
 var action_menu_open=true
 var status_panel
 var status_shade
@@ -80,9 +81,17 @@ func _ready():
     hint_label=UI.label("选择角色，Enter 打开行动",22);hint_label.position=Vector2(440,744);root.add_child(hint_label)
     log_label=UI.label("",16);log_label.position=Vector2(440,710);root.add_child(log_label)
     turn_button=UI.button("空格 · 结束回合",request_end_turn);turn_button.add_theme_font_size_override("font_size",18);turn_button.custom_minimum_size=Vector2(210,44);root.add_child(turn_button);action_buttons["end"]=turn_button
+    action_shade=TextureRect.new();action_shade.mouse_filter=Control.MOUSE_FILTER_IGNORE;action_shade.z_index=9
+    var quiet=GradientTexture2D.new();quiet.width=256;quiet.height=256;quiet.fill=GradientTexture2D.FILL_RADIAL;quiet.fill_from=Vector2(0.75,0.5);quiet.fill_to=Vector2(0.05,0.5)
+    var quiet_colors=Gradient.new();quiet_colors.set_color(0,Color(0.06,0.10,0.10,0.86));quiet_colors.set_color(1,Color(0.06,0.10,0.10,0));quiet.gradient=quiet_colors
+    action_shade.texture=quiet;action_shade.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;root.add_child(action_shade)
     action_panel=Control.new();action_panel.size=Vector2(158,216);action_panel.z_index=10;root.add_child(action_panel)
     for i in range(4):
-        var kind=["move","attack","skill","item"][i];var button=preload("res://ui/action_button.gd").new();button.kind=kind;button.text=["1   移动","2   攻击","3   技能","4   道具"][i];button.position=Vector2(0,i*54);button.pressed.connect(choose_action.bind(kind));action_panel.add_child(button);action_buttons[kind]=button
+        var kind=["move","attack","skill","item"][i];var button=preload("res://ui/action_button.gd").new();button.kind=kind;button.text=["移动","攻击","技能","道具"][i];button.position=Vector2(0,i*54);button.pressed.connect(choose_action.bind(kind));action_panel.add_child(button);action_buttons[kind]=button
+    var ordered_actions=[action_buttons.move,action_buttons.attack,action_buttons.skill,action_buttons.item]
+    for i in range(4):
+        ordered_actions[i].focus_neighbor_bottom=ordered_actions[i].get_path_to(ordered_actions[(i+1)%4])
+        ordered_actions[i].focus_neighbor_top=ordered_actions[i].get_path_to(ordered_actions[(i+3)%4])
     target_panel=soft_panel(Vector2(960,90),Vector2(280,110));target_panel.hide()
     target_portrait=UI.portrait("oren",56);target_portrait.position=Vector2(0,8);target_panel.add_child(target_portrait)
     target_detail=UI.paragraph("",220);target_detail.position=Vector2(62,0);target_detail.add_theme_font_size_override("font_size",16);target_panel.add_child(target_detail)
@@ -146,6 +155,13 @@ func cancel_targeting():
 func open_action_menu():
     if blocks_input() or game.selected<0:return
     action_menu_open=true;game.clear_move_preview();refresh();action_buttons.move.grab_focus()
+func activate_focused_action():
+    var focused=root.get_viewport().gui_get_focus_owner()
+    for kind in ["move","attack","skill","item"]:
+        var button=action_buttons[kind]
+        if focused==button and button.is_visible_in_tree() and not button.disabled:
+            button.pressed.emit();return true
+    return false
 func choose_action(kind):
     action_menu_open=false
     if kind=="skill":show_abilities()
@@ -202,7 +218,7 @@ func refresh():
         move_label.text="移动 %d"%maxi(0,u.move_actions-u.moves_used);act_label.text="行动 %d"%(0 if u.acted else 1)
         hp_bar.max_value=u.max_hp;hp_bar.value=u.hp;mp_bar.max_value=maxi(1,u.max_mp);mp_bar.value=u.mp
         hp_label.text="%d/%d"%[u.hp,u.max_hp];mp_label.text="%d/%d"%[u.mp,u.max_mp]
-        action_buttons.move.text="1   移动"
+        action_buttons.move.text="移动"
         action_buttons.move.disabled=not active or u.moves_used>=u.move_actions
         action_buttons.attack.disabled=not active or u.acted
         action_buttons.skill.disabled=not active or u.acted
@@ -214,6 +230,8 @@ func refresh():
     action_buttons.end.disabled=logic.outcome!="playing"
     turn_button.text="空格 · 结束回合" if logic.outcome=="playing" else "战斗已结束"
     action_panel.visible=active and not blocks_input()
+    action_shade.visible=action_panel.visible
+    action_shade.position=Vector2(view.x*0.74,view.y*0.22);action_shade.size=Vector2(view.x*0.26,view.y*0.47)
     target_panel.visible=logic.outcome=="playing" and not game.target_preview.is_empty() and game.mode!="move" and not blocks_input()
     if target_panel.visible:
         var victim=logic.units[game.target_preview_index];var prediction=game.target_preview
