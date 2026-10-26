@@ -723,6 +723,122 @@
       ],
       "contact_tick": null,
       "note": "Held ticks are not additional drawings. Hit begins on contact, return to existing idle after recover."
+    },
+    "tessa_hit": {
+      "unique_keyframes": 2,
+      "facing": "right",
+      "scale": 0.148,
+      "frames": [
+        {
+          "index": 0,
+          "state": "hit",
+          "path": "runtime/tessa_hit/00_hit.png",
+          "source_component": 1,
+          "source_crop": [
+            192,
+            82,
+            782,
+            816
+          ],
+          "source_foot_x": 545.5,
+          "placement": [
+            44,
+            35
+          ],
+          "sha256": "2ec69c7888af9e5a13b33a5e5c5008951abc129a2a3ec3200d97f61caf2c5c1e"
+        },
+        {
+          "index": 1,
+          "state": "recover",
+          "path": "runtime/tessa_hit/01_recover.png",
+          "source_component": 4,
+          "source_crop": [
+            1025,
+            100,
+            1591,
+            816
+          ],
+          "source_foot_x": 1312.0,
+          "placement": [
+            54,
+            38
+          ],
+          "sha256": "925cca4ff2161b2188d98aefa65af0a82a4bed2ed98ec77f5cc41729dc87d75b"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "contact_tick": null,
+      "note": "Held ticks are not additional drawings. Hit begins on contact, return to existing idle after recover."
+    },
+    "bram_hit": {
+      "unique_keyframes": 2,
+      "facing": "right",
+      "scale": 0.148,
+      "frames": [
+        {
+          "index": 0,
+          "state": "hit",
+          "path": "runtime/bram_hit/00_hit.png",
+          "source_component": 1,
+          "source_crop": [
+            177,
+            96,
+            723,
+            805
+          ],
+          "source_foot_x": 378.5,
+          "placement": [
+            66,
+            39
+          ],
+          "sha256": "6b26c17796bb22f8164f047fb85b92705021045b8fcb0b4019204baddd9812e5"
+        },
+        {
+          "index": 1,
+          "state": "recover",
+          "path": "runtime/bram_hit/01_recover.png",
+          "source_component": 2,
+          "source_crop": [
+            1002,
+            120,
+            1665,
+            805
+          ],
+          "source_foot_x": 1285.5,
+          "placement": [
+            54,
+            43
+          ],
+          "sha256": "0d007e2cfbeafbf8ef25fff547ae0bf0fbb7fea4d700d513d2f14047676d718e"
+        }
+      ],
+      "tick_ms": 60,
+      "timeline": [
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "contact_tick": null,
+      "note": "Held ticks are not additional drawings. Hit begins on contact, return to existing idle after recover."
     }
   }
 }

@@ -4,7 +4,7 @@ from scipy import ndimage
 import numpy as np,json,hashlib
 R=Path(__file__).resolve().parent
 M={'frame_size':[192,160],'foot_anchor':[96,144],'filter':'nearest','method':'alpha component isolation, common nearest scale per source, foot-center anchor; no painted pixels','characters':{}}
-for name in ['oren','tessa','bram','finn_hit','neri_hit','mara_hit']:
+for name in ['oren','tessa','bram','finn_hit','neri_hit','mara_hit','tessa_hit','bram_hit']:
  a=np.array(Image.open(R/'sources'/f'{name}.png').convert('RGBA'));lab,n=ndimage.label(a[:,:,3]>=16);obs=ndimage.find_objects(lab)
  objs=[(i+1,s) for i,s in enumerate(obs) if (lab[s]==i+1).sum()>5000];objs.sort(key=lambda z:(0 if z[1][0].start<a.shape[0]/2 else 1,z[1][1].start))
  hit=name.endswith('_hit'); assert len(objs)==(2 if hit else 8)
@@ -30,4 +30,4 @@ for name in ['oren','tessa','bram','finn_hit','neri_hit','mara_hit']:
   bg=Image.new('RGBA',(192,160),'#292b2b');bg.alpha_composite(frames[i]);ims.append(bg.convert('RGB'))
  ims[0].save(R/'qa'/f'{name}-timing.gif',save_all=True,append_images=ims[1:],duration=60,loop=0)
 (R/'manifest.json').write_text(json.dumps(M,indent=2))
-print('Validated 30 unique RGBA frames, transparent, 192x160, weapon bounds and anchor')
+print('Validated 34 unique RGBA frames, transparent, 192x160, weapon bounds and anchor')
