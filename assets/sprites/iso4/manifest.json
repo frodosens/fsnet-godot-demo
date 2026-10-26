@@ -229,9 +229,9 @@
   },
   "status": "Six-role elevated three-quarter candidate set:24idle+96walk. Actual imagegen limb/garment changes, not static translations. Camera proof accepted in engine; full six-role engine cadence review pending. Some same-side support phases and toe-out remain, see qa_notes.",
   "generator": "OpenAI built-in imagegen",
-  "processing": "Authorized rectangular silhouette crops, nearest-neighbor scale and body/feet alignment; no script paint, deformation, rotation or mirrored directions.",
+  "processing": "Authorized rectangular silhouette crops, nearest-neighbor scale and body/feet alignment; no script paint, deformation, rotation or mirrored directions. Mara front_right correction uses one shared scale and fixed torso top20, ground anchor48,120; individual visible soles can end119 rather than120. Do not rerun generic bottom-alignment over corrected frames.",
   "qa_notes": {
-    "knight": "front_left and rear phase pairs have similar support silhouettes; front_right toe-out/cadence noted in engine proof.",
+    "knight": "front_right revised contact/passing/opposite-contact/opposite-passing; toes lower-right; fixed torso registration retains source foot sweep. Engine ground-lock acceptance pending. Other directions retain similar support silhouettes.",
     "scout": "Repeated support phases remain in some loops; clear knee,boot,arm and cloak changes.",
     "archer": "front_left repeats leading leg; back_left fourth passing side similar; back_right support alternation subtle.",
     "mage": "front_right/front_left/back_right secondhalf repeatedsupport despite edits; back_left cape occludes legs.",
@@ -250,7 +250,7 @@
     "scout_idle4.png": "40ec9ed935d5e02351ff41093bbef86524860eae149b6979aa0810faf5de5f2e",
     "brute_back_left_walk.png": "b6af5bbabd5b0e8292c3b6c7b86752c190510c5a91d4253e4d8ab49facedf0c6",
     "archer_back_right_walk.png": "006a84bb26e0da3e63256a63aed1e0372623c13d8f08b341f509cdb955bc4adb",
-    "knight_front_right_walk.png": "453fb72de7f3c86be54a2b0168dfc2e726daacf918ae4d269e49b1b75ed6c873",
+    "knight_front_right_walk.png": "def691e2775310f1d89fb15bcce026b8adaba7f111dada6427e4acee7a09b64d",
     "raider_idle4.png": "25fb91b2e077c28f52af3d00037dfa57e4b0ca50e3eb8ea1f6b83d3c0cbe5d61",
     "mage_back_left_walk.png": "3e99c253188dcb4426a5d663906aebba57c2c9d2b2ab40ebf3348a41e24b9b66",
     "mage_idle4.png": "45245edc5f2d5a1f3e13e24f78c093e066a7d0a50aefcfc767f36db68df6d73d",
@@ -269,5 +269,109 @@
     "brute_back_right_walk.png": "fc548f4b9ebbbed1299512cec7d6a63a5a611cf9327f9a18357577a061ab024c",
     "brute_front_left_walk.png": "18a5ec72cf02e1a44e28e4a1fe72fa5028acd95fa99346a4700f6c2721cf71a9",
     "knight_back_right_walk.png": "8a76ce16c45049c44aef5cf62962aa40d52845d46f4bb78dfbbe3feb0befc346"
+  },
+  "registration_overrides": {
+    "knight_front_right_walk": {
+      "source_size": [
+        2172,
+        724
+      ],
+      "canvas_size": [
+        96,
+        128
+      ],
+      "nominal_ground_anchor": [
+        48,
+        120
+      ],
+      "fixed_top": 20,
+      "method": "shared nearest scale; torso x registration; no per-frame sole/bbox recenter in engine",
+      "frames": [
+        {
+          "frame": 0,
+          "source_bbox": [
+            43,
+            25,
+            525,
+            696
+          ],
+          "scale": 0.14903129657228018,
+          "placement": [
+            4,
+            20
+          ],
+          "alpha_bbox": [
+            4,
+            20,
+            76,
+            120
+          ],
+          "sha256": "f1eb3ffbb28b249ff3e83d78ee884fca02e75c7103d60fbc2115c987ccb256b4"
+        },
+        {
+          "frame": 1,
+          "source_bbox": [
+            569,
+            28,
+            1046,
+            687
+          ],
+          "scale": 0.14903129657228018,
+          "placement": [
+            4,
+            20
+          ],
+          "alpha_bbox": [
+            4,
+            20,
+            75,
+            118
+          ],
+          "sha256": "ab76166bad0931df3a07e0a34e939785c4ba7e653abdaec6aad601dee53b4e17"
+        },
+        {
+          "frame": 2,
+          "source_bbox": [
+            1118,
+            28,
+            1602,
+            694
+          ],
+          "scale": 0.14903129657228018,
+          "placement": [
+            3,
+            20
+          ],
+          "alpha_bbox": [
+            3,
+            20,
+            75,
+            119
+          ],
+          "sha256": "d2185b0609cc00687bffed059b78e8e3b7c37fd2dda5b3909d3f6cac125bffce"
+        },
+        {
+          "frame": 3,
+          "source_bbox": [
+            1647,
+            28,
+            2130,
+            695
+          ],
+          "scale": 0.14903129657228018,
+          "placement": [
+            3,
+            20
+          ],
+          "alpha_bbox": [
+            3,
+            20,
+            75,
+            119
+          ],
+          "sha256": "69df3ac918038c5144fb43eba86e3e773ea66e323adf22f00012338d45a0e770"
+        }
+      ]
+    }
   }
 }
