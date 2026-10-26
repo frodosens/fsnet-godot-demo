@@ -270,7 +270,15 @@ func toggle_pause():
     if not game.session.online:c.add_child(UI.button("重新开始本场",confirm_restart))
     c.add_child(UI.button("返回主界面",confirm_leave.bind(false)))
     c.add_child(UI.button("退出游戏",confirm_leave.bind(true)))
+    var scene_button=UI.button("场景：固定背景 → 切回 3D" if game.scene_view.active else "场景：3D → 固定背景样板",toggle_scene_renderer)
+    scene_button.disabled=not game.scene_view.active and not game.scene_view.available()
+    scene_button.tooltip_text="仅支持原始琥珀桥参考地图；需要匹配的背景素材。"
+    c.add_child(scene_button)
     c.get_child(2).grab_focus()
+func toggle_scene_renderer():
+    if game.scene_view.set_fixed(not game.scene_view.active):
+        App.scene_renderer="fixed" if game.scene_view.active else "three_d"
+        clear_modal();game.refresh()
 func show_save():
     var c=modal_page("选择存档位置")
     for slot in App.SLOT_IDS:

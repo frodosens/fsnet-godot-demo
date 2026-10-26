@@ -17,6 +17,7 @@ var connection_age=0.0
 var room_port=27840
 var room_token=""
 var last_error=""
+var scene_renderer="three_d" # Presentation preference only; never serialized into rules.
 var cutins_enabled=true
 var reduced_motion=false
 var sfx_enabled=true

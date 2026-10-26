@@ -36,6 +36,7 @@ var water_level=-1.15
 var preview_ghost
 var route_arrows
 var selection_ring
+var scene_view
 
 func material(color):
     var m = StandardMaterial3D.new()
@@ -65,6 +66,8 @@ func _ready():
     battle = session.logic
     build_world()
     build_hud()
+    scene_view=preload("res://view/fixed_background.gd").new();scene_view.game=self;add_child(scene_view)
+    if App.scene_renderer=="fixed":scene_view.set_fixed(true)
     refresh()
     print("PROTOTYPE_READY shared_lua=true units=",figures.size()," tiles=",tiles.size()," renderer=",RenderingServer.get_video_adapter_name())
     for arg in OS.get_cmdline_user_args():
@@ -408,11 +411,8 @@ func _unhandled_input(event):
         else:update_target_preview(mouse_cell(event.position))
         return
     if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-        var origin = camera.project_ray_origin(event.position)
-        var direction = camera.project_ray_normal(event.position)
-        if absf(direction.y) < 0.001: return
-        var hit = origin + direction * (-origin.y/direction.y)
-        var cell = Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
+        var cell=mouse_cell(event.position)
+        if cell.x<0:return
         var target = battle.at(cell)
         if target >= 0 and battle.units[target].controller=="player" and (mode=="move" or (mode=="attack" and selected>=0 and battle.units[target].faction==battle.units[selected].faction)):
             selected = target
@@ -459,6 +459,7 @@ func skip_presentation():
     if cutin:cutin.finish()
 
 func mouse_cell(screen):
+    if scene_view and not scene_view.accepts_point(screen):return Vector2i(-1,-1)
     var origin=camera.project_ray_origin(screen);var direction=camera.project_ray_normal(screen)
     if absf(direction.y)<0.001:return Vector2i(-1,-1)
     var hit=origin+direction*(-origin.y/direction.y)
