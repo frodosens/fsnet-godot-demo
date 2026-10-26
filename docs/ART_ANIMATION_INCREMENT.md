@@ -30,3 +30,7 @@ godot --display-driver x11 --audio-driver Dummy --rendering-method gl_compatibil
 ## Remaining gates
 
 Other five roles' elevated idles and all remaining elevated walk directions; full defender/attacker combat sets; smoothness and foot-contact refinement; consistent portrait/character/environment palette; grass frequency and stone-wall seams; more scene dressing without obscuring the grid. No complete idle breathing/turn animations or all-role death/recovery set is claimed. Network remains loopback-only, no account ownership, durable room recovery, public multiplayer acceptance, cross-platform deterministic certification or exported release binary. Content editor and equipment are bounded functional samples, not commercial content volume.
+
+## Environment source revision 2
+
+Art commit `9d040dc11504ff954347464cf5179d9c588ee656` replaced only runtime grass and stone-wall images, retaining v1 originals and revision2 provenance. Reimport and the same real 1280x800 scene capture succeeded; the grass is visibly less noisy and the wall repeat boundary is less prominent. No global darkening or additional image postprocess was used for this comparison. Current battle/dialogue screenshots show this revision; earlier iso4/movie artifacts deliberately remain evidence of the prior recorded source version. This asset-only change did not alter rules or require rerunning the complete rule suite.
