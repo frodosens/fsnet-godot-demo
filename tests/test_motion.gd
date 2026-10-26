@@ -1,3 +1,4 @@
+# ARCHIVED: historical walk-frame diagnostic, not current idle-slide runtime.
 extends SceneTree
 const Content=preload("res://logic/content.gd")
 var checks=0

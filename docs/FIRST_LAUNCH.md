@@ -21,3 +21,9 @@ Screenshots: [missing component](first-launch-missing-native.jpg), [playable aft
 Follow README's Linux build prerequisites, run tools/build.sh, restart the editor and run the project. tools/run.sh rejects a missing binary before launch. If loading fails after building, inspect `ldd bin/libamber.so` and the external libfsnet path. No need to delete saves.
 
 This patch improves source-project startup and verifies Linux entry; it does **not** turn the repository into a portable binary distribution. Windows/macOS native builds and a ready-to-play release remain unavailable/unverified. No fsnet binary redistributed.
+
+## Build / artifact readiness
+
+Game repository has no existing GitHub Actions workflow or downloadable native release. External fsnet's `.github/workflows/cmake.yml` runs Ubuntu builds and publishes a Linux fsnet archive; this is not an Amber GDExtension or Windows artifact. Its OpenSSL build currently invokes make with `-fPIC` and imports `.a` libraries, requiring a real Windows toolchain adaptation before claiming an MSVC pipeline. No Windows SDK/runner or new dependency was installed for this check. Adding a nominal Windows YAML would not make the clone playable.
+
+`tools/setup-linux.sh` provides one checked orchestration entry point using the documented source directories, optionally building external fsnet, then building the bridge, importing and checking menu flow. No compiler-free route is currently available. Native binary distribution (including external fsnet license/packaging) and Windows runtime acceptance remain separate work, not solved by the error message.

@@ -45,10 +45,11 @@ export GODOT_CPP_DIR=/absolute/path/godot-cpp
 export LUA_SOURCE_DIR=/absolute/path/lua
 export FSNET_SOURCE_DIR=/absolute/path/fsnet
 export FSNET_LIBRARY=/absolute/path/fsnet/build/libfsnet.so
-./tools/build.sh
-./tools/import.sh
+./tools/setup-linux.sh
 ./tools/test.sh
 ```
+
+`setup-linux.sh` 检查现有工具，构建原生桥、导入资源并验证菜单；不安装编译器或 SDK。如不指定 `FSNET_LIBRARY`，它会先构建外部 fsnet（其 CMake 会联网获取固定依赖）。依赖源目录须自行按上面的官方版本准备。没有编译环境的用户目前仍需等待可玩发行包，不能只靠 clone 运行。
 
 构建生成 `bin/libamber.so`，通过构建 RUNPATH 定位外部 libfsnet。移动外部库后请重新构建或设置 `LD_LIBRARY_PATH`。此处不提供未经验证的 Windows/macOS 包；对应平台需要分别编译并配置 `.gdextension`。
 
@@ -105,3 +106,7 @@ godot --path . -- --connect=27840
 网络菜单可选用户目录的有效 Mod；双方内容哈希必须相同。命令行服务器也可通过 `AMBER_MOD=/absolute/path/content.json` 加载经过相同校验的内容。详情与当前验收缺口见 [材质与动画增量](docs/ART_ANIMATION_INCREMENT.md)。
 
 详见 [核心增量验证](docs/CORE_SYSTEMS_INCREMENT.md)、[先前 UI 验证](docs/UI_STORY_INCREMENT.md)、[战斗模块边界](docs/BATTLE_ARCHITECTURE.md)。
+
+## 当前地图移动表现
+
+全部六个角色移动时使用对应方向的静态待机图，沿共享 Lua 返回的完整路径平滑平移，拐弯切朝向，停止保持最后朝向。没有走路逐帧、IK、呼吸、跳跃或身体摆动；历史动画素材和试验保留供追溯，不是当前运行方案。近景战斗动画、受光、阴影和血条保持。相关实测见 [静态朝向移动](docs/DIRECTIONAL_IDLE_SLIDE.md)。

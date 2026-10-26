@@ -1,3 +1,4 @@
+# ARCHIVED: historical walk-frame diagnostic, not current idle-slide runtime.
 extends SceneTree
 var checks=0
 var failures=0
