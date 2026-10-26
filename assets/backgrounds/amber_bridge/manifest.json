@@ -1,0 +1,39 @@
+{
+  "version": "v2 trial candidate",
+  "status": "BRIDGE_CENTER_PASS_BANK_EDGE_FAIL_NOT_FULL_PLAYABILITY_ACCEPTED",
+  "canvas": [
+    1280,
+    800
+  ],
+  "background": "background.png",
+  "generated_with": "built-in imagegen",
+  "source_size": [
+    1586,
+    992
+  ],
+  "normalization": "nearest resize to1280x800",
+  "contract_commit": "cfa35b7cfd63ff26834d53f1c930505b6c200d71",
+  "affine": {
+    "origin": [
+      683.83,
+      64.41
+    ],
+    "x": [
+      47.94,
+      33.9
+    ],
+    "z": [
+      -47.94,
+      33.9
+    ]
+  },
+  "known_caveats": [
+    "Bank edge cells [6,2],[7,2],[8,2],[9,2],[0,6],[1,6] on rocks/reeds; NOT full playability accepted.",
+    "No foreground alpha layer; baked environmental lighting only, runtime actors/shadows separate.",
+    "No game logic or map changed. Reversible art trial only."
+  ],
+  "prompts": [
+    "Use case: sketch-to-render. Create a production fixed-camera game BACKGROUND, 1280 by 800, 16:10. Input image1 geometry-guide is the EXACT composition and flat ground footprint. Input image2 is STYLE reference ONLY, never copy its geometry or UI. Transform image1 into beautiful detailed muted HD2D pixel art environment matching image2 craftsmanship. Preserve image1 camera, framing, river banks, bridge deck, grass and dirt footprints EXACTLY. Blue band is broad diagonal flowing river from upper left to bottom right; tan central crossing is stone bridge from southwest to northeast. Bridge WALKABLE deck quadrilateral pixel corners (731.77,267.80),(827.65,335.59),(683.83,437.29),(587.95,369.49). Do not move, narrow or distort this full clear walkable deck. Bridge axis from(779.71,301.69) to(635.89,403.39). River banks parallel slope+0.7071. Ground plane has diagonals slope+-0.7071. Entire light green and ochre areas must remain clear traversable meadow or worn dirt, no buildings/tree/rail rocks on them. Dark green outside playable ground is forest background and framing. Add cozy half-timbered inn with terracotta roof, warmly glowing windows in the LEFT dark forest area roughly x120..335 y175..310, safely OUTSIDE playable land; path leads toward central crossing. Add lush irregular deciduous trees and dark conifers only in outside dark areas, small warm lanterns at outer bank edges, mossy riverbank rocks and stone bridge arch visible below clear deck. Near bridge side must use VERY low curb below walking plane, no tall foreground railing obscuring feet; no foliage obscuring any light green walkable area. Cool blue evening ambient, single soft upper-left moon/key light, restrained amber pools from lamps/windows and reflections on water; rich pixel clusters, crisp details, tactile stone/wood and foliage, not flat polygon art. Natural grass ground without tile lines, natural bridge flagstones much smaller than gameplay cells. Dark quiet corners and bottom margin for later HUD; NO UI actually in image. NO characters, portraits, people, enemies, figures, character shadows, text, letters, symbols, labels, healthbars, arrows, gridlines, selection tiles, framing border. Geometry guide itself must disappear, replaced by finished richly textured art while its exact color-region boundaries remain geometrically honored. Full opaque scene edge-to-edge. Do not use image2's terrain position.",
+    "Precise-object-edit of image1, a fixed camera pixel-art tactics backdrop. Image2 is diagnostic overlay of SAME image with CYAN polygons and MAGENTA required foot centers. Image3 is exact ground footprint guide. Fix ONLY ground geometry mismatch; preserve inn, forest, art style, beautiful lighting, palette and framing. Output 1280x800 ratio16:10.\nCRITICAL: stone bridge must have EMPTY FLAT WALKABLE DECK filling the ENTIRE cyan six-cell rectangle shown image2, not just its southeast half. Current northwest parapet wrongly runs through required magenta foot centers (4,3),(4,4),(4,5). Move that entire northwest bridge edge/parapet about 45px UP-LEFT (negative screen x/y), replacing former water behind it with broad flat stone deck. Deck polygon exact corners at1280x800: (731.77,267.80),(827.65,335.59),(683.83,437.29),(587.95,369.49). Make bridge wider toward northwest so all these six magenta centers stand on OPEN FLAT STONE not rail: (731.77,301.69),(779.71,335.59),(683.83,335.59),(731.77,369.49),(635.89,369.49),(683.83,403.39). Rails/arch face only OUTSIDE this polygon. Do not translate whole image. Opposite dirt approach and meadow banks must be widened slightly INTO the river so every nonwater magenta foot point in image2 stands on flat clear grass/dirt, not rocks. In particular northeast shoreline near(684,200),(732,234),(876,336),(924,369),(972,403),(1019,437), southwest near(396,268),(444,302),(492,336),(540,370),(780,540) need flat ground with 15px clearance around foot center; move rock walls DOWN into water or outside playable footprint. Keep flow middle of river, broad free ground where image3 green/tan.\nREMOVE all diagnostic overlay dots/cyan lines/numbers entirely from final output. NO text or symbols, NO game grid, NO characters/UI. Change no other compositional features. Must solve actual geometry not reinterpret guide."
+  ]
+}
