@@ -1,0 +1,326 @@
+[
+  {
+    "fixed": false,
+    "height_px": 9.00009155273438,
+    "id": "mara",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.0,
+    "id": "finn",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.00003051757812,
+    "id": "neri",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.00001525878906,
+    "id": "oren",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 7.99998474121094,
+    "id": "tessa",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.0,
+    "id": "bram",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 9.0,
+    "id": "mara",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.0,
+    "id": "finn",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 7.99996948242188,
+    "id": "neri",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.00001525878906,
+    "id": "oren",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.00001525878906,
+    "id": "tessa",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.0,
+    "id": "bram",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 9.00003051757812,
+    "id": "mara",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.00003051757812,
+    "id": "finn",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.0,
+    "id": "neri",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 7.99995422363281,
+    "id": "oren",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.0,
+    "id": "tessa",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.0,
+    "id": "bram",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 9.00009155273438,
+    "id": "mara",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.0,
+    "id": "finn",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.0,
+    "id": "neri",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 7.99990844726562,
+    "id": "oren",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.0,
+    "id": "tessa",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.0,
+    "id": "bram",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 11.7999572753906,
+    "id": "mara",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 10.8000183105469,
+    "id": "finn",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 10.7999877929688,
+    "id": "neri",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 10.7999420166016,
+    "id": "oren",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 10.7999877929688,
+    "id": "tessa",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 10.7999877929688,
+    "id": "bram",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 11.7999572753906,
+    "id": "mara",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 10.7999877929688,
+    "id": "finn",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 10.800048828125,
+    "id": "neri",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 10.7998809814453,
+    "id": "oren",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 10.7999877929688,
+    "id": "tessa",
+    "viewport": [
+      1920,
+      1080
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 10.7999877929688,
+    "id": "bram",
+    "viewport": [
+      1920,
+      1080
+    ]
+  }
+]

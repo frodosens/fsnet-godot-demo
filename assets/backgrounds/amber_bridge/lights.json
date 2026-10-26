@@ -1,7 +1,7 @@
 {
   "version": 1,
   "canvas": [1280, 800],
-  "background_sha256": "1bbb8d93bd390f726adba0cf762c5624e21b143ce97ccdaf2d8cec81b76c3cb1",
+  "background_sha256": "aa810fdbea840ca90d5a4d6700de4b64d0c944588accc0cc2e98352d964fb5ab",
   "note": "Manual pixel anchors of visible lamp/window centers. True OmniLight3D lights affect character layer 2 only; the painted background remains unlit/baked.",
   "lights": [
     {"id":"near_lantern","pixel":[329,256],"height":1.2,"color":"ffbd78","energy":1.1,"range":3.0,"attenuation":1.4},

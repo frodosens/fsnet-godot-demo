@@ -383,7 +383,7 @@ func refresh():
         if direction_textures.has(texture_key) and not motion.motions.has(u.id):figures[i].texture=direction_textures[texture_key]
         if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,figure_height(i),u.pos.y)
         badges[i].position = Vector3(u.pos.x,badge_height(i),u.pos.y)
-        badges[i].update_health(u.hp,u.max_hp,u.ally)
+        badges[i].update_health(u.hp,u.max_hp,u.ally,i==selected)
     if hud:hud.refresh()
     if cutin and not motion.active():cutin.consume(battle.step,battle.events)
     if heal_feedback:heal_feedback.consume(battle.step,battle.events)
@@ -562,7 +562,7 @@ func landscape_box(pos,size,color):
 func figure_height(index):
     return 56.0*figures[index].pixel_size if figures[index].get_meta("formal_art") else 0.72
 func badge_height(index):
-    return figure_height(index)+0.99*character_scale if figures[index].get_meta("formal_art") else 1.62
+    return figure_height(index)+56.0*figures[index].pixel_size+0.15 if figures[index].get_meta("formal_art") else 1.62
 func set_character_scale(value):
     character_scale=clampf(value,0.5,1.5)
     for i in range(figures.size()):

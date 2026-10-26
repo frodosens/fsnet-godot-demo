@@ -1,0 +1,54 @@
+[
+  {
+    "id": "near_lantern",
+    "prior_pixel": [
+      329,
+      256
+    ],
+    "local_template_best_delta": [
+      0,
+      0
+    ],
+    "rgb_mse": 706.66,
+    "method": "17x17 RGB patch, +/-8 px search; approximate diagnostic, not exact geometry"
+  },
+  {
+    "id": "far_lantern",
+    "prior_pixel": [
+      1025,
+      188
+    ],
+    "local_template_best_delta": [
+      0,
+      0
+    ],
+    "rgb_mse": 478.48,
+    "method": "17x17 RGB patch, +/-8 px search; approximate diagnostic, not exact geometry"
+  },
+  {
+    "id": "inn_window",
+    "prior_pixel": [
+      107,
+      224
+    ],
+    "local_template_best_delta": [
+      0,
+      0
+    ],
+    "rgb_mse": 903.02,
+    "method": "17x17 RGB patch, +/-8 px search; approximate diagnostic, not exact geometry"
+  },
+  {
+    "id": "inn_door",
+    "prior_pixel": [
+      157,
+      235
+    ],
+    "local_template_best_delta": [
+      0,
+      0
+    ],
+    "rgb_mse": 846.77,
+    "method": "17x17 RGB patch, +/-8 px search; approximate diagnostic, not exact geometry"
+  }
+]
