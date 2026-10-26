@@ -71,6 +71,9 @@ func _initialize():
         if passive.outcome!="playing":break
         check(passive.apply_command({"step":n,"kind":"end_turn"}),"pass turn")
     check(passive.outcome=="defeat","defeat path")
+    var bound=Authority.new();var bound_before=bound.logic.snapshot()
+    var rejected=bound.handle({"rules":bound.logic.rules_hash,"content":"wrong-content-hash","client":"content-mismatch-test"})
+    check(rejected.has("error") and bound.logic.snapshot()==bound_before,"authority rejects mismatched Mod before accepting actions")
     print("LOGIC_TESTS checks=",checks," failures=",failures)
     quit(0 if failures==0 else 1)
 

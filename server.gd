@@ -3,7 +3,13 @@ const Authority=preload("res://logic/authority.gd")
 var authority
 var transport
 func _initialize():
-    authority=Authority.new()
+    var data={}
+    var mod_path=OS.get_environment("AMBER_MOD")
+    if not mod_path.is_empty():
+        var loaded=Authority.Runtime.Content.from_file(mod_path)
+        if not loaded.error.is_empty():printerr("Invalid server Mod: ",loaded.error);quit(1);return
+        data=loaded.data
+    authority=Authority.new(data)
     transport=AmberTransport.new()
     var port=27840
     var token=OS.get_environment("AMBER_TOKEN")

@@ -81,7 +81,7 @@ static func validate(data):
     for row in data.terrain:
         if not row is String or row.length()!=data.width:return "地形宽度无效。"
         for cell in row:
-            if cell not in ["G","W","B","X"]:return "地形只允许 G 草地 / W 水 / B 桥 / X 障碍。"
+            if cell not in ["G","W","B","X","D"]:return "地形只允许 G 草地 / D 土路 / W 水 / B 桥 / X 障碍。"
     if not data.get("units") is Array or data.units.size()<2 or data.units.size()>16:return "单位数量须为 2–16。"
     var ability_ids={}
     if not data.get("abilities") is Array or data.abilities.is_empty() or data.abilities.size()>16:return "技能数量须为 1–16。"

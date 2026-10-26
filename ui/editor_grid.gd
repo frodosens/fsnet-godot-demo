@@ -8,7 +8,7 @@ func _draw():
     cell_size=minf(480.0/data.width,480.0/data.height)
     for y in range(data.height):
         for x in range(data.width):
-            var colors={"G":Color("91a26d"),"W":Color("628b9d"),"B":Color("c4af87"),"X":Color("6b6257")}
+            var colors={"G":Color("91a26d"),"W":Color("628b9d"),"B":Color("c4af87"),"X":Color("6b6257"),"D":Color("87775b")}
             var rect=Rect2(Vector2(x,y)*cell_size,Vector2.ONE*(cell_size-1))
             draw_rect(rect,colors[data.terrain[y][x]])
     var font=get_theme_default_font()

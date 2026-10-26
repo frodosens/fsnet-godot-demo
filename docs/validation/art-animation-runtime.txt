@@ -1,0 +1,81 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+BRIDGE_TESTS checks=111 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+BATTLE_RESULT outcome=victory step=17 hash=4062ea3ef50bda301d53798c0787f9efbe5f66349438aaa63bf6d8f03027257d
+LOGIC_TESTS checks=120 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+RULE_MODULE_TESTS checks=13 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ABILITY_TESTS checks=11 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+EQUIPMENT_TESTS checks=23 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+ITEM_AI_TESTS checks=10 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CONTENT_BUDGET accepted=true repetitions=20 p50_us=8525 p95_us=10708 max_us=12322 snapshot_bytes=1013 workload=16_AI_16x16_move8
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CUTIN_OBJECTIVE_TESTS checks=10 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+RANGED_ANIMATION_TESTS checks=15 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+SCENE_INPUT_TEST_PASS mouse move + keyboard end turn + restart
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+DIRECTION_TESTS checks=14 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+MOTION_TESTS checks=10 failures=0 mocked_art=true
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+VERTICAL_TESTS checks=19 failures=0 isolated_save_root=user://test_saves_142186
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+GEAR_UI_TESTS checks=5 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+MENU_TESTS checks=10 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=
+EDITOR_TESTS checks=11 failures=0
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CLIENT_DISCONNECTED after_step=2
+NETWORK_RESULT {"hash":"08597c60f95e39e32d555326dc68e42bb8e7e6ff0dff86ba30af04c79be02cf9","reconnected":true,"role":"driver","step":3}
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NETWORK_RESULT {"hash":"08597c60f95e39e32d555326dc68e42bb8e7e6ff0dff86ba30af04c79be02cf9","reconnected":false,"role":"observer","step":3}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CLIENT_DISCONNECTED after_step=5 gear_and_extra_move=true
+NETWORK_RESULT {"extended":true,"hash":"ecbeb3bb1ba1e98807662ddeb6c54506c162abe3a53ee6504f0fc63ac367c253","reconnected":true,"role":"driver","step":7}
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NETWORK_RESULT {"extended":true,"hash":"ecbeb3bb1ba1e98807662ddeb6c54506c162abe3a53ee6504f0fc63ac367c253","reconnected":false,"role":"observer","step":7}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+CLIENT_DISCONNECTED after_step=5 gear_and_extra_move=true
+NETWORK_RESULT {"extended":true,"hash":"ecbeb3bb1ba1e98807662ddeb6c54506c162abe3a53ee6504f0fc63ac367c253","reconnected":true,"role":"driver","step":7}
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+NETWORK_RESULT {"extended":true,"hash":"ecbeb3bb1ba1e98807662ddeb6c54506c162abe3a53ee6504f0fc63ac367c253","reconnected":false,"role":"observer","step":7}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect

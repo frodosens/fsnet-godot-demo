@@ -15,6 +15,13 @@ func run():
     var frames=[]
     for color in [Color.RED,Color.GREEN,Color.BLUE,Color.WHITE]:
         var image=Image.create(1,1,false,Image.FORMAT_RGBA8);image.fill(color);frames.append(ImageTexture.create_from_image(image))
+    if game.iso_roles.has("knight"):
+        var supported=[{"x":2,"y":6},{"x":3,"y":6}]
+        var missing=[{"x":2,"y":6},{"x":2,"y":7}]
+        check(game.motion.path_has_frames("knight",supported),"iso proof supports true right-front gait")
+        if not game.motion.frames.knight.has("front_left"):
+            check(not game.motion.path_has_frames("knight",missing),"missing iso direction cannot slide or mix old flat gait")
+    game.iso_roles.erase("knight")
     game.motion.frames.knight={"front":frames,"back":frames,"left":frames,"right":frames}
     app.session.submit({"kind":"equip","unit":0,"slot":5,"item":2});game.battle=app.session.logic;game.refresh()
     check(app.session.submit({"kind":"move","unit":0,"x":3,"y":6}),"real move emits canonical path")
@@ -30,8 +37,9 @@ func run():
     check(not game.motion.active() and game.figures[0].position.x==3 and game.battle.snapshot()==state,"skip snaps to truth without rule mutation")
     app.session.submit({"kind":"move","unit":0,"x":2,"y":6});game.battle=app.session.logic;game.refresh();game.motion.advance(0.05)
     app.session.submit({"kind":"end_turn"});game.battle=app.session.logic;game.refresh()
-    check(not game.motion.active() and game.figures[0].position.x==2,"new authoritative step interrupts old visual safely")
+    check(not game.motion.motions.has("mara") and game.figures[0].position.x==2,"new authoritative step interrupts old visual safely")
+    var ongoing=game.motion.motions.duplicate(true)
     game.motion.consume(game.battle.step,game.battle.events)
-    check(not game.motion.active(),"repeated same-step refresh does not restart movement")
+    check(game.motion.motions==ongoing,"repeated same-step refresh does not restart movement")
     print("MOTION_TESTS checks=",checks," failures=",failures," mocked_art=true")
     quit(0 if failures==0 else 1)

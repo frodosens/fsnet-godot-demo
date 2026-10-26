@@ -26,7 +26,7 @@ func _ready():
     col.add_child(UI.paragraph("左侧绘制地形或放置单位。右侧可修改单位属性、剧情台词与触发、胜败条件、装备底材/词缀/掉落表。只接受数据，不执行外部 Lua。",1170))
     var controls=HBoxContainer.new();controls.add_theme_constant_override("separation",12);col.add_child(controls)
     brush=OptionButton.new()
-    for name in ["草地 G","河水 W","石桥 B","障碍 X","单位出生点"]:brush.add_item(name)
+    for name in ["草地 G","河水 W","石桥 B","障碍 X","单位出生点","土路 D"]:brush.add_item(name)
     controls.add_child(brush)
     unit_picker=OptionButton.new();controls.add_child(unit_picker)
     controls.add_child(UI.button("应用 JSON 并校验",apply_json))
@@ -60,7 +60,7 @@ func paint(cell):
         candidate.units[unit_picker.selected].x=cell.x;candidate.units[unit_picker.selected].y=cell.y
     else:
         var line=candidate.terrain[cell.y]
-        line[cell.x]=["G","W","B","X"][brush.selected]
+        line[cell.x]=["G","W","B","X","G","D"][brush.selected]
         candidate.terrain[cell.y]=line
     var error=Content.validate(candidate)
     if not error.is_empty():feedback.text="未修改："+error;return

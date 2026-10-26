@@ -9,20 +9,25 @@ var resumed=false
 var reconnect_at=0.0
 var done_at=0.0
 var extended=false
+var content={}
 func _initialize():
     var port=27840
     for arg in OS.get_cmdline_user_args():
         if arg.begins_with("--role="):role=arg.trim_prefix("--role=")
         if arg.begins_with("--port="):port=int(arg.trim_prefix("--port="))
     extended="--extended" in OS.get_cmdline_user_args()
-    session=Session.new()
+    var mod_path=OS.get_environment("AMBER_MOD")
+    if not mod_path.is_empty():
+        var loaded=Runtime.Content.from_file(mod_path)
+        assert(loaded.error.is_empty());content=loaded.data
+    session=Session.new();session.logic=Runtime.new(content)
     if not session.connect_local(port,OS.get_environment("AMBER_TOKEN")):quit(1)
 func _process(delta):
     elapsed+=delta
     if elapsed>15:printerr("NETWORK_TIMEOUT role=",role," status=",session.status);quit(1);return false
     if disconnected and not resumed:
         if elapsed<reconnect_at:return false
-        session.logic=Runtime.new()
+        session.logic=Runtime.new(content)
         session.connect_local(session.port,session.token)
         resumed=true
     session.tick(delta)

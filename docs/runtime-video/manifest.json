@@ -1,0 +1,18 @@
+{
+  "origin": "Actual Godot MovieMaker captures, encoded H264 without changing scene content",
+  "renderer": "Godot4.6.3 OpenGL Compatibility Mesa llvmpipe",
+  "fixed_fps": 30,
+  "files": [
+    {
+      "path": "docs/runtime-video/amber-combat-runtime-three-attacks.mp4",
+      "bytes": 1085651,
+      "sha256": "6d18c88a399541f52f6549f9eb5566c945acbded2a81cefd9e24e84fa94965cd"
+    },
+    {
+      "path": "docs/runtime-video/amber-iso4-runtime-proof.mp4",
+      "bytes": 240370,
+      "sha256": "0466042b5db47116b3d93fc0d9358b952cfb27382f5327806841cd21156a3b45"
+    }
+  ],
+  "limits": "Fixed-frame offline capture is not a realtime GPU performance claim. Iso4 proof contains one true move followed by an explicitly visual-only turntable; only Mara has elevated poses."
+}

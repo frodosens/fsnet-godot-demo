@@ -10,6 +10,8 @@ var enter_button
 var token_edit
 var exit_dialog
 var workshop_link
+var content_picker
+var network_choices=[]
 var port_edit
 func _ready():
     theme=UI.make_theme()
@@ -60,6 +62,19 @@ func show_network():
     clear_page("本机网络对局")
     page.add_theme_constant_override("separation",8)
     page.add_child(UI.paragraph("双方合作控制同一支小队。主机离开会结束房间。本版仅支持本机 127.0.0.1。",460))
+    content_picker=OptionButton.new();content_picker.fit_to_longest_item=false;content_picker.custom_minimum_size.x=460
+    network_choices=[preload("res://logic/content.gd").default_content()]
+    content_picker.add_item("内置战役 · 琥珀桥来信")
+    for file in DirAccess.get_files_at("user://mods"):
+        if network_choices.size()>=33:break
+        if not file.ends_with(".json"):continue
+        var loaded=preload("res://logic/content.gd").from_file("user://mods/"+file)
+        if loaded.error.is_empty():
+            network_choices.append(loaded.data);content_picker.add_item(loaded.data.title+" · "+preload("res://logic/content.gd").hash_of(loaded.data).left(8))
+        else:
+            network_choices.append({});content_picker.add_item(file+" · 无效");content_picker.set_item_disabled(content_picker.item_count-1,true);content_picker.set_item_tooltip(content_picker.item_count-1,loaded.error)
+    page.add_child(content_picker)
+    page.add_child(UI.paragraph("双方请选择同一 Mod 版本；内容哈希不一致会拒绝进入。",460))
     var row=HBoxContainer.new();page.add_child(row);row.add_child(UI.label("端口"))
     port_edit=SpinBox.new();port_edit.min_value=1024;port_edit.max_value=65535;port_edit.value=27840;row.add_child(port_edit)
     token_edit=LineEdit.new();token_edit.placeholder_text="房间口令（至少16个字符）";token_edit.max_length=96;page.add_child(token_edit)
@@ -76,13 +91,15 @@ func begin_room(host):
     if host and secret.is_empty():secret=Crypto.new().generate_random_bytes(16).hex_encode();token_edit.text=secret
     if secret.length()<16:network_status.text="口令至少需要16个字符。";return
     busy=true
-    if not App.start_room(host,int(port_edit.value),secret):network_status.text="连接失败："+App.last_error;busy=false
+    if not App.start_room(host,int(port_edit.value),secret,network_choices[content_picker.selected]):network_status.text="连接失败："+App.last_error;busy=false
     else:network_status.text="正在连接房间……"
 func cancel_network():
     App.close_room();App.session=null;busy=false;show_home()
 func _process(_delta):
     if is_instance_valid(network_status) and App.session and App.session.online:
-        if App.session.failed:network_status.text="连接失败："+App.session.status;busy=false;enter_button.disabled=true
+        if App.session.failed:
+            network_status.text="无法进入：双方规则或 Mod 内容版本不一致。" if App.session.status.contains("mismatch") else "连接失败："+App.session.status
+            busy=false;enter_button.disabled=true
         elif App.session.status.begins_with("Online"):
             network_status.text="已连接 · 共享内容校验通过\n主机端口 %d，进入后可合作行动。"%App.room_port;enter_button.disabled=false
         else:network_status.text="连接中 / 正在重连……"

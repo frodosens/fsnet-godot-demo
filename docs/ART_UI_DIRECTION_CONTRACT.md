@@ -1,3 +1,15 @@
+# Current art contract (2026-10-26)
+
+The approved V2 UI textures are now integrated. The historical cardinal contract below is retained only for provenance; it is superseded for final map art by this elevated four-view contract.
+
+- Orthographic camera elevation 45.084176 degrees, azimuth 32.195734 degrees measured from +Z toward +X. Offset from map center is (8.5,16,13.5), independent of Mod dimensions.
+- World +X -> front_right; +Z -> front_left; -X -> back_left; -Z -> back_right. These are real elevated three-quarter drawings, not flat sprite rotation or mirrored substitutes.
+- `assets/sprites/iso4/manifest.json`: `characters[role].idle[direction]` path, `characters[role].walk[direction]` ordered path array. Each 96x128 RGBA, feet anchor (48,120), consistent body scale. fps8. Four complete idles enable that role; each actual walk direction may arrive separately. A path using a missing direction snaps to its authoritative result rather than faking a walk or mixing perspective sets.
+- First proof has Mara four idles and front_right four-pose gait only. Other roles/directions are NOT complete. Old cardinal assets remain preserved for prototype/reference.
+- Presentation facing and frame clocks never alter rules/hash. New authoritative steps interrupt outdated motion; skip settles to the shared result. GBA side-view combat remains a separate asset family.
+
+## Historical UI/cardinal contract
+
 # Pending art UI and directional sprite contract
 
 The user approved the restrained low-saturation pixel-art v2 mockup. Art UI integration awaits the actual art branch assets. Existing controls remain functional; current StyleBox theme is a functional layout, not finished art design.

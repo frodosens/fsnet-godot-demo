@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Movie Maker mode enabled, recording movie in 1280×800 @ 30 FPS...
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=llvmpipe (LLVM 19.1.7, 256 bits)
+RECORDED_REAL_ATTACK mara settled_hash=dc999c3edeb94d06246b9c1ad84ce8580d54883630c76770b7fabe0201f367bb
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=llvmpipe (LLVM 19.1.7, 256 bits)
+RECORDED_REAL_ATTACK finn settled_hash=f59ae6efa0b7d33211beaceee8ef4eecdedcb16977c06012443be98fb4caaced
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=llvmpipe (LLVM 19.1.7, 256 bits)
+RECORDED_REAL_ATTACK neri settled_hash=a79445323c9bd307754f3c4d7772e9debcd7e9b659b01631edde1580a9045077
+--------------------------------------------------------------------------------
+Done recording movie at path: /tmp/amber-battle-final.avi
+270 frames at 30 FPS (movie length: 00:00:09:00), recorded in 00:00:28 (32% of real-time speed).
+CPU render time: 7.18 seconds (average: 26.61 ms/frame)
+GPU render time: 8.24 seconds (average: 30.53 ms/frame)
+Encoding time: 3.68 seconds (average: 13.62 ms/frame)
+--------------------------------------------------------------------------------

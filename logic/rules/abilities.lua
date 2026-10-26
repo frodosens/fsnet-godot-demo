@@ -25,7 +25,7 @@ local function cast_ability(u,index,id,target,consumable)
         if effect.op=='heal' then recipient.hp=math.min(recipient.max_hp,recipient.hp+effect.value)
         elseif effect.op=='damage' then
           local before=recipient.hp;recipient.hp=math.max(0,recipient.hp-math.max(1,(definition.damage_type=='magic' and content.units[index].damage+u.spell_bonus or u.damage)+effect.value+random-(definition.damage_type=='magic' and recipient.resist or recipient.armor)))
-          effects[#effects+1]={kind='attack',actor=u.id,target=recipient.id,damage=before-recipient.hp,hp=recipient.hp}
+          effects[#effects+1]={kind='attack',actor=u.id,target=recipient.id,ability=id,damage=before-recipient.hp,hp=recipient.hp}
         else error('unsupported effect') end
       end
     end

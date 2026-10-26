@@ -21,11 +21,19 @@ var buttons = []
 var facing={}
 var last_positions={}
 var direction_textures={}
+var iso_roles={}
+var selection_ring
 
 func material(color):
     var m = StandardMaterial3D.new()
-    m.albedo_color = Color(color)
-    m.roughness = 0.9
+    var kinds={"87775b":"dirt","59624b":"grass","626a52":"grass","596d76":"water","85847a":"stone_paving","a08e77":"stone_wall","84775f":"stone_wall","8b887b":"plaster","73594d":"roof","694d3b":"wood","594633":"wood"}
+    var path="res://assets/environment/v2/"+str(kinds.get(color,""))+".png"
+    var textured=ResourceLoader.exists(path)
+    m.albedo_color=Color.WHITE if textured else Color(color)
+    if textured:
+        m.albedo_texture=load(path);m.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST_WITH_MIPMAPS
+        m.uv1_triplanar=true;m.uv1_world_triplanar=true;m.uv1_triplanar_sharpness=8.0
+    m.roughness=1.0;m.metallic_specular=0.0
     return m
 
 func box(pos,size,color):
@@ -78,7 +86,7 @@ func build_world():
     var sun = DirectionalLight3D.new()
     sun.rotation_degrees = Vector3(-48,-35,0)
     sun.light_color = Color("e8dfcf")
-    sun.light_energy = 0.85
+    sun.light_energy = 0.65
     sun.shadow_enabled = true
     add_child(sun)
     for z in range(battle.size.y):
@@ -86,9 +94,13 @@ func build_world():
             var pos = Vector2i(x,z)
             var water = battle.content.terrain[z][x]=="W"
             var bridge = battle.content.terrain[z][x]=="B"
-            var color = "596d76" if water else ("85847a" if bridge else ("59624b" if (x+z)%2 else "626a52"))
-            var tile = box(Vector3(x,-0.18 if not water else -0.38,z),Vector3(0.98,0.3 if not water else 0.12,0.98),color)
-            tiles[pos] = {"node":tile,"color":color}
+            var dirt=battle.content.terrain[z][x]=="D"
+            var color = "596d76" if water else ("85847a" if bridge else ("87775b" if dirt else ("59624b" if (x+z)%2 else "626a52")))
+            var tile = box(Vector3(x,-0.15 if not water else -0.72,z),Vector3(0.98,0.3 if not water else 0.12,0.98),color)
+            var overlay=MeshInstance3D.new();var plane=PlaneMesh.new();plane.size=Vector2(0.93,0.93);overlay.mesh=plane
+            var highlight=StandardMaterial3D.new();highlight.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;highlight.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA;highlight.albedo_color=Color(0.65,0.74,0.67,0.16)
+            overlay.material_override=highlight;overlay.position=Vector3(x,0.012,z);overlay.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;overlay.visible=false;add_child(overlay)
+            tiles[pos] = {"node":tile,"color":tile.material_override.albedo_color,"overlay":overlay}
     # Bridge rails follow the data map; X cells are actual blocked obstacles.
     for z in range(battle.size.y):
         for x in range(battle.size.x):
@@ -97,9 +109,28 @@ func build_world():
                 for side in [-1,1]:
                     if x+side>=0 and x+side<battle.size.x and battle.content.terrain[z][x+side]=="W":
                         box(Vector3(x+side*0.47,0.13,z),Vector3(0.12,0.5,0.8),"a08e77")
-    # Small original low-poly roadside inn: no imported models or textures.
+    # Shallow stepped arch side supports below the walk plane. Geometry never changes grid rules.
+    for x in range(battle.size.x):
+        var start=-1
+        for z in range(battle.size.y+1):
+            var is_bridge=z<battle.size.y and battle.content.terrain[z][x]=="B"
+            if is_bridge and start<0:start=z
+            if not is_bridge and start>=0:
+                var span=z-start
+                for side in [-1,1]:
+                    if x+side<0 or x+side>=battle.size.x or battle.content.terrain[start][x+side]!="W":continue
+                    for piece in range(span*8):
+                        var t=(piece+0.5)/(span*8.0)
+                        var bottom=-0.72+0.44*sin(t*PI)
+                        var height=-0.15-bottom
+                        box(Vector3(x+side*0.47,bottom+height*0.5,start-0.5+(piece+0.5)/8.0),Vector3(0.16,height,0.13),"a08e77")
+                start=-1
+    # Small original roadside inn geometry using the authored environment albedos.
     box(Vector3(-1.1,0.6,6.7),Vector3(1.5,1.4,1.0),"8b887b")
-    box(Vector3(-1.1,1.4,6.7),Vector3(1.8,0.3,1.3),"73594d")
+    var roof=MeshInstance3D.new();var roof_shape=PrismMesh.new();roof_shape.size=Vector3(1.9,0.8,1.4)
+    roof.mesh=roof_shape;roof.material_override=material("73594d");roof.position=Vector3(-1.1,1.7,6.7);add_child(roof)
+    for x in [-1.8,-0.4]:box(Vector3(x,0.6,7.23),Vector3(0.09,1.4,0.07),"694d3b")
+    box(Vector3(-1.1,1.22,7.23),Vector3(1.5,0.09,0.07),"694d3b")
     box(Vector3(-1.1,0.3,7.22),Vector3(0.38,0.8,0.04),"694d3b")
     for x in [-1.52,-0.65]: box(Vector3(x,0.85,7.23),Vector3(0.26,0.28,0.05),"d7b87d")
     for p in [Vector3(2,0,7),Vector3(7,0,0)]:
@@ -112,15 +143,21 @@ func build_world():
         lamp.shadow_enabled = true
         add_child(lamp)
         box(p+Vector3(0,1,0),Vector3(0.2,0.24,0.2),"ce9a57")
+    selection_ring=MeshInstance3D.new();var ring=TorusMesh.new();ring.inner_radius=0.36;ring.outer_radius=0.42;selection_ring.mesh=ring
+    var ring_material=StandardMaterial3D.new();ring_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;ring_material.albedo_color=Color("91aaa3");selection_ring.material_override=ring_material;selection_ring.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;add_child(selection_ring)
     camera = Camera3D.new()
     camera.projection = Camera3D.PROJECTION_ORTHOGONAL
     camera.size = maxf(battle.size.x,battle.size.y)+4.4
-    camera.position = Vector3(13,16,17)
+    camera.position = Vector3((battle.size.x-1)*0.5+8.5,16,(battle.size.y-1)*0.5+13.5)
     add_child(camera)
     camera.look_at(Vector3((battle.size.x-1)*0.5,0,(battle.size.y-1)*0.5))
     camera.position -= camera.global_basis.x * 1.0
     camera.position -= camera.global_basis.y * 1.0
     camera.current = true
+    var iso_characters={}
+    if FileAccess.file_exists("res://assets/sprites/iso4/manifest.json"):
+        var manifest=JSON.parse_string(FileAccess.get_file_as_string("res://assets/sprites/iso4/manifest.json"))
+        if manifest is Dictionary:iso_characters=manifest.get("characters",{})
     for u in battle.units:
         var sprite = Sprite3D.new()
         var art="res://assets/characters/"+u.id+".png"
@@ -130,7 +167,15 @@ func build_world():
         for direction in ["front","back","left","right"]:
             var path="res://assets/sprites/directional/"+u.role+"_"+direction+".png"
             if ResourceLoader.exists(path):direction_textures[u.id+":"+direction]=load(path)
-        facing[u.id]="back" if u.ally else "front"
+        if iso_characters.has(u.role):
+            var idle=iso_characters[u.role].get("idle",{});var loaded={}
+            for direction in ["front_left","front_right","back_left","back_right"]:
+                var file=idle.get(direction,"")
+                if file is String and file.begins_with("assets/sprites/iso4/") and not file.contains("..") and ResourceLoader.exists("res://"+file):loaded[direction]=load("res://"+file)
+            if loaded.size()==4:
+                iso_roles[u.role]=true
+                for direction in loaded:direction_textures[u.id+":"+direction]=loaded[direction]
+        facing[u.id]=("back_right" if u.ally else "front_left") if iso_roles.has(u.role) else ("back" if u.ally else "front")
         last_positions[u.id]=u.pos
         sprite.pixel_size = 0.01125 if sprite.get_meta("formal_art") else 0.045
         sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
@@ -211,6 +256,7 @@ func restart():
     refresh()
 
 func refresh():
+    if cutin and battle.step!=cutin.last_seen_step:cutin.finish()
     if motion:motion.consume(battle.step,battle.events)
     if not battle.usable(selected):
         selected = -1
@@ -219,22 +265,22 @@ func refresh():
                 selected = i
                 break
     var possible = battle.reachable(selected) if selected >= 0 else {}
+    selection_ring.visible=selected>=0
+    if selected>=0:selection_ring.position=Vector3(battle.units[selected].x,0.04,battle.units[selected].y)
     for pos in tiles:
-        var color = Color(tiles[pos].color)
-        if selected >= 0 and battle.units[selected].pos == pos: color = Color("91aaa3")
-        elif selected >= 0 and mode == "move" and not battle.units[selected].moved and possible.has(pos): color = color.lerp(Color("b3b7a1"),0.4)
-        tiles[pos].node.material_override.albedo_color = color
+        tiles[pos].node.material_override.albedo_color=tiles[pos].color
+        tiles[pos].overlay.visible=selected>=0 and mode=="move" and not battle.units[selected].moved and possible.has(pos)
     for i in range(battle.units.size()):
         var u = battle.units[i]
         figures[i].visible = u.hp > 0
         badges[i].visible = u.hp > 0
         if last_positions.has(u.id) and last_positions[u.id]!=u.pos:
-            facing[u.id]=projected_facing(last_positions[u.id],u.pos)
+            facing[u.id]=projected_facing(last_positions[u.id],u.pos,iso_roles.has(u.role))
         last_positions[u.id]=u.pos
         for event in battle.events:
             if event.get("kind")=="attack" and event.get("actor")==u.id:
                 for target in battle.units:
-                    if target.id==event.target:facing[u.id]=projected_facing(u.pos,target.pos)
+                    if target.id==event.target:facing[u.id]=projected_facing(u.pos,target.pos,iso_roles.has(u.role))
         var texture_key=u.id+":"+facing.get(u.id,"front")
         if direction_textures.has(texture_key) and not motion.motions.has(u.id):figures[i].texture=direction_textures[texture_key]
         if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,0.63 if figures[i].get_meta("formal_art") else 0.72,u.pos.y)
@@ -289,10 +335,11 @@ func _exit_tree():
 
 func request_exit():hud.confirm_leave(true)
 
-func projected_facing(from_cell,to_cell):
+func projected_facing(from_cell,to_cell,diagonal=false):
     var start=camera.unproject_position(Vector3(from_cell.x,0,from_cell.y))
     var finish=camera.unproject_position(Vector3(to_cell.x,0,to_cell.y))
     var delta=finish-start
+    if diagonal:return ("front_right" if delta.x>=0 else "front_left") if delta.y>=0 else ("back_right" if delta.x>=0 else "back_left")
     if absf(delta.x)>absf(delta.y):return "right" if delta.x>0 else "left"
     return "front" if delta.y>0 else "back"
 

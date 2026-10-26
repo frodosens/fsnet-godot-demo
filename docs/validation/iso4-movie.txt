@@ -1,0 +1,19 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Movie Maker mode enabled, recording movie in 1280×800 @ 30 FPS...
+PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=llvmpipe (LLVM 19.1.7, 256 bits)
+ISO4_REAL_MOVE complete supported_direction=front_right hash=43d4c471c182141f148fd3d6cef46b28e4d0edfe3acd368931e1ebd6f03f1dcd
+ISO4_IDLE_VISUAL_QA front_right
+ISO4_IDLE_VISUAL_QA front_left
+ISO4_IDLE_VISUAL_QA back_left
+ISO4_IDLE_VISUAL_QA back_right
+--------------------------------------------------------------------------------
+Done recording movie at path: /tmp/amber-iso4-proof-final.avi
+177 frames at 30 FPS (movie length: 00:00:05:27), recorded in 00:00:20 (25% of real-time speed).
+CPU render time: 4.62 seconds (average: 26.13 ms/frame)
+GPU render time: 5.24 seconds (average: 29.60 ms/frame)
+Encoding time: 2.62 seconds (average: 14.81 ms/frame)
+--------------------------------------------------------------------------------

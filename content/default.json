@@ -7,12 +7,12 @@
   "height": 8,
   "terrain": [
     "GGGGGGGGGG",
-    "GGGGGGGGGG",
-    "GGGGGGGGGG",
+    "GGGGDDGGGG",
+    "GGGGDDGGGG",
     "WWWWBBWWWW",
     "WWWWBBWWWW",
-    "GGGGGGGGGG",
-    "GGGGGGGGGG",
+    "GGGGDDGGGG",
+    "DDDDDDGGGG",
     "GGGGGGGGGG"
   ],
   "units": [

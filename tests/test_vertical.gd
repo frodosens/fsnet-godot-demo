@@ -31,7 +31,7 @@ func run():
     scene.hud.toggle_pause()
     var snapshot=app.session.logic.snapshot();scene.finish_turn()
     check(app.session.logic.snapshot()==snapshot,"pause modal blocks battle commands")
-    scene.hud.clear_modal();scene.finish_turn()
+    scene.hud.clear_modal();scene.skip_presentation();scene.finish_turn()
     check(app.session.logic.round_number==2 and app.next_story().id=="ch01_mid_debt","round condition emits stable event")
     var saved=app.session.logic.state_hash()
     check(app.save_slot("slot3")=="","save in battle")

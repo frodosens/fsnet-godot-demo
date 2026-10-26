@@ -14,6 +14,7 @@ func run():
     game._unhandled_input(click)
     if game.battle.step!=1 or game.battle.units[0].pos!=Vector2i(3,5):
         printerr("mouse picking -> command -> Lua failed");quit(1);return
+    game.skip_presentation()
     var key=InputEventKey.new()
     key.physical_keycode=KEY_SPACE
     key.pressed=true
