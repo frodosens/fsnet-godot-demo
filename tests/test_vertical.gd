@@ -28,6 +28,7 @@ func run():
     var click=InputEventMouseButton.new();click.button_index=MOUSE_BUTTON_LEFT;click.pressed=true;click.position=scene.camera.unproject_position(Vector3(3,0,5))
     scene.hud.choose_action("move")
     scene._unhandled_input(click)
+    assert(scene.confirm_move())
     check(app.session.logic.step==1,"scene click executes shared rule")
     scene.hud.toggle_pause()
     var snapshot=app.session.logic.snapshot();scene.finish_turn()

@@ -1,0 +1,51 @@
+extends SceneTree
+const Runtime=preload("res://logic/runtime.gd")
+const Content=preload("res://logic/content.gd")
+var checks=0
+func check(ok,label):
+    checks+=1
+    if not ok:printerr("FAIL ",label);quit(1)
+    assert(ok,label)
+func _initialize():call_deferred("run")
+func frames():
+    for i in range(4):await process_frame
+func run():
+    var data=Content.reference_content();var a=Runtime.new(data);var b=Runtime.new(data);var c=Runtime.new(data)
+    var authority=preload("res://logic/authority.gd").new(data)
+    check(authority.handle({"rules":"old-rules","content":a.content_hash,"client":"compat-test"}).get("error")=="rules mismatch","old peer explicitly rejected")
+    var initial=a.snapshot();var rng=a.call_rule("view",{}).get("rng")
+    check(not a.apply_command({"kind":"wait","unit":3,"step":1}) and a.snapshot()==initial,"enemy wait rejected atomically")
+    for vm in [a,b,c]:check(vm.apply_command({"kind":"wait","unit":0,"step":1}),"same wait accepted on each VM")
+    check(a.state_hash()==b.state_hash() and b.state_hash()==c.state_hash(),"three runtimes agree")
+    check(a.units[0].acted and a.units[0].moves_used==a.units[0].move_actions and a.round_number==1 and not a.units[1].acted,"wait affects one unit, no AI phase")
+    var waited=a.snapshot();check(not a.apply_command({"kind":"wait","unit":0,"step":2}) and a.snapshot()==waited,"spent wait rejected")
+    check(not a.apply_command({"kind":"wait","unit":0,"step":1}) and a.snapshot()==waited,"duplicate rejected")
+    check(a.call_rule("view",{}).get("rng")==rng,"wait consumes no RNG")
+    check(b.restore(waited) and b.state_hash()==a.state_hash(),"wait snapshot roundtrip")
+    check(a.apply_command({"kind":"end_turn","step":2}) and not a.units[0].acted and a.units[0].moves_used==0,"next turn resets waited unit")
+    var app=root.get_node("App");app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
+    while not app.next_story().is_empty():app.advance_story(true)
+    var game=current_scene;game.refresh();game.hud.choose_action("move");var before=game.battle.snapshot()
+    check(game.stage_move(Vector2i(4,4)) and game.battle.snapshot()==before,"proposal consumes nothing")
+    var path=game.preview_path.duplicate(true)
+    game.hud.cancel_targeting();check(game.pending_move.is_empty() and game.battle.snapshot()==before,"cancel atomic")
+    game.hud.choose_action("move");check(game.stage_move(Vector2i(4,4)),"restage")
+    check(game.confirm_move() and game.battle.step==1 and game.battle.events[0].path==path,"confirmation uses authoritative path")
+    check(not game.confirm_move() and game.battle.step==1,"duplicate confirmation blocked")
+    game.skip_presentation();await frames();game.hud.select_hero(1);game.hud.choose_action("move")
+    var destinations=game.battle.reachable(1);var target=destinations.keys()[-1]
+    check(game.stage_move(target),"other actor proposal")
+    game.hud.select_hero(2);check(game.pending_move.is_empty() and not game.confirm_move(),"reselect invalidates proposal")
+    game.hud.choose_action("move");destinations=game.battle.reachable(2);check(game.stage_move(destinations.keys()[-1]),"proposal before save dialog")
+    game.hud.toggle_pause();check(game.pending_move.is_empty(),"pause/save cannot retain proposed command")
+    game.hud.clear_modal();game.hud.choose_action("move");check(game.stage_move(destinations.keys()[-1]),"proposal before authority changes")
+    check(app.session.submit({"kind":"wait","unit":1}),"other authoritative command")
+    check(not game.confirm_move(),"stale proposal refused")
+    app.save_root="user://wait_compat_"+str(Time.get_ticks_usec())
+    check(app.save_slot("slot1").is_empty(),"save current rules")
+    var saved=FileAccess.get_file_as_string(app.save_path("slot1"));var old=JSON.parse_string(saved);old.rules_hash="old-rules"
+    var file=FileAccess.open(app.save_path("slot1"),FileAccess.WRITE);file.store_string(JSON.stringify(old));file.close()
+    check(app.inspect_slot("slot1").error.contains("规则版本不兼容"),"old save gets actionable incompatibility")
+    check(FileAccess.get_file_as_string(app.save_path("slot1"))==JSON.stringify(old),"incompatible save remains intact")
+    print("WAIT_CONFIRM checks=",checks," failures=0")
+    quit()

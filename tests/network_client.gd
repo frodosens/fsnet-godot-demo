@@ -37,14 +37,17 @@ func _process(delta):
         extended_step()
         return false
     if role=="driver":
-        if session.logic.step==0:session.submit({"kind":"move","unit":0,"x":4 if content.get("id")=="amber_bridge_reference" else 3,"y":4 if content.get("id")=="amber_bridge_reference" else 5})
+        if session.logic.step==0 and OS.get_environment("AMBER_TEST_WAIT")=="1":session.submit({"kind":"wait","unit":0})
+        elif session.logic.step==0:session.submit({"kind":"move","unit":0,"x":4 if content.get("id")=="amber_bridge_reference" else 3,"y":4 if content.get("id")=="amber_bridge_reference" else 5})
         elif session.logic.step==1:session.submit({"kind":"end_turn"})
         elif session.logic.step==2 and not disconnected:
             session.transport.shutdown();disconnected=true;reconnect_at=elapsed+0.7
             print("CLIENT_DISCONNECTED after_step=2")
+    elif session.logic.step==2 and OS.get_environment("AMBER_TEST_WAIT")=="1":session.submit({"kind":"wait","unit":1})
     elif session.logic.step==2:
         session.submit({"kind":"move","unit":1,"x":3 if content.get("id")=="amber_bridge_reference" else 4,"y":6 if content.get("id")=="amber_bridge_reference" else 5})
     if session.logic.step==3 and (role!="driver" or resumed):
+        if OS.get_environment("AMBER_TEST_WAIT")=="1":assert(session.logic.units[1].acted and session.logic.units[1].moved)
         if done_at==0.0:done_at=elapsed+0.4
         if elapsed>=done_at:
             print("NETWORK_RESULT ",JSON.stringify({"role":role,"step":session.logic.step,"hash":session.logic.state_hash(),"reconnected":resumed}))

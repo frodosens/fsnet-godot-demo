@@ -28,6 +28,7 @@ var target_preview={}
 var target_preview_index=-1
 var preview_reason=""
 var preview_reachable={}
+var pending_move={}
 var preview_path=[]
 var preview_cell=Vector2i(-1,-1)
 var route_mesh
@@ -333,6 +334,29 @@ func select_mode(value):
     if hud:hud.action_menu_open=false
     refresh()
 
+# Presentation-only proposal. No command is sent until explicit confirmation.
+func stage_move(cell):
+    if presentation_active() or hud.blocks_input() or selected<0:return false
+    pending_move={};update_move_preview(cell)
+    if preview_path.is_empty():return false
+    pending_move={"unit":selected,"actor_id":battle.units[selected].id,"step":battle.step,"cell":cell,"path":preview_path.duplicate(true)}
+    hud.refresh();return true
+
+func confirm_move():
+    if pending_move.is_empty() or presentation_active() or hud.blocks_input():return false
+    var proposal=pending_move.duplicate(true)
+    var valid=selected==proposal.unit and battle.step==proposal.step and battle.units[selected].id==proposal.actor_id and battle.path_to(selected,proposal.cell)==proposal.path
+    clear_move_preview()
+    if not valid:hud.refresh();return false
+    var accepted=session.submit({"kind":"move","unit":selected,"actor_id":proposal.actor_id,"x":proposal.cell.x,"y":proposal.cell.y})
+    battle=session.logic;refresh();return accepted
+
+func wait_selected():
+    if selected<0 or presentation_active() or hud.blocks_input():return false
+    clear_move_preview()
+    var accepted=session.submit({"kind":"wait","unit":selected,"actor_id":battle.units[selected].id})
+    battle=session.logic;hud.action_menu_open=true;refresh();return accepted
+
 func finish_turn():
     if presentation_active() or (hud and hud.blocks_input()):return
     session.submit({"kind":"end_turn"})
@@ -407,15 +431,17 @@ func _unhandled_input(event):
             KEY_3: hud.choose_action("skill")
             KEY_S: hud.choose_action("skill")
             KEY_4,KEY_I: hud.choose_action("item")
+            KEY_5,KEY_W: wait_selected()
             KEY_ENTER:
-                if not hud.activate_focused_action():hud.open_action_menu()
+                if not pending_move.is_empty():confirm_move()
+                elif not hud.activate_focused_action():hud.open_action_menu()
                 get_viewport().set_input_as_handled()
             KEY_SPACE: hud.request_end_turn()
             KEY_R: restart()
     if event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_RIGHT:
         hud.cancel_targeting();return
     if event is InputEventMouseMotion:
-        if mode=="move" and not hud.action_menu_open:update_move_preview(mouse_cell(event.position))
+        if mode=="move" and not hud.action_menu_open and pending_move.is_empty():update_move_preview(mouse_cell(event.position))
         else:update_target_preview(mouse_cell(event.position))
         return
     if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -428,9 +454,8 @@ func _unhandled_input(event):
             clear_move_preview()
         elif mode == "move":
             if hud.action_menu_open:return
-            update_move_preview(cell)
-            if preview_path.is_empty():hud.refresh();return
-            session.submit({"kind":"move","unit":selected,"x":cell.x,"y":cell.y})
+            stage_move(cell)
+            hud.refresh();return
         elif mode.begins_with("item:"):
             session.submit({"kind":"item","consumable":mode.trim_prefix("item:"),"unit":selected,"target":target})
         elif mode.begins_with("ability:"):
@@ -477,6 +502,7 @@ func mouse_cell(screen):
     var hit=origin+direction*(-origin.y/direction.y)
     return Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
 func clear_move_preview():
+    pending_move={}
     preview_path=[];preview_reason="";preview_cell=Vector2i(-1,-1)
     if preview_ghost:preview_ghost.hide()
     route_mesh.mesh.clear_surfaces();route_arrows.mesh.clear_surfaces()

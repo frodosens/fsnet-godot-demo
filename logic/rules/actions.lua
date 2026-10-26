@@ -3,7 +3,11 @@
 local function execute_action(c,index)
     local u=state.units[index]
     if not u or u.hp<=0 then return false end
-    if c.kind=='move' then
+    if c.kind=='wait' then
+      if u.acted and u.moves_used>=u.move_actions then return false end
+      u.moves_used=u.move_actions;u.moved=true;u.acted=true
+      effects[#effects+1]={kind='wait',actor=u.id}
+    elseif c.kind=='move' then
       if u.moves_used>=u.move_actions or not walkable(c.x,c.y) or at(c.x,c.y) then return false end
       local found
       local cells=reachable(index)

@@ -13,6 +13,7 @@ func run():
     click.position=game.camera.unproject_position(Vector3(3,0,5))
     game.hud.choose_action("move")
     game._unhandled_input(click)
+    assert(game.confirm_move())
     if game.battle.step!=1 or game.battle.units[0].pos!=Vector2i(3,5):
         printerr("mouse picking -> command -> Lua failed");quit(1);return
     game.skip_presentation()

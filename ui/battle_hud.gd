@@ -192,7 +192,8 @@ func place_action_arc(view):
         button.set_layout_position(arc_layout.positions[i]);button.set_selected(keys[i]==arc_choice)
 func choose_action(kind):
     action_menu_open=false
-    if kind=="skill":show_abilities()
+    if kind=="wait":game.wait_selected()
+    elif kind=="skill":show_abilities()
     elif kind=="item":show_items()
     else:game.select_mode(kind)
     refresh()
@@ -270,6 +271,7 @@ func refresh():
         place_action_arc(view)
         hint_label.text=("移动 %d/%d · 点击落点确认"%[game.preview_path.size()-1,logic.units[game.selected].movement]) if not game.preview_path.is_empty() else ("指向地块预览路线 · Enter 行动" if game.mode=="move" else "选择合法目标 · Esc 返回")
         if game.mode=="move" and not game.preview_reason.is_empty():hint_label.text=game.preview_reason
+    if not game.pending_move.is_empty():hint_label.text="移动 %d 格 · Enter 确认 · Esc 取消"%[game.preview_path.size()-1]
     if action_panel.visible:hint_label.text="选择行动 · 方向键切换 · Enter 确认"
     if logic.outcome!="playing":hint_label.text="旅程暂告一段落 · Esc 保存或返回"
     if last_step!=logic.step:
@@ -308,6 +310,7 @@ func clear_modal():
         root.remove_child(modal);modal.queue_free();modal=null;action_menu_open=true
     refresh_story()
 func modal_page(title):
+    game.clear_move_preview()
     clear_modal()
     modal=ColorRect.new();modal.color=Color(0.08,0.07,0.05,0.7);modal.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);modal.z_index=100;root.add_child(modal)
     var p=PanelContainer.new();p.position=Vector2((root.get_viewport_rect().size.x-600)*0.5,100);p.custom_minimum_size=Vector2(600,0);modal.add_child(p)
