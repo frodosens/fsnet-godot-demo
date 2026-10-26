@@ -12,7 +12,7 @@
   ],
   "state": "walk",
   "idle": "Existing four-direction idle textures remain separate and unchanged.",
-  "qa_status": "Engine-validation candidate, not final polish. Limb and cloth pose changes authored via imagegen. Near/far side-leg occlusion is subtle; knight back contact alternation requires engine review.",
+  "qa_status": "Five-role engine-validation candidate, not final polish. Actual knee/boot/garment pose changes; subtle side near/far-leg occlusion and knight/scout rear contact consistency need engine review.",
   "characters": {
     "knight": {
       "front": [
@@ -65,18 +65,111 @@
         "assets/sprites/walk/brute_right_02.png",
         "assets/sprites/walk/brute_right_03.png"
       ]
+    },
+    "mage": {
+      "front": [
+        "assets/sprites/walk/mage_front_00.png",
+        "assets/sprites/walk/mage_front_01.png",
+        "assets/sprites/walk/mage_front_02.png",
+        "assets/sprites/walk/mage_front_03.png"
+      ],
+      "back": [
+        "assets/sprites/walk/mage_back_00.png",
+        "assets/sprites/walk/mage_back_01.png",
+        "assets/sprites/walk/mage_back_02.png",
+        "assets/sprites/walk/mage_back_03.png"
+      ],
+      "left": [
+        "assets/sprites/walk/mage_left_00.png",
+        "assets/sprites/walk/mage_left_01.png",
+        "assets/sprites/walk/mage_left_02.png",
+        "assets/sprites/walk/mage_left_03.png"
+      ],
+      "right": [
+        "assets/sprites/walk/mage_right_00.png",
+        "assets/sprites/walk/mage_right_01.png",
+        "assets/sprites/walk/mage_right_02.png",
+        "assets/sprites/walk/mage_right_03.png"
+      ]
+    },
+    "raider": {
+      "front": [
+        "assets/sprites/walk/raider_front_00.png",
+        "assets/sprites/walk/raider_front_01.png",
+        "assets/sprites/walk/raider_front_02.png",
+        "assets/sprites/walk/raider_front_03.png"
+      ],
+      "back": [
+        "assets/sprites/walk/raider_back_00.png",
+        "assets/sprites/walk/raider_back_01.png",
+        "assets/sprites/walk/raider_back_02.png",
+        "assets/sprites/walk/raider_back_03.png"
+      ],
+      "left": [
+        "assets/sprites/walk/raider_left_00.png",
+        "assets/sprites/walk/raider_left_01.png",
+        "assets/sprites/walk/raider_left_02.png",
+        "assets/sprites/walk/raider_left_03.png"
+      ],
+      "right": [
+        "assets/sprites/walk/raider_right_00.png",
+        "assets/sprites/walk/raider_right_01.png",
+        "assets/sprites/walk/raider_right_02.png",
+        "assets/sprites/walk/raider_right_03.png"
+      ]
+    },
+    "scout": {
+      "front": [
+        "assets/sprites/walk/scout_front_00.png",
+        "assets/sprites/walk/scout_front_01.png",
+        "assets/sprites/walk/scout_front_02.png",
+        "assets/sprites/walk/scout_front_03.png"
+      ],
+      "back": [
+        "assets/sprites/walk/scout_back_00.png",
+        "assets/sprites/walk/scout_back_01.png",
+        "assets/sprites/walk/scout_back_02.png",
+        "assets/sprites/walk/scout_back_03.png"
+      ],
+      "left": [
+        "assets/sprites/walk/scout_left_00.png",
+        "assets/sprites/walk/scout_left_01.png",
+        "assets/sprites/walk/scout_left_02.png",
+        "assets/sprites/walk/scout_left_03.png"
+      ],
+      "right": [
+        "assets/sprites/walk/scout_right_00.png",
+        "assets/sprites/walk/scout_right_01.png",
+        "assets/sprites/walk/scout_right_02.png",
+        "assets/sprites/walk/scout_right_03.png"
+      ]
     }
   },
   "generator": "OpenAI built-in imagegen",
-  "processing": "User-authorized crop, nearest-neighbor scale and body/foot alignment only; no painted or mirrored frames. Raw sources retained in Library archive.",
+  "processing": "User-authorized dominant silhouette rectangular crop, nearest-neighbor scale and body/foot alignment. Per-role horizontal fit shared across four directions preserves consistent height; no script painting/mirroring. Scout front assembled from imagegen-corrected source cells.",
   "source_sha256": {
     "knight_back.png": "73487119f2a4fd0ba3cd9cd99472e6440afe06719d219890966c821e462b4112",
+    "raider_front.png": "5551a94148e9facf1443fd5b9540e8d4ecfb253c92796cc987bb13454f8e9c63",
     "brute_front.png": "951c0fe6054bc89552b9e5e5956511449f7e6aa44f0a4269d3b9bc42d7241f44",
     "knight_right.png": "6d3f0d125a8b424b487d0e21297e13f747e117d0353e881d86c4d166522325e0",
     "knight_front.png": "f611561030131bd16a071dd67b5129af6be882777fc7cdddce6de4fe2fef6e95",
+    "scout_front.png": "3e31219f1226e79a515603730bff7677e73587a21852cec897c499c995e67ad6",
     "brute_left.png": "8774f257828761f0db613048dd80f4e0707e5e393ed23396d2a82f20c3f05943",
+    "mage_front.png": "bc427cfec80a70073be7cecd35e3fc5c82c9af7cb913056219289af987835cc6",
+    "raider_back.png": "bf83c2f5974ee991ef85800a4f13d444643e122574c335318fefe71dfbd07378",
+    "scout_right.png": "83d53e16939db83c8f822cd1fab5b7aed748b9082b105b6188877e2fcef72523",
+    "mage_left.png": "d5297f5bb802ee339507c1e37bb4b03af625a5374e6c693c627a4a3537eae615",
+    "mage_back.png": "a39eca837547ae7da058c311526177a1b3006f42f4abad840fe2b7c885560790",
     "knight_left.png": "f70883792b62abd582dbf5e5caef8617a9cc147d21da606b351cc10f2657612c",
+    "raider_right.png": "bbb619ed1b8b97fd69fa64461490f22c57d0ce297c9f945a3ccb58b0f9c09863",
+    "mage_right.png": "9c36e39845c340cb2e7aa62580ae37ae7e3f0d8b9eb50b5c4fe4beeafa85e17d",
     "brute_back.png": "0302ca441d704dfd389952bf018ece46a3b645965c3a6b6365d8a6c6681a6f36",
-    "brute_right.png": "f578eaca516b8444db10258345a499b459801cc0c1e4d6bae7c72400de0aede5"
+    "scout_back.png": "e9e8980716c161e652d59221480ed05e79da37f50e2c73a34609d60a16737c4f",
+    "brute_right.png": "f578eaca516b8444db10258345a499b459801cc0c1e4d6bae7c72400de0aede5",
+    "raider_left.png": "032eeb8e55e4927f1a24acec562dd6fe423a6f5dceefc7d3ba4258426199441e",
+    "scout_left.png": "e8763b1ef585396750a9ece062ffeba77b5eac8aec848601c350e99922d4ecf9"
+  },
+  "held_roles": {
+    "archer": "Not accepted: repeated support-leg front/back and side bow occlusion review pending. Raw provisional sources archived only."
   }
 }
