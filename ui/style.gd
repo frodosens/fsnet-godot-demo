@@ -101,3 +101,24 @@ static func small_controls(t):
         t.set_icon("increment" if direction=="down" else "decrement","VScrollBar",control_texture("indicator_"+direction))
     t.set_icon("arrow","OptionButton",control_texture("indicator_down"))
     t.set_icon("submenu","PopupMenu",control_texture("indicator_right"))
+
+static var content_icons={}
+static func content_icon(category,id):
+    var key=category+":"+id
+    if content_icons.has(key):return content_icons[key]
+    var path=""
+    if key=="skill:attack":path="res://assets/ui/bottom_dock_reference/icons/icon_attack.png"
+    else:
+        var base="res://assets/ui/bottom_dock_reference/content/"
+        var mapping=JSON.parse_string(FileAccess.get_file_as_string(base+"content-map.json"))
+        if mapping.has(key):path=base+mapping[key]
+    var texture=load(path) if not path.is_empty() and ResourceLoader.exists(path) else null
+    content_icons[key]=texture;return texture
+static func decorate_content(button,category,id):
+    button.icon=content_icon(category,id)
+    button.expand_icon=true;button.add_theme_constant_override("icon_max_width",32)
+    button.add_theme_constant_override("h_separation",12)
+    button.icon_alignment=HORIZONTAL_ALIGNMENT_LEFT
+    button.add_theme_color_override("icon_disabled_color",Color(0.82,0.82,0.82,1))
+    button.set_meta("content_icon_key",category+":"+id)
+    return button

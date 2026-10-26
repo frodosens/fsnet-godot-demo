@@ -392,7 +392,7 @@ func show_abilities():
         if ability.stationary:note+=" · 移动后不可施放" if not u.get("mobile_cast",false) else " · 行走施法已生效"
         var button=UI.button(ability.name+"　"+note,choose_ability.bind(ability.id))
         button.disabled=u.acted or u.mp<ability.mp_cost or u.cooldowns[i]>0 or (ability.charges>0 and u.charges[i]==0) or (ability.stationary and u.moves_used>0 and not u.get("mobile_cast",false))
-        button.tooltip_text=ability_description(ability);list.add_child(button)
+        button.tooltip_text=ability_description(ability);UI.decorate_content(button,"skill",ability.id);list.add_child(button)
     page.add_child(UI.button("返回",clear_modal))
 func choose_ability(id):
     clear_modal();game.select_mode("ability:"+id)
@@ -444,7 +444,7 @@ func show_gear():
         var owned=false
         for unit in logic.units:
             if item.uid in unit.equipment:owned=true
-        var button=UI.button(item_text(item)+(" · 已穿戴" if owned else " · 装备"),equip_item.bind(item.uid));button.disabled=not allowed or owned;list.add_child(button)
+        var button=UI.button(item_text(item)+(" · 已穿戴" if owned else " · 装备"),equip_item.bind(item.uid));button.disabled=not allowed or owned;UI.decorate_content(button,"equipment",logic.content.equipment.bases[item.base-1].id);list.add_child(button)
     page.add_child(UI.button("返回旅程菜单",func():clear_modal();toggle_pause()))
 func equip_item(uid):
     game.session.submit({"kind":"equip","unit":gear_unit,"slot":gear_slot,"item":uid})
@@ -463,7 +463,7 @@ func show_items():
             if ability.id==item.ability:
                 button.tooltip_text=ability_description(ability)
                 button.disabled=button.disabled or u.mp<ability.mp_cost or u.cooldowns[j]>0 or (ability.charges>0 and u.charges[j]==0) or (ability.stationary and u.moves_used>0 and not u.mobile_cast)
-        list.add_child(button)
+        UI.decorate_content(button,"item",item.id);list.add_child(button)
     page.add_child(UI.button("返回",clear_modal))
 func choose_item(id):clear_modal();game.select_mode("item:"+id)
 
