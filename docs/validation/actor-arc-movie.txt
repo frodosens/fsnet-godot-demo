@@ -1,0 +1,15 @@
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.
+     at: set_use_vsync (platform/linuxbsd/x11/gl_manager_x11.cpp:364)
+OpenGL API 4.5 (Core Profile) Mesa 25.0.7-2+deb13u1 - Compatibility - Using Device: Mesa - llvmpipe (LLVM 19.1.7, 256 bits)
+
+Movie Maker mode enabled, recording movie in 1280×800 @ 30 FPS...
+PROTOTYPE_READY shared_lua=true units=6 tiles=90 renderer=llvmpipe (LLVM 19.1.7, 256 bits)
+ARC_RECORD_PASS actual_mouse_hover_click_move=true edge_camera_fixtures=true step=1
+--------------------------------------------------------------------------------
+Done recording movie at path: /tmp/amber-actor-arc-final.avi
+392 frames at 30 FPS (movie length: 00:00:13:02), recorded in 00:00:39 (33% of real-time speed).
+CPU render time: 16.60 seconds (average: 42.34 ms/frame)
+GPU render time: 16.63 seconds (average: 42.43 ms/frame)
+Encoding time: 7.00 seconds (average: 17.86 ms/frame)
+--------------------------------------------------------------------------------

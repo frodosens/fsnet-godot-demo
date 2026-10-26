@@ -82,11 +82,11 @@ func _process(delta):
     reveal=route_length if App.reduced_motion else minf(route_length,reveal+delta*18.0)
     var animated=route_length>0 and not App.reduced_motion
     var tick=int(clock*30.0) if animated else 0
-    var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.camera.global_transform,game.camera.size,game.camera.keep_aspect,get_viewport().get_visible_rect(),tick])
+    var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.hud.action_menu_open,game.camera.global_transform,game.camera.size,game.camera.keep_aspect,get_viewport().get_visible_rect(),tick])
     if state==signature:return
     signature=state;mesh.clear_surfaces();building=false
     if game.presentation_active():return
-    if game.mode=="move" and game.selected>=0 and game.battle.usable(game.selected) and not game.battle.units[game.selected].moved:
+    if game.mode=="move" and not game.hud.action_menu_open and game.selected>=0 and game.battle.usable(game.selected) and not game.battle.units[game.selected].moved:
         for cell in game.preview_reachable:
             if cell==game.battle.units[game.selected].pos:continue
             var outline=[]

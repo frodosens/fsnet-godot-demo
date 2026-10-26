@@ -367,7 +367,7 @@ func refresh():
     if selected>=0:selection_ring.position=Vector3(battle.units[selected].x,0.04,battle.units[selected].y)
     for pos in tiles:
         tiles[pos].node.material_override.albedo_color=tiles[pos].color
-        tiles[pos].overlay.visible=selected>=0 and mode=="move" and not battle.units[selected].moved and possible.has(pos) and pos!=battle.units[selected].pos
+        tiles[pos].overlay.visible=selected>=0 and not hud.action_menu_open and mode=="move" and not battle.units[selected].moved and possible.has(pos) and pos!=battle.units[selected].pos
     for i in range(battle.units.size()):
         var u = battle.units[i]
         figures[i].visible = u.hp > 0
@@ -415,7 +415,7 @@ func _unhandled_input(event):
     if event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_RIGHT:
         hud.cancel_targeting();return
     if event is InputEventMouseMotion:
-        if mode=="move":update_move_preview(mouse_cell(event.position))
+        if mode=="move" and not hud.action_menu_open:update_move_preview(mouse_cell(event.position))
         else:update_target_preview(mouse_cell(event.position))
         return
     if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -425,7 +425,9 @@ func _unhandled_input(event):
         if target >= 0 and battle.units[target].controller=="player" and (mode=="move" or (mode=="attack" and selected>=0 and battle.units[target].faction==battle.units[selected].faction)):
             selected = target
             hud.action_menu_open=true
+            clear_move_preview()
         elif mode == "move":
+            if hud.action_menu_open:return
             update_move_preview(cell)
             if preview_path.is_empty():hud.refresh();return
             session.submit({"kind":"move","unit":selected,"x":cell.x,"y":cell.y})
@@ -441,6 +443,7 @@ func _unhandled_input(event):
 func _process(delta):
     battle=session.logic
     if battle.step!=last_step:
+        if hud:hud.action_menu_open=true
         last_step=battle.step
         refresh()
     if hud:hud.refresh_story();hud.refresh()
@@ -460,6 +463,7 @@ func projected_facing(from_cell,to_cell,diagonal=false):
 
 func presentation_active():return (motion and motion.active()) or (cutin and cutin.active)
 func motion_finished():
+    if hud:hud.action_menu_open=true
     if cutin:cutin.consume(battle.step,battle.events)
 func skip_presentation():
     if heal_feedback:heal_feedback.clear()
@@ -482,7 +486,6 @@ func update_move_preview(cell):
     if selected<0 or mode!="move" or presentation_active() or hud.blocks_input():return
     preview_path=battle.path_to(selected,cell)
     if preview_path.is_empty():preview_reason="此格不可达 · 选择范围内的空格";return
-    hud.action_menu_open=false
     preview_ghost.texture=figures[selected].texture;preview_ghost.position=Vector3(cell.x,figures[selected].position.y,cell.y);preview_ghost.show()
     var line=route_mesh.mesh;var arrows=route_arrows.mesh
     line.surface_begin(Mesh.PRIMITIVE_LINES);arrows.surface_begin(Mesh.PRIMITIVE_TRIANGLES)

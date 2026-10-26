@@ -1,0 +1,36 @@
+extends SceneTree
+const Arc=preload("res://ui/action_arc.gd")
+var checks=0
+func check(ok,label):
+    checks+=1
+    if not ok:printerr("ARC_FAIL ",label);quit(1)
+    assert(ok,label)
+func _initialize():call_deferred("run")
+func frames(n=3):
+    for i in range(n):await process_frame
+func run():
+    for view in [Vector2(1280,800),Vector2(960,600),Vector2(1920,1080)]:
+        for point in [Vector2(50,130),Vector2(view.x-50,130),Vector2(50,view.y-100),view-Vector2(50,100),view/2]:
+            var keepout=Rect2(point-Vector2(46,65),Vector2(92,110));var plan=Arc.solve(point,view,keepout)
+            for p in plan.positions:
+                var rect=Arc.visual_rect(p)
+                check(not rect.intersects(keepout),"edge layout avoids actor")
+                check(rect.position.x>=19.9 and rect.end.x<=view.x-19.9 and rect.position.y>=79.9 and rect.end.y<=view.y-69.9,"arc fully within safe viewport")
+    root.size=Vector2i(1280,800)
+    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    while not app.next_story().is_empty():app.advance_story(true)
+    var game=current_scene;game.refresh();await frames();var hud=game.hud;var before=game.battle.snapshot()
+    check(hud.action_panel.visible and hud.arc_actor_id=="mara","arc attached to selected actor")
+    hud.focus_arc_choice("attack");await create_timer(.2).timeout
+    check(is_equal_approx(hud.action_buttons.attack.selection_shift,-14) and is_zero_approx(hud.action_buttons.move.selection_shift),"selected left slide and previous return")
+    var anchor=hud.arc_layout.anchor;game.camera.position.x+=.2;await frames()
+    check(hud.arc_layout.anchor!=anchor,"projection follows camera")
+    hud.select_hero(1);await frames();check(hud.arc_actor_id=="finn","reselection discards old attachment")
+    hud.select_hero(0);await frames();hud.choose_action("move");game.update_move_preview(Vector2i(4,4));hud.refresh()
+    check(not hud.action_panel.visible and game.preview_path.size()==4,"move selection hides arc and keeps authoritative path")
+    hud.cancel_targeting();await frames();check(hud.action_panel.visible and game.preview_path.is_empty() and game.battle.snapshot()==before,"cancel restores arc without command")
+    hud.choose_action("move");var click=InputEventMouseButton.new();click.button_index=MOUSE_BUTTON_LEFT;click.pressed=true;click.position=game.camera.unproject_position(Vector3(4,0,6));root.push_input(click,true);await frames()
+    check(game.battle.step==1,"one actual target click executes move")
+    game.skip_presentation();await frames();check(hud.action_panel.visible and hud.action_buttons.move.disabled,"completion restores arc with legible disabled move")
+    print("ACTOR_ARC checks=",checks," failures=0")
+    quit()

@@ -26,19 +26,19 @@ func run():
         var actual=shown[i].get_global_rect().get_center();var expected=Vector2(view.x*(0.135+i*0.04),view.y*0.80)
         measurements["companion_"+str(i)]={"actual":[actual.x,actual.y],"target":[expected.x,expected.y],"error_logical_px":actual.distance_to(expected)}
         check(actual.distance_to(expected)<2,"companion portrait normalized center")
-    for i in range(4):
-        var kind=["move","attack","skill","item"][i];var button=hud.action_buttons[kind]
-        var center=button.get_global_transform()*Vector2(32,32);var target=Vector2(view.x*0.88,view.y*[0.31,0.41,0.50,0.59][i])
-        measurements[kind]={"actual":[center.x,center.y],"target":[target.x,target.y],"error_logical_px":center.distance_to(target)}
-        check(center.distance_to(target)<0.1,"action anchor "+kind)
+    check(not hud.arc_layout.is_empty(),"actor arc has projected layout")
+    for kind in ["move","attack","skill","item"]:
+        var b=hud.action_buttons[kind]
+        check(not hud.ActionArc.visual_rect(b.layout_position).intersects(hud.arc_layout.keepout),"arc avoids selected actor and HP")
     for icon in [hud.hp_icon,hud.mp_icon,hud.action_summary.get_child(0).get_child(1),hud.action_summary.get_child(2).get_child(1)]:
         icon.update_variant()
         var expected_px=20.0*minf(float(root.size.x)/view.x,float(root.size.y)/view.y)
         check(absf(icon.rendered_px-expected_px)<0.1,"icon uses physical viewport scale")
         check(icon.using_small==(expected_px<=20.01),"physical size selects small or large art")
     print("HUD_ICON_PIXELS ",hud.hp_icon.rendered_px," small=",hud.hp_icon.using_small," physical_window=",root.size)
-    var snapshot=app.session.logic.snapshot();current_scene.update_move_preview(Vector2i(4,4));hud.refresh();await frames()
-    check(hud.action_panel.visible and snapshot==app.session.logic.snapshot(),"preview keeps action menu and does not execute rules")
+    var snapshot=app.session.logic.snapshot();hud.choose_action("move");current_scene.update_move_preview(Vector2i(4,4));hud.refresh();await frames()
+    check(not hud.action_panel.visible and snapshot==app.session.logic.snapshot(),"preview dismisses arc without executing rules")
+    hud.cancel_targeting();await frames()
     var move=hud.action_buttons.move
     for i in range(12):move.set_selected(i%2==0)
     move.set_selected(true);await frames(20)

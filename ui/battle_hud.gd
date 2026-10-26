@@ -22,6 +22,10 @@ var last_step=-1
 var action_panel
 var action_shade
 var action_menu_open=true
+var arc_choice="move"
+var arc_actor_id=""
+var arc_layout={}
+const ActionArc=preload("res://ui/action_arc.gd")
 var status_panel
 var status_shade
 var companion_panel
@@ -85,9 +89,9 @@ func _ready():
     var quiet=GradientTexture2D.new();quiet.width=256;quiet.height=256;quiet.fill=GradientTexture2D.FILL_RADIAL;quiet.fill_from=Vector2(0.75,0.5);quiet.fill_to=Vector2(0.05,0.5)
     var quiet_colors=Gradient.new();quiet_colors.set_color(0,Color(0.06,0.10,0.10,0.86));quiet_colors.set_color(1,Color(0.06,0.10,0.10,0));quiet.gradient=quiet_colors
     action_shade.texture=quiet;action_shade.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;root.add_child(action_shade)
-    action_panel=Control.new();action_panel.size=Vector2(158,216);action_panel.z_index=10;root.add_child(action_panel)
+    action_panel=Control.new();action_panel.mouse_filter=Control.MOUSE_FILTER_IGNORE;action_panel.size=Vector2(158,216);action_panel.z_index=10;root.add_child(action_panel)
     for i in range(4):
-        var kind=["move","attack","skill","item"][i];var button=preload("res://ui/action_button.gd").new();button.kind=kind;button.text=["移动","攻击","技能","道具"][i];button.position=Vector2(0,i*54);button.pressed.connect(choose_action.bind(kind));action_panel.add_child(button);action_buttons[kind]=button
+        var kind=["move","attack","skill","item"][i];var button=preload("res://ui/action_button.gd").new();button.kind=kind;button.text=["移动","攻击","技能","道具"][i];button.position=Vector2(0,i*54);button.pressed.connect(choose_action.bind(kind));action_panel.add_child(button);action_buttons[kind]=button;button.mouse_entered.connect(focus_arc_choice.bind(kind));button.focus_entered.connect(focus_arc_choice.bind(kind))
     var ordered_actions=[action_buttons.move,action_buttons.attack,action_buttons.skill,action_buttons.item]
     for i in range(4):
         ordered_actions[i].focus_neighbor_bottom=ordered_actions[i].get_path_to(ordered_actions[(i+1)%4])
@@ -151,10 +155,12 @@ func request_end_turn():
     page.add_child(UI.button("确认结束",confirm_end_turn));page.add_child(UI.button("继续行动",clear_modal))
 func confirm_end_turn():clear_modal();game.finish_turn()
 func cancel_targeting():
-    game.mode="move";game.clear_move_preview();game.target_preview={};game.target_preview_index=-1;action_menu_open=true;refresh()
+    game.mode="move";action_menu_open=true;game.refresh()
 func open_action_menu():
     if blocks_input() or game.selected<0:return
-    action_menu_open=true;game.clear_move_preview();refresh();action_buttons.move.grab_focus()
+    action_menu_open=true;game.clear_move_preview();refresh()
+    for kind in [arc_choice,"move","attack","skill","item"]:
+        if not action_buttons[kind].disabled:action_buttons[kind].grab_focus();break
 func activate_focused_action():
     var focused=root.get_viewport().gui_get_focus_owner()
     for kind in ["move","attack","skill","item"]:
@@ -162,6 +168,34 @@ func activate_focused_action():
         if focused==button and button.is_visible_in_tree() and not button.disabled:
             button.pressed.emit();return true
     return false
+func focus_arc_choice(kind):
+    if not action_menu_open or action_buttons[kind].disabled:return
+    arc_choice=kind
+    for key in ["move","attack","skill","item"]:action_buttons[key].set_selected(key==kind)
+func place_action_arc(view):
+    if game.selected<0:return
+    var unit=game.battle.units[game.selected];var figure=game.figures[game.selected]
+    var anchor=game.camera.unproject_position(figure.position)
+    var foot=game.camera.unproject_position(Vector3(figure.position.x,0,figure.position.z))
+    var head=game.camera.unproject_position(Vector3(figure.position.x,game.badge_height(game.selected)+0.25,figure.position.z))
+    var keepout=Rect2(Vector2(anchor.x-46,head.y-14),Vector2(92,maxf(90,foot.y-head.y+28)))
+    var reserved=[Rect2(0,view.y*0.74,view.x*0.37,view.y*0.26),Rect2(0,0,340,130),Rect2(view.x-250,view.y-110,250,110)]
+    for i in range(game.figures.size()):
+        if i==game.selected or game.battle.units[i].hp<=0:continue
+        var other=game.figures[i].position
+        var other_foot=game.camera.unproject_position(Vector3(other.x,0,other.z))
+        var other_head=game.camera.unproject_position(Vector3(other.x,game.badge_height(i)+0.25,other.z))
+        reserved.append(Rect2(Vector2(other_foot.x-36,other_head.y-8),Vector2(72,maxf(80,other_foot.y-other_head.y+24))))
+    arc_layout=ActionArc.solve(anchor,view,keepout,reserved)
+    if arc_actor_id!=unit.id:
+        arc_actor_id=unit.id;arc_choice="move"
+        for kind in ["move","attack","skill","item"]:action_buttons[kind].reset_motion()
+    action_panel.position=Vector2.ZERO;action_panel.size=view
+    var keys=["move","attack","skill","item"]
+    for i in range(4):
+        var button=action_buttons[keys[i]];button.custom_minimum_size=ActionArc.BUTTON_SIZE;button.size=ActionArc.BUTTON_SIZE
+        button.set_layout_position(arc_layout.positions[i]);button.set_selected(keys[i]==arc_choice)
+    action_shade.position=arc_layout.bounds.position-Vector2(24,24);action_shade.size=arc_layout.bounds.size+Vector2(48,48)
 func choose_action(kind):
     action_menu_open=false
     if kind=="skill":show_abilities()
@@ -229,9 +263,8 @@ func refresh():
         for kind in ["move","attack","skill","item"]:action_buttons[kind].disabled=true
     action_buttons.end.disabled=logic.outcome!="playing"
     turn_button.text="空格 · 结束回合" if logic.outcome=="playing" else "战斗已结束"
-    action_panel.visible=active and not blocks_input()
+    action_panel.visible=active and action_menu_open and not blocks_input()
     action_shade.visible=action_panel.visible
-    action_shade.position=Vector2(view.x*0.74,view.y*0.22);action_shade.size=Vector2(view.x*0.26,view.y*0.47)
     target_panel.visible=logic.outcome=="playing" and not game.target_preview.is_empty() and game.mode!="move" and not blocks_input()
     if target_panel.visible:
         var victim=logic.units[game.target_preview_index];var prediction=game.target_preview
@@ -241,16 +274,10 @@ func refresh():
         if prediction.crit_chance>0:target_detail.text+="\n每段暴击 %d%% · %d–%d"%[prediction.crit_chance,prediction.critical_low,prediction.critical_high]
         if prediction.healing>0:target_detail.text+="\n治疗 +%d"%prediction.healing
     if active:
-        # Approved reference uses a right-hand safe zone, away from selected units.
-        action_panel.position=Vector2(view.x*0.88-32,view.y*0.31-32)
-        action_panel.size=Vector2(view.x*0.12+16,view.y*0.28+64)
-        var kinds=["move","attack","skill","item"];var anchors=[0.31,0.41,0.50,0.59]
-        for i in range(4):
-            var button=action_buttons[kinds[i]];button.position=Vector2(0,(anchors[i]-0.31)*view.y)
-            button.custom_minimum_size.x=view.x*0.12+16;button.size.x=button.custom_minimum_size.x
-            button.set_selected(game.mode==kinds[i] or (kinds[i]=="skill" and game.mode.begins_with("ability:")) or (kinds[i]=="item" and game.mode.begins_with("item:")))
+        place_action_arc(view)
         hint_label.text=("移动 %d/%d · 点击落点确认"%[game.preview_path.size()-1,logic.units[game.selected].movement]) if not game.preview_path.is_empty() else ("指向地块预览路线 · Enter 行动" if game.mode=="move" else "选择合法目标 · Esc 返回")
         if game.mode=="move" and not game.preview_reason.is_empty():hint_label.text=game.preview_reason
+    if action_panel.visible:hint_label.text="选择行动 · 方向键切换 · Enter 确认"
     if logic.outcome!="playing":hint_label.text="旅程暂告一段落 · Esc 保存或返回"
     if last_step!=logic.step:
         if last_step>=0 and logic.step>last_step:
@@ -284,7 +311,8 @@ func advance(skip):
     App.advance_story(skip);refresh_story()
 func clear_modal():
     gear_open=false
-    if is_instance_valid(modal):root.remove_child(modal);modal.queue_free();modal=null
+    if is_instance_valid(modal):
+        root.remove_child(modal);modal.queue_free();modal=null;action_menu_open=true
     refresh_story()
 func modal_page(title):
     clear_modal()

@@ -5,6 +5,6 @@ void fragment() {
     vec4 source = texture(TEXTURE, UV);
     float coverage = smoothstep(0.15, 0.9, source.a);
     float light = dot(source.rgb, vec3(0.299, 0.587, 0.114));
-    vec3 two_tone = mix(ink.rgb * 0.58, ink.rgb, step(0.40, light));
+    vec3 two_tone = ink.rgb * mix(0.66, 1.0, smoothstep(0.18, 0.78, light));
     COLOR = vec4(two_tone, coverage * ink.a);
 }

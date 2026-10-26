@@ -10,7 +10,7 @@ func frames():
 func run():
     var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
-    var game=current_scene;game.refresh();var ribbon=game.ground_overlay;var truth=game.battle.snapshot()
+    var game=current_scene;game.refresh();game.hud.choose_action("move");var ribbon=game.ground_overlay;var truth=game.battle.snapshot()
     for path in [[],[{"x":4,"y":7}],[{"x":4,"y":7},{"x":4,"y":6}],[{"x":4,"y":7},{"x":4,"y":6},{"x":5,"y":6},{"x":5,"y":5}],[{"x":4,"y":7},{"x":4,"y":6},{"x":4,"y":7}]]:
         var points=ribbon.rounded_route(path)
         if path.size()<2:check(points.is_empty());continue
