@@ -1,0 +1,37 @@
+BRIDGE_TESTS checks=111 failures=0
+LOGIC_TESTS checks=119 failures=0
+RULE_MODULE_TESTS checks=13 failures=0
+ABILITY_TESTS checks=11 failures=0
+EQUIPMENT_TESTS checks=23 failures=0
+ITEM_AI_TESTS checks=10 failures=0
+CUTIN_OBJECTIVE_TESTS checks=10 failures=0
+RANGED_ANIMATION_TESTS checks=15 failures=0
+SCENE_INPUT_TEST_PASS mouse move + keyboard end turn + restart
+DIRECTION_TESTS checks=14 failures=0
+MOTION_TESTS checks=9 failures=0 mocked_art=true
+VERTICAL_TESTS checks=19 failures=0 isolated_save_root=user://test_saves_151785
+GEAR_UI_TESTS checks=5 failures=0
+MENU_TESTS checks=10 failures=0
+EDITOR_TESTS checks=15 failures=0
+CONTENT_UI_TESTS checks=9 failures=0
+CONTACT_PATH_CRIT_TESTS checks=49 failures=0
+REFERENCE_CONTENT_TESTS checks=44 failures=0 outcome=victory hash=55e806aa42c885355a3be806f65ea4491b5d9e20e3e7e12c0e43086fbb881c7b
+HUD_REFERENCE_LAYOUT checks=13 failures=0 viewport=(1280.0, 1280.0)
+MOVE_INTERACTION checks=10 failures=0 step=1
+NETWORK_RESULT {"hash":"08597c60f95e39e32d555326dc68e42bb8e7e6ff0dff86ba30af04c79be02cf9","reconnected":true,"role":"driver","step":3}
+NETWORK_RESULT {"hash":"08597c60f95e39e32d555326dc68e42bb8e7e6ff0dff86ba30af04c79be02cf9","reconnected":false,"role":"observer","step":3}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect
+NETWORK_RESULT {"extended":true,"hash":"f42bf7e6c26f6691054c35ffe964c273e8910d56f5b36ec776bd8cd9e6f8b4a8","reconnected":true,"role":"driver","step":7}
+NETWORK_RESULT {"extended":true,"hash":"f42bf7e6c26f6691054c35ffe964c273e8910d56f5b36ec776bd8cd9e6f8b4a8","reconnected":false,"role":"observer","step":7}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect
+NETWORK_RESULT {"extended":true,"hash":"f42bf7e6c26f6691054c35ffe964c273e8910d56f5b36ec776bd8cd9e6f8b4a8","reconnected":true,"role":"driver","step":7}
+NETWORK_RESULT {"extended":true,"hash":"f42bf7e6c26f6691054c35ffe964c273e8910d56f5b36ec776bd8cd9e6f8b4a8","reconnected":false,"role":"observer","step":7}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect
+NETWORK_RESULT {"hash":"3ca3d5f01e1ea36b0cfc837f45e08897c431bde821fb269a71ef0e2947595939","reconnected":true,"role":"driver","step":3}
+NETWORK_RESULT {"hash":"3ca3d5f01e1ea36b0cfc837f45e08897c431bde821fb269a71ef0e2947595939","reconnected":false,"role":"observer","step":3}
+NETWORK_TEST_PASS: server + two clients, three OS processes, same state after reconnect
+Godot Engine v4.6.3.stable.official.7d41c59c4 - https://godotengine.org
+
+PROTOTYPE_READY shared_lua=true units=6 tiles=90 renderer=
+MOVE_EVENT_PATH [{"x":4,"y":7},{"x":4,"y":6},{"x":4,"y":5},{"x":4,"y":4}]
+MOVE_INTERACTION checks=11 failures=0 step=1

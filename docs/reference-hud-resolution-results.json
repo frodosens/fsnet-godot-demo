@@ -1,0 +1,32 @@
+[
+  {
+    "requested": "960x600",
+    "script": "test_hud_reference_layout",
+    "result": "HUD_REFERENCE_LAYOUT checks=13 failures=0 viewport=(1280.0, 800.0)"
+  },
+  {
+    "requested": "960x600",
+    "script": "capture_reference_scene",
+    "result": "REFERENCE_SCENE_CAPTURE (960, 600) path=[{ \"y\": 7, \"x\": 4 }, { \"y\": 6, \"x\": 4 }, { \"y\": 5, \"x\": 4 }, { \"y\": 4, \"x\": 4 }] hash=a4d9ea1bfa1812e33cdecd064731c58712922f0f90b626c81b73cb995656e195"
+  },
+  {
+    "requested": "1920x1080",
+    "script": "test_hud_reference_layout",
+    "result": "HUD_REFERENCE_LAYOUT checks=13 failures=0 viewport=(1422.0, 800.0)"
+  },
+  {
+    "requested": "1920x1080",
+    "script": "capture_reference_scene",
+    "result": "REFERENCE_SCENE_CAPTURE (1920, 1080) path=[{ \"y\": 7, \"x\": 4 }, { \"y\": 6, \"x\": 4 }, { \"y\": 5, \"x\": 4 }, { \"y\": 4, \"x\": 4 }] hash=a4d9ea1bfa1812e33cdecd064731c58712922f0f90b626c81b73cb995656e195"
+  },
+  {
+    "requested": "2560x1080",
+    "script": "test_hud_reference_layout",
+    "result": "HUD_REFERENCE_LAYOUT checks=13 failures=0 viewport=(1896.0, 800.0)"
+  },
+  {
+    "requested": "2560x1080",
+    "script": "capture_reference_scene",
+    "result": "REFERENCE_SCENE_CAPTURE (2560, 1080) path=[{ \"x\": 4, \"y\": 7 }, { \"x\": 4, \"y\": 6 }, { \"x\": 4, \"y\": 5 }, { \"x\": 4, \"y\": 4 }] hash=a4d9ea1bfa1812e33cdecd064731c58712922f0f90b626c81b73cb995656e195"
+  }
+]

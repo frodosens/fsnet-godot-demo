@@ -3,9 +3,9 @@
 一个小规模、暖色欧式幻想佣兵战棋原型：骑士、弓手、法师守住石桥。
 角色使用原创候选像素素材，置于受实时光照的 3D 方格战场。中文菜单、剧情头像、存读档与数据型关卡工坊已接入。**这是持续开发的可玩原型，环境美术仍待统一，规则系统为有明确边界的首版实现。**
 
-![Godot 实机截图：HUD v3 与地图](docs/context-actions-runtime.png)
+![Godot 实机截图：新版场景与艺术 HUD](docs/reference-hud-1920x1080.png)
 
-最新 [参考图对齐、分辨率与光照检查](docs/REFERENCE_ALIGNMENT.md)；此前 [HUD、路线与接触验证记录](docs/HUD_V3_VALIDATION.md)。
+最新 [新版场景、艺术 HUD 与一次点击自动移动](docs/REFERENCE_SCENE_AND_HUD.md)；此前 [参考图对齐、分辨率与光照检查](docs/REFERENCE_ALIGNMENT.md)；此前 [HUD、路线与接触验证记录](docs/HUD_V3_VALIDATION.md)。
 
 截图由 Godot 4.6.3 + OpenGL/Mesa llvmpipe 实际渲染；不是概念图。
 

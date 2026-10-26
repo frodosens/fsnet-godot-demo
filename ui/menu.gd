@@ -24,7 +24,8 @@ func _ready():
     for arg in OS.get_cmdline_user_args():
         if arg=="--battle" or arg=="--scene-smoke":start_new()
         elif arg.begins_with("--connect="):
-            App.start_room(false,int(arg.trim_prefix("--connect=")),OS.get_environment("AMBER_TOKEN"));open_battle()
+            if App.start_room(false,int(arg.trim_prefix("--connect=")),OS.get_environment("AMBER_TOKEN")):open_battle()
+            else:show_network();network_status.text="连接未开始："+App.last_error
     capture_if_requested()
 func clear_page(title):
     if page:card.remove_child(page);page.queue_free()
@@ -41,7 +42,7 @@ func show_home():
     page.get_child(1).grab_focus()
 func start_new():
     if busy:return
-    busy=true;App.new_game();open_battle()
+    busy=true;App.new_game(preload("res://logic/content.gd").reference_content());open_battle()
 func open_battle():
     if transitioning:return
     transitioning=true;busy=true;get_tree().call_deferred("change_scene_to_file","res://main.tscn")
@@ -63,8 +64,9 @@ func show_network():
     page.add_theme_constant_override("separation",8)
     page.add_child(UI.paragraph("双方合作控制同一支小队。主机离开会结束房间。本版仅支持本机 127.0.0.1。",460))
     content_picker=OptionButton.new();content_picker.fit_to_longest_item=false;content_picker.custom_minimum_size.x=460
-    network_choices=[preload("res://logic/content.gd").default_content()]
-    content_picker.add_item("内置战役 · 琥珀桥来信")
+    network_choices=[preload("res://logic/content.gd").reference_content(),preload("res://logic/content.gd").default_content()]
+    content_picker.add_item("内置战役 · 琥珀桥来信（新版场景）")
+    content_picker.add_item("旧桥场景 · 回归兼容版")
     for file in DirAccess.get_files_at("user://mods"):
         if network_choices.size()>=33:break
         if not file.ends_with(".json"):continue

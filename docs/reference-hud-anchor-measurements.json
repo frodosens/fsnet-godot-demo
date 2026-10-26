@@ -1,0 +1,218 @@
+[
+  {
+    "window": "960x600",
+    "anchors": {
+      "attack": {
+        "actual": [
+          1126.40002441406,
+          328.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1126.40002441406,
+          328.0
+        ]
+      },
+      "companion_0": {
+        "actual": [
+          172.800003051758,
+          640.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          172.800003051758,
+          640.0
+        ]
+      },
+      "companion_1": {
+        "actual": [
+          223.800003051758,
+          640.0
+        ],
+        "error_logical_px": 0.199996948242188,
+        "target": [
+          224.0,
+          640.0
+        ]
+      },
+      "item": {
+        "actual": [
+          1126.40002441406,
+          472.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1126.40002441406,
+          472.0
+        ]
+      },
+      "move": {
+        "actual": [
+          1126.40002441406,
+          248.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1126.40002441406,
+          248.0
+        ]
+      },
+      "skill": {
+        "actual": [
+          1126.40002441406,
+          400.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1126.40002441406,
+          400.0
+        ]
+      }
+    },
+    "result": "HUD_REFERENCE_LAYOUT checks=13 failures=0 viewport=(1280.0, 800.0)"
+  },
+  {
+    "window": "1920x1080",
+    "anchors": {
+      "attack": {
+        "actual": [
+          1251.35998535156,
+          328.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1251.35998535156,
+          328.0
+        ]
+      },
+      "companion_0": {
+        "actual": [
+          191.970001220703,
+          640.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          191.970001220703,
+          640.0
+        ]
+      },
+      "companion_1": {
+        "actual": [
+          247.970001220703,
+          640.0
+        ],
+        "error_logical_px": 0.8800048828125,
+        "target": [
+          248.850006103516,
+          640.0
+        ]
+      },
+      "item": {
+        "actual": [
+          1251.35998535156,
+          472.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1251.35998535156,
+          472.0
+        ]
+      },
+      "move": {
+        "actual": [
+          1251.35998535156,
+          248.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1251.35998535156,
+          248.0
+        ]
+      },
+      "skill": {
+        "actual": [
+          1251.35998535156,
+          400.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1251.35998535156,
+          400.0
+        ]
+      }
+    },
+    "result": "HUD_REFERENCE_LAYOUT checks=13 failures=0 viewport=(1422.0, 800.0)"
+  },
+  {
+    "window": "2560x1080",
+    "anchors": {
+      "attack": {
+        "actual": [
+          1668.47998046875,
+          328.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1668.47998046875,
+          328.0
+        ]
+      },
+      "companion_0": {
+        "actual": [
+          255.960006713867,
+          640.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          255.960006713867,
+          640.0
+        ]
+      },
+      "companion_1": {
+        "actual": [
+          330.960021972656,
+          640.0
+        ],
+        "error_logical_px": 0.8399658203125,
+        "target": [
+          331.799987792969,
+          640.0
+        ]
+      },
+      "item": {
+        "actual": [
+          1668.47998046875,
+          472.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1668.47998046875,
+          472.0
+        ]
+      },
+      "move": {
+        "actual": [
+          1668.47998046875,
+          248.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1668.47998046875,
+          248.0
+        ]
+      },
+      "skill": {
+        "actual": [
+          1668.47998046875,
+          400.0
+        ],
+        "error_logical_px": 0.0,
+        "target": [
+          1668.47998046875,
+          400.0
+        ]
+      }
+    },
+    "result": "HUD_REFERENCE_LAYOUT checks=13 failures=0 viewport=(1896.0, 800.0)"
+  }
+]

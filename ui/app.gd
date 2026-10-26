@@ -42,6 +42,10 @@ func new_game(data={}):
     close_room();session=Session.new();session.offline(data)
     presentation={"seen":[],"active":"","line":0};saved_snapshot="";saved_presentation="";last_error=""
 func start_room(host,port,secret,data={}):
+    if data.is_empty() and not OS.get_environment("AMBER_MOD").is_empty():
+        var loaded=Content.from_file(OS.get_environment("AMBER_MOD"))
+        if not loaded.error.is_empty():last_error=loaded.error;return false
+        data=loaded.data
     close_room();new_game(data);room_port=port;room_token=secret;connection_age=0.0
     if host:
         server_authority=Authority.new(session.logic.content);server=AmberTransport.new()

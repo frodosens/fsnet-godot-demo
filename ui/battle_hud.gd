@@ -32,6 +32,10 @@ var hp_bar
 var mp_bar
 var hp_label
 var mp_label
+var move_label
+var act_label
+var hp_icon
+var mp_icon
 var action_summary
 var selected_portrait
 var previous=[]
@@ -51,15 +55,19 @@ func _ready():
     for i in range(game.battle.units.size()):
         var unit=game.battle.units[i]
         if unit.ally or unit.controller=="player":
-            var button=Button.new();button.custom_minimum_size=Vector2(52,60);button.tooltip_text=unit.name;button.pressed.connect(select_hero.bind(i));hero_column.add_child(button)
+            var button=Button.new();button.custom_minimum_size=Vector2(48,60);button.tooltip_text=unit.name;button.pressed.connect(select_hero.bind(i));hero_column.add_child(button)
             var image=UI.portrait(unit.id,48);image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);image.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(image)
             if image.texture==null:button.text=unit.name.left(1)
-            var health=ProgressBar.new();health.show_percentage=false;health.position=Vector2(2,55);health.size=Vector2(48,3);health.max_value=unit.max_hp;health.value=unit.hp;health.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(health)
-    status_panel=soft_panel(Vector2(24,630),Vector2(380,142))
-    selected_portrait=UI.portrait("mara",88);selected_portrait.position=Vector2(0,-26);selected_portrait.size=Vector2(112,152);status_panel.add_child(selected_portrait)
+            var health=preload("res://ui/art_meter.gd").new();health.position=Vector2(4,56);health.size=Vector2(40,3);health.max_value=unit.max_hp;health.value=unit.hp;health.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(health)
+            art_frame(button,"ally_portrait_frame")
+    status_panel=Control.new();status_panel.mouse_filter=Control.MOUSE_FILTER_IGNORE;status_panel.size=Vector2(500,160);root.add_child(status_panel)
+    selected_portrait=UI.portrait("mara",88);selected_portrait.position=Vector2(0,-26);selected_portrait.size=Vector2(112,152);status_panel.add_child(selected_portrait);art_frame(selected_portrait,"portrait_frame")
     detail=UI.paragraph("",270);detail.position=Vector2(124,2);detail.add_theme_font_size_override("font_size",22);status_panel.add_child(detail)
-    action_summary=UI.label("",20);action_summary.position=Vector2(124,116);status_panel.add_child(action_summary)
-    hp_bar=stat_bar(status_panel,Vector2(124,62),Color("8ba078"));mp_bar=stat_bar(status_panel,Vector2(124,91),Color("6c9c9b"))
+    action_summary=HBoxContainer.new();action_summary.add_theme_constant_override("separation",8);status_panel.add_child(action_summary)
+    action_summary.add_child(art_icon("symbol_movement"));move_label=UI.label("",20);action_summary.add_child(move_label)
+    action_summary.add_child(art_icon("symbol_action"));act_label=UI.label("",20);action_summary.add_child(act_label)
+    hp_icon=art_icon("icon_hp");status_panel.add_child(hp_icon);mp_icon=art_icon("icon_mp");status_panel.add_child(mp_icon)
+    hp_bar=stat_bar(status_panel,Vector2(124,62),Color("8ba078"),"hp");mp_bar=stat_bar(status_panel,Vector2(124,91),Color("6c9c9b"),"mp")
     hp_label=UI.label("",22);hp_label.position=Vector2(292,54);status_panel.add_child(hp_label)
     mp_label=UI.label("",22);mp_label.position=Vector2(292,83);status_panel.add_child(mp_label)
     hint_label=UI.label("选择角色，Enter 打开行动",22);hint_label.position=Vector2(440,744);root.add_child(hint_label)
@@ -67,7 +75,7 @@ func _ready():
     turn_button=UI.button("空格 · 结束回合",request_end_turn);turn_button.add_theme_font_size_override("font_size",18);turn_button.custom_minimum_size=Vector2(210,44);root.add_child(turn_button);action_buttons["end"]=turn_button
     action_panel=Control.new();action_panel.size=Vector2(158,216);action_panel.z_index=10;root.add_child(action_panel)
     for i in range(4):
-        var kind=["move","attack","skill","item"][i];var button=preload("res://ui/action_button.gd").new();button.kind=kind;button.text=["移动 M","攻击 A","技能 S","道具 I"][i];button.position=Vector2(0,i*54);button.pressed.connect(choose_action.bind(kind));action_panel.add_child(button);action_buttons[kind]=button
+        var kind=["move","attack","skill","item"][i];var button=preload("res://ui/action_button.gd").new();button.kind=kind;button.text=["1   移动","2   攻击","3   技能","4   道具"][i];button.position=Vector2(0,i*54);button.pressed.connect(choose_action.bind(kind));action_panel.add_child(button);action_buttons[kind]=button
     target_panel=soft_panel(Vector2(960,90),Vector2(280,110));target_panel.hide()
     target_portrait=UI.portrait("oren",56);target_portrait.position=Vector2(0,8);target_panel.add_child(target_portrait)
     target_detail=UI.paragraph("",220);target_detail.position=Vector2(62,0);target_detail.add_theme_font_size_override("font_size",16);target_panel.add_child(target_detail)
@@ -104,9 +112,13 @@ func soft_panel(pos,size):
     var bg=TextureRect.new();var texture=GradientTexture2D.new();texture.width=128;texture.height=32
     var gradient=Gradient.new();gradient.set_color(0,Color(0.12,0.17,0.16,0.9));gradient.set_color(1,Color(0.12,0.17,0.16,0));texture.gradient=gradient;texture.fill_from=Vector2.ZERO;texture.fill_to=Vector2.RIGHT
     bg.texture=texture;bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);bg.mouse_filter=Control.MOUSE_FILTER_IGNORE;control.add_child(bg);return control
-func stat_bar(parent,pos,color):
-    var bar=ProgressBar.new();bar.show_percentage=false;bar.position=pos;bar.size=Vector2(160,10)
-    var fill=StyleBoxFlat.new();fill.bg_color=color;var background=StyleBoxFlat.new();background.bg_color=Color("182421");bar.add_theme_stylebox_override("fill",fill);bar.add_theme_stylebox_override("background",background);parent.add_child(bar);return bar
+func art_frame(parent,name):
+    var frame=TextureRect.new();frame.texture=load("res://assets/ui/hud_v3/"+name+".png");frame.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;frame.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;frame.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;frame.mouse_filter=Control.MOUSE_FILTER_IGNORE
+    frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);parent.add_child(frame)
+func art_icon(name):
+    var icon=TextureRect.new();icon.texture=load("res://assets/ui/hud_v3/"+name+".png");icon.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;icon.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;icon.custom_minimum_size=Vector2(20,20);icon.size=Vector2(20,20);icon.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;icon.mouse_filter=Control.MOUSE_FILTER_IGNORE;return icon
+func stat_bar(parent,pos,_color,kind):
+    var bar=preload("res://ui/art_meter.gd").new();bar.kind=kind;bar.position=pos;bar.size=Vector2(160,12);parent.add_child(bar);return bar
 func panel(pos,size):
     var p=PanelContainer.new();p.position=pos;p.custom_minimum_size=size;root.add_child(p);return p
 func select_hero(index):
@@ -140,7 +152,15 @@ func refresh():
     round_label.text="第 %d 回合 · %s"%[logic.round_number,{"playing":"我方行动","victory":"胜利","defeat":"失败"}.get(logic.outcome,logic.outcome)]
     var view=root.get_viewport_rect().size
     round_label.position.x=(view.x-220)*0.5;pause_button.position=Vector2(view.x-maxf(132,pause_button.size.x)-24,24)
-    status_panel.position=Vector2(24,view.y-170);companion_panel.position=Vector2(24,view.y-248)
+    status_panel.position=Vector2(view.x*0.02,view.y*0.84);status_panel.size=Vector2(view.x*0.40,view.y*0.16)
+    selected_portrait.position=Vector2(0,-view.y*0.04);selected_portrait.size=Vector2(view.x*0.085,view.y*0.16)
+    detail.position=Vector2(view.x*0.10,0);action_summary.position=Vector2(view.x*0.10,view.y*0.105)
+    hp_bar.position=Vector2(view.x*0.12,view.y*0.045);mp_bar.position=Vector2(view.x*0.12,view.y*0.075)
+    hp_bar.size=Vector2(view.x*0.12,view.x*0.009);mp_bar.size=hp_bar.size
+    hp_icon.position=hp_bar.position+Vector2(-28,-4);mp_icon.position=mp_bar.position+Vector2(-28,-4)
+    hp_label.position=Vector2(view.x*0.245,view.y*0.035);mp_label.position=Vector2(view.x*0.245,view.y*0.065)
+    companion_panel.position=Vector2(view.x*0.135-24,view.y*0.80-30);companion_panel.custom_minimum_size=Vector2(380,64);companion_panel.size.y=64
+    hero_column.add_theme_constant_override("separation",maxi(0,int(view.x*0.04)-48))
     turn_button.position=Vector2(view.x-maxf(210,turn_button.size.x)-24,view.y-90);hint_label.position=Vector2(430,view.y-56);log_label.position=Vector2(430,view.y-90)
     story_panel.position=Vector2((view.x-1240)*0.5,view.y-242)
     for line in [hint_label,log_label]:
@@ -154,9 +174,10 @@ func refresh():
             var b=hero_column.get_child(button_index);button_index+=1
             b.tooltip_text="%s %d/%d · %s"%[u.name,u.hp,u.max_hp,"友军 AI" if u.controller=="ai" else "选择队员"]
             b.disabled=u.hp<=0 or u.controller!="player"
+            b.visible=game.selected!=i
             b.get_child(1).max_value=u.max_hp;b.get_child(1).value=u.hp
             var border=StyleBoxFlat.new();border.bg_color=Color(0.12,0.17,0.16,0.7);border.border_color=Color("dfa75f") if game.selected==i else Color("59624b");border.set_border_width_all(2 if game.selected==i else 1);b.add_theme_stylebox_override("normal",border)
-    detail.text="队伍休整中。";action_summary.text=""
+    detail.text="队伍休整中。";move_label.text="";act_label.text=""
     var active=game.selected>=0 and logic.usable(game.selected)
     if active:
         var u=logic.units[game.selected]
@@ -167,10 +188,10 @@ func refresh():
             if ability.id==u.skill_id:skill="默认技能："+ability.name;detail.tooltip_text=ability_description(ability)
         detail.text="%s · %s"%[u.name,{"knight":"骑士","archer":"弓手","mage":"法师","raider":"卫队长","scout":"斥候","brute":"桥工"}.get(u.role,u.role)]
         detail.tooltip_text=skill+"\n"+detail.tooltip_text
-        action_summary.text="移动 %d次 · 行动 %d"%[maxi(0,u.move_actions-u.moves_used),0 if u.acted else 1]
+        move_label.text="移动 %d"%maxi(0,u.move_actions-u.moves_used);act_label.text="行动 %d"%(0 if u.acted else 1)
         hp_bar.max_value=u.max_hp;hp_bar.value=u.hp;mp_bar.max_value=maxi(1,u.max_mp);mp_bar.value=u.mp
         hp_label.text="%d/%d"%[u.hp,u.max_hp];mp_label.text="%d/%d"%[u.mp,u.max_mp]
-        action_buttons.move.text="移动 M"
+        action_buttons.move.text="1   移动"
         action_buttons.move.disabled=u.moves_used>=u.move_actions
         action_buttons.attack.disabled=u.acted
         action_buttons.skill.disabled=u.acted
@@ -180,7 +201,7 @@ func refresh():
     else:
         for kind in ["move","attack","skill","item"]:action_buttons[kind].disabled=true
     action_buttons.end.disabled=logic.outcome!="playing"
-    action_panel.visible=active and action_menu_open and not blocks_input()
+    action_panel.visible=active and not blocks_input()
     target_panel.visible=not game.target_preview.is_empty() and game.mode!="move" and not blocks_input()
     if target_panel.visible:
         var victim=logic.units[game.target_preview_index];var prediction=game.target_preview
@@ -191,7 +212,13 @@ func refresh():
         if prediction.healing>0:target_detail.text+="\n治疗 +%d"%prediction.healing
     if active:
         # Approved reference uses a right-hand safe zone, away from selected units.
-        action_panel.position=Vector2(view.x-182,maxf(150,view.y*0.28))
+        action_panel.position=Vector2(view.x*0.88-32,view.y*0.31-32)
+        action_panel.size=Vector2(view.x*0.12+16,view.y*0.28+64)
+        var kinds=["move","attack","skill","item"];var anchors=[0.31,0.41,0.50,0.59]
+        for i in range(4):
+            var button=action_buttons[kinds[i]];button.position=Vector2(0,(anchors[i]-0.31)*view.y)
+            button.custom_minimum_size.x=view.x*0.12+16;button.size.x=button.custom_minimum_size.x
+            button.set_selected(game.mode==kinds[i] or (kinds[i]=="skill" and game.mode.begins_with("ability:")) or (kinds[i]=="item" and game.mode.begins_with("item:")))
         hint_label.text=("移动 %d/%d · 点击落点确认"%[game.preview_path.size()-1,logic.units[game.selected].movement]) if not game.preview_path.is_empty() else ("指向地块预览路线 · Enter 行动" if game.mode=="move" else "选择合法目标 · Esc 返回")
         if game.mode=="move" and not game.preview_reason.is_empty():hint_label.text=game.preview_reason
     if last_step!=logic.step:

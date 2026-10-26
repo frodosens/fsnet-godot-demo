@@ -1,6 +1,7 @@
 extends Node3D
 const Session = preload("res://logic/session.gd")
 var session
+const Architecture=preload("res://view/architecture.gd")
 const Hud=preload("res://ui/battle_hud.gd")
 var hud
 var cutin
@@ -31,6 +32,7 @@ var preview_path=[]
 var preview_cell=Vector2i(-1,-1)
 var route_mesh
 var decorative_props=[]
+var water_level=-1.15
 var preview_ghost
 var route_arrows
 var selection_ring
@@ -64,7 +66,7 @@ func _ready():
     build_world()
     build_hud()
     refresh()
-    print("PROTOTYPE_READY shared_lua=true units=6 tiles=80 renderer=" + RenderingServer.get_video_adapter_name())
+    print("PROTOTYPE_READY shared_lua=true units=",figures.size()," tiles=",tiles.size()," renderer=",RenderingServer.get_video_adapter_name())
     for arg in OS.get_cmdline_user_args():
         if arg.begins_with("--capture="):
             if DisplayServer.get_name()=="headless":
@@ -78,7 +80,7 @@ func _ready():
             get_tree().quit(0 if result==OK else 1)
     if "--scene-smoke" in OS.get_cmdline_user_args():
         await get_tree().process_frame
-        if figures.size() != 6 or tiles.size() != 80:
+        if figures.size() != battle.units.size() or tiles.size() != battle.size.x*battle.size.y:
             get_tree().quit(1)
         else:
             print("SCENE_SMOKE_OK (scene construction only; no visual assertion)")
@@ -108,7 +110,7 @@ func build_world():
             var bridge = battle.content.terrain[z][x]=="B"
             var dirt=battle.content.terrain[z][x]=="D"
             var color = "596d76" if water else ("85847a" if bridge else ("87775b" if dirt else ("59624b" if (x+z)%2 else "626a52")))
-            var tile = box(Vector3(x,-0.15 if not water else -0.72,z),Vector3(0.98,0.3 if not water else 0.12,0.98),color)
+            var tile = box(Vector3(x,-0.15 if not water else water_level-0.06,z),Vector3(0.98,0.3 if not water else 0.12,0.98),color)
             var overlay=MeshInstance3D.new();var plane=PlaneMesh.new();plane.size=Vector2(0.93,0.93);overlay.mesh=plane
             var highlight=StandardMaterial3D.new();highlight.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;highlight.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA;highlight.albedo_color=Color(0.42,0.61,0.61,0.22)
             overlay.material_override=highlight;overlay.position=Vector3(x,0.012,z);overlay.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;overlay.visible=false;add_child(overlay)
@@ -126,14 +128,16 @@ func build_world():
         var start=river_rows[0]-0.5;var end=river_rows[-1]+0.5
         landscape_box(Vector3((battle.size.x-1)*0.5,-0.28,(start-20)*0.5),Vector3(60,0.3,start+20),"59624b")
         landscape_box(Vector3((battle.size.x-1)*0.5,-0.28,(end+30)*0.5),Vector3(60,0.3,30-end),"59624b")
-        box(Vector3((battle.size.x-1)*0.5,-0.74,(start+end)*0.5),Vector3(60,0.12,end-start),"596d76")
+        box(Vector3((battle.size.x-1)*0.5,water_level-0.06,(start+end)*0.5),Vector3(60,0.12,end-start),"596d76")
         for pos in tiles:
             if battle.content.terrain[pos.y][pos.x]=="W":tiles[pos].node.visible=false
         for x in range(-12,battle.size.x+12):
             for edge in [start,end]:
                 var near=clampi(int(edge+0.5 if edge==start else edge-0.5),0,battle.size.y-1)
                 if x>=0 and x<battle.size.x and battle.content.terrain[near][x]=="B":continue
-                box(Vector3(x,-0.35+0.035*sin(x*2.1),edge+0.07*sin(x*1.7)),Vector3(0.90,0.43+0.10*((x+24)%3),0.28+0.06*((x+24)%2)),"a08e77")
+                for course in range(3):
+                    var stone=box(Vector3(x+0.12*(course%2),-0.22-course*0.33+0.025*sin(x*2.1),edge+0.07*sin(x*1.7)),Vector3(0.90,0.30,0.32+0.06*((x+24)%2)),"a08e77")
+                    stone.rotation.y=0.035*sin(x*1.9+course)
     else:
         landscape_box(Vector3(-10.5,-0.28,(battle.size.y-1)*0.5),Vector3(20,0.3,60),"59624b")
         landscape_box(Vector3(battle.size.x+9.5,-0.28,(battle.size.y-1)*0.5),Vector3(20,0.3,60),"59624b")
@@ -142,7 +146,11 @@ func build_world():
     # Bridge rails follow the data map; X cells are actual blocked obstacles.
     for z in range(battle.size.y):
         for x in range(battle.size.x):
-            if battle.content.terrain[z][x]=="X":box(Vector3(x,0.22,z),Vector3(0.8,0.6,0.8),"84775f")
+            if battle.content.terrain[z][x]=="X":
+                if battle.content.id=="amber_bridge_reference":
+                    for rock in range(3):
+                        var ruin=box(Vector3(x-0.25+rock*0.23,0.04+rock*0.02,z+0.15*sin(x+rock)),Vector3(0.34,0.23+0.04*rock,0.32),"84775f");ruin.rotation.y=0.25*rock
+                else:box(Vector3(x,0.22,z),Vector3(0.8,0.6,0.8),"84775f")
             if battle.content.terrain[z][x]=="B":
                 for side in [-1,1]:
                     if x+side>=0 and x+side<battle.size.x and battle.content.terrain[z][x+side]=="W":
@@ -159,16 +167,19 @@ func build_world():
                     if x+side<0 or x+side>=battle.size.x or battle.content.terrain[start][x+side]!="W":continue
                     for piece in range(span*8):
                         var t=(piece+0.5)/(span*8.0)
-                        var bottom=-0.72+0.44*sin(t*PI)
+                        var bottom=water_level+0.78*sin(t*PI)
                         var height=-0.15-bottom
                         box(Vector3(x+side*0.47,bottom+height*0.5,start-0.5+(piece+0.5)/8.0),Vector3(0.16,height,0.13),"a08e77")
+                    for voussoir in range(12):
+                        var t0= voussoir/12.0;var t1=(voussoir+0.94)/12.0
+                        Architecture.arch_stone(self,x+side*0.49,start-0.5+span*t0,start-0.5+span*t1,water_level+0.78*sin(t0*PI),water_level+0.78*sin(t1*PI),voussoir%2)
                 start=-1
     # Border-only irregular soil banks and river continuation: no traversable cells added.
     for z in range(battle.size.y):
         for side in [-1,1]:
             var x=0 if side<0 else battle.size.x-1
             if battle.content.terrain[z][x]=="W":
-                box(Vector3(x+side*1.0,-0.72,z),Vector3(1.05,0.12,0.98),"596d76")
+                box(Vector3(x+side*1.0,water_level-0.06,z),Vector3(1.05,0.12,0.98),"596d76")
             else:
                 var width=0.38+0.12*((z+2)%3)
                 box(Vector3(x+side*(0.49+width*0.5),-0.20,z),Vector3(width,0.30,1.02),"59624b")
@@ -190,13 +201,14 @@ func build_world():
         box(Vector3(x,0.62,7.28),Vector3(0.40,0.08,0.10),"694d3b")
         box(Vector3(x,0.85,7.285),Vector3(0.025,0.28,0.025),"694d3b")
         box(Vector3(x,0.85,7.285),Vector3(0.26,0.025,0.025),"694d3b")
+    Architecture.inn_details(self)
     var inn_nodes=get_children().slice(inn_start)
     var inn=Node3D.new();inn.position=Vector3(-1.1,0,6.7);add_child(inn)
     for node in inn_nodes:node.reparent(inn,true)
-    inn.scale=Vector3.ONE*1.65;inn.position.x=-1.5
+    inn.scale=Vector3.ONE*1.65;inn.position.x=-2.3;inn.position.z=battle.size.y-1.3
     for window_x in [-1.52,-0.65]:
         var glow=OmniLight3D.new();glow.position=inn.to_global(Vector3(window_x+1.1,0.85,0.58));glow.light_color=Color("ffb568");glow.light_energy=0.65;glow.omni_range=2.4;glow.shadow_enabled=true;add_child(glow)
-    for p in [Vector3(2,0,7),Vector3(7,0,0)]:
+    for p in [Vector3(3.35,0,battle.size.y-2.9),Vector3(5.65,0,2.3)]:
         box(p+Vector3(0,0.5,0),Vector3(0.08,1,0.08),"594633")
         var lamp = OmniLight3D.new()
         lamp.position = p+Vector3(0,1,0)
@@ -218,7 +230,7 @@ func build_world():
     camera = Camera3D.new()
     camera.projection = Camera3D.PROJECTION_ORTHOGONAL
     camera.size = maxf(battle.size.x,battle.size.y)+1.8
-    camera.position = Vector3((battle.size.x-1)*0.5+8.5,16,(battle.size.y-1)*0.5+13.5)
+    camera.position = Vector3((battle.size.x-1)*0.5+11.3137085,16,(battle.size.y-1)*0.5+11.3137085)
     add_child(camera)
     camera.look_at(Vector3((battle.size.x-1)*0.5,0,(battle.size.y-1)*0.5))
     camera.position -= camera.global_basis.x * 1.0
@@ -384,9 +396,9 @@ func _unhandled_input(event):
         match event.physical_keycode:
             KEY_1,KEY_M: select_mode("move")
             KEY_2,KEY_A: select_mode("attack")
-            KEY_3: select_mode("skill")
+            KEY_3: hud.choose_action("skill")
             KEY_S: hud.choose_action("skill")
-            KEY_I: hud.choose_action("item")
+            KEY_4,KEY_I: hud.choose_action("item")
             KEY_ENTER: hud.open_action_menu()
             KEY_SPACE: hud.request_end_turn()
             KEY_R: restart()
@@ -408,7 +420,8 @@ func _unhandled_input(event):
             hud.action_menu_open=true
         elif mode == "move":
             update_move_preview(cell)
-            if not preview_path.is_empty():session.submit({"kind":"move","unit":selected,"x":cell.x,"y":cell.y})
+            if preview_path.is_empty():hud.refresh();return
+            session.submit({"kind":"move","unit":selected,"x":cell.x,"y":cell.y})
         elif mode.begins_with("item:"):
             session.submit({"kind":"item","consumable":mode.trim_prefix("item:"),"unit":selected,"target":target})
         elif mode.begins_with("ability:"):
@@ -500,13 +513,22 @@ func build_border_props():
     for z in range(-1,battle.size.y+2,2):
         if z not in [3,4]:
             placements.append(["tree",Vector2(-3.0-0.3*sin(z),z)]);placements.append(["tree",Vector2(battle.size.x+2.0+0.3*cos(z),z)])
+    for x in range(-3,battle.size.x+3):
+        for z in [-0.8,battle.size.y-0.15]:
+            placements.append(["shrub",Vector2(x+0.2*sin(x*1.4),z)])
+            if x%2==0:placements.append(["reeds_rocks",Vector2(x,battle.size.y-4.45)])
+    if battle.content.id=="amber_bridge_reference":
+        for z in range(battle.size.y):
+            for x in range(battle.size.x):
+                if battle.content.terrain[z][x]=="X":placements.append(["tree",Vector2(x,z)])
     for placement in placements:
         var cell=placement[1]
-        if cell.x>=-0.5 and cell.x<battle.size.x-0.5 and cell.y>=-0.5 and cell.y<battle.size.y-0.5:continue
+        var inside=cell.x>=-0.5 and cell.x<battle.size.x-0.5 and cell.y>=-0.5 and cell.y<battle.size.y-0.5
+        if inside and (placement[0]!="tree" or battle.content.terrain[roundi(cell.y)][roundi(cell.x)]!="X"):continue
         var d=definitions[placement[0]];var sprite=Sprite3D.new();sprite.texture=load("res://"+d.path);sprite.pixel_size=d.pixel_size
         sprite.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y;sprite.shaded=true;sprite.modulate=Color.WHITE;sprite.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST
         sprite.alpha_cut=SpriteBase3D.ALPHA_CUT_DISCARD;sprite.alpha_scissor_threshold=0.5;sprite.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_ON
-        var base_y=-0.60 if placement[0]=="reeds_rocks" else (-0.13 if placement[0]=="tree" else -0.03)
+        var base_y=water_level+0.08 if placement[0]=="reeds_rocks" else (-0.13 if placement[0]=="tree" else -0.03)
         if placement[0]=="tree" and (cell.x<-2 or cell.x>battle.size.x+1 or cell.y<-2 or cell.y>battle.size.y+1):
             var variation=0.95+0.12*sin(cell.x*2.3+cell.y);sprite.pixel_size*=variation
             sprite.modulate=Color(0.65,0.76,0.72)
