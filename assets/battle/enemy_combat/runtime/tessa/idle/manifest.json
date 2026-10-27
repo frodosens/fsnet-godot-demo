@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "status": "candidate_review_pending",
+  "character": "tessa",
+  "facing": "right",
+  "canvas": [
+    192,
+    160
+  ],
+  "anchor": [
+    96,
+    144
+  ],
+  "original_idle": "res://assets/battle/enemy_combat/runtime/tessa/00_idle.png",
+  "new_idle": "res://assets/battle/enemy_combat/runtime/tessa/idle/01_inhale.png",
+  "sequence": [
+    "res://assets/battle/enemy_combat/runtime/tessa/00_idle.png",
+    "res://assets/battle/enemy_combat/runtime/tessa/idle/01_inhale.png",
+    "res://assets/battle/enemy_combat/runtime/tessa/00_idle.png"
+  ],
+  "duration_ms": [
+    320,
+    320,
+    320
+  ],
+  "unique_poses": 2,
+  "qa": {
+    "neutral": {
+      "bbox_threshold": "alpha>100",
+      "bbox": [
+        59,
+        39,
+        124,
+        144
+      ],
+      "alpha_gt_0_bbox": [
+        59,
+        39,
+        124,
+        144
+      ],
+      "alpha_gt_15_bbox": [
+        59,
+        39,
+        124,
+        144
+      ],
+      "alpha_gt_100_bbox": [
+        59,
+        39,
+        124,
+        144
+      ],
+      "alpha_gt_127_bbox": [
+        59,
+        39,
+        124,
+        144
+      ],
+      "foot_left": [
+        69,
+        130,
+        84,
+        142
+      ],
+      "foot_right": [
+        111,
+        130,
+        124,
+        144
+      ]
+    },
+    "inhale": {
+      "bbox_threshold": "alpha>100",
+      "bbox": [
+        59,
+        39,
+        124,
+        144
+      ],
+      "alpha_gt_0_bbox": [
+        58,
+        16,
+        125,
+        144
+      ],
+      "alpha_gt_15_bbox": [
+        59,
+        39,
+        124,
+        144
+      ],
+      "alpha_gt_100_bbox": [
+        59,
+        39,
+        124,
+        144
+      ],
+      "alpha_gt_127_bbox": [
+        59,
+        39,
+        124,
+        144
+      ],
+      "foot_left": [
+        69,
+        130,
+        85,
+        143
+      ],
+      "foot_right": [
+        110,
+        130,
+        124,
+        144
+      ]
+    },
+    "original_git_blob": "d243896b5f1249720ad9e50b38a0828587fcfcf4",
+    "source_sha256": "71af19770bf24c4845b2cdb49f14de9da11903f0f8f15d86425b4191ba77c7bc",
+    "runtime_sha256": "3e63b2e4b97b2fb2d876c7fd12ead242d15e7bfde062cf63ce90e676f53f8d9b",
+    "status": "awaiting_visual_review",
+    "character": "tessa",
+    "facing": "right",
+    "source_original": "assets/battle/enemy_combat/runtime/tessa/00_idle.png",
+    "method": "Host-native imagegen conservative reference edit. Reference8xnearest; only RGB under alpha=0 cleared in reference. Full output canvas nearest downsample192x160. No warping or repaint.",
+    "alpha_residual_outside_body_bbox": {
+      "pixel_count": 8,
+      "max_alpha": 7,
+      "body_bbox_threshold": "alpha>100"
+    },
+    "review_findings": [
+      "Overall silhouette and dagger pose stable.",
+      "Subtle chest/collar variation with small detail reshading; not pixel-identical.",
+      "Left boot edge/bottom1px and right boot edge1px variation.",
+      "Lowalpha residue remains; not clean-alpha certified.",
+      "Existing attack/hurt only displayed for QA, never edited."
+    ],
+    "validation_limits": [
+      "No in-engine import or playback test",
+      "Preview is2unique poses in960mscycle;167msidlewindow visibility needs engineering review"
+    ]
+  },
+  "limits": [
+    "Root approved for isolated candidate staging, not in-game completion.",
+    "Faint residual alpha beyond thresholded body silhouette. Not clean-alpha approved.",
+    "Foot/body metrics use alpha>100. Full nonzero and other thresholds recorded.",
+    "Attack/hurt unchanged. Engine visibility and transitions still need review."
+  ]
+}

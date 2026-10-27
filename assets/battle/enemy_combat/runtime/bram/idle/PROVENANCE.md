@@ -1,0 +1,8 @@
+# bram sideview idle candidate
+
+Host-native image_gen edit using exact existing idle reference enlarged 8x nearest-neighbor. Only reference fully transparent RGB may be zeroed; visible original pixels untouched. Full-canvas nearest-neighbor normalization to 192x160. No pose warping or repaint. Generated source retained locally; no demos in Git. Residual low alpha remains; thresholds/hashes in manifest. Existing attack/hurt unchanged.
+
+## Exact prompt
+
+Use case: identity-preserve. Edit this exact existing Bram game sprite very conservatively, not a redesign. This input is an 8x nearest-neighbor enlargement of a192x160 sprite. Keep its enlarged pixel blocks, lowresolution texture, exact canvas composition and silhouette. Same stocky red-haired red-bearded adult blacksmith facing RIGHT, off-white rolled-sleeve shirt, brown leather apron, belt, dark trousers and boots, heavy hammer held horizontally across waist with its iron head to the right. Change ONLY inside upper apron/chest and shirt collar: a tiny inhalation, raise one upper chest highlight and collar fold by ONE original pixel block (8 image pixels), keeping belt and lower chest fixed. DO NOT move head, hair, beard, hands, hammer shaft/head, forearms, elbows, apron outer edge, hips, legs, knees, or either boot. Head starts at y400 and boots stay at y1152 on this1536x1280reference. Character must not become taller, thinner, larger-headed, or shifted. No enhancing face or sharpened new detail. Rest of image must appear copied exactly. Only one complete sideview character, same position and transparent margins, actual transparent background, no shadow, no extra objects. Tiny internal chest/shoulder breathing change only.
+

@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "status": "candidate_review_pending",
+  "character": "oren",
+  "actor_state": "attacker_idle",
+  "facing": "right",
+  "canvas": [
+    192,
+    160
+  ],
+  "anchor": [
+    96,
+    144
+  ],
+  "original_idle": "res://assets/battle/enemy_combat/runtime/oren/00_idle.png",
+  "new_idle": "res://assets/battle/enemy_combat/runtime/oren/idle/01_inhale.png",
+  "sequence": [
+    "res://assets/battle/enemy_combat/runtime/oren/00_idle.png",
+    "res://assets/battle/enemy_combat/runtime/oren/idle/01_inhale.png",
+    "res://assets/battle/enemy_combat/runtime/oren/00_idle.png"
+  ],
+  "duration_ms": [
+    320,
+    320,
+    320
+  ],
+  "unique_poses": 2,
+  "qa": {
+    "neutral": {
+      "bbox_threshold": "alpha>100",
+      "bbox": [
+        63,
+        44,
+        134,
+        144
+      ],
+      "alpha_gt_0_bbox": [
+        63,
+        44,
+        134,
+        144
+      ],
+      "alpha_gt_15_bbox": [
+        63,
+        44,
+        134,
+        144
+      ],
+      "alpha_gt_100_bbox": [
+        63,
+        44,
+        134,
+        144
+      ],
+      "alpha_gt_127_bbox": [
+        63,
+        44,
+        134,
+        144
+      ],
+      "foot_left": [
+        63,
+        130,
+        79,
+        144
+      ],
+      "foot_right": [
+        108,
+        130,
+        128,
+        144
+      ]
+    },
+    "inhale": {
+      "bbox_threshold": "alpha>100",
+      "bbox": [
+        63,
+        44,
+        134,
+        144
+      ],
+      "alpha_gt_0_bbox": [
+        37,
+        27,
+        156,
+        158
+      ],
+      "alpha_gt_15_bbox": [
+        63,
+        44,
+        134,
+        144
+      ],
+      "alpha_gt_100_bbox": [
+        63,
+        44,
+        134,
+        144
+      ],
+      "alpha_gt_127_bbox": [
+        63,
+        44,
+        134,
+        144
+      ],
+      "foot_left": [
+        63,
+        130,
+        80,
+        144
+      ],
+      "foot_right": [
+        108,
+        130,
+        128,
+        144
+      ]
+    },
+    "original_git_blob": "83dc50568c685ca2f52f11d1d9b77351d6586d8a",
+    "source_sha256": "cdf2987e9ab0a190d18a5be4749dbf3f7b5025d1837ba7e3a8658b03afb1ddbc",
+    "runtime_sha256": "b8b6706209be0f3a1e12424795595a092edeca6a338a1f8d601edd71e3cd8039",
+    "status": "root_reviewed_candidate_runtime_pending"
+  },
+  "source_mapping": "Exact RIGHT-facing attack idle source. Not a mirror of LEFT defensive idle. Existing old hit source facesleft; engineering owns established actor-state direction mapping.",
+  "limits": [
+    "Root approved candidate consistency, not in-game acceptance.",
+    "Faint lowalpha residue remains. Full nonzero and thresholded bounds recorded separately.",
+    "Foot/body metrics use alpha>100, not full alpha.",
+    "Existing attack/hurt unchanged; engine must test visible timing without forced longpause.",
+    "No game-dev canonical package validation, CLI unavailable."
+  ]
+}

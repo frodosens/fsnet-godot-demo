@@ -1,0 +1,7 @@
+# Oren RIGHT attacker idle candidate
+
+Host-native image_gen edit of exact existing RIGHT attack idle. Original pixels nearest-neighbor enlarged 8x; reference RGB cleared ONLY where alpha==0. Output fullcanvas nearest-neighbor resized to192x160. No mirroring, posewarping, procedural redraw or output alpha cleanup. Source SHA and runtimeSHA are recorded in manifest QA. Existing attacks/hurt untouched. No demo media in this archive.
+
+## Exact prompt
+
+This is exact Oren RIGHT-facing attacker idle sprite, enlarged nearest-neighbor8x. Make only a tiny internal chest/collar inhalation, NOT a newdrawing. Preserve the entire outer silhouette, scale, canvas placement, face, hair, beard, armor, shield, sword, pose and pixelclusters exactly as shown. Same gray-haired bearded soldier looking RIGHT, round shield ahead on right, sword held low angled down-right in foreground. Change ONLY inside the olive neck collar and chest cloth: raise a collarfold and upper chest highlight ONE originalpixelblock/8imagepixels; belt and lowerchest fixed. Keep BOTH feet, legs, knees, head, hands, sword angle, swordlength, shieldshape and all outlines anchored exactly. No taller body, no enlarged head, no detail enhancement, no smoothing, no mirror or rotation. One character only. Same1536x1280canvas aspect and margins; actual transparency, no background or shadow. Almost identical existing sprite except tiny internal breathing. Never reference any other Oren pose or leftfacingdefender.

@@ -1,0 +1,8 @@
+# tessa sideview idle candidate
+
+Host-native image_gen edit using exact existing idle reference enlarged 8x nearest-neighbor. Only reference fully transparent RGB may be zeroed; visible original pixels untouched. Full-canvas nearest-neighbor normalization to 192x160. No pose warping or repaint. Generated source retained locally; no demos in Git. Residual low alpha remains; thresholds/hashes in manifest. Existing attack/hurt unchanged.
+
+## Exact prompt
+
+This is the exact existing Tessa sideview battle sprite enlarged by nearest-neighbor8x. Make ONLY one tiny internal collar/chest breathing edit; reproduce all else exactly, do not redraw or redesign. Same short black-haired female rogue facing RIGHT, gray shoulder cape and dark fitted leather costume, same single dagger pointing diagonally down-left in lowered hand, same opposite empty hand. Preserve complete outer silhouette and every weapon, hand and boot location. Do not change dagger angle/length, face, hairstyle, anatomy, pose, palette, costume, or proportions. On this1536x1280canvas, the character's original visible bounds are x472..992 and y312..1152. Keep head top and both boot bottoms at exact original positions. Change ONLY a gray collar fold and upper chest highlight by ONE originalpixelblock/8imagepixels to suggest a gentle inhale, with belt/lowerchest fixed. All remaining visible pixel clusters copied exactly. Same fullcanvas aspect and transparent margins, actualtransparentbackground. No new detail, smoothing, enhancedface, extra weapon, rotation, shadow, or effects. Exactly one nearlyidentical lowresolutionpixel sprite.
+

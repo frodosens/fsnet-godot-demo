@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "status": "candidate_review_pending",
+  "character": "bram",
+  "facing": "right",
+  "canvas": [
+    192,
+    160
+  ],
+  "anchor": [
+    96,
+    144
+  ],
+  "original_idle": "res://assets/battle/enemy_combat/runtime/bram/00_idle.png",
+  "new_idle": "res://assets/battle/enemy_combat/runtime/bram/idle/01_inhale.png",
+  "sequence": [
+    "res://assets/battle/enemy_combat/runtime/bram/00_idle.png",
+    "res://assets/battle/enemy_combat/runtime/bram/idle/01_inhale.png",
+    "res://assets/battle/enemy_combat/runtime/bram/00_idle.png"
+  ],
+  "duration_ms": [
+    320,
+    320,
+    320
+  ],
+  "unique_poses": 2,
+  "qa": {
+    "neutral": {
+      "bbox_threshold": "alpha>100",
+      "bbox": [
+        66,
+        50,
+        139,
+        144
+      ],
+      "alpha_gt_0_bbox": [
+        66,
+        50,
+        139,
+        144
+      ],
+      "alpha_gt_15_bbox": [
+        66,
+        50,
+        139,
+        144
+      ],
+      "alpha_gt_100_bbox": [
+        66,
+        50,
+        139,
+        144
+      ],
+      "alpha_gt_127_bbox": [
+        66,
+        51,
+        139,
+        144
+      ],
+      "foot_left": [
+        66,
+        130,
+        85,
+        144
+      ],
+      "foot_right": [
+        103,
+        130,
+        125,
+        144
+      ]
+    },
+    "inhale": {
+      "bbox_threshold": "alpha>100",
+      "bbox": [
+        66,
+        50,
+        139,
+        144
+      ],
+      "alpha_gt_0_bbox": [
+        52,
+        45,
+        171,
+        154
+      ],
+      "alpha_gt_15_bbox": [
+        66,
+        50,
+        139,
+        144
+      ],
+      "alpha_gt_100_bbox": [
+        66,
+        50,
+        139,
+        144
+      ],
+      "alpha_gt_127_bbox": [
+        66,
+        50,
+        139,
+        144
+      ],
+      "foot_left": [
+        66,
+        130,
+        85,
+        144
+      ],
+      "foot_right": [
+        103,
+        130,
+        125,
+        144
+      ]
+    },
+    "original_git_blob": "9e82479ad9ab20a7fb3998efdb11a7b624a5e791",
+    "source_sha256": "8a87f1385da1f3c55ad769f64f1afc3383a24769b67b783047c31612982e861e",
+    "runtime_sha256": "f02461df67ff29e87c6bdf953410508292e13bd8d1e84fad99289e4658e0f3f7",
+    "status": "awaiting_visual_review",
+    "changed_rgb_pixels_with_alpha_gt_100_either": 3668,
+    "facing": "right",
+    "source_reference": "production_art/enemy_combat/runtime/bram/00_idle.png",
+    "neutral_sha256": "f42badc0d94a37f03a5bff9c729114eb92172b2abf5eed6624a9d629382fdad8",
+    "normalization": "Reference only: RGB zeroed where alpha=0, then nearest8x. Output fullcanvas nearest192x160. No posewarp, painting, alpha cleanup, or geometric alignment.",
+    "visual_qa": "Single candidate retains stocky adult identity, horizontal hammer grip, both planted feet. Chest/collar shading changes are subtle; small color/detail flicker remains. Original neutral endpoints unchanged.",
+    "limitations": [
+      "Full nonzero-alpha bounds extend outside body silhouette; transparency residue not cleaned.",
+      "Bounds and boot matching cited at alpha>100, also whole-body>=16 matching.",
+      "No Godot playback/import validation in this worker.",
+      "Original attack/hurt not changed; engine integration owned by parent."
+    ]
+  },
+  "limits": [
+    "Root approved for isolated candidate staging, not in-game completion.",
+    "Faint residual alpha beyond thresholded body silhouette. Not clean-alpha approved.",
+    "Foot/body metrics use alpha>100. Full nonzero and other thresholds recorded.",
+    "Attack/hurt unchanged. Engine visibility and transitions still need review."
+  ]
+}
