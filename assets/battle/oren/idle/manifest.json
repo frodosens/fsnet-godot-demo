@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "status": "candidate_review_pending",
+  "character": "oren",
+  "facing": "left",
+  "canvas": [
+    192,
+    160
+  ],
+  "anchor": [
+    96,
+    144
+  ],
+  "original_idle": "res://assets/battle/oren/00_idle.png",
+  "original_idle_git_blob": "2bef9cb406ef1361fd2e379a9c63651d860d6eab",
+  "new_idle": "res://assets/battle/oren/idle/01_inhale.png",
+  "source_scope": "Oren existing LEFT-facing defensive idle, not the separate enemy_combat/runtime/oren RIGHT-facing attack idle; engineering must select exact actor-state mapping, no generic mirroring assumption.",
+  "sequence": [
+    "res://assets/battle/oren/00_idle.png",
+    "res://assets/battle/oren/idle/01_inhale.png",
+    "res://assets/battle/oren/00_idle.png"
+  ],
+  "duration_ms": [
+    320,
+    320,
+    320
+  ],
+  "unique_poses": 2,
+  "qa": {
+    "old_bbox": [
+      59,
+      40,
+      130,
+      143
+    ],
+    "new_bbox": [
+      58,
+      39,
+      130,
+      144
+    ],
+    "finding": "Identity/gear consistent for root candidate review;1px foot/outline variation disclosed. Not engine-tested. Existing attacks/hurt unchanged.",
+    "limits": [
+      "Current idle window167ms shorter than960mspreview.",
+      "No canonical game-dev validation; CLI unavailable."
+    ]
+  }
+}
