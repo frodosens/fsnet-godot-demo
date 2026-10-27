@@ -277,6 +277,11 @@ func build_world():
             if loaded.size()==4:
                 iso_roles[u.role]=true
                 for direction in loaded:direction_textures[u.id+":"+direction]=loaded[direction]
+        var reserve=preload("res://view/reserve_art.gd").profile(u.id)
+        if not reserve.is_empty():
+            sprite.texture=reserve.map.back_right if u.ally else reserve.map.front_left
+            sprite.set_meta("formal_art",true);iso_roles[u.role]=true
+            for direction in reserve.map:direction_textures[u.id+":"+direction]=reserve.map[direction]
         facing[u.id]=("back_right" if u.ally else "front_left") if iso_roles.has(u.role) else ("back" if u.ally else "front")
         last_positions[u.id]=u.pos
         sprite.pixel_size = MAP_PIXEL_SIZE if sprite.get_meta("formal_art") else 0.045
@@ -686,6 +691,8 @@ func set_character_scale(value):
 # Animation is unit-scoped; unrelated Mod units keep their original art.
 func directional_idle_texture(index,direction):
     var unit=battle.units[index]
+    var reserve=preload("res://view/reserve_art.gd").profile(unit.id)
+    if not reserve.is_empty():return reserve.map.get(direction,figures[index].texture)
     var fallback=direction_textures.get(unit.id+":"+direction,figures[index].texture)
     var idle=get_node_or_null("MapIdle")
     return idle.library.sample("map",unit.role+":"+direction,0.0,fallback,true,unit.id) if idle else fallback

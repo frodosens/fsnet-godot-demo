@@ -91,7 +91,7 @@ func refresh_dock():
         var u=logic.units[i]
         if portrait_id!=u.id:
             portrait_id=u.id
-            var portrait_path=ART+"character/portrait-mara.png" if u.id=="mara" else "res://assets/portraits/"+u.id+".png"
+            var portrait_path=ART+"character/portrait-mara.png" if u.id=="mara" else preload("res://view/reserve_art.gd").portrait_path(u.id)
             portrait.texture=load(portrait_path) if ResourceLoader.exists(portrait_path) else null
         name_label.text=u.name;role_label.text={"knight":"骑士","archer":"弓手","mage":"法师"}.get(u.role,u.role)
         hp.max_value=u.max_hp;hp.value=u.hp;mp.max_value=maxi(1,u.max_mp);mp.value=u.mp

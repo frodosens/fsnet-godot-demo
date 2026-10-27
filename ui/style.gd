@@ -49,7 +49,7 @@ static func column(parent,separation=10):
     var c=VBoxContainer.new();c.add_theme_constant_override("separation",separation);parent.add_child(c);return c
 static func portrait(id,size=128):
     var control=TextureRect.new();control.custom_minimum_size=Vector2(size,size);control.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;control.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-    var path="res://assets/portraits/"+id+".png"
+    var path=preload("res://view/reserve_art.gd").portrait_path(id)
     if ResourceLoader.exists(path):control.texture=load(path)
     return control
 
@@ -72,7 +72,7 @@ static func impact_font():
 static var portrait_regions={}
 static func framed_portrait(id):
     if portrait_regions.has(id):return portrait_regions[id]
-    var path="res://assets/portraits/"+id+".png"
+    var path=preload("res://view/reserve_art.gd").portrait_path(id)
     if not ResourceLoader.exists(path):return null
     var texture=load(path);var image=texture.get_image();var bounds=image.get_used_rect()
     # Retain all nontransparent pixels, removing delivery padding rather than stretching the face.

@@ -16,4 +16,5 @@ func advance(delta):
         if not paused:time+=maxf(0,delta)
         clocks[id]=time
         var fallback=game.direction_textures.get(id+":"+direction,game.figures[i].texture)
-        game.figures[i].texture=library.sample("map",unit.role+":"+direction,time,fallback,App.reduced_motion,id)
+        var reserve=preload("res://view/reserve_art.gd").profile(id)
+        game.figures[i].texture=reserve.map.get(direction,fallback) if not reserve.is_empty() else library.sample("map",unit.role+":"+direction,time,fallback,App.reduced_motion,id)
