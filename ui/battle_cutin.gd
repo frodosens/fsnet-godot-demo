@@ -4,6 +4,7 @@ const UI=preload("res://ui/style.gd")
 const MARA=["00_idle","01_anticipation","02_dash","03_thrust","04_follow_through","05_recovery","06_return_step","07_settle_guard"]
 const OREN=["00_idle","01_brace","02_hit","03_recover"]
 const TIMELINE=[0,0,1,1,1,1,2,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7]
+var idle_library=preload("res://view/idle_library.gd").new()
 var sound_player
 var release_played=false
 var impact_play_count=0
@@ -135,6 +136,12 @@ func draw_tick(frame):
     if event.target=="oren":defender.texture=load("res://assets/battle/oren/"+OREN[defend]+".png")
     else:
         var poses=defender_sets[event.target];defender.texture=poses.hit if defend==2 else (poses.recover if defend==3 else poses.idle)
+    # Idle only outside authored attack/brace/hit/recovery poses. Never changes timing.
+    var idle_time=maxf(0,frame-22 if tick>=22 else frame)*tick_seconds
+    if tick<2 or tick>=22:
+        attacker.texture=idle_library.sample("battle",event.actor+":right",idle_time,attacker.texture,App.reduced_motion)
+    if defend==0 or (tick>=22 and event.get("hp",1)>0):
+        defender.texture=idle_library.sample("battle",event.target+(":left" if event.target=="oren" else ":right"),idle_time,defender.texture,App.reduced_motion)
     contact_target=socket_point(contact_points[event.target].hurt_point)
     if melee:
         # Contact may land anywhere in the authored torso hurt region, preserving grounded feet.

@@ -1,0 +1,19 @@
+extends Node
+var game
+var library=preload("res://view/idle_library.gd").new()
+var clocks={}
+var directions={}
+func _ready():process_priority=20 # After path movement, before material sync.
+func _process(delta):advance(delta)
+func advance(delta):
+    var paused=(game.hud and game.hud.blocks_input()) or (game.cutin and game.cutin.active)
+    for i in range(game.battle.units.size()):
+        var unit=game.battle.units[i];var id=unit.id
+        var direction=game.facing.get(id,"front")
+        if directions.get(id,"")!=direction:clocks[id]=0.0;directions[id]=direction
+        if unit.hp<=0 or game.motion.motions.has(id):clocks[id]=0.0;continue
+        var time=float(clocks.get(id,0.0))
+        if not paused:time+=maxf(0,delta)
+        clocks[id]=time
+        var fallback=game.direction_textures.get(id+":"+direction,game.figures[i].texture)
+        game.figures[i].texture=library.sample("map",unit.role+":"+direction,time,fallback,App.reduced_motion)
