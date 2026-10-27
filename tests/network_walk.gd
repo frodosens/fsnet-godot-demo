@@ -9,6 +9,7 @@ func run():
     app.mara_sequence_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="mara"
     app.finn_motion_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="finn"
     app.oren_sequence_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="oren"
+    app.bram_sequence_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="bram"
     var data=preload("res://logic/content.gd").reference_content();data.units[1].x=1;data.units[1].y=8
     var actor=OS.get_environment("AMBER_WALK_ACTOR");if actor.is_empty():actor="finn"
     var direction=OS.get_environment("AMBER_WALK_DIRECTION");if direction.is_empty():direction="front_right"

@@ -8,7 +8,7 @@ func check(ok,label):
 func run():
     var Library=preload("res://view/map_sequence.gd")
     var lib=Library.new();var data=JSON.parse_string(FileAccess.get_file_as_string(Library.PATH))
-    check(lib.errors.is_empty() and lib.profiles.size()==3,"complete sole Mara profile")
+    check(lib.errors.is_empty() and lib.profiles.size()==4,"four complete profiles loaded")
     if lib.profiles.is_empty():quit(1);return
     for direction in Library.DIRECTIONS:
         var entry=lib.profiles.mara[direction]
@@ -45,5 +45,5 @@ func run():
     for value in [[{},120],[64,null],[true,120],[64,INF],[64,NAN],[48,120]]:
         var bad=data.duplicate(true);bad.profiles.mara.front_right.motion.root=value;lib.configure(bad)
         check(not lib.profiles.has("mara"),"invalid root rejected")
-    lib.configure(data);check(lib.profiles.size()==3,"valid reload")
+    lib.configure(data);check(lib.profiles.size()==4,"valid reload")
     print("MAP_SEQUENCE checks=",checks," failures=",failures);quit(1 if failures else 0)
