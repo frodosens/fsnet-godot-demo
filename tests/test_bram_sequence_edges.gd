@@ -36,7 +36,9 @@ func run():
             app.set_bram_sequence_preview(false)
             game.hud.show_feedback_settings();await frames()
             for button in game.hud.modal.find_children("*","BaseButton",true,false):
-                check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(button.get_global_rect()),"all settings buttons inside viewport")
+                var scroll=game.hud.modal.find_child("AnimationOptions",true,false)
+                if scroll.is_ancestor_of(button):check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(scroll.get_global_rect()),"scroll viewport contained")
+                else:check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(button.get_global_rect()),"all fixed settings buttons inside viewport")
             var settings_output=OS.get_environment("AMBER_BRAM_SETTINGS")
             if not settings_output.is_empty():
                 await RenderingServer.frame_post_draw

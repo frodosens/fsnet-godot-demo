@@ -26,7 +26,9 @@ func configure(data):
         if not preload("res://logic/content.gd").identifier(id) or not spec is Dictionary:
             errors.append("invalid sequence profile ID/spec");continue
         var motion_only=spec.get("motion_only",false)
-        if not motion_only is bool:errors.append("invalid motion_only flag: "+str(id));continue
+        var idle_only=spec.get("idle_only",false)
+        if not idle_only is bool or not motion_only is bool:errors.append("invalid sequence mode flag: "+str(id));continue
+        if idle_only and motion_only:errors.append("conflicting sequence modes: "+str(id));continue
         var decoded={};var valid=true
         for direction in DIRECTIONS:
             var item=spec.get(direction)
@@ -35,8 +37,8 @@ func configure(data):
             if not (idle_width is int or idle_width is float) or not is_finite(idle_width) or (idle_width!=96 and idle_width!=128):valid=false;break
             var guard=texture_at(item.get("neutral_guard"),Vector2i(96,128))
             var idle={} if motion_only else decode(item.get("idle"),Vector2i(int(idle_width),128))
-            var motion=decode(item.get("motion"),Vector2i(128,128))
-            if guard==null or (not motion_only and idle.is_empty()) or (motion_only and item.has("idle")) or motion.is_empty():valid=false;break
+            var motion={} if idle_only else decode(item.get("motion"),Vector2i(128,128))
+            if guard==null or (not motion_only and idle.is_empty()) or (motion_only and item.has("idle")) or (not idle_only and motion.is_empty()) or (idle_only and item.has("motion")):valid=false;break
             decoded[direction]={"guard":guard,"idle":idle,"motion":motion}
         if valid:profiles[id]=decoded
         else:errors.append("invalid sequence profile: "+str(id)+"; old art retained")
@@ -79,9 +81,9 @@ func idle(id,direction,time,guard,reduced=false):
     return pick(entry.idle,0.0 if reduced else maxf(0,time)*24.0/entry.idle.ticks)
 func motion(id,direction,distance,guard):
     var entry=matching(id,direction,guard)
-    if entry.is_empty() or not is_finite(distance) or distance<0:return null
+    if entry.is_empty() or entry.motion.is_empty() or not is_finite(distance) or distance<0:return null
     var phase=0.0 if absf(distance-roundf(distance))<0.00001 else fposmod(distance,1.0)
     return pick(entry.motion,phase)
 func textures_for(id,direction,guard):
     var entry=matching(id,direction,guard)
-    return [] if entry.is_empty() else entry.idle.get("textures",[])+entry.motion.textures
+    return [] if entry.is_empty() else entry.idle.get("textures",[])+entry.motion.get("textures",[])

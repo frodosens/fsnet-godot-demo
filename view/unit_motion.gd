@@ -24,7 +24,7 @@ func consume(step,events):
                 var next=path[1]
                 var direction=game.projected_facing(Vector2i(first.x,first.y),Vector2i(next.x,next.y),game.iso_roles.has(u.role))
                 game.facing[u.id]=direction
-                game.figures[i].texture=game.directional_idle_texture(i,direction)
+                game.figures[i].texture=game.map_motion_neutral_texture(i,direction)
 func _process(delta):advance(delta)
 func advance(delta):
     if motions.is_empty():return

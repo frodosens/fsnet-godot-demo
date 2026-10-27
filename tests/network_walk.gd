@@ -10,6 +10,7 @@ func run():
     app.finn_motion_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="finn"
     app.oren_sequence_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="oren"
     app.bram_sequence_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="bram"
+    for id in app.idle_sequence_previews:app.idle_sequence_previews[id]=compact and OS.get_environment("AMBER_WALK_ACTOR")==id
     var data=preload("res://logic/content.gd").reference_content();data.units[1].x=1;data.units[1].y=8
     var actor=OS.get_environment("AMBER_WALK_ACTOR");if actor.is_empty():actor="finn"
     var direction=OS.get_environment("AMBER_WALK_DIRECTION");if direction.is_empty():direction="front_right"
@@ -40,18 +41,28 @@ func run():
         previous=distance;samples+=1
         if runtime_id!=game.battle.get_instance_id():replacements+=1;runtime_id=game.battle.get_instance_id()
         var clip=game.motion.walk_library.clips.get(actor+":"+direction,{})
-        if compact:clip=preload("res://view/map_sequence.gd").shared().matching(actor,direction,game.base_directional_idle_texture(index,direction)).motion
+        if compact and not app.idle_sequence_previews.has(actor):clip=preload("res://view/map_sequence.gd").shared().matching(actor,direction,game.base_directional_idle_texture(index,direction)).motion
         poses[clip.textures.find(game.figures[index].texture)]=true
         check(game.battle.snapshot()==truth,"poll keeps authoritative state")
         await process_frame
         if Time.get_ticks_msec()>deadline:check(false,"motion timeout");break
     check(replacements>=2 and samples>20,"real runtime replacements observed during walk")
-    check(poses.size()==8 if compact else (poses.has(1) and poses.has(3)),"real sync allows complete pose set")
+    check(poses.size()==8 if compact and not app.idle_sequence_previews.has(actor) else (poses.has(1) and poses.has(3)),"real sync allows complete pose set")
     check(game.figures[index].position==Vector3(target.x,0,target.y),"network authoritative endpoint")
     var final_texture=game.directional_idle_texture(index,direction)
     game.get_node("MapIdle").set_process(false);game.figures[index].texture=final_texture
     var until=Time.get_ticks_msec()+500
     while Time.get_ticks_msec()<until:await process_frame
     check(not game.motion.active(),"post-completion polls don't replay")
+    if compact and app.idle_sequence_previews.has(actor):
+        var idle=game.get_node("MapIdle");idle.set_process(true);idle.clocks[actor]=0.0
+        var elapsed=0.0;var idle_replacements=0;runtime_id=game.battle.get_instance_id();until=Time.get_ticks_msec()+1400
+        while Time.get_ticks_msec()<until:
+            var clock=float(idle.clocks.get(actor,0.0))
+            check(clock+.00001>=elapsed,"ordinary sync does not restart idle")
+            elapsed=clock
+            if runtime_id!=game.battle.get_instance_id():idle_replacements+=1;runtime_id=game.battle.get_instance_id()
+            await process_frame
+        check(elapsed>1.0 and idle_replacements>2,"idle persists across real sync replacements")
     print("NETWORK_WALK failures=",failures," actor=",actor," direction=",direction," samples=",samples," runtime_replacements=",replacements)
     app.session.transport.shutdown();quit(1 if failures else 0)

@@ -703,11 +703,17 @@ func base_directional_idle_texture(index,direction):
 func directional_idle_texture(index,direction):
     var neutral=base_directional_idle_texture(index,direction)
     return preload("res://view/map_sequence.gd").shared().idle(battle.units[index].id,direction,0.0,neutral,true) if App.map_sequence_enabled(battle.units[index].id) else neutral
+func map_motion_neutral_texture(index,direction):
+    var neutral=base_directional_idle_texture(index,direction)
+    if App.map_sequence_enabled(battle.units[index].id):
+        var entry=preload("res://view/map_sequence.gd").shared().matching(battle.units[index].id,direction,neutral)
+        if not entry.is_empty() and entry.motion.is_empty():return neutral
+    return directional_idle_texture(index,direction)
 func map_motion_texture(index,direction,distance):
     var unit=battle.units[index]
     var sequence=null
     if App.map_sequence_enabled(unit.id):sequence=preload("res://view/map_sequence.gd").shared().motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
-    return sequence if sequence!=null else motion.walk_library.sample(unit.id,direction,distance,directional_idle_texture(index,direction))
+    return sequence if sequence!=null else motion.walk_library.sample(unit.id,direction,distance,map_motion_neutral_texture(index,direction))
 func figure_texture_pixel_position(index,pixel):
     # Public figure_pixel_position stays in the original 96px canonical coordinates.
     var texture=figures[index].texture

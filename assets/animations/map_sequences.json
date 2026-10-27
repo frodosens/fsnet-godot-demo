@@ -765,6 +765,339 @@
           ]
         }
       }
+    },
+    "neri": {
+      "idle_only": true,
+      "front_left": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/front_left_idle_00.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/neri_video_idle/idle/front_left/frame_00.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_left/frame_01.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_left/frame_02.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_left/frame_03.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_left/frame_04.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_left/frame_05.png"
+          ],
+          "ticks": [
+            18,
+            20,
+            20,
+            24,
+            20,
+            18
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 120
+        }
+      },
+      "front_right": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/front_right_idle_00.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/neri_video_idle/idle/front_right/frame_00.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_right/frame_01.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_right/frame_02.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_right/frame_03.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_right/frame_04.png",
+            "assets/sprites/iso4/neri_video_idle/idle/front_right/frame_05.png"
+          ],
+          "ticks": [
+            18,
+            20,
+            20,
+            24,
+            20,
+            18
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 120
+        }
+      },
+      "back_left": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/back_left_idle_00.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/neri_video_idle/idle/back_left/frame_00.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_left/frame_01.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_left/frame_02.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_left/frame_03.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_left/frame_04.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_left/frame_05.png"
+          ],
+          "ticks": [
+            18,
+            20,
+            20,
+            24,
+            20,
+            18
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 120
+        }
+      },
+      "back_right": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/back_right_idle_00.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/neri_video_idle/idle/back_right/frame_00.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_right/frame_01.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_right/frame_02.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_right/frame_03.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_right/frame_04.png",
+            "assets/sprites/iso4/neri_video_idle/idle/back_right/frame_05.png"
+          ],
+          "ticks": [
+            18,
+            20,
+            20,
+            24,
+            20,
+            18
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 120
+        }
+      }
+    },
+    "adela": {
+      "idle_only": true,
+      "front_left": {
+        "neutral_guard": "assets/characters/reserve/adela/map/front_left.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/adela_video_idle/idle/front_left/frame_00.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_left/frame_01.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_left/frame_02.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_left/frame_03.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_left/frame_04.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_left/frame_05.png"
+          ],
+          "ticks": [
+            12,
+            12,
+            8,
+            12,
+            12,
+            8
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 64
+        }
+      },
+      "front_right": {
+        "neutral_guard": "assets/characters/reserve/adela/map/front_right.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/adela_video_idle/idle/front_right/frame_00.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_right/frame_01.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_right/frame_02.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_right/frame_03.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_right/frame_04.png",
+            "assets/sprites/iso4/adela_video_idle/idle/front_right/frame_05.png"
+          ],
+          "ticks": [
+            12,
+            12,
+            8,
+            12,
+            12,
+            8
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 64
+        }
+      },
+      "back_left": {
+        "neutral_guard": "assets/characters/reserve/adela/map/back_left.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/adela_video_idle/idle/back_left/frame_00.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_left/frame_01.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_left/frame_02.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_left/frame_03.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_left/frame_04.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_left/frame_05.png"
+          ],
+          "ticks": [
+            12,
+            12,
+            8,
+            12,
+            12,
+            8
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 64
+        }
+      },
+      "back_right": {
+        "neutral_guard": "assets/characters/reserve/adela/map/back_right.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/adela_video_idle/idle/back_right/frame_00.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_right/frame_01.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_right/frame_02.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_right/frame_03.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_right/frame_04.png",
+            "assets/sprites/iso4/adela_video_idle/idle/back_right/frame_05.png"
+          ],
+          "ticks": [
+            12,
+            12,
+            8,
+            12,
+            12,
+            8
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 64
+        }
+      }
+    },
+    "elsbet": {
+      "idle_only": true,
+      "front_left": {
+        "neutral_guard": "assets/characters/reserve/elsbet/map/front_left.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_left/frame_00.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_left/frame_01.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_left/frame_02.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_left/frame_03.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_left/frame_04.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_left/frame_05.png"
+          ],
+          "ticks": [
+            16,
+            16,
+            24,
+            24,
+            24,
+            16
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 120
+        }
+      },
+      "front_right": {
+        "neutral_guard": "assets/characters/reserve/elsbet/map/front_right.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_right/frame_00.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_right/frame_01.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_right/frame_02.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_right/frame_03.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_right/frame_04.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/front_right/frame_05.png"
+          ],
+          "ticks": [
+            16,
+            16,
+            24,
+            24,
+            24,
+            16
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 120
+        }
+      },
+      "back_left": {
+        "neutral_guard": "assets/characters/reserve/elsbet/map/back_left.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_left/frame_00.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_left/frame_01.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_left/frame_02.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_left/frame_03.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_left/frame_04.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_left/frame_05.png"
+          ],
+          "ticks": [
+            16,
+            16,
+            24,
+            24,
+            24,
+            16
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 120
+        }
+      },
+      "back_right": {
+        "neutral_guard": "assets/characters/reserve/elsbet/map/back_right.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_right/frame_00.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_right/frame_01.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_right/frame_02.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_right/frame_03.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_right/frame_04.png",
+            "assets/sprites/iso4/elsbet_video_idle/idle/back_right/frame_05.png"
+          ],
+          "ticks": [
+            16,
+            16,
+            24,
+            24,
+            24,
+            16
+          ],
+          "root": [
+            64,
+            120
+          ],
+          "cycle_ticks": 120
+        }
+      }
     }
   }
 }

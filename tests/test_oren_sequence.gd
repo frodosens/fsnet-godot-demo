@@ -8,7 +8,7 @@ func check(ok,label):
 func run():
     var Lib=preload("res://view/map_sequence.gd");var lib=Lib.new()
     var data=JSON.parse_string(FileAccess.get_file_as_string(Lib.PATH))
-    check(lib.errors.is_empty() and lib.profiles.size()==4,"four profiles loaded")
+    check(lib.errors.is_empty() and lib.profiles.size()==7,"seven profiles loaded")
     if not lib.profiles.has("oren"):quit(1);return
     for d in Lib.DIRECTIONS:
         var entry=lib.profiles.oren[d]
