@@ -10,7 +10,7 @@ class RegisterTests(unittest.TestCase):
             a=d/'a.png';b=d/'b.png'
             self.assertEqual(run(a).returncode,0);self.assertEqual(run(b).returncode,0)
             self.assertEqual(a.read_bytes(),b.read_bytes());result=Image.open(a)
-            self.assertEqual(result.size,(96,128));self.assertEqual(result.mode,'RGBA')
+            self.assertEqual(result.size,(96,128));self.assertEqual(result.mode,'RGBA');result.close()
             receipt=json.loads(a.with_suffix('.registration.json').read_text());self.assertEqual(receipt['source_sha256'],hashlib.sha256(source.read_bytes()).hexdigest())
             self.assertEqual(receipt['output_sha256'],hashlib.sha256(a.read_bytes()).hexdigest())
             before=a.read_bytes();self.assertNotEqual(run(a).returncode,0);self.assertEqual(before,a.read_bytes())
