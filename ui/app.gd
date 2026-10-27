@@ -23,9 +23,24 @@ var cutins_enabled=true
 var reduced_motion=false
 var sfx_enabled=true
 var sfx_volume_db=-12.0
+var health_bar_avoidance=false
+var presentation_preferences_path="user://presentation.cfg"
+func load_presentation_preferences():
+    health_bar_avoidance=false
+    var config=ConfigFile.new()
+    if config.load(presentation_preferences_path)==OK:
+        var value=config.get_value("map","health_bar_avoidance",false)
+        if value is bool:health_bar_avoidance=value
+func set_health_bar_avoidance(on):
+    health_bar_avoidance=bool(on)
+    var config=ConfigFile.new();config.load(presentation_preferences_path)
+    config.set_value("map","health_bar_avoidance",health_bar_avoidance)
+    var result=config.save(presentation_preferences_path)
+    if result!=OK:push_warning("Cannot save local health bar preference: "+str(result))
 const SLOT_IDS=["auto","slot1","slot2","slot3"]
 func _ready():
     get_tree().auto_accept_quit=false
+    load_presentation_preferences()
     var fps=preload("res://ui/fps_display.gd").new();fps.name="FPSDisplay";add_child(fps)
 func _process(delta):
     if server:
