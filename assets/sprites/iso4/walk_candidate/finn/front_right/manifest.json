@@ -108,5 +108,59 @@
     "depth_test": "keep current setting enabled; no clearance change authorized",
     "held_frame_slip": "record separately from pose transitions; no zero-slip claim",
     "scope": "Finnfront_right only; no otherdirections/actors/defaultenable"
+  },
+  "gait_phase_and_handedness": {
+    "anatomical_weapon_hand": "LEFT; bow remains in image-right hand for this facing",
+    "anatomical_free_hand": "RIGHT; empty hand remains image-left",
+    "phase_observations": [
+      {
+        "phase": 0,
+        "pose": "N",
+        "leg": "canonical neutral",
+        "arms": "canonical restrained carrying posture"
+      },
+      {
+        "phase": 0.25,
+        "pose": "L",
+        "leg": "anatomical LEFT hip -> knee -> forward boot; image-right leg leads",
+        "arms": "bow LEFT arm held stable; free RIGHT arm nearly fixed, no deliberate full forward counter-swing drawn"
+      },
+      {
+        "phase": 0.5,
+        "pose": "N",
+        "leg": "same exact canonical neutral reused",
+        "arms": "canonical restrained carrying posture"
+      },
+      {
+        "phase": 0.75,
+        "pose": "R",
+        "leg": "anatomical RIGHT hip -> knee -> forward boot; image-left leg leads",
+        "arms": "bow LEFT arm held stable; free RIGHT arm nearly fixed, not visibly actively advancing with RIGHT leg"
+      }
+    ],
+    "manual_joint_check": "Traced shoulder-elbow-hand and hip-knee-boot attachments in native/3x proof, not just image-side labels. Hands remain attached to original arms; no mirroring or hand swap.",
+    "hand_landmark_estimates_native_px": {
+      "free_right": [
+        32,
+        75
+      ],
+      "bow_left": [
+        72,
+        65
+      ],
+      "uncertainty_px": 2,
+      "note": "approximately stable across N/L/R; not precise motion-capture data"
+    },
+    "observed_arm_motion": "restrained tool-carrying pose",
+    "no_obvious_active_same_side_free_arm_swing_observed": true,
+    "full_contralateral_arm_swing_drawn": false,
+    "not_a_claim": "Not a full anatomically counter-swinging free walk. Weapon-carrying arm legitimately restrained; free arm also deliberately restrained for identity stability.",
+    "acceptance_checks": [
+      "Trace anatomical attachments rather than image-left/right alone.",
+      "If free arm visibly advances, it should oppose the advancing leg; flag unnatural same-side advance.",
+      "Holding bow/shield arm may remain stable; do not swap hands or flip asymmetric equipment to fake coordination.",
+      "Verify coordination at normal-size N/L/N/R playback before runtime acceptance."
+    ],
+    "engine_coordination_review": "PENDING"
   }
 }
