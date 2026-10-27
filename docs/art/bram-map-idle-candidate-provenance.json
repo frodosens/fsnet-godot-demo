@@ -1,0 +1,277 @@
+{
+  "generator": "host-native image_gen",
+  "unit_ids": [
+    "bram"
+  ],
+  "sprite_role": "brute",
+  "prompt": "Edit/extend this actual GAME MAP sprite strip into a square idle-animation atlas. Preserve EXACT Bram identity and design: broad stocky ginger-haired/ginger-bearded laborer, cream rolled-sleeve shirt, dark brown leather work apron with straps and small pockets, brown trousers and sturdy boots, compact dark rectangular metal-headed hand tool as in reference. Keep this tool's exact silhouette, size and hand; do not invent a large axe or sword. Keep original pixel clusters, body proportions, elevated isometric camera and all FOUR diagonal facings. NOT a redesign, NOT battle sideview.\nOutput FOUR columns by THREE rows on genuine transparent alpha. Columns exactly match reference left to right: front-left, front-right, back-left, back-right. All three rows of each column identical identity, body scale, hand/tool orientation and ground footprint.\nRow1 original relaxed exhale. Row2 modest halfway inhale with chest/apron upper panel expanding and shoulders/arms lifting very slightly. Row3 full inhale shoulders a little higher, chest expanded, shirt folds/upper apron gently responding. About1\u20132pixels motion at final96x128 resolution. Feet, lower legs and hips must remain completely still with identical outlines/positions. Head stable. Loop rows1,2,3,2. Genuine redrawn upper-body breathing poses, not duplicate poses, whole-body scaling, translation, hopping, walking or tool swing.\nSquare atlas, equal cells and baselines, ample transparent gutter, complete tool and feet. All12 full-body sprites visible. Same original pixel-art clarity/detail as reference. No new props, labels, text, boxes, numbers, ground shadows, gradients, backgrounds or checkerboard. True transparent alpha outside sprites.\n",
+  "references": [
+    {
+      "repository_path": "assets/sprites/iso4/brute_front_left_idle.png",
+      "sha256": "cc5c411198b432ae39b10904d9959b68945282ac0650a92e7dfe5b83dc5a6fc7",
+      "git_blob_sha": "76c23ba282582692a5459380bf0535b39ef15ad0",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "repository_path": "assets/sprites/iso4/brute_front_right_idle.png",
+      "sha256": "16903e297eeab2ce984ced633d0b9c00bfad40936105d2b9382bb5c1f9267900",
+      "git_blob_sha": "58647f27445b6388b0d27612f98d28864bb9e7d2",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "repository_path": "assets/sprites/iso4/brute_back_left_idle.png",
+      "sha256": "7ccd335640e6f7dc04cf5e92d939777d86231c12cefabedc669d8b7c4c7d452d",
+      "git_blob_sha": "535363085cfde90dcf055a724365287eee8fd44e",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "repository_path": "assets/sprites/iso4/brute_back_right_idle.png",
+      "sha256": "e516e031b013e1e768d4d148ee5496fcc50385853f4b95b417de3fdf4d7b9c14",
+      "git_blob_sha": "46350b0ca2cf4f5c67b3bad4fa4e95075b9b10fd",
+      "size": [
+        96,
+        128
+      ]
+    }
+  ],
+  "source_canvas": [
+    1254,
+    1254
+  ],
+  "generated_source_sha256": "933d10839c9b8c52640ed216c4d38020e8034e321857d7fa2fbe3f58fa9904fe",
+  "processing": "crop and connected-figure isolation, shared nearest scale, fixed per-direction translation; no pose warping",
+  "qa": {
+    "meaning": "Static image pixel QA, not runtime acceptance. Rendered upper-body poses visually reviewed; generated subpixel/onepixel foot texture drift retained.",
+    "directions": {
+      "front_left": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            13,
+            11,
+            83,
+            120
+          ],
+          "lower_28px_bbox": [
+            23,
+            100,
+            72,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "boot_region_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            13,
+            11,
+            83,
+            120
+          ],
+          "lower_28px_bbox": [
+            23,
+            100,
+            72,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9871559633027523,
+          "boot_region_mask_iou_vs_phase0": 0.9871559633027523
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            13,
+            13,
+            83,
+            120
+          ],
+          "lower_28px_bbox": [
+            23,
+            100,
+            72,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.941696113074205,
+          "boot_region_mask_iou_vs_phase0": 0.941696113074205
+        }
+      ],
+      "front_right": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            16,
+            11,
+            83,
+            120
+          ],
+          "lower_28px_bbox": [
+            30,
+            100,
+            79,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "boot_region_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            16,
+            10,
+            83,
+            120
+          ],
+          "lower_28px_bbox": [
+            30,
+            100,
+            79,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9698581560283688,
+          "boot_region_mask_iou_vs_phase0": 0.9735849056603774
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            16,
+            12,
+            83,
+            120
+          ],
+          "lower_28px_bbox": [
+            30,
+            100,
+            79,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9324090121317158,
+          "boot_region_mask_iou_vs_phase0": 0.9425925925925925
+        }
+      ],
+      "back_left": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            16,
+            10,
+            77,
+            119
+          ],
+          "lower_28px_bbox": [
+            21,
+            100,
+            71,
+            119
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "boot_region_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            16,
+            10,
+            77,
+            120
+          ],
+          "lower_28px_bbox": [
+            21,
+            100,
+            71,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9534109816971714,
+          "boot_region_mask_iou_vs_phase0": 0.9534109816971714
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            16,
+            12,
+            77,
+            119
+          ],
+          "lower_28px_bbox": [
+            21,
+            100,
+            71,
+            119
+          ],
+          "lower_mask_iou_vs_phase0": 0.9811320754716981,
+          "boot_region_mask_iou_vs_phase0": 0.9811320754716981
+        }
+      ],
+      "back_right": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            26,
+            10,
+            94,
+            119
+          ],
+          "lower_28px_bbox": [
+            31,
+            100,
+            79,
+            119
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "boot_region_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            25,
+            10,
+            94,
+            120
+          ],
+          "lower_28px_bbox": [
+            31,
+            100,
+            79,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.929042904290429,
+          "boot_region_mask_iou_vs_phase0": 0.9354275741710296
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            25,
+            12,
+            94,
+            119
+          ],
+          "lower_28px_bbox": [
+            31,
+            100,
+            79,
+            119
+          ],
+          "lower_mask_iou_vs_phase0": 0.9861351819757366,
+          "boot_region_mask_iou_vs_phase0": 0.9853479853479854
+        }
+      ]
+    },
+    "boot_region": "x20..74 y100..127"
+  },
+  "acceptance": "Review candidate only. Original Bram laborer with compact hammer-like tool preserved. Source hashes confirmed by parent against main. No runtime test claimed.",
+  "license": "Original host-generated project asset; no third-party asset pack, no external provider.",
+  "reference_identity_verified_against_main_git_tree": true,
+  "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
+  "reference_verification_evidence": "production_art/remaining_map4_idles/reference-verification.json (verified by staging parent)",
+  "framing_correction_prompt": "Correct ONLY the atlas framing of this exact twelve-pose Bram idle sheet. The bottom row boots are clipped at the bottom edge; this is unacceptable. Keep ALL12 existing characters, exact original identity, clothing, dark rectangular hand tool, pixel art, directions and breathing phases. Do not redesign or alter poses.\nPlace the SAME four columns x three rows into properly padded equal cells on a square transparent canvas. Each full-body figure should occupy only80% of cell height, with10% clear margin above and below. Need generous transparent margins outside the whole atlas and between rows. Reconstruct the COMPLETE uncut bottom-row boots using identical boots of the same facing in rows1/2; keep feet planted, no stance changes. All feet, hair and tools must be entirely in frame with transparent padding. Do NOT crop any sprite. Four facings front-left/front-right/back-left/back-right from left to right, exhale/partial/full inhale top to bottom.\nTrue transparent alpha background; no color fill/checkerboard/text/shadows. Keep chest/shoulder breathing differences, identical leg geometry across phases, and all12 figures same scale.\n",
+  "rejected_source": "source-rejected-clipped.png: bottom back boots touched atlas edge; regenerated with margins."
+}

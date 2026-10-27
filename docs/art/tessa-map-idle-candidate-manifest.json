@@ -1,0 +1,273 @@
+{
+  "status": "Review candidate only; in-engine acceptance pending",
+  "unit_ids": [
+    "tessa"
+  ],
+  "map_sprite_type": "scout",
+  "source_canvas": [
+    1254,
+    1254
+  ],
+  "source_sha256": "6b0f5cf813fa15f686b80b87ec9b47b5404fb65d88a1be375e60df9445470556",
+  "canvas": [
+    96,
+    128
+  ],
+  "foot_anchor": [
+    48,
+    120
+  ],
+  "scale": 0.28,
+  "loop": [
+    0,
+    1,
+    2,
+    1
+  ],
+  "frame_ms": 400,
+  "operations": "crop and connected-figure isolation, shared nearest scale, fixed per-direction translation; no pose warping",
+  "frames": [
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/front_left_idle_00.png",
+      "source_rect": [
+        0,
+        10,
+        313,
+        430
+      ],
+      "placement": [
+        9,
+        5
+      ],
+      "opaque_bbox": [
+        17,
+        9,
+        84,
+        120
+      ],
+      "sha256": "7f7754011b7bf501305c5421ea3af345b6f673c6807ad11fc825a74e6edab260"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/front_right_idle_00.png",
+      "source_rect": [
+        313,
+        10,
+        627,
+        430
+      ],
+      "placement": [
+        6,
+        5
+      ],
+      "opaque_bbox": [
+        16,
+        9,
+        81,
+        120
+      ],
+      "sha256": "977977641dd5f9f88b79df7c93f9a311b4829ed2eafc7b6a59587d7f9dd9a2ff"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/back_left_idle_00.png",
+      "source_rect": [
+        627,
+        10,
+        940,
+        430
+      ],
+      "placement": [
+        3,
+        5
+      ],
+      "opaque_bbox": [
+        18,
+        9,
+        86,
+        120
+      ],
+      "sha256": "e9a805d500a80ee48a44ed228040b387aeacf419a9a3d31b638a9079d13ff2ea"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/back_right_idle_00.png",
+      "source_rect": [
+        940,
+        10,
+        1254,
+        430
+      ],
+      "placement": [
+        5,
+        5
+      ],
+      "opaque_bbox": [
+        22,
+        9,
+        89,
+        120
+      ],
+      "sha256": "4bcaf7e225bcb09087c7b3d9f13b3914be0c37bfe30b6bcf4190208e1226f71c"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/front_left_idle_01.png",
+      "source_rect": [
+        0,
+        423,
+        313,
+        843
+      ],
+      "placement": [
+        9,
+        5
+      ],
+      "opaque_bbox": [
+        17,
+        9,
+        84,
+        120
+      ],
+      "sha256": "3a7140d8028154f9a859574688c9a18cd5068694893194d1aa497cde9cdfc41e"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/front_right_idle_01.png",
+      "source_rect": [
+        313,
+        423,
+        627,
+        843
+      ],
+      "placement": [
+        6,
+        5
+      ],
+      "opaque_bbox": [
+        16,
+        9,
+        81,
+        120
+      ],
+      "sha256": "aa1e8156a02a71ea96122483ee21ca95c93e5694067705f7dd87325524ef2e23"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/back_left_idle_01.png",
+      "source_rect": [
+        627,
+        423,
+        940,
+        843
+      ],
+      "placement": [
+        3,
+        5
+      ],
+      "opaque_bbox": [
+        18,
+        9,
+        86,
+        120
+      ],
+      "sha256": "6c18be4df35113c6fe6374023ff2f59bff62e14ef08d7ca5bef04e7ef52e9a58"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/back_right_idle_01.png",
+      "source_rect": [
+        940,
+        423,
+        1254,
+        843
+      ],
+      "placement": [
+        5,
+        5
+      ],
+      "opaque_bbox": [
+        22,
+        9,
+        89,
+        120
+      ],
+      "sha256": "092eeacdab280c55a7594f4e5193667dc64b395689a27fc0563a42ac1a298a69"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/front_left_idle_02.png",
+      "source_rect": [
+        0,
+        834,
+        313,
+        1254
+      ],
+      "placement": [
+        9,
+        5
+      ],
+      "opaque_bbox": [
+        17,
+        9,
+        84,
+        120
+      ],
+      "sha256": "da269eb4eb73bc43948627373b4a7c6d4642e01268ce89962457554b2521008a"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/front_right_idle_02.png",
+      "source_rect": [
+        313,
+        834,
+        627,
+        1254
+      ],
+      "placement": [
+        6,
+        5
+      ],
+      "opaque_bbox": [
+        16,
+        10,
+        81,
+        120
+      ],
+      "sha256": "7941f615944bee186cddb741917d391bae8400806707884a8444ab441d072137"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/back_left_idle_02.png",
+      "source_rect": [
+        627,
+        834,
+        940,
+        1254
+      ],
+      "placement": [
+        3,
+        5
+      ],
+      "opaque_bbox": [
+        18,
+        9,
+        87,
+        120
+      ],
+      "sha256": "2cebd138d9e574bbae7995365050188985aca7e298a7656c6ee1b0a0a88e372e"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/tessa/back_right_idle_02.png",
+      "source_rect": [
+        940,
+        834,
+        1254,
+        1254
+      ],
+      "placement": [
+        5,
+        5
+      ],
+      "opaque_bbox": [
+        22,
+        10,
+        89,
+        120
+      ],
+      "sha256": "9566e5807c8b6da673b92012ebe05c04377ac242d35303d7caa94de5da43d41c"
+    }
+  ],
+  "sprite_role": "scout",
+  "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d"
+}

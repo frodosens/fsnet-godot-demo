@@ -1,0 +1,260 @@
+{
+  "unit_ids": [
+    "tessa"
+  ],
+  "sprite_type": "scout",
+  "generator": "host-native image_gen",
+  "prompt": "Extend this exact GAME MAP sprite strip of Tessa the scout into a breathing idle animation atlas. Reference fixes every detail: short dark charcoal hair, gray shoulder cape/hood down, charcoal tunic, brown leather strap/belt/bracers/boots, small silver dagger in correct hand; original body proportions and elevated isometric camera. Preserve existing pixel cluster art style, face and costume. NOT a redesign, not sideview battle, not Mara.\nExact output FOUR columns x THREE rows, square transparent atlas. Columns match reference from left to right: front-left, front-right, back-left, back-right. Same direction throughout each column. Row1 resting exhale; row2 half inhale with modest chest expansion, shoulder joints rising and gray cape gently moving; row3 full inhale with shoulders/chest raised slightly more and relaxed hands following naturally. Loop rows1,2,3,2. At final96x128 sprite resolution motion should be1-2pixels at upper torso, not exaggerated.\nFeet, knees and pelvis remain identical and planted in every phase; head nearly steady. Do NOT translate or scale whole body. Draw actual subtle chest/shoulder/arm/cape changes, not unchanged duplicate frames. Keep dagger attached to same anatomical hand, silhouette and pose consistent. No walking, attack or hurt.\nUniform cells with same scale and baseline; generous transparent margins, complete character and dagger within every cell. Real transparent alpha, no background or shadows. No lettering, labels, numbers, boxes, extra characters, new objects, glow, checkerboard. Crisp pixel art matching reference without painterly upgrades.\n",
+  "reference_hashes": [
+    {
+      "path": "assets/sprites/iso4/scout_front_left_idle.png",
+      "sha256": "14598073d75dfac1a098cdfcc159aecbc39724186ef7cb12a647317f87d168b9",
+      "git_blob_sha": "4e177b67e7d1dcf13192bed5aa310a8c9cf9cd3c",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "path": "assets/sprites/iso4/scout_front_right_idle.png",
+      "sha256": "8a9bbd5d22b2e8755846a0f319178f6c944b74aeb8afb20f49803c327f3e121c",
+      "git_blob_sha": "35784a07adb1122d016774b9573f77246b2b1b62",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "path": "assets/sprites/iso4/scout_back_left_idle.png",
+      "sha256": "526dbeb88744b592381f68fa4d16ebf6a6609f4b2142ddf4908dfd1b176ba1fb",
+      "git_blob_sha": "b8822fe2293c1e0287fc09840e5c79ab4cfdd9e0",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "path": "assets/sprites/iso4/scout_back_right_idle.png",
+      "sha256": "bc486e8d5a47e2516b7074c909848009d53da79e3bff97305566a0a040f9e84c",
+      "git_blob_sha": "f25e515071cbc3d60c747be9913da83fc21826af",
+      "size": [
+        96,
+        128
+      ]
+    }
+  ],
+  "reference_identity_current_main_verified_by": "parent to verify git tree",
+  "source_canvas": [
+    1254,
+    1254
+  ],
+  "source_sha256": "6b0f5cf813fa15f686b80b87ec9b47b5404fb65d88a1be375e60df9445470556",
+  "operations": "crop and connected-figure isolation, shared nearest scale, fixed per-direction translation; no pose warping",
+  "validation": {
+    "meaning": "Static contact-sheet and alpha review performed. Native GIF for temporal review; no in-engine acceptance claimed.",
+    "observations": "Gray cape/shoulder and relaxed hand changes across phases; short dark hair, dagger side and four diagonal orientation preserved. No procedural pose warp or whole-body breathing translation.",
+    "directions": {
+      "front_left": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            17,
+            9,
+            84,
+            120
+          ],
+          "lower_28px_bbox": [
+            29,
+            100,
+            72,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            17,
+            9,
+            84,
+            120
+          ],
+          "lower_28px_bbox": [
+            29,
+            100,
+            72,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9740634005763689
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            17,
+            9,
+            84,
+            120
+          ],
+          "lower_28px_bbox": [
+            29,
+            100,
+            72,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9657142857142857
+        }
+      ],
+      "front_right": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            16,
+            9,
+            81,
+            120
+          ],
+          "lower_28px_bbox": [
+            18,
+            100,
+            76,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            16,
+            9,
+            81,
+            120
+          ],
+          "lower_28px_bbox": [
+            18,
+            100,
+            76,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9836065573770492
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            16,
+            10,
+            81,
+            120
+          ],
+          "lower_28px_bbox": [
+            18,
+            100,
+            76,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9808219178082191
+        }
+      ],
+      "back_left": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            18,
+            9,
+            86,
+            120
+          ],
+          "lower_28px_bbox": [
+            26,
+            100,
+            69,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            18,
+            9,
+            86,
+            120
+          ],
+          "lower_28px_bbox": [
+            26,
+            100,
+            69,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9925
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            18,
+            9,
+            87,
+            120
+          ],
+          "lower_28px_bbox": [
+            26,
+            100,
+            69,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9850746268656716
+        }
+      ],
+      "back_right": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            22,
+            9,
+            89,
+            120
+          ],
+          "lower_28px_bbox": [
+            32,
+            100,
+            74,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            22,
+            9,
+            89,
+            120
+          ],
+          "lower_28px_bbox": [
+            32,
+            100,
+            74,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9850374064837906
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            22,
+            10,
+            89,
+            120
+          ],
+          "lower_28px_bbox": [
+            32,
+            100,
+            74,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9825870646766169
+        }
+      ]
+    }
+  },
+  "status": "review candidate only, no Git or Library publication by this producer"
+}

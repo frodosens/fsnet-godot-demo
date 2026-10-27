@@ -1,0 +1,274 @@
+{
+  "status": "Review candidate only; in-engine acceptance pending",
+  "unit_ids": [
+    "bram"
+  ],
+  "sprite_role": "brute",
+  "source_sha256": "933d10839c9b8c52640ed216c4d38020e8034e321857d7fa2fbe3f58fa9904fe",
+  "canvas": [
+    96,
+    128
+  ],
+  "foot_anchor": [
+    48,
+    120
+  ],
+  "scale": 0.3,
+  "loop": [
+    0,
+    1,
+    2,
+    1
+  ],
+  "frame_ms": 400,
+  "operations": "crop and connected-figure isolation, shared nearest scale, fixed per-direction translation; no pose warping",
+  "frames": [
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/front_left_idle_00.png",
+      "source_rect": [
+        0,
+        45,
+        313,
+        440
+      ],
+      "placement": [
+        -9,
+        7
+      ],
+      "opaque_bbox": [
+        13,
+        11,
+        83,
+        120
+      ],
+      "sha256": "77d7654c0f8b23efd01bf65908594406d10adf326a3f0f5140f4f610e309391a"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/front_right_idle_00.png",
+      "source_rect": [
+        313,
+        45,
+        627,
+        440
+      ],
+      "placement": [
+        -1,
+        7
+      ],
+      "opaque_bbox": [
+        16,
+        11,
+        83,
+        120
+      ],
+      "sha256": "41d89eb6abe3a48b4639bbcf7225061d05f50d68e4f43783c0a0146fd2e2c9be"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/back_left_idle_00.png",
+      "source_rect": [
+        627,
+        45,
+        940,
+        440
+      ],
+      "placement": [
+        5,
+        6
+      ],
+      "opaque_bbox": [
+        16,
+        10,
+        77,
+        119
+      ],
+      "sha256": "5df734f92f004dcec1e35601ca40b1d90c31cab6d4b94440b2a04919cc61a257"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/back_right_idle_00.png",
+      "source_rect": [
+        940,
+        45,
+        1254,
+        440
+      ],
+      "placement": [
+        19,
+        6
+      ],
+      "opaque_bbox": [
+        26,
+        10,
+        94,
+        119
+      ],
+      "sha256": "e6d55be28f42d2238eb17208e4e36fe88cabda4c85878c2937d6dff04282739a"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/front_left_idle_01.png",
+      "source_rect": [
+        0,
+        444,
+        313,
+        839
+      ],
+      "placement": [
+        -9,
+        7
+      ],
+      "opaque_bbox": [
+        13,
+        11,
+        83,
+        120
+      ],
+      "sha256": "231a8fc242ea35bc433ccf0250f2de84819f83a14f116e25f892251f767a30a1"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/front_right_idle_01.png",
+      "source_rect": [
+        313,
+        444,
+        627,
+        839
+      ],
+      "placement": [
+        -1,
+        7
+      ],
+      "opaque_bbox": [
+        16,
+        10,
+        83,
+        120
+      ],
+      "sha256": "6a5aa09e27981d5cfd53e1dca967b85511b5da972b2e3c634a8f9b8d3ee7fe47"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/back_left_idle_01.png",
+      "source_rect": [
+        627,
+        444,
+        940,
+        839
+      ],
+      "placement": [
+        5,
+        6
+      ],
+      "opaque_bbox": [
+        16,
+        10,
+        77,
+        120
+      ],
+      "sha256": "8df6e11539b8b50d9c56f012051fc8eb05a5db1ed771bdb235d9cecd2bcdd2d5"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/back_right_idle_01.png",
+      "source_rect": [
+        940,
+        444,
+        1254,
+        839
+      ],
+      "placement": [
+        19,
+        6
+      ],
+      "opaque_bbox": [
+        25,
+        10,
+        94,
+        120
+      ],
+      "sha256": "a330a74ab8a1f81568c8780c7e7aedd71288ba8cbb88712a0468f780b0747394"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/front_left_idle_02.png",
+      "source_rect": [
+        0,
+        831,
+        313,
+        1226
+      ],
+      "placement": [
+        -9,
+        7
+      ],
+      "opaque_bbox": [
+        13,
+        13,
+        83,
+        120
+      ],
+      "sha256": "832993fa84af66d4eb013f8615bf92524238bb5b861fd379b86084821c5ff6eb"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/front_right_idle_02.png",
+      "source_rect": [
+        313,
+        831,
+        627,
+        1226
+      ],
+      "placement": [
+        -1,
+        7
+      ],
+      "opaque_bbox": [
+        16,
+        12,
+        83,
+        120
+      ],
+      "sha256": "eae9970ebf003aa128c1a330c4e79c20369c15c472b37611c863d8ba55a43005"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/back_left_idle_02.png",
+      "source_rect": [
+        627,
+        831,
+        940,
+        1226
+      ],
+      "placement": [
+        5,
+        6
+      ],
+      "opaque_bbox": [
+        16,
+        12,
+        77,
+        119
+      ],
+      "sha256": "3d1b4273ce1087795f073ee960b8f05493873eb4db2291d7337ab415690fddc3"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/bram/back_right_idle_02.png",
+      "source_rect": [
+        940,
+        831,
+        1254,
+        1226
+      ],
+      "placement": [
+        19,
+        6
+      ],
+      "opaque_bbox": [
+        25,
+        12,
+        94,
+        119
+      ],
+      "sha256": "ae5f09d59cdde9368247860e5f4bd4c348ecefc82fd4d24a23c8cb6fe359b96d"
+    }
+  ],
+  "source_canvas": [
+    1254,
+    1254
+  ],
+  "reference_identity_verified_against_main_git_tree": true,
+  "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
+  "reference_verification_evidence": "production_art/remaining_map4_idles/reference-verification.json (verified by staging parent)"
+}
