@@ -41,6 +41,7 @@ const SLOT_IDS=["auto","slot1","slot2","slot3"]
 func _ready():
     get_tree().auto_accept_quit=false
     load_presentation_preferences()
+    var fps=preload("res://ui/fps_display.gd").new();fps.name="FPSDisplay";add_child(fps)
 func _process(delta):
     if server:
         for event in server.poll_events():
