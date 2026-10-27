@@ -1,0 +1,49 @@
+extends RefCounted
+# Built-in presentation profiles keyed by existing unit ID. No rule/schema fields.
+const IDS=["adela","elsbet"]
+const ROOT="res://assets/characters/reserve/"
+const DIRECTIONS=["front_left","front_right","back_left","back_right"]
+# Actual head pixels on the original hurt images at the new staff's y=60 row.
+# Only Elsbet's high strike uses these; old torso contacts remain unchanged.
+const LEGACY_HEAD_X={"mara":67,"finn":80,"neri":96,"oren":114,"tessa":80,"bram":98}
+static var cache={}
+static func texture_at(base,path,canvas):
+    if not path is String or path.contains("..") or path.contains(":") or path.contains("\\") or path.begins_with("/") or not path.ends_with(".png"):return null
+    if not ResourceLoader.exists(base+path):return null
+    var texture=load(base+path)
+    return texture if texture is Texture2D and texture.get_size()==canvas else null
+static func profile(id):
+    if id not in IDS:return {}
+    if cache.has(id):return cache[id]
+    cache[id]={}
+    var base=ROOT+id+"/";var file=FileAccess.open(base+"manifest.json",FileAccess.READ)
+    if not file or file.get_length()>32768:return {}
+    var data=preload("res://logic/content.gd").normalize(JSON.parse_string(file.get_as_text()))
+    if not data is Dictionary or data.get("schema_version")!=1 or data.get("character_id")!=id:return {}
+    if not data.get("map") is Dictionary or not data.get("battle") is Dictionary or not data.get("portrait") is Dictionary:return {}
+    var portrait=texture_at(base,data.portrait.get("file"),Vector2(512,512))
+    if portrait==null:return {}
+    var directions={}
+    for direction in DIRECTIONS:
+        var entry=data.map.get("directions",{}).get(direction,{})
+        var texture=texture_at(base,entry.get("file"),Vector2(96,128))
+        if texture==null:return {}
+        directions[direction]=texture
+    if data.map.get("idle_mode")!="static" or data.map.get("foot_anchor")!=[48,120] or data.battle.get("foot_anchor")!=[96,144] or data.battle.get("facing")!="right":return {}
+    var poses={}
+    for key in ["idle_00","idle_01","anticipation","contact","hurt"]:
+        var entry=data.battle.get("frames",{}).get(key+".png",{})
+        var texture=texture_at(base,entry.get("file"),Vector2(192,160))
+        if texture==null:return {}
+        poses[key]=texture
+    var geometry=data.battle.get("geometry",{})
+    for key in ["attack_contact_tip_xy","hurt_body_anchor_xy","hurt_head_anchor_xy"]:
+        var point=geometry.get(key)
+        if not point is Array or point.size()!=2:return {}
+        for axis in range(2):
+            if not (point[axis] is float or point[axis] is int) or not is_finite(point[axis]) or point[axis]<0 or point[axis]>=[192,160][axis]:return {}
+    cache[id]={"portrait_path":base+data.portrait.file,"map":directions,"poses":poses,"geometry":geometry}
+    return cache[id]
+static func portrait_path(id):
+    var art=profile(id)
+    return art.portrait_path if not art.is_empty() else "res://assets/portraits/"+id+".png"

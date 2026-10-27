@@ -226,7 +226,7 @@ func refresh():
     var display_index=game.selected if game.selected>=0 else (0 if not logic.units.is_empty() else -1)
     if display_index>=0 and display_index<logic.units.size():
         var u=logic.units[display_index]
-        var image="res://assets/portraits/"+u.id+".png"
+        var image=preload("res://view/reserve_art.gd").portrait_path(u.id)
         selected_portrait.texture=UI.framed_portrait(u.id)
         var skill="默认技能："+u.skill_id
         for ability in logic.content.abilities:
@@ -254,7 +254,7 @@ func refresh():
     if target_panel.visible:
         var victim=logic.units[game.target_preview_index];var prediction=game.target_preview
         target_panel.position=Vector2(view.x-304,90)
-        var image="res://assets/portraits/"+victim.id+".png";target_portrait.texture=load(image) if ResourceLoader.exists(image) else null
+        var image=preload("res://view/reserve_art.gd").portrait_path(victim.id);target_portrait.texture=load(image) if ResourceLoader.exists(image) else null
         target_detail.text="%s · HP %d/%d\n伤害 %d–%d"%[victim.name,victim.hp,victim.max_hp,prediction.low,prediction.high]
         if prediction.crit_chance>0:target_detail.text+="\n每段暴击 %d%% · %d–%d"%[prediction.crit_chance,prediction.critical_low,prediction.critical_high]
         if prediction.healing>0:target_detail.text+="\n治疗 +%d"%prediction.healing
@@ -295,7 +295,7 @@ func refresh_story():
     if key==story_key:return
     story_key=key;story_name.text=App.speaker_name(line.speaker);story_text.text=line.text;story_count.text="%d / %d · 剧情仅控制本地阅读，联机对局不会因此暂停。"%[line.index,line.total] if game.session.online else "%d / %d"%[line.index,line.total]
     portrait.texture=null
-    var path="res://assets/portraits/"+line.speaker+".png"
+    var path=preload("res://view/reserve_art.gd").portrait_path(line.speaker)
     if ResourceLoader.exists(path):
         portrait.texture=load(path)
     portrait_initial.visible=portrait.texture==null

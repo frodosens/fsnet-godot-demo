@@ -40,7 +40,7 @@ func show_event(event):
     var data=event.get("presentation",{})
     for side in ["left","right"]:
         var actor=side=="left";var id=event.actor if actor else event.target
-        var path="res://assets/portraits/"+id+".png"
+        var path=preload("res://view/reserve_art.gd").portrait_path(id)
         portraits[side].texture=load(path) if ResourceLoader.exists(path) else null
         bars[side].texture_progress=load(ART+"hp_fill_"+("ally" if data.get("actor_ally" if actor else "target_ally",false) else "enemy")+".png")
         labels[side].text=data.get("actor_name" if actor else "target_name",id)

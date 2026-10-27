@@ -34,6 +34,7 @@ var title
 var last_seen_step=-1
 var actor_sets={}
 var defender_sets={}
+var reserve_sets={}
 var contact_target=Vector2.ZERO
 var fx={}
 var projectile
@@ -71,6 +72,7 @@ func _ready():
         var data=enemies.characters[id+"_hit"];var textures=[]
         for frame in data.frames:textures.append(load("res://assets/battle/enemy_combat/"+frame.path))
         defender_sets[id]={"idle":mara_idle if id=="mara" else actor_sets[id].textures[0],"hit":textures[0],"recover":textures[1]}
+    register_reserve_art()
     damage_label=UI.label("",42,Color("d5a18b"));damage_label.position=Vector2(850,275);arena.add_child(damage_label)
     damage_label.add_theme_font_override("font",UI.impact_font())
     damage_label.add_theme_color_override("font_shadow_color",Color("101916"));damage_label.add_theme_constant_override("shadow_offset_x",2);damage_label.add_theme_constant_override("shadow_offset_y",3)
@@ -92,6 +94,22 @@ func play_sound(name):
     if App.sfx_enabled and sounds.has(name):sound_player.volume_db=App.sfx_volume_db;sound_player.stream=sounds[name];sound_player.play()
 func figure():
     var image=TextureRect.new();image.size=Vector2(384,320);image.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;image.mouse_filter=Control.MOUSE_FILTER_IGNORE;arena.add_child(image);return image
+func register_reserve_art():
+    var library=preload("res://view/reserve_art.gd")
+    for id in library.IDS:
+        var art=library.profile(id)
+        if art.is_empty():continue
+        reserve_sets[id]=art
+        # Existing 24 ticks, melee contact tick 9. Recovery reuses anticipation.
+        actor_sets[id]={"textures":[art.poses.idle_00,art.poses.anticipation,art.poses.contact],"timeline":[0,0,1,1,1,1,1,1,1,2,2,2,2,1,1,1,1,1,0,0,0,0,0,0],"tick_seconds":0.06,"release":9}
+        defender_sets[id]={"idle":art.poses.idle_00,"hit":art.poses.hurt,"recover":art.poses.idle_00}
+        var geo=art.geometry
+        # Integer source coordinates denote pixel centers; flip in continuous
+        # TextureRect coordinates (192-x), never mix with integer 191-x indexing.
+        contact_points[id]={"weapon_tip":[geo.attack_contact_tip_xy[0]+0.5,geo.attack_contact_tip_xy[1]+0.5],"hurt_point":[192-(geo.hurt_body_anchor_xy[0]+0.5),geo.hurt_body_anchor_xy[1]+0.5],"hurt_radius":16,"contact_tick":9}
+func sample_reserve_idle(id,time,fallback):
+    if not reserve_sets.has(id):return fallback
+    return reserve_sets[id].poses.idle_00 if App.reduced_motion or fposmod(time,0.9)<0.45 else reserve_sets[id].poses.idle_01
 func consume(step,events,units=[],content={}):
     if step==last_seen_step:return
     finish();last_seen_step=step
@@ -103,6 +121,7 @@ func consume(step,events,units=[],content={}):
         if item.get("kind")!="attack" or (item.get("target")!="oren" and not defender_sets.has(item.get("target"))):continue
         if item.actor!="mara" and not actor_sets.has(item.actor):continue
         if item.actor=="neri" and item.get("ability") not in ["ember","focus_bolt"]:continue
+        if reserve_sets.has(item.actor) and item.get("ability","attack")!="attack":continue # Only authored melee art; no invented spell animation.
         pending_events.append(item.duplicate(true))
     play_next()
 func play_next():
@@ -110,13 +129,12 @@ func play_next():
     event=pending_events.pop_front();elapsed=0.0;active=true;hitstop_done=false;hitstop_remaining=0.0;release_played=false
     tick_seconds=1.0/12.0 if event.actor=="mara" else actor_sets[event.actor].tick_seconds
     release_tick=int(contact_points.mara.contact_tick) if event.actor=="mara" else actor_sets[event.actor].release
-    title.text={"mara":"玛拉 · 突刺","finn":"芬恩 · 放箭","neri":"奈莉 · 施法","oren":"奥伦 · 突刺","tessa":"苔莎 · 短刃","bram":"布兰 · 重锤"}[event.actor]
     title.text=str(event.get("ability","attack")) if event.get("ability","attack")!="attack" else "普通攻击"
     title.text={"ember":"余烬","focus_bolt":"专注魔弹","strong_shot":"强力射击","rally":"鼓舞"}.get(title.text,title.text)
     feedback_strength=0.0 if App.reduced_motion else 1.0
     combat_status.show_event(event)
     surface.show();draw_tick(0)
-func is_melee():return event.get("actor") in ["mara","oren","tessa","bram"]
+func is_melee():return event.get("actor") in ["mara","oren","tessa","bram"] or reserve_sets.has(event.get("actor"))
 func hit_tick():return release_tick if is_melee() else release_tick+4
 func socket_point(values):return Vector2(values[0],values[1])
 func hurt_screen_point():return arena.position+defender.position+contact_target*2.0
@@ -141,13 +159,24 @@ func draw_tick(frame):
     var idle_time=maxf(0,frame)*tick_seconds
     if tick<2:
         attacker.texture=idle_library.sample("battle",event.actor+":right",idle_time,attacker.texture,App.reduced_motion,event.actor)
+        attacker.texture=sample_reserve_idle(event.actor,idle_time,attacker.texture)
     if defend==0:
         defender.texture=idle_library.sample("battle",event.target+(":left" if event.target=="oren" else ":right"),idle_time,defender.texture,App.reduced_motion,event.target)
+        defender.texture=sample_reserve_idle(event.target,idle_time,defender.texture)
     contact_target=socket_point(contact_points[event.target].hurt_point)
+    if event.actor=="elsbet":
+        # High staff strike: select the head area, not a torso socket that would
+        # translate the entire attacker's feet upward. Existing poses stay put.
+        if reserve_sets.has(event.target):
+            var head=reserve_sets[event.target].geometry.hurt_head_anchor_xy
+            contact_target=Vector2(192-(head[0]+0.5),head[1]+0.5)
+        else:
+            var x=float(preload("res://view/reserve_art.gd").LEGACY_HEAD_X[event.target])+0.5
+            contact_target=Vector2(192-x if defender.flip_h else x,60.5)
     if melee:
         # Contact may land anywhere in the authored torso hurt region, preserving grounded feet.
         var tip=socket_point(contact_points[event.actor].weapon_tip)
-        contact_target.y=clampf(tip.y,contact_target.y-contact_points[event.target].get("hurt_radius",12),contact_target.y+contact_points[event.target].get("hurt_radius",12))
+        contact_target.y=clampf(tip.y,contact_target.y-(8 if event.actor=="elsbet" else contact_points[event.target].get("hurt_radius",12)),contact_target.y+(8 if event.actor=="elsbet" else contact_points[event.target].get("hurt_radius",12)))
     defender.modulate.a=clampf(1.0-(tick-hit-2)/5.0,0,1) if event.get("hp",1)==0 and tick>=hit else 1.0
     defender.position=Vector2(700,205)
     var base=Vector2(180,205)
