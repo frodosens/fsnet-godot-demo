@@ -10,6 +10,8 @@ func _initialize():call_deferred("run")
 func frames(n=2):
     for i in range(n):await process_frame
 func click_at(point):
+    var motion=InputEventMouseMotion.new();motion.position=point;root.push_input(motion,true)
+    await frames()
     for pressed in [true,false]:
         var event=InputEventMouseButton.new();event.button_index=MOUSE_BUTTON_LEFT;event.pressed=pressed;event.position=point
         root.push_input(event,true);await process_frame

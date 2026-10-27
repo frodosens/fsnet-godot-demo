@@ -280,6 +280,12 @@ func refresh():
 func refresh_story():
     var line=App.next_story()
     story_panel.visible=not line.is_empty() and not is_instance_valid(modal) and not game.presentation_active()
+    # z_index only changes drawing: the later dock otherwise steals story clicks.
+    # Synchronize here as dialogue/modal transitions need not call full refresh().
+    if dock:
+        dock.visible=not story_panel.visible and not is_instance_valid(modal)
+        dock.refresh_dock()
+        turn_button.disabled=not dock.visible or game.battle.outcome!="playing"
     if line.is_empty():story_key="";return
     var key=line.id+":"+str(line.index)
     if key==story_key:return
@@ -302,7 +308,7 @@ func modal_page(title):
     clear_modal()
     modal=ColorRect.new();modal.color=Color(0.08,0.07,0.05,0.7);modal.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);modal.z_index=100;root.add_child(modal)
     var p=PanelContainer.new();p.position=Vector2((root.get_viewport_rect().size.x-600)*0.5,100);p.custom_minimum_size=Vector2(600,0);modal.add_child(p)
-    var c=UI.column(p,12);c.add_child(UI.label(title,28));story_panel.visible=false;return c
+    var c=UI.column(p,12);c.add_child(UI.label(title,28));refresh_story();return c
 func toggle_pause():
     if is_instance_valid(modal):clear_modal();return
     var c=modal_page("旅程菜单")
