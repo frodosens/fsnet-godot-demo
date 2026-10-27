@@ -13,6 +13,7 @@ var movement:Label
 var action_value:Label
 var phase:Label
 var cost:Label
+var proposal_title:Label
 var hp:TextureProgressBar
 var mp:TextureProgressBar
 var confirm:Button
@@ -68,8 +69,8 @@ func setup(owner):
         var b=action_nodes[kinds[i]];b.focus_neighbor_right=b.get_path_to(action_nodes[kinds[(i+1)%5]]);b.focus_neighbor_left=b.get_path_to(action_nodes[kinds[(i+4)%5]])
     context=Control.new();context.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(context)
     picture(context,"panels/action-dock.png",r("action_and_movement_dock"));picture(context,"icons/icon_move.png",Rect2(580,854,54,54))
-    label(context,"移动预览",Rect2(655,850,200,36),30);cost=label(context,"",Rect2(655,900,210,35),24)
-    var a=layout.action_rects.confirm;confirm=button(context,"confirm","确认",Rect2(a[0],a[1],182,a[3]),hud.game.confirm_move)
+    proposal_title=label(context,"移动预览",Rect2(655,850,200,36),30);cost=label(context,"",Rect2(655,900,210,35),24)
+    var a=layout.action_rects.confirm;confirm=button(context,"confirm","确认",Rect2(a[0],a[1],182,a[3]),hud.game.confirm_proposal)
     a=layout.action_rects.cancel;cancel=button(context,"cancel","取消",Rect2(1065,a[1],156,a[3]),hud.cancel_targeting)
     confirm.focus_neighbor_right=confirm.get_path_to(cancel);cancel.focus_neighbor_left=cancel.get_path_to(confirm)
     var end=Button.new();end.text="结束回合";end.position=r("end_turn").position;end.size=r("end_turn").size;end.add_theme_font_size_override("font_size",30)
@@ -99,9 +100,11 @@ func refresh_dock():
         action_nodes.wait.disabled=not logic.usable(i) or (u.acted and u.moves_used>=u.move_actions)
     var moving=game.mode=="move" and not hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing"
     actions.visible=hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing"
-    context.visible=moving
-    confirm.disabled=game.pending_move.is_empty() or game.session.pending
+    context.visible=moving or (game.mode!="move" and not hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing")
+    proposal_title.text="移动预览" if game.mode=="move" else "目标预览"
+    confirm.disabled=(game.pending_move.is_empty() and game.pending_target.is_empty()) or game.targeting_locked()
     cost.text="请选择落点" if game.preview_path.is_empty() else "%d 格 · 移动 1 次"%[game.preview_path.size()-1]
+    if game.mode!="move":cost.text="再点目标确认" if not game.pending_target.is_empty() else "请选择目标"
     for kind in action_nodes:
         var b=action_nodes[kind];b.text="";b.add_theme_stylebox_override("normal",skin("buttons/"+("selected" if selected==kind and not b.disabled else "normal")+".png"))
         b.get_meta("caption").modulate=Color("a4aaa4") if b.disabled else Color("eee2c6")

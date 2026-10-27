@@ -20,3 +20,6 @@ textures/default_filters/use_nearest_mipmap_filter=false
 
 [autoload]
 App="*res://ui/app.gd"
+
+[input_devices]
+pointing/emulate_mouse_from_touch=true

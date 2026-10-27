@@ -32,7 +32,7 @@ func settle():
         await press("跳过本段")
 func cell(pos):
     await click_at(game.camera.unproject_position(Vector3(pos.x,0,pos.y)))
-    if not game.pending_move.is_empty():
+    if not game.pending_move.is_empty() or not game.pending_target.is_empty():
         for pressed in [true,false]:
             var key=InputEventKey.new();key.physical_keycode=KEY_ENTER;key.keycode=KEY_ENTER;key.pressed=pressed;root.push_input(key,true);await process_frame
         await frames()

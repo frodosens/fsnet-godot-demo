@@ -29,6 +29,7 @@ var target_preview_index=-1
 var preview_reason=""
 var preview_reachable={}
 var pending_move={}
+var pending_target={}
 var preview_path=[]
 var preview_cell=Vector2i(-1,-1)
 var route_mesh
@@ -339,20 +340,54 @@ func select_mode(value):
 
 # Presentation-only proposal. No command is sent until explicit confirmation.
 func stage_move(cell):
-    if presentation_active() or hud.blocks_input() or selected<0:return false
+    if targeting_locked() or selected<0:return false
     pending_move={};update_move_preview(cell)
     if preview_path.is_empty():return false
-    pending_move={"unit":selected,"actor_id":battle.units[selected].id,"step":battle.step,"cell":cell,"path":preview_path.duplicate(true)}
+    pending_move={"unit":selected,"actor_id":battle.units[selected].id,"step":battle.step,"cell":cell,"path":preview_path.duplicate(true),"state":proposal_state(),"logic_id":battle.get_instance_id(),"mode":mode}
     hud.refresh();return true
 
 func confirm_move():
-    if pending_move.is_empty() or presentation_active() or hud.blocks_input():return false
+    battle=session.logic
+    if pending_move.is_empty():return false
+    if targeting_locked():clear_move_preview();return false
     var proposal=pending_move.duplicate(true)
-    var valid=selected==proposal.unit and battle.step==proposal.step and battle.units[selected].id==proposal.actor_id and battle.path_to(selected,proposal.cell)==proposal.path
+    var valid=mode==proposal.mode and mode=="move" and proposal_state()==proposal.state and battle.get_instance_id()==proposal.logic_id and selected==proposal.unit and battle.step==proposal.step and battle.units[selected].id==proposal.actor_id and battle.path_to(selected,proposal.cell)==proposal.path
     clear_move_preview()
     if not valid:hud.refresh();return false
     var accepted=session.submit({"kind":"move","unit":selected,"actor_id":proposal.actor_id,"x":proposal.cell.x,"y":proposal.cell.y})
     battle=session.logic;refresh();return accepted
+
+func proposal_state():return battle.content_hash+":"+battle.rules_hash+":"+battle.state_hash()
+
+func targeting_locked():
+    return session.pending or session.failed or presentation_active() or hud.blocks_input()
+
+func target_command(target):
+    var command={"unit":selected,"target":target,"kind":mode}
+    if mode.begins_with("ability:"):command.kind="ability";command.ability=mode.trim_prefix("ability:")
+    if mode.begins_with("item:"):command.kind="item";command.consumable=mode.trim_prefix("item:")
+    return command
+
+func stage_target(cell):
+    pending_target={}
+    update_target_preview(cell)
+    if targeting_locked() or target_preview.is_empty() or selected<0:return false
+    var target=target_preview_index
+    pending_target={"unit":selected,"actor_id":battle.units[selected].id,"mode":mode,"step":battle.step,"state":proposal_state(),"logic_id":battle.get_instance_id(),"target":target,"target_id":battle.units[target].id,"cell":cell,"command":target_command(target)}
+    hud.refresh();return true
+
+func confirm_proposal():
+    battle=session.logic
+    if not pending_move.is_empty():return confirm_move()
+    if pending_target.is_empty():return false
+    var proposal=pending_target.duplicate(true)
+    var valid=not targeting_locked() and selected==proposal.unit and mode==proposal.mode and battle.step==proposal.step and proposal_state()==proposal.state and battle.get_instance_id()==proposal.logic_id
+    if valid:
+        valid=battle.units[selected].id==proposal.actor_id and battle.at(proposal.cell)==proposal.target and battle.units[proposal.target].id==proposal.target_id and battle.preview_action(proposal.command).get("legal",false)
+    clear_move_preview() # Consume before submit, including rejected/pending commands.
+    if not valid:hud.refresh();return false
+    var accepted=session.submit(proposal.command)
+    battle=session.logic;hud.action_menu_open=true;refresh();return accepted
 
 func wait_selected():
     if selected<0 or presentation_active() or hud.blocks_input():return false
@@ -422,7 +457,8 @@ func _unhandled_input(event):
             else:hud.toggle_pause()
             return
         if hud.story_panel.visible and event.physical_keycode in [KEY_SPACE,KEY_ENTER]:hud.advance(false);return
-    if presentation_active() or hud.blocks_input():return
+    if targeting_locked():
+        clear_move_preview();return
     if event is InputEventJoypadButton and event.pressed and event.button_index==JOY_BUTTON_A:
         if hud.activate_focused_action():get_viewport().set_input_as_handled()
         return
@@ -435,7 +471,7 @@ func _unhandled_input(event):
             KEY_4,KEY_I: hud.choose_action("item")
             KEY_5,KEY_W: wait_selected()
             KEY_ENTER:
-                if not pending_move.is_empty():confirm_move()
+                if not pending_move.is_empty() or not pending_target.is_empty():confirm_proposal()
                 elif not hud.activate_focused_action():hud.open_action_menu()
                 get_viewport().set_input_as_handled()
             KEY_SPACE: hud.request_end_turn()
@@ -444,11 +480,14 @@ func _unhandled_input(event):
         hud.cancel_targeting();return
     if event is InputEventMouseMotion:
         if mode=="move" and not hud.action_menu_open and pending_move.is_empty():update_move_preview(mouse_cell(event.position))
-        else:update_target_preview(mouse_cell(event.position))
+        elif pending_target.is_empty():update_target_preview(mouse_cell(event.position))
         return
-    if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+    # Touch targets are handled once here; its emulated mouse still serves GUI controls.
+    var pointer_tap=(event is InputEventScreenTouch and event.pressed and event.index==0) or (event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT and event.device!=-1)
+    if pointer_tap:
         var cell=mouse_cell(event.position)
-        if cell.x<0:return
+        if cell.x<0:
+            clear_move_preview();hud.refresh();return
         var target = battle.at(cell)
         if target >= 0 and battle.units[target].controller=="player" and (mode=="move" or (mode=="attack" and selected>=0 and battle.units[target].faction==battle.units[selected].faction)):
             selected = target
@@ -456,19 +495,21 @@ func _unhandled_input(event):
             clear_move_preview()
         elif mode == "move":
             if hud.action_menu_open:return
-            stage_move(cell)
+            if not pending_move.is_empty() and pending_move.cell==cell:confirm_move()
+            else:stage_move(cell)
             hud.refresh();return
-        elif mode.begins_with("item:"):
-            session.submit({"kind":"item","consumable":mode.trim_prefix("item:"),"unit":selected,"target":target})
-        elif mode.begins_with("ability:"):
-            session.submit({"kind":"ability","ability":mode.trim_prefix("ability:"),"unit":selected,"target":target})
         else:
-            session.submit({"kind":"skill" if mode=="skill" else "attack","unit":selected,"target":target})
+            if hud.action_menu_open:return
+            if not pending_target.is_empty() and pending_target.cell==cell:confirm_proposal()
+            else:stage_target(cell)
+            hud.refresh();return
         battle=session.logic
         refresh()
 
 func _process(delta):
     battle=session.logic
+    var proposal=pending_move if not pending_move.is_empty() else pending_target
+    if not proposal.is_empty() and (targeting_locked() or selected!=proposal.unit or mode!=proposal.mode or battle.step!=proposal.step or battle.get_instance_id()!=proposal.logic_id):clear_move_preview()
     if battle.step!=last_step:
         if hud:hud.action_menu_open=true
         last_step=battle.step
@@ -504,7 +545,7 @@ func mouse_cell(screen):
     var hit=origin+direction*(-origin.y/direction.y)
     return Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
 func clear_move_preview():
-    pending_move={}
+    pending_move={};pending_target={};target_preview={};target_preview_index=-1
     preview_path=[];preview_reason="";preview_cell=Vector2i(-1,-1)
     if preview_ghost:preview_ghost.hide()
     route_mesh.mesh.clear_surfaces();route_arrows.mesh.clear_surfaces()
@@ -535,9 +576,7 @@ func update_target_preview(cell):
     if selected<0 or mode=="move" or presentation_active() or hud.blocks_input():return
     var target=battle.at(cell)
     if target<0:return
-    var command={"unit":selected,"target":target,"kind":mode}
-    if mode.begins_with("ability:"):command.kind="ability";command.ability=mode.trim_prefix("ability:")
-    if mode.begins_with("item:"):command.kind="item";command.consumable=mode.trim_prefix("item:")
+    var command=target_command(target)
     var result=battle.preview_action(command)
     if result.get("legal",false):target_preview=result;target_preview_index=target
 
