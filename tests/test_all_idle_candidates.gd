@@ -39,6 +39,12 @@ func run():
             g.motion.advance(.15);idle.advance(.15);check(g.figures[i].texture==texture,"no walk or idle cycle during slide")
             g.motion.finish(false);idle.advance(0)
             check(g.figures[i].texture==texture and g.figures[i].position==origin,"stop has identical neutral and exact rule footpoint")
+    # Consume + skip in the same frame must reset even before MapIdle._process runs.
+    idle.clocks.mara=.5;step+=1
+    g.motion.consume(step,[{"kind":"move","actor":"mara","path":[{"x":3,"y":7},{"x":4,"y":7}]}])
+    check(idle.clocks.mara==0,"immediate consumption resets stale idle phase")
+    g.motion.finish(false);idle.advance(0)
+    check(idle.clocks.mara==0 and g.figures[0].texture==g.directional_idle_texture(0,g.facing.mara),"same-frame skip stays neutral")
     check(g.battle.snapshot()==truth,"all presentation fixtures preserve rule state")
     check(is_equal_approx(idle.library.clips.map["mage:front_left"].duration,1.2),"Neri1200ms three slots")
     # Oren defence uses LEFT old group; his right-facing attack remains untouched.

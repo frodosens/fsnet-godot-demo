@@ -41,12 +41,12 @@ were not thresholded or cropped. No claim of final art acceptance or zero drift.
 
 ## Validation
 
-`tools/test.sh` includes `test_all_idle_candidates.gd` (432 checks): all6×4
+`tools/test.sh` includes `test_all_idle_candidates.gd` (434 checks): all6×4
 bindings, phase order, fixed world position, pause/reduced motion, unit-scope Mod
 fallback, immediate static neutral when movement begins, every direction's
 slide/settle, unchanged snapshots, and Oren's separate left defence/right attack
 contract. Existing movement, idle boundary, map projection, combat and network
-regression suites remain enabled. The complete candidate run passed5031 checks
+regression suites remain enabled. The complete candidate run passed5033 checks
 and5 server/two-client network cases, with no script errors.
 
 Actual captures use Linux Godot4.6.3 Compatibility/llvmpipe,1280×800 and960×600.
@@ -56,3 +56,7 @@ renderer switch. Direction fixtures do not issue gameplay commands. Camera-facin
 sprite projection, light response, ground shadows and overlay depth are retained.
 Images/video are review deliverables outside Git, not runtime assets or performance
 benchmarks. Windows runtime and other devices were not tested here.
+
+Same-frame move consumption followed immediately by skip also resets the idle
+clock explicitly; it does not depend on MapIdle processing an intermediate frame.
+The final regression includes this boundary.

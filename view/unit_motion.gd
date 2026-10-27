@@ -18,6 +18,7 @@ func consume(step,events):
             var path=event.get("path",[])
             if path is Array and path.size()>=2:
                 motions[u.id]={"index":i,"path":path,"elapsed":0.0,"role":u.role,"segment":0,"distance":0.0}
+                reset_idle_phase(u.id)
                 var first=path[0];game.figures[i].position=Vector3(first.x,game.figure_height(i),first.y)
                 var next=path[1]
                 var direction=game.projected_facing(Vector2i(first.x,first.y),Vector2i(next.x,next.y),game.iso_roles.has(u.role))
@@ -51,7 +52,11 @@ func advance(delta):
         if game.selected==i:game.selection_ring.position=Vector3(game.figures[i].position.x,0.04,game.figures[i].position.z)
 
     if motions.is_empty():game.motion_finished()
+func reset_idle_phase(id):
+    var idle=game.get_node_or_null("MapIdle")
+    if idle:idle.clocks[id]=0.0
 func settle(id,index):
+    reset_idle_phase(id)
     var u=game.battle.units[index]
     if game.selected==index:game.selection_ring.position=Vector3(u.x,0.04,u.y)
     game.figures[index].position=Vector3(u.x,game.figure_height(index),u.y);game.badges[index].position=game.badge_position(index)
