@@ -17,7 +17,10 @@ with tempfile.TemporaryDirectory(prefix='target-network-') as folder:
         remote=subprocess.Popen(base+['--headless','--script','res://tests/network_target_remote.gd'],env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True);children.append(remote)
         graphical=env.get('AMBER_GRAPHICAL')=='1'
         driver=subprocess.Popen(base+(['--audio-driver','Dummy'] if graphical else ['--headless'])+['--script','res://tests/network_target_confirm.gd'],env=env,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,text=True);children.append(driver)
-        output,_=driver.communicate(timeout=100);print(output,end='')
+        try:output,_=driver.communicate(timeout=100)
+        except subprocess.TimeoutExpired:
+            driver.kill();output,_=driver.communicate();print(output,end='');raise
+        print(output,end='')
         assert driver.returncode==0 and 'NETWORK_TARGET_CONFIRM checks=' in output and 'FAIL:' not in output and 'SCRIPT ERROR' not in output
         output,_=remote.communicate(timeout=10);print(output,end='');assert remote.returncode==0
         print('TARGET_NETWORK_PASS: three OS processes; ordinary polling, deferred confirmation, remote change, reconnect')

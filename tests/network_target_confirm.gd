@@ -17,7 +17,12 @@ func click(pos):
         var e=InputEventMouseButton.new();e.position=pos;e.pressed=down;e.button_index=MOUSE_BUTTON_LEFT;root.push_input(e,true);await process_frame
     await frames()
 func cell(pos):await click(game.camera.unproject_position(Vector3(pos.x,0,pos.y)))
-func tap(b):await click(b.get_global_rect().get_center())
+func tap(b):
+    for i in range(120):
+        if b.is_visible_in_tree() and not b.disabled:break
+        await frames()
+    check(b.is_visible_in_tree() and not b.disabled,"wait for actionable visible control")
+    await click(b.get_global_rect().get_center())
 func wait_ready():
     for i in range(300):
         if app.session.ready and not app.session.pending:return
@@ -47,8 +52,11 @@ func run():
     app.set_process(true);await wait_step(1);await frames()
     check(game.battle.units[0].pos==Vector2i(4,6) and app.session.request_id==1,"queued move committed exactly once after poll")
     while game.presentation_active():await hold(.05)
+    await frames()
     # Skill targets remain legal after moving; use the real ability menu.
     await tap(game.hud.action_buttons.skill)
+    check(is_instance_valid(game.hud.modal),"skill button opens actual menu")
+    if not is_instance_valid(game.hud.modal):return
     for b in game.hud.modal.find_children("*","Button",true,false):
         if b.text.begins_with("重整"):await tap(b);break
     await cell(Vector2i(4,6));await hold(1.1)
