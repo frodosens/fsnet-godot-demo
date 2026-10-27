@@ -17,33 +17,44 @@ static func profile(id):
     if cache.has(id):return cache[id]
     cache[id]={}
     var base=ROOT+id+"/";var file=FileAccess.open(base+"manifest.json",FileAccess.READ)
-    if not file or file.get_length()>32768:return {}
+    if not file or file.get_length()>32768:return rejected("manifest unreadable or too large: "+id)
     var data=preload("res://logic/content.gd").normalize(JSON.parse_string(file.get_as_text()))
-    if not data is Dictionary or data.get("schema_version")!=1 or data.get("character_id")!=id:return {}
-    if not data.get("map") is Dictionary or not data.get("battle") is Dictionary or not data.get("portrait") is Dictionary:return {}
+    cache[id]=decode_profile(data,id,base)
+    return cache[id]
+static func rejected(reason):
+    push_warning("Reserve art fallback: "+reason)
+    return {}
+# Decode separately so malformed documents can be checked without replacing assets/cache.
+static func decode_profile(data,id,base):
+    if not data is Dictionary or data.get("schema_version")!=1 or data.get("character_id")!=id:return rejected("invalid manifest identity")
+    if not data.get("map") is Dictionary or not data.get("battle") is Dictionary or not data.get("portrait") is Dictionary:return rejected("map/battle/portrait must be objects")
+    if not data.map.get("directions") is Dictionary:return rejected("map.directions must be an object")
+    if not data.battle.get("frames") is Dictionary:return rejected("battle.frames must be an object")
+    if not data.battle.get("geometry") is Dictionary:return rejected("battle.geometry must be an object")
     var portrait=texture_at(base,data.portrait.get("file"),Vector2(512,512))
-    if portrait==null:return {}
+    if portrait==null:return rejected("invalid portrait texture")
     var directions={}
     for direction in DIRECTIONS:
-        var entry=data.map.get("directions",{}).get(direction,{})
+        var entry=data.map.directions.get(direction)
+        if not entry is Dictionary:return rejected("invalid map direction entry: "+direction)
         var texture=texture_at(base,entry.get("file"),Vector2(96,128))
-        if texture==null:return {}
+        if texture==null:return rejected("invalid texture entry")
         directions[direction]=texture
-    if data.map.get("idle_mode")!="static" or data.map.get("foot_anchor")!=[48,120] or data.battle.get("foot_anchor")!=[96,144] or data.battle.get("facing")!="right":return {}
+    if data.map.get("idle_mode")!="static" or data.map.get("foot_anchor")!=[48,120] or data.battle.get("foot_anchor")!=[96,144] or data.battle.get("facing")!="right":return rejected("invalid map/battle alignment")
     var poses={}
     for key in ["idle_00","idle_01","anticipation","contact","hurt"]:
-        var entry=data.battle.get("frames",{}).get(key+".png",{})
+        var entry=data.battle.frames.get(key+".png")
+        if not entry is Dictionary:return rejected("invalid battle frame entry: "+key)
         var texture=texture_at(base,entry.get("file"),Vector2(192,160))
-        if texture==null:return {}
+        if texture==null:return rejected("invalid texture entry")
         poses[key]=texture
-    var geometry=data.battle.get("geometry",{})
+    var geometry=data.battle.geometry
     for key in ["attack_contact_tip_xy","hurt_body_anchor_xy","hurt_head_anchor_xy"]:
         var point=geometry.get(key)
-        if not point is Array or point.size()!=2:return {}
+        if not point is Array or point.size()!=2:return rejected("invalid geometry vector: "+key)
         for axis in range(2):
-            if not (point[axis] is float or point[axis] is int) or not is_finite(point[axis]) or point[axis]<0 or point[axis]>=[192,160][axis]:return {}
-    cache[id]={"portrait_path":base+data.portrait.file,"map":directions,"poses":poses,"geometry":geometry}
-    return cache[id]
+            if not (point[axis] is float or point[axis] is int) or not is_finite(point[axis]) or point[axis]<0 or point[axis]>=[192,160][axis]:return rejected("invalid geometry coordinate: "+key)
+    return {"portrait_path":base+data.portrait.file,"map":directions,"poses":poses,"geometry":geometry}
 static func portrait_path(id):
     var art=profile(id)
     return art.portrait_path if not art.is_empty() else "res://assets/portraits/"+id+".png"

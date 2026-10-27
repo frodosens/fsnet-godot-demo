@@ -11,9 +11,36 @@ func check(ok,label):
 func _initialize():call_deferred("run")
 func frames():
     for i in range(3):await process_frame
+func malformed_manifests():
+    var id="adela";var base=Art.ROOT+id+"/"
+    var good=Content.normalize(JSON.parse_string(FileAccess.get_file_as_string(base+"manifest.json")))
+    var cached=Art.profile(id)
+    check(not Art.decode_profile(good,id,base).is_empty(),"decoder accepts normal manifest")
+    var paths=[["map"],["battle"],["portrait"],["map","directions"],["map","directions","front_left"],["battle","frames"],["battle","frames","idle_00.png"],["battle","geometry"]]
+    for path in paths:
+        for bad in [null,[],5,"invalid",true]:
+            var data=good.duplicate(true);var parent=data
+            for index in range(path.size()-1):parent=parent[path[index]]
+            parent[path[-1]]=bad
+            check(Art.decode_profile(data,id,base).is_empty(),"nested malformed value safely rejects "+str(path)+" "+str(bad))
+            check(Art.cache[id]==cached,"failed decode never publishes partial cache")
+        var missing=good.duplicate(true);var parent=missing
+        for index in range(path.size()-1):parent=parent[path[index]]
+        parent.erase(path[-1])
+        check(Art.decode_profile(missing,id,base).is_empty(),"missing nested key safely rejects "+str(path))
+    for key in ["attack_contact_tip_xy","hurt_body_anchor_xy","hurt_head_anchor_xy"]:
+        for value in [null,{},[],[1],[1,2,3],[null,2],[true,2],["1",2],[INF,2],[NAN,2],[-1,2],[192,2],[1,160]]:
+            var data=good.duplicate(true);data.battle.geometry[key]=value
+            check(Art.decode_profile(data,id,base).is_empty(),"invalid vector safely rejects "+key+str(value))
+        var data=good.duplicate(true);data.battle.geometry.erase(key)
+        check(Art.decode_profile(data,id,base).is_empty(),"missing geometry key rejects")
+    for bad in [null,[],1,"bad",{}]:
+        check(Art.decode_profile(bad,id,base).is_empty(),"invalid root safely rejects")
+    check(Art.profile(id)==cached,"valid profile cache remains intact after malformed inputs")
 func run():
     root.size=Vector2i(960,600) if OS.get_environment("AMBER_RESERVE_SMALL")=="1" else Vector2i(1280,800)
     var app=root.get_node("App");app.sfx_enabled=false;app.save_root="user://reserve_art_"+str(Time.get_ticks_usec())
+    malformed_manifests()
     var original=Content.reference_content();var original_hash=Content.hash_of(original)
     for id in Art.IDS:
         var profile=Art.profile(id)
@@ -27,7 +54,12 @@ func run():
     var imported=Content.from_file("res://docs/examples/reserve_art_demo.json")
     check(imported.error=="" and imported.data==data,"example imports through existing Mod parser")
     check(Content.write_mod(data,true)=="" and Content.from_file("user://mods/reserve_art_demo.json").data==data,"existing editor Mod storage accepts profile IDs")
+    # A rejected profile is cached as empty by the loader: actual scene retains role art.
+    var valid_adela=Art.cache.adela;Art.cache.adela={}
     app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
+    check(current_scene.figures[0].texture is Texture2D,"rejected profile retains visible role fallback")
+    Art.cache.adela=valid_adela
+    change_scene_to_file("res://main.tscn");await frames()
     var game=current_scene;game.motion.set_process(false);game.get_node("MapIdle").set_process(false)
     for index in [0,3]:
         var unit=game.battle.units[index];var profile=Art.profile(unit.id)
