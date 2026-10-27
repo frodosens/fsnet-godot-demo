@@ -13,7 +13,7 @@ func run():
     var neutral=load("res://assets/battle/mara/00_idle.png")
     var inhale=load("res://assets/battle/mara/idle/01_inhale.png")
     check(cutin.idle_library.errors.is_empty(),"valid clips")
-    check(cutin.idle_library.clips.battle.keys()==["mara:right","oren:left"],"Mara right and Oren defensive left only")
+    check(cutin.idle_library.clips.battle.keys()==["mara:right","oren:left","finn:right","neri:right"],"exact received battle clips")
     var data=Content.reference_content();data.units[3].x=data.units[0].x+1;data.units[3].y=data.units[0].y
     var logic=Runtime.new(data)
     check(logic.apply_command({"kind":"attack","actor_id":"mara","target_id":"oren","step":1}),"real player attack")
@@ -64,7 +64,7 @@ func run():
     # Death presentation fixture: no new combat rule or damage is synthesized by idle code.
     cutin.event.hp=0;cutin.draw_tick(23)
     check(cutin.defender.texture==cutin.defender_sets.mara.hit and cutin.defender.modulate.a==0,"dead target never returns to idle")
-    for id in ["finn","neri","oren","tessa","bram"]:
+    for id in ["oren","tessa","bram"]:
         check(cutin.idle_library.sample("battle",id+":right",.4,neutral,false,id)==neutral,"single-frame fallback "+id)
     cutin.finish();check(logic.snapshot()==snapshot,"all probes leave state unchanged")
     print("BATTLE_IDLE_CANDIDATE checks=",checks," failures=0");quit()

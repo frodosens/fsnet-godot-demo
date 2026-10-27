@@ -432,6 +432,36 @@
       "unit_ids": [
         "oren"
       ]
+    },
+    "finn:right": {
+      "frames": [
+        "assets/battle/ranged_magic/runtime/finn/00_idle.png",
+        "assets/battle/ranged_magic/runtime/finn/idle/01_inhale.png",
+        "assets/battle/ranged_magic/runtime/finn/00_idle.png"
+      ],
+      "frame_ms": [
+        320,
+        320,
+        320
+      ],
+      "unit_ids": [
+        "finn"
+      ]
+    },
+    "neri:right": {
+      "frames": [
+        "assets/battle/ranged_magic/runtime/neri/00_idle.png",
+        "assets/battle/ranged_magic/runtime/neri/idle/01_inhale.png",
+        "assets/battle/ranged_magic/runtime/neri/00_idle.png"
+      ],
+      "frame_ms": [
+        320,
+        320,
+        320
+      ],
+      "unit_ids": [
+        "neri"
+      ]
     }
   }
 }
