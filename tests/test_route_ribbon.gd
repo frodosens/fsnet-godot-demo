@@ -11,6 +11,10 @@ func run():
     var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.hud.choose_action("move");var ribbon=game.ground_overlay;var truth=game.battle.snapshot()
+    for time in [0.0,0.8,1.6,2.4,3.2]:
+        var inner=ribbon.range_alpha(1,4,time,false);var outer=ribbon.range_alpha(4,4,time,false)
+        check(inner.x>outer.x and inner.y>outer.y);check(outer.x>=0.10 and outer.y>=0.29)
+        check(ribbon.range_alpha(4,4,time,true)==ribbon.range_alpha(4,4,0,true))
     for path in [[],[{"x":4,"y":7}],[{"x":4,"y":7},{"x":4,"y":6}],[{"x":4,"y":7},{"x":4,"y":6},{"x":5,"y":6},{"x":5,"y":5}],[{"x":4,"y":7},{"x":4,"y":6},{"x":4,"y":7}]]:
         var points=ribbon.rounded_route(path)
         if path.size()<2:check(points.is_empty());continue

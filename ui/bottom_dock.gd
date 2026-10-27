@@ -36,9 +36,11 @@ func button(parent,kind,title,rect,callback):
     for state in ["normal","hover","focus","pressed","disabled"]:b.add_theme_stylebox_override(state,skin("buttons/"+("disabled" if state=="disabled" else ("selected" if state in ["hover","focus","pressed"] else "normal"))+".png"))
     parent.add_child(b)
     var horizontal=kind in ["confirm","cancel"]
-    picture(b,"icons/icon_"+kind+".png",Rect2(18 if horizontal else 34,18 if horizontal else 12,40 if horizontal else 56,40 if horizontal else 56))
-    var title_node=label(b,title,Rect2(64 if horizontal else 0,24 if horizontal else 81,rect.size.x-64 if horizontal else rect.size.x,40),28)
-    if not horizontal:title_node.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+    picture(b,"icons/icon_"+kind+".png",Rect2(14 if horizontal else 34,28 if horizontal else 12,32 if horizontal else 56,32 if horizontal else 56))
+    var title_node=label(b,title,Rect2(54 if horizontal else 0,24 if horizontal else 81,rect.size.x-68 if horizontal else rect.size.x,40),28)
+    if horizontal:
+        title_node.clip_text=true;title_node.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+    else:title_node.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
     b.set_meta("caption",title_node);return b
 func setup(owner):
     hud=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE;set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
@@ -67,8 +69,8 @@ func setup(owner):
     context=Control.new();context.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(context)
     picture(context,"panels/action-dock.png",r("action_and_movement_dock"));picture(context,"icons/icon_move.png",Rect2(580,854,54,54))
     label(context,"移动预览",Rect2(655,850,200,36),30);cost=label(context,"",Rect2(655,900,210,35),24)
-    var a=layout.action_rects.confirm;confirm=button(context,"confirm","确认",Rect2(a[0],a[1],a[2],a[3]),hud.game.confirm_move)
-    a=layout.action_rects.cancel;cancel=button(context,"cancel","取消",Rect2(a[0],a[1],a[2],a[3]),hud.cancel_targeting)
+    var a=layout.action_rects.confirm;confirm=button(context,"confirm","确认",Rect2(a[0],a[1],182,a[3]),hud.game.confirm_move)
+    a=layout.action_rects.cancel;cancel=button(context,"cancel","取消",Rect2(1065,a[1],156,a[3]),hud.cancel_targeting)
     confirm.focus_neighbor_right=confirm.get_path_to(cancel);cancel.focus_neighbor_left=cancel.get_path_to(confirm)
     var end=Button.new();end.text="结束回合";end.position=r("end_turn").position;end.size=r("end_turn").size;end.add_theme_font_size_override("font_size",30)
     for state in ["normal","hover","focus","pressed","disabled"]:end.add_theme_stylebox_override(state,skin("panels/end-turn.png"))

@@ -18,7 +18,7 @@ func _ready():
     mat.cull_mode=BaseMaterial3D.CULL_DISABLED;mat.render_priority=1
     material_override=mat
     cells=MeshInstance3D.new();cells.mesh=ImmediateMesh.new();cells.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;add_child(cells)
-    for name in ["movement_cell_fill","movement_cell_border","target_cell_border_gold","route_arrowhead_ivory"]:
+    for name in ["target_cell_border_gold","route_arrowhead_ivory"]:
         var m=StandardMaterial3D.new();m.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;m.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA;m.cull_mode=BaseMaterial3D.CULL_DISABLED
         m.albedo_texture=load("res://assets/ui/bottom_dock_reference/ground/"+name+".png");m.render_priority=1;ground_materials[name]=m
 func textured_quad(points,material):
@@ -85,6 +85,30 @@ func ribbon(points,width,color):
         left.append(points[i]+offset);right.append(points[i]-offset)
     for i in range(points.size()-1):
         triangle(left[i],left[i+1],right[i+1],color);triangle(left[i],right[i+1],right[i],color)
+# Reachable values are shortest-path costs supplied by shared Lua, not screen radii.
+func range_alpha(cost,max_cost,time,reduced):
+    var layer=clampf(float(cost)/maxf(1.0,float(max_cost)),0.0,1.0)
+    var breath=1.0 if reduced else 0.94+0.06*sin(time*TAU/3.2)
+    return Vector2(lerpf(0.26,0.115,layer)*breath,lerpf(0.66,0.34,layer)*breath)
+func draw_range():
+    var max_cost=1.0
+    for value in game.preview_reachable.values():max_cost=maxf(max_cost,float(value))
+    var edges={}
+    for cell in game.preview_reachable:
+        if cell==game.battle.units[game.selected].pos:continue
+        var alpha=range_alpha(game.preview_reachable[cell],max_cost,clock,App.reduced_motion)
+        var corners=[]
+        for offset in [Vector2(-0.5,-0.5),Vector2(0.5,-0.5),Vector2(0.5,0.5),Vector2(-0.5,0.5)]:corners.append(Vector2(cell)+offset)
+        var fill=Color(0.24,0.73,0.76,alpha.x)
+        triangle(projected(corners[0]),projected(corners[1]),projected(corners[2]),fill)
+        triangle(projected(corners[0]),projected(corners[2]),projected(corners[3]),fill)
+        for i in range(4):
+            var a=corners[i];var b=corners[(i+1)%4]
+            if a.x>b.x or (a.x==b.x and a.y>b.y):var swap=a;a=b;b=swap
+            var key=str(a)+":"+str(b)
+            if not edges.has(key):edges[key]=[a,b,alpha.y]
+            else:edges[key][2]=maxf(edges[key][2],alpha.y)
+    for edge in edges.values():stroke(projected(edge[0]),projected(edge[1]),1.4,Color(0.40,0.88,0.89,edge[2]))
 func _process(delta):
     clock+=delta
     var path=game.preview_path if game.preview_path is Array and not game.presentation_active() else []
@@ -95,17 +119,14 @@ func _process(delta):
     var route=rounded_route(path);route_length=0.0
     for i in range(route.size()-1):route_length+=route[i].distance_to(route[i+1])
     reveal=route_length if App.reduced_motion else minf(route_length,reveal+delta*18.0)
-    var animated=route_length>0 and not App.reduced_motion
+    var animated=(route_length>0 or (game.mode=="move" and not game.preview_reachable.is_empty())) and not App.reduced_motion
     var tick=int(clock*30.0) if animated else 0
     var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.hud.action_menu_open,game.camera.global_transform,game.camera.size,game.camera.keep_aspect,get_viewport().get_visible_rect(),tick])
     if state==signature:return
     signature=state;mesh.clear_surfaces();cells.mesh.clear_surfaces();building=false
     if game.presentation_active():return
     if game.mode=="move" and not game.hud.action_menu_open and game.selected>=0 and game.battle.usable(game.selected) and not game.battle.units[game.selected].moved:
-        for cell in game.preview_reachable:
-            if cell==game.battle.units[game.selected].pos:continue
-            tile_quad(cell,"movement_cell_fill",HEIGHT-0.003)
-            tile_quad(cell,"movement_cell_border",HEIGHT-0.002)
+        draw_range()
     if route.size()>=2:
         var points=[]
         for cell in prefix(route,reveal):points.append(projected(cell))

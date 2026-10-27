@@ -15,7 +15,7 @@ func run():
     var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();var hud=game.hud;var dock=hud.dock
-    for viewport in [Vector2i(1280,800),Vector2i(960,600)]:
+    for viewport in [Vector2i(1280,800),Vector2i(960,600),Vector2i(1280,720)]:
         root.size=viewport;await frames()
         for kind in ["move","attack","skill","item","wait"]:
             var b=dock.action_nodes[kind];var rect=b.get_global_rect()
@@ -23,6 +23,11 @@ func run():
             var expected=dock.layout.action_rects[kind]
             check(b.position==Vector2(expected[0],expected[1]) and b.size==Vector2(expected[2],expected[3]),"measured button geometry")
         check(dock.canvas.scale.x==dock.canvas.scale.y,"no nonuniform scaling")
+        for control in [dock.confirm,dock.cancel]:
+            var caption=control.get_meta("caption")
+            var text_width=caption.get_theme_font("font").get_string_size(caption.text,HORIZONTAL_ALIGNMENT_LEFT,-1,caption.get_theme_font_size("font_size")).x
+            check(caption.position.x+text_width<=control.size.x-12,"horizontal caption fits painted frame padding")
+            check(caption.size.x>=text_width,"Chinese caption not clipped")
     var initial=game.battle.snapshot()
     await click(dock.action_nodes.move);check(dock.context.visible and not dock.actions.visible,"move replaces dock")
     check(dock.confirm.disabled,"no destination cannot confirm")
