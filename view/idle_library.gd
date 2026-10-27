@@ -6,6 +6,7 @@ var errors=[]
 func _init(path=MANIFEST):
     if not FileAccess.file_exists(path):return
     var file=FileAccess.open(path,FileAccess.READ)
+    if file==null:errors.append("idle manifest cannot be opened: "+str(FileAccess.get_open_error()));return
     if file.get_length()>65536:errors.append("idle manifest exceeds 64 KiB");return
     configure(JSON.parse_string(file.get_as_text()))
 func configure(data):
@@ -15,11 +16,22 @@ func configure(data):
         var entries=data.get(domain,{})
         if not entries is Dictionary or entries.size()>128:errors.append(domain+": invalid entries");continue
         for key in entries:
+            if not valid_key(domain,key):errors.append(domain+":"+str(key)+": invalid key; skipped before resource loading");continue
             var clip=decode(entries[key],Vector2i(96,128) if domain=="map" else Vector2i(192,160))
             if clip.is_empty():errors.append(domain+":"+str(key)+": invalid clip; using original idle")
             else:clips[domain][key]=clip
+func valid_key(domain,key):
+    if not key is String:return false
+    var parts=key.split(":",true)
+    if parts.size()!=2 or not preload("res://logic/content.gd").identifier(parts[0]):return false
+    return parts[1] in (["front_left","front_right","back_left","back_right"] if domain=="map" else ["left","right"])
 func decode(spec,canvas):
     if not spec is Dictionary:return {}
+    var unit_ids=spec.get("unit_ids",[])
+    if not unit_ids is Array or unit_ids.size()>128:return {}
+    if spec.has("unit_ids") and unit_ids.is_empty():return {}
+    for id in unit_ids:
+        if not preload("res://logic/content.gd").identifier(id):return {}
     var paths=spec.get("frames",[]);var durations=spec.get("frame_ms",[])
     if not paths is Array or paths.is_empty() or paths.size()>32:return {}
     if not durations is Array or durations.size()!=paths.size():return {}
@@ -32,10 +44,11 @@ func decode(spec,canvas):
         var texture=load("res://"+path)
         if not texture is Texture2D or Vector2i(texture.get_size())!=canvas:return {}
         textures.append(texture);seconds.append(float(duration)/1000.0);total+=seconds[-1]
-    return {"textures":textures,"seconds":seconds,"duration":total}
-func sample(domain,key,time,fallback,reduced=false):
+    return {"textures":textures,"seconds":seconds,"duration":total,"unit_ids":unit_ids}
+func sample(domain,key,time,fallback,reduced=false,unit_id=""):
     var clip=clips.get(domain,{}).get(key,{})
     if clip.is_empty():return fallback
+    if not clip.unit_ids.is_empty() and unit_id not in clip.unit_ids:return fallback
     var t=0.0 if reduced else fposmod(maxf(0,time),clip.duration)
     for i in range(clip.textures.size()):
         if t<clip.seconds[i]:return clip.textures[i]

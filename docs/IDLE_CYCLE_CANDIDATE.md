@@ -65,3 +65,17 @@ pending; no claim that the loop is final or that battle idle is complete.
 
 Tests: 68 candidate-specific checks; complete suite 4337 checks and five real
 three-process network/reconnect cases. Windows visual acceptance remains untested.
+
+## Review boundary fixes
+
+Optional per-clip `unit_ids` restricts a role-shared map clip to named instances.
+The current four knight clips have `unit_ids: ["mara"]`; other knights keep their
+original art. Omit the field for an intentionally generic role clip. An explicit
+empty or malformed list rejects the clip rather than broadening its scope.
+Keys must contain one legal content identifier, a colon, and a valid domain
+direction (four map diagonals or battle left/right). Custom lowercase IDs with
+digits, underscores and hyphens remain supported; invalid keys are rejected
+before decoding/loading resources. Existing but unreadable files record a loader
+error and retain single-frame fallbacks. Linux tests exercise real mode-000 file
+access plus a second knight instance and unrestricted generic clip behavior.
+The art and its known one-source-pixel variation are unchanged.

@@ -13,6 +13,9 @@
         400,
         400,
         400
+      ],
+      "unit_ids": [
+        "mara"
       ]
     },
     "knight:front_right": {
@@ -27,6 +30,9 @@
         400,
         400,
         400
+      ],
+      "unit_ids": [
+        "mara"
       ]
     },
     "knight:back_left": {
@@ -41,6 +47,9 @@
         400,
         400,
         400
+      ],
+      "unit_ids": [
+        "mara"
       ]
     },
     "knight:back_right": {
@@ -55,6 +64,9 @@
         400,
         400,
         400
+      ],
+      "unit_ids": [
+        "mara"
       ]
     }
   },

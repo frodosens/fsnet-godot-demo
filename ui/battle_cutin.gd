@@ -139,9 +139,9 @@ func draw_tick(frame):
     # Idle only outside authored attack/brace/hit/recovery poses. Never changes timing.
     var idle_time=maxf(0,frame-22 if tick>=22 else frame)*tick_seconds
     if tick<2 or tick>=22:
-        attacker.texture=idle_library.sample("battle",event.actor+":right",idle_time,attacker.texture,App.reduced_motion)
+        attacker.texture=idle_library.sample("battle",event.actor+":right",idle_time,attacker.texture,App.reduced_motion,event.actor)
     if defend==0 or (tick>=22 and event.get("hp",1)>0):
-        defender.texture=idle_library.sample("battle",event.target+(":left" if event.target=="oren" else ":right"),idle_time,defender.texture,App.reduced_motion)
+        defender.texture=idle_library.sample("battle",event.target+(":left" if event.target=="oren" else ":right"),idle_time,defender.texture,App.reduced_motion,event.target)
     contact_target=socket_point(contact_points[event.target].hurt_point)
     if melee:
         # Contact may land anywhere in the authored torso hurt region, preserving grounded feet.
