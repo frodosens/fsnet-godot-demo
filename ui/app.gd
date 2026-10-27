@@ -42,7 +42,7 @@ func close_room():
     server=null;server_authority=null
 func startup_error():
     if ClassDB.class_exists("AmberLogic") and ClassDB.class_exists("AmberTransport"):return ""
-    return "原生组件未加载，暂时无法开始游戏。\n当前平台：%s / %s\n源码仓库不包含原生二进制。Linux x86_64 请按 README 构建 bin/libamber.so 和外部 libfsnet，再关闭并重新打开 Godot。Windows/macOS 尚无已验证的构建包；不能使用 Linux .so。\n请检查 Godot 输出中的 GDExtension 加载错误。" % [OS.get_name(),Engine.get_architecture_name()]
+    return "原生组件未加载，暂时无法开始游戏。\n当前平台：%s / %s\nWindows x86_64：请使用官方 Godot 4.6.3 标准版，确认 bin/windows/x86_64 中四个 DLL 齐全，然后完全关闭并重新打开编辑器。若仍失败，请保留输出中的 DLL 名称和错误码；参见 docs/WINDOWS_RUNTIME.md。Windows 运行尚待实机验证。Linux x86_64 仍须按 README 构建 bin/libamber.so 和外部 libfsnet；macOS 暂无对应运行库。\n请检查 Godot 输出中的 GDExtension 加载错误。" % [OS.get_name(),Engine.get_architecture_name()]
 func new_game(data={}):
     last_error=startup_error()
     if not last_error.is_empty():return false

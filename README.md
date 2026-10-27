@@ -22,17 +22,17 @@
 
 ## 首次打开 / 新游戏无法进入
 
-**这是源码项目，不是 clone 即玩的发行包。** Lua 战斗规则和 fsnet 网络都由原生 GDExtension 提供，仓库不包含平台二进制。缺少它时，新游戏现在显示明确说明而不是按钮无响应。
+**这是 Godot 源码项目，不是独立 EXE。** Lua 战斗规则和 fsnet 网络都由原生 GDExtension 提供。仓库现在附带 Windows x86_64 候选运行库，参见 [Windows 使用与校验](docs/WINDOWS_RUNTIME.md)。缺少它时，新游戏现在显示明确说明而不是按钮无响应。
 
 - 已验证环境：Linux x86_64、Godot 4.6.3。先完成下面构建，再重启编辑器。
 - 若已构建仍失败，检查 Godot 输出中的 GDExtension 错误和 `ldd bin/libamber.so`，确认外部 `libfsnet.so` 仍在构建路径。
-- Windows/macOS 目前没有已验证的原生扩展配置或可玩包；Linux `.so` 不能在这些平台使用。仅重新导入资源不能解决原生依赖缺失。
+- Windows x86_64：无需编译器；完整 clone 后用官方 Godot 4.6.3 标准版打开项目。DLL 架构及依赖已静态校验，但 Windows 启动尚未实测。macOS 暂无原生运行库。
 - 无需为这个问题删除存档；不要用其他规则实现代替 Lua。
 
 ## 构建（已验证 Linux x86_64）
 
 需要 Godot **4.6.3**、C++20 编译器、CMake >= 3.22、Ninja、Python 3、Git。
-原生扩展不提交二进制；clone 后先构建，再在 Godot 导入 `project.godot`。
+Linux 原生扩展仍需本地构建，再在 Godot 导入 `project.godot`；Windows 的候选 DLL 已单独版本化。
 
 外部源目录：
 

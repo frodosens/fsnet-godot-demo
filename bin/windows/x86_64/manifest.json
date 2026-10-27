@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "source_game": "19f36d9e20c27d2455e521a4ad58b656a5fcf88b",
+  "verified_native_unchanged_at": "b09cf6e4cc9bde1b3b2279c2b500275d87b20efd",
+  "native_source_sha256": {
+    "native/profile.json": "d91e96bc849d2f33e1ea0bff1ae7ec49bf0aac6d8e026c17ff5e340ebc352142",
+    "native/extension.cpp": "07ac23017a71ffacaebd7c66bff7cdc2bee12f2dfd4146cdc0a1be54c13b4b3e"
+  },
+  "platform": "Windows x86_64 UCRT",
+  "godot": "4.6.3 standard",
+  "runtime_tested": false,
+  "files": {
+    "libamber.dll": {
+      "bytes": 1004032,
+      "sha256": "c379ed51bb4ea0fb2fcecc1c56ed386dcba099ecc2c611aaf6c9bfec6f987683"
+    },
+    "libc++.dll": {
+      "bytes": 2000384,
+      "sha256": "c3f26685c18e1b6da5e6be86bd934e51472404e7dea850788d73fec4e922fded"
+    },
+    "libfsnet.dll": {
+      "bytes": 10964992,
+      "sha256": "7415291cd7368afe151b23cf4268bc97366f55030dfffeb7c7f76f6dc1e8fa79"
+    },
+    "libunwind.dll": {
+      "bytes": 183808,
+      "sha256": "f170c420d203cfb6640b3f90ca46373fd886670adad08ce5f2fdde054db27976"
+    }
+  },
+  "dependencies": {
+    "fsnet": "8e4af0c9b73445d999a9e3593c1429c63bbec882",
+    "godot-cpp": "507ed9d840c01a3c5b2a39af8bb4000bfac30bf5",
+    "lua": "5.4.7",
+    "openssl": "3.5.9",
+    "asio": "asio-1-30-2",
+    "sqlitecpp": "3.3.2",
+    "libjuice": "1.6.2",
+    "llvm-mingw": "20261020-ucrt-ubuntu-22.04-x86_64",
+    "toolchain_archive_sha256": "55064b60b991a1e1e8090b8c2f84e82b22cfe5903d12c159d65064cf5e8ae335"
+  }
+}

@@ -5,3 +5,8 @@ reloadable = false
 [libraries]
 linux.debug.x86_64 = "res://bin/libamber.so"
 linux.release.x86_64 = "res://bin/libamber.so"
+windows.debug.x86_64 = "res://bin/windows/x86_64/libamber.dll"
+windows.release.x86_64 = "res://bin/windows/x86_64/libamber.dll"
+
+[dependencies]
+windows.x86_64 = { "res://bin/windows/x86_64/libfsnet.dll": "", "res://bin/windows/x86_64/libc++.dll": "", "res://bin/windows/x86_64/libunwind.dll": "" }

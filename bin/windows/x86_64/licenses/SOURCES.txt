@@ -1,0 +1,3 @@
+libjuice 1.6.2 unmodified source: https://github.com/paullouisageneau/libjuice/tree/v1.6.2
+SQLite 3 is public domain: https://sqlite.org/copyright.html
+fsnet is the requesting repository owner's code, pinned 8e4af0c9b73445d999a9e3593c1429c63bbec882. No license file is present at that revision; the owner explicitly authorized these runtime binaries in this public repository. No separate third-party redistribution grant for fsnet is inferred.
