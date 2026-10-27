@@ -1,0 +1,112 @@
+{
+  "status": "CANDIDATE FOR ENGINE COMPARISON ONLY; NOT ACCEPTED OR ENABLED",
+  "character": "finn",
+  "direction": "front_right",
+  "canvas": [
+    96,
+    128
+  ],
+  "root_anchor": [
+    48,
+    120
+  ],
+  "neutral": {
+    "file": "res://assets/sprites/iso4/idle_candidate/finn/front_right_idle_00.png",
+    "git_blob_sha": "bd1e5d24f38b711c79efee659f39c3cb388d3660",
+    "sha256": "12dbcc3fe3a7bff76486000883e18313b7faedd01b5015e5b47e0e74ce866add",
+    "unchanged": true
+  },
+  "steps": {
+    "left": {
+      "file": "left.png",
+      "sha256": "7194e7f2d0f960d7a0c72aeadc0b8ab00953d2db29886f7b3e49c390a5d9f236",
+      "bbox_alpha_gt0": [
+        15,
+        12,
+        83,
+        118
+      ],
+      "max_occupied_y_by_alpha_min": {
+        "1": 117,
+        "8": 117,
+        "128": 117,
+        "240": 117,
+        "255": 109
+      },
+      "alpha_max": 255
+    },
+    "right": {
+      "file": "right.png",
+      "sha256": "6293fb903165264405c2d074ef3645c705349fb9d7c27128e22f2ef79dac4448",
+      "bbox_alpha_gt0": [
+        15,
+        11,
+        83,
+        121
+      ],
+      "max_occupied_y_by_alpha_min": {
+        "1": 120,
+        "8": 120,
+        "128": 120,
+        "240": 120,
+        "255": null
+      },
+      "alpha_max": 254
+    }
+  },
+  "unique_drawings": 3,
+  "new_step_drawings": 2,
+  "sequence": [
+    "neutral",
+    "left",
+    "neutral",
+    "right"
+  ],
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "cadence": {
+    "chosen_by_user": "ONE cycle per grid travelled",
+    "cycle_distance_grid_units": 1.0,
+    "phase": "fmod(actual_post_collision_distance_in_grid_units,1.0)",
+    "fixed_background_current_seconds_per_grid": 0.8,
+    "threeD_current_seconds_per_grid": 1.0,
+    "full_grid_end_and_turn": "phase0 uses exact canonical neutral",
+    "stop_skip_cancel": "settle to same-facing canonical neutral; no world-position/speed changes",
+    "not_used": "old .8*character_scale distance or art-fitted direction"
+  },
+  "provenance": {
+    "base_main": "7521b80f9d6eb8568221f9213fb9e38e8136dfd4",
+    "generator": "host-native image_gen",
+    "method": "left and right independently generated from SAME exact canonical neutral asONLYidentity reference",
+    "same_phase_or_opposite_step_reference_used": false,
+    "calls": 2,
+    "technical_registration": "N padded16px each horizontal side to128-square and enlarged8x; generated1254-square uniformly downscaled to128 withNEAREST; remove same16px padding. Alpha<8 discarded; no other pixel manipulation.",
+    "body_or_limb_warp": false,
+    "artistic_local_composite": false,
+    "bottom_alignment": false,
+    "left_source_sha256": "11720d34d530934a9537b180a8c10b54423efcb7ba050366be9927cc45ba668a",
+    "right_source_sha256": "4fe440d8fbadb610a8118dd925e4af974491277c59d94ee7d7754a6b89d0cbb4",
+    "left_prompt_sha256": "d4e16c8f4f4be48881971bede1e7db840f48524873996e0ffdf7a261aa244f8e",
+    "right_prompt_sha256": "ba4638ca25d7776158d9a7e503a7e67c455959e24f432bab9519f541773a5196"
+  },
+  "review": {
+    "parent_visual": "approved for engine comparison atnative/3x; oppositelegs readable, upperbody improved",
+    "independent_visual": "no obvious art failure; minor detail changes, not pixelidentical",
+    "left_upper_alpha_iou_vs_N": 0.970637867,
+    "right_upper_alpha_iou_vs_N": 0.960081191,
+    "thin_bow_note": "edgeIoU sensitive to1px changes; do not interpret as pixelidentical or equipment loss",
+    "ground_clipping": "NOT PASSED. Right bboxbottom121 means occupiedy120; strict max119 interpretation would flag this. PNGunchanged, nocrop/re-alignment. Test actual3D andfixedbackground whilewalking.",
+    "runtime_result": "PENDING",
+    "batch_validated": false
+  },
+  "runtime_constraints": {
+    "authoritative_ground_slope": 0.7071067811865476,
+    "depth_test": "keep current setting enabled; no clearance change authorized",
+    "held_frame_slip": "record separately from pose transitions; no zero-slip claim",
+    "scope": "Finnfront_right only; no otherdirections/actors/defaultenable"
+  }
+}
