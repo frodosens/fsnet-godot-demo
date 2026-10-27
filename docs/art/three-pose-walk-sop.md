@@ -11,7 +11,7 @@ Use **three unique images**, displayed as four beats: `N / L / N / R`. The repea
 - For each character/facing identify the CURRENT accepted neutral in the repository. Record commit, path, Git blob and SHA256. Do not silently substitute an older sprite with similar naming.
 - Preserve N byte-for-byte. Record canvas, root, facing, weapon hands, costume and baseline size.
 - Inspect retained walk images against CURRENT N before generating. Reuse a pair only if connected opposite legs, identity, equipment and actual transitions pass. Index00/02 or matching hashes do not establish suitability.
-- Oren front-right old00/02 are a pending reuse trial: opposite legs and consistent sword/shield hands, but old00 lowers the head3px and gear shifts. They are not a second-character pass.
+- Oren front-right old00/02 were not admitted: opposite legs and consistent sword/shield hands, but old00 lowers the head3px and gear shifts. The current Oren candidate uses two independent edits of the current N instead.
 
 ## 2. Make independent step drawings
 
@@ -65,3 +65,7 @@ Only after art review and real-route tests pass should intended runtime PNGs and
 ## Batch gate
 
 Finish Finn's runtime checks, then verify a second character before declaring the method batch-validated. Thereafter process one character/facing pair at a time using the same checklist. Track each as source-verified, generated/reused, art-reviewed, runtime-tested and accepted separately. Human visual review remains part of production.
+
+## Tool reproducibility
+
+`tools/art/register_walk_frame.py` requires Python 3, Pillow and NumPy (optional development requirements in `tools/art/requirements.txt`; no game runtime dependency). It refuses existing output/receipt files and writes PNG exclusively. Tests use synthetic transparent images, not reconstructed generator outputs. Raw generated source images and exact instantiated prompts are not in this repository: their recorded hashes identify provenance, but the repository alone cannot regenerate those original images. The script only reproduces technical normalization when the corresponding raw source is available.

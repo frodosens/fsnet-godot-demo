@@ -1,7 +1,8 @@
 extends Node
 # Pure presentation. No rule calls, command submission, RNG, or hash mutation.
 var game
-# Directional idle slide: no gait, walk frames, IK, bobbing or squash.
+# Registered three-pose walk; all other directions retain static neutral.
+var walk_library=preload("res://view/walk_library.gd").shared()
 var speed=1.0
 var motions={}
 var last_step=-1
@@ -17,7 +18,7 @@ func consume(step,events):
             if u.id!=event.actor or u.hp<=0:continue
             var path=event.get("path",[])
             if path is Array and path.size()>=2:
-                motions[u.id]={"index":i,"path":path,"elapsed":0.0,"role":u.role,"segment":0,"distance":0.0}
+                motions[u.id]={"index":i,"path":path,"elapsed":0.0,"role":u.role,"segment":0,"distance":0.0,"travelled":0.0}
                 reset_idle_phase(u.id)
                 var first=path[0];game.figures[i].position=Vector3(first.x,game.figure_height(i),first.y)
                 var next=path[1]
@@ -42,8 +43,11 @@ func advance(delta):
             motion.distance+=travel
             remaining=maxf(0,remaining-travel/velocity)
             game.facing[id]=direction
+            var previous_position=game.figures[i].position
             game.figures[i].position=Vector3(start.x,game.figure_height(i),start.y).lerp(Vector3(end.x,game.figure_height(i),end.y),motion.distance)
-            game.figures[i].texture=game.directional_idle_texture(i,direction)
+            motion.travelled+=previous_position.distance_to(game.figures[i].position)
+            var neutral=game.directional_idle_texture(i,direction)
+            game.figures[i].texture=walk_library.sample(id,direction,motion.travelled,neutral)
             if motion.distance>=0.999999:
                 motion.segment+=1;motion.distance=0.0
         if motion.segment>=motion.path.size()-1:

@@ -36,7 +36,9 @@ func run():
             g.motion.advance(.15);idle.advance(.15)
             var texture=g.directional_idle_texture(i,g.facing[u.id])
             check(g.figures[i].texture==texture and idle.clocks[u.id]==0,"static neutral slide and reset phase")
-            g.motion.advance(.15);idle.advance(.15);check(g.figures[i].texture==texture,"no walk or idle cycle during slide")
+            g.motion.advance(.15);idle.advance(.15)
+            var moving=g.motion.walk_library.sample(u.id,g.facing[u.id],g.motion.motions[u.id].travelled,texture)
+            check(g.figures[i].texture==moving and idle.clocks[u.id]==0,"walk registry owns movement; idle remains reset")
             g.motion.finish(false);idle.advance(0)
             check(g.figures[i].texture==texture and g.figures[i].position==origin,"stop has identical neutral and exact rule footpoint")
     # Consume + skip in the same frame must reset even before MapIdle._process runs.

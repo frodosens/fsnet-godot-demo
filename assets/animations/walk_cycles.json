@@ -1,0 +1,17 @@
+{
+  "version": 1,
+  "clips": {
+    "finn:front_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/finn/front_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/finn/front_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/finn/front_right/right.png",
+      "cycle_distance": 1
+    },
+    "oren:front_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/oren/front_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/oren/front_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/oren/front_right/right.png",
+      "cycle_distance": 1
+    }
+  }
+}

@@ -1,0 +1,3 @@
+# Optional offline art-registration development tool; not a game runtime dependency.
+Pillow>=9.1,<13
+numpy>=1.24,<3

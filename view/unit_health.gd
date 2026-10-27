@@ -48,6 +48,12 @@ func _ready():
         for key in idle_width_library.clips.map:
             var clip=idle_width_library.clips.map[key]
             if key.begins_with(unit.role+":") and (clip.unit_ids.is_empty() or unit.id in clip.unit_ids):textures.append_array(clip.textures)
+    var walks=preload("res://view/walk_library.gd").shared()
+    for direction in allowed:
+        var neutral=game.direction_textures.get(unit.id+":"+direction,game.figures[unit_index].texture)
+        if reserve.is_empty():neutral=idle_width_library.sample("map",unit.role+":"+direction,0,neutral,true,unit.id)
+        else:neutral=reserve.map.get(direction,neutral)
+        textures.append_array(walks.textures_for(unit.id,direction,neutral))
     body_pixels=INF
     for texture in textures:
         var measured=body_width(texture)

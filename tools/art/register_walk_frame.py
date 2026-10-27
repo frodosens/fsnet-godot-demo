@@ -14,7 +14,9 @@ p.add_argument('--alpha-floor', type=int, default=8)
 a = p.parse_args()
 if not 0 <= a.alpha_floor <= 255:
     p.error('alpha-floor must be 0..255')
-if a.output.exists() or a.output.with_suffix('.registration.json').exists():
+if a.output.suffix.lower() != ".png":
+    p.error("output must be a PNG path")
+if a.output.exists() or a.output.is_symlink() or a.output.with_suffix('.registration.json').exists() or a.output.with_suffix('.registration.json').is_symlink():
     p.error('refusing to overwrite an existing candidate or receipt')
 im = Image.open(a.source).convert('RGBA')
 if im.width != im.height:
@@ -25,7 +27,8 @@ pixels[pixels[:, :, 3] < a.alpha_floor, 3] = 0
 im = Image.fromarray(pixels).resize((128, 128), Image.Resampling.NEAREST)
 im = im.crop((16, 0, 112, 128))
 a.output.parent.mkdir(parents=True, exist_ok=True)
-im.save(a.output)
+with a.output.open("xb") as output:
+    im.save(output, format="PNG")
 alpha = np.array(im)[:, :, 3]
 last = {}
 for threshold in (1, 8, 128, 240, 255):
@@ -40,5 +43,6 @@ receipt = {
     'bbox_exclusive_end': im.getbbox(), 'last_occupied_y_by_alpha': last,
     'art_review': 'pending', 'runtime_clipping': 'pending',
 }
-a.output.with_suffix('.registration.json').write_text(json.dumps(receipt, indent=2)+'\n')
+with a.output.with_suffix('.registration.json').open('x') as output:
+    output.write(json.dumps(receipt, indent=2)+'\n')
 print(json.dumps(receipt, indent=2))
