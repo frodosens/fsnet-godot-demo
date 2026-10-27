@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "character": "finn",
+  "facing": "back_right",
+  "status": "engine_review_candidate",
+  "neutral": {
+    "path": "res://assets/sprites/iso4/idle_candidate/finn/back_right_idle_00.png",
+    "git_blob_sha": "24c4d99a2bb2227f333a1e57966256041a702ee3",
+    "sha256": "327968bd55f830c35b69af71ed26b19a776c5656c6a4fdafe82c97b414000b66",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "unique_images": 3,
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "arms": "restrained, bow LEFT image-left; empty RIGHT image-right; no swing",
+  "anatomy": {
+    "L": "left bow-side image-left boot forward/up-right; right foot lower supports",
+    "R": "right image-right boot forward/up-right; left bow-side foot lower supports",
+    "phase_relabel": "first requested-L generation depicts actual RIGHT advance, relabeled after pixel review; second N-only call produces actual LEFT advance"
+  },
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/finn/back_right/left.png",
+      "git_blob_sha": "8170f1943306ae0fc4c1d73eb9e5a24d9813c381",
+      "sha256": "373ec54177bf9c7e96db12f63271f2631b7dcb9e207ba1d0ecbbdf8a342d8c9f",
+      "raw_source_sha256": "684ca45d9bce08ae1ad56a16df8ba44b79ffa64a2abda5cb97af9a6d4767114a",
+      "prompt_sha256": "1c6b9f7c4534119064b7360c6ae2593570774a4f383502887e308d3904643a27",
+      "bbox_exclusive_end": [
+        24,
+        11,
+        84,
+        120
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 119,
+        "8": 119,
+        "128": 119,
+        "240": 119,
+        "255": null
+      }
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/finn/back_right/right.png",
+      "git_blob_sha": "93d8a820c8518e1c641c09d8ada5504bb74dac6a",
+      "sha256": "87bca871b66cfc41649106b823c42d0e4101ecf207876f49e2512e986aa2b613",
+      "raw_source_sha256": "053c4803ba2e4f22b847fc67ef5d30d2509e7d01655f0948c3495f5e41660263",
+      "prompt_sha256": "683d3d26f24d314b03172ad17dfb70205eb94d76d76022042dde1cffcd640839",
+      "bbox_exclusive_end": [
+        24,
+        11,
+        84,
+        120
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 119,
+        "8": 119,
+        "128": 119,
+        "240": 119,
+        "255": null
+      }
+    }
+  },
+  "generation_calls": 2,
+  "registration": {
+    "canonical_neutral_only": true,
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "full_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false
+  },
+  "qa": {
+    "head_gear": "stable silhouette/registration; rerendered pixels",
+    "grounding": "both support soles end119; actual route pending",
+    "clipping": "not engine tested"
+  },
+  "source_commit": "68b2e6b47530e9cfe611fe4459c1fa19f0a34c13",
+  "canonical_reverified_commit": "22af7e8be5758d8641ae423b0e3d3d35c24d2b2f",
+  "engine_accepted": false
+}

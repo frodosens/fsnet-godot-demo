@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "character": "oren",
+  "facing": "back_right",
+  "status": "flagged_engine_review_candidate",
+  "engine_accepted": false,
+  "source_commit": "68b2e6b47530e9cfe611fe4459c1fa19f0a34c13",
+  "neutral": {
+    "path": "res://assets/sprites/iso4/idle_candidate/oren/back_right_idle_00.png",
+    "git_blob_sha": "ec5cb88205f4abed36a8282e9aaab288928f5f2d",
+    "sha256": "33abb0e4291e00fde76e87730c78f88e61e6a08ba7627c94d6936fabe3b513ec",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "unique_images": 3,
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "arms": "restrained occupied sword RIGHT, shield LEFT; no arm swing",
+  "anatomy": {
+    "left_leg": "shield side",
+    "right_leg": "sword side",
+    "image_side_left_leg": "image-left",
+    "image_side_right_leg": "image-right"
+  },
+  "registration": {
+    "reference": "same exact canonicalN sole character reference independently for L/R",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "uniform_full_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false,
+    "art_enlargement": false
+  },
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/oren/back_right/left.png",
+      "git_blob_sha": "27d4e197babe8b099ffad196d22e08e05744a429",
+      "sha256": "7965716fa5539ffecb3d263170955e6c0d9318959807326009556f5a85b037ec",
+      "raw_source_sha256": "eb1f8321807d5eeb42c8a771d883490c7a729e6e102b9ebcf5b3598531616f28",
+      "prompt_sha256": "ec7666d25042a683c806a0e930fa40155c998365c16edc32e348a00d5dec4686",
+      "bbox_exclusive_end": [
+        24,
+        23,
+        88,
+        121
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 120,
+        "8": 120,
+        "128": 120,
+        "240": 120,
+        "255": 34
+      },
+      "stance_lowest_sole_y": 120
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/oren/back_right/right.png",
+      "git_blob_sha": "9e74d5c1948ce7bb33850ddfb796493f41b10771",
+      "sha256": "e784351bad7d173a505bcbf3380a87eea6b0f003ef79971d0130cbaf6948181b",
+      "raw_source_sha256": "cbe2d2e8374a6bcbe77af2be65c010cf6327eab0c36b0e90552264d0f9bd5667",
+      "prompt_sha256": "93ff89c4f441a4902c2becd3ca3421cf471eb303071b1b91f5d45df4d0768850",
+      "bbox_exclusive_end": [
+        24,
+        23,
+        88,
+        117
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 116,
+        "8": 116,
+        "128": 116,
+        "240": 116,
+        "255": null
+      },
+      "stance_lowest_sole_y": 116
+    }
+  },
+  "generation_calls": 2,
+  "qa": {
+    "head_gear": "stable upper-body registration; pixels rerendered, metrics diagnostic only",
+    "leg_ownership": "opposite hip-knee-boot attachments inspected",
+    "grounding": "FLAGGED: support120/116; opposite contacts coherent, actual route review required, not pixel-bottom-only rejection.",
+    "clipping": "actual engine check pending",
+    "runtime_scale": "Oren-only5percent is runtime-owned; art bytes not enlarged"
+  },
+  "upper_body_metrics": {
+    "N": {
+      "bbox": [
+        24,
+        23,
+        88,
+        121
+      ],
+      "upper_iou": 1.0,
+      "upper_mae": 0.0
+    },
+    "left": {
+      "bbox": [
+        24,
+        23,
+        88,
+        121
+      ],
+      "upper_iou": 0.967869500741473,
+      "upper_mae": 8.889002383384407
+    },
+    "right": {
+      "bbox": [
+        24,
+        23,
+        88,
+        117
+      ],
+      "upper_iou": 0.9775784753363229,
+      "upper_mae": 9.136935100237853
+    }
+  },
+  "canonical_reverified_commit": "22af7e8be5758d8641ae423b0e3d3d35c24d2b2f"
+}

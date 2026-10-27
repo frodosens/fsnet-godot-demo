@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "character": "oren",
+  "facing": "back_left",
+  "status": "engine_review_candidate",
+  "engine_accepted": false,
+  "source_commit": "68b2e6b47530e9cfe611fe4459c1fa19f0a34c13",
+  "neutral": {
+    "path": "res://assets/sprites/iso4/idle_candidate/oren/back_left_idle_00.png",
+    "git_blob_sha": "51ff47ffc586df8c3908f73caa43e14ea406c6cd",
+    "sha256": "2c664366eb506d3822c0f7a0f811ed5c6a6769bd70e4ad5aac287daac44baad6",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "unique_images": 3,
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "arms": "restrained occupied sword RIGHT, shield LEFT; no arm swing",
+  "anatomy": {
+    "left_leg": "shield side",
+    "right_leg": "sword side",
+    "image_side_left_leg": "image-left",
+    "image_side_right_leg": "image-right"
+  },
+  "registration": {
+    "reference": "same exact canonicalN sole character reference independently for L/R",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "uniform_full_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false,
+    "art_enlargement": false
+  },
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/oren/back_left/left.png",
+      "git_blob_sha": "8db85715fd591320edf483f05d0bc752555ecd6e",
+      "sha256": "7c1551ce5e214f1627bb66e8c2e0964af24cc359d5d0d728b1ff7626c8fffae5",
+      "raw_source_sha256": "1df68b8ffc3af2e02fb877abd003a21a6ef9982f203c85ca65e95afbd4496005",
+      "prompt_sha256": "486f86e1d5002eb2118638893911f92a7184853a90b5ad076a73d3c9a34abf9b",
+      "bbox_exclusive_end": [
+        19,
+        23,
+        89,
+        118
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 117,
+        "8": 117,
+        "128": 117,
+        "240": 117,
+        "255": null
+      },
+      "stance_lowest_sole_y": 117
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/oren/back_left/right.png",
+      "git_blob_sha": "1f7b0b177d84828c7040b36a1fc8891e04e69c1f",
+      "sha256": "c7a6d82288f6fcd76ed6b218fdb13a534de5973f6492f22adac66e898628dd4e",
+      "raw_source_sha256": "f968606bab47ec946cd8a124dda0c31037bcd2559895cd47095de00cf419cb5d",
+      "prompt_sha256": "f1547bc1c2547d6ab9406d17695643f85fe3b15b4d068652f947987bb7759055",
+      "bbox_exclusive_end": [
+        20,
+        23,
+        89,
+        120
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 119,
+        "8": 119,
+        "128": 119,
+        "240": 119,
+        "255": null
+      },
+      "stance_lowest_sole_y": 119
+    }
+  },
+  "generation_calls": 2,
+  "qa": {
+    "head_gear": "stable upper-body registration; pixels rerendered, metrics diagnostic only",
+    "leg_ownership": "opposite hip-knee-boot attachments inspected",
+    "grounding": "Back-left support117/119; actual route pending.",
+    "clipping": "actual engine check pending",
+    "runtime_scale": "Oren-only5percent is runtime-owned; art bytes not enlarged"
+  },
+  "upper_body_metrics": {
+    "N": {
+      "bbox": [
+        19,
+        23,
+        89,
+        121
+      ],
+      "upper_iou": 1.0,
+      "upper_mae": 0.0
+    },
+    "left": {
+      "bbox": [
+        19,
+        23,
+        89,
+        118
+      ],
+      "upper_iou": 0.9647172547124214,
+      "upper_mae": 12.382932531730127
+    },
+    "right": {
+      "bbox": [
+        20,
+        23,
+        89,
+        120
+      ],
+      "upper_iou": 0.9702293801854563,
+      "upper_mae": 6.0006706908115355
+    }
+  },
+  "canonical_reverified_commit": "22af7e8be5758d8641ae423b0e3d3d35c24d2b2f"
+}
