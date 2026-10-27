@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "character": "tessa",
+  "facing": "front_right",
+  "status": "static_candidate_engine_review_pending",
+  "source_commit": "f4cad8b25fb2d2ffe7da0163588c3edcc4f97773",
+  "neutral": {
+    "path": "res://assets/sprites/iso4/idle_candidate/tessa/front_right_idle_00.png",
+    "git_blob_sha": "95d3fa5da541c30d70ef28231e189855242e972f",
+    "sha256": "977977641dd5f9f88b79df7c93f9a311b4829ed2eafc7b6a59587d7f9dd9a2ff",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "unique_images": 3,
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "arms": "restrained; dagger anatomical RIGHT/image-left, empty LEFT/image-right",
+  "leg_ownership": {
+    "L": "anatomical LEFT/empty-hand-side leg leads",
+    "R": "anatomical RIGHT/dagger-side leg leads"
+  },
+  "registration": {
+    "sole_character_reference": "same exact canonicalN independently for each step",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "uniform_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false,
+    "art_scale_change": false
+  },
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/tessa/front_right/left.png",
+      "git_blob_sha": "d764016773716a39d681d4188c1b97b1da8f8416",
+      "sha256": "1f86fddcd5d2fd5a02a2de6526a675ff61a35d3dbe27a76de35d86475aac74a5",
+      "source_sha256": "9d14eaea90f7a8bdd1a5edae6a0a0329b9c42194e2e06d2de7b91155e5f222e9",
+      "prompt_sha256": "a41b60b09dca792a00bc4e3d71b0ce3fc6b3e055aeb2ca856ad7baf14c179f8a",
+      "bbox_exclusive_end": [
+        16,
+        10,
+        81,
+        119
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 118,
+        "8": 118,
+        "128": 118,
+        "240": 118,
+        "255": null
+      }
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/tessa/front_right/right.png",
+      "git_blob_sha": "7c4b71559e849b740012d7edccd6fd61ee722445",
+      "sha256": "191ee785f517d97b323a1d92643094d28647bd4e7e5514f3a2be99c239d47bb7",
+      "source_sha256": "19f4816306d7a3101b1ba2ac3d7e1769aa4e1300b3bcc6a28838d517d17d8749",
+      "prompt_sha256": "e4da3bfd56c34dca1e4ac5576f892ed4008d35d50d9190df2fe5a5ad9cd74995",
+      "bbox_exclusive_end": [
+        16,
+        9,
+        81,
+        121
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 120,
+        "8": 120,
+        "128": 120,
+        "240": 120,
+        "255": null
+      }
+    }
+  },
+  "qa": {
+    "head_top": "N8, L10, R9; mild hair contour redraw",
+    "support_sole_y": "N119, L118, R120",
+    "leg_visibility": "hips partially behind tunic, opposite knee/boot attachments visible; not just changing cloak folds",
+    "weapon_hand_flip": false,
+    "same_side_arm_swing": false,
+    "full_counter_swing_drawn": false,
+    "runtime_clipping": "PENDING: R opaque max y120/bbox bottom121 requires actual renderer check; no crop/translation applied",
+    "generation_calls": 2,
+    "targeted_corrections": 0,
+    "upper_body_metrics": {
+      "N": {
+        "bbox": [
+          16,
+          8,
+          82,
+          120
+        ],
+        "upper_iou": 1.0,
+        "upper_mae": 0.0
+      },
+      "left": {
+        "bbox": [
+          16,
+          10,
+          81,
+          119
+        ],
+        "upper_iou": 0.9582632110400539,
+        "upper_mae": 9.52768996604613
+      },
+      "right": {
+        "bbox": [
+          16,
+          9,
+          81,
+          121
+        ],
+        "upper_iou": 0.9680242342645574,
+        "upper_mae": 8.546244784422809
+      }
+    }
+  },
+  "engine_accepted": false
+}

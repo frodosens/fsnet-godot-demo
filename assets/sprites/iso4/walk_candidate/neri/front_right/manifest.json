@@ -1,0 +1,122 @@
+{
+  "schema_version": 1,
+  "character": "neri",
+  "facing": "front_right",
+  "status": "static_candidate_engine_review_pending",
+  "source_commit": "f4cad8b25fb2d2ffe7da0163588c3edcc4f97773",
+  "neutral": {
+    "git_blob_sha": "9162bfc3341e25a74e8412bec72ee146566d150f",
+    "sha256": "c668aa7a0f8ebffb636980ff925b3a50d020c4359e28069bc5699ea4cee0fe68",
+    "path": "res://assets/sprites/iso4/idle_candidate/neri/front_right_idle_00.png",
+    "source_commit": "f4cad8b25fb2d2ffe7da0163588c3edcc4f97773",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "unique_images": 3,
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "blocked_does_not_advance": true,
+  "arms": "restrained; staff RIGHT/image-left, empty LEFT/image-right; no swing",
+  "anatomy": {
+    "L": "image-right left leg advances down-right, right trails",
+    "R": "image-left right leg advances down-right, left trails"
+  },
+  "registration": {
+    "sole_identity_reference": "same exact canonical N independently",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "full_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "per_frame_translation": false
+  },
+  "generation_calls": 3,
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/neri/front_right/left.png",
+      "git_blob_sha": "d8a5a995167b33c21a2502ce2493b37da2a9d0d3",
+      "sha256": "4e23f303d4193f2dd62a86cb27d2e68beb5b041053087785adf3173dc91c44db",
+      "raw_source_sha256": "0af3fed9374a2132fc8aa6ee7cef6af5ebe82c50cc1e7ebec66bdb982e2d716e",
+      "prompt_sha256": "aee58da88294955fe80e04d33ac9e6182d28bc6a59da038e45cd3186bf448f19",
+      "bbox_exclusive_end": [
+        22,
+        19,
+        85,
+        120
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 119,
+        "8": 119,
+        "128": 119,
+        "240": 119,
+        "255": 99
+      }
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/neri/front_right/right.png",
+      "git_blob_sha": "aacd8f8d21e2af76a204aa33904dbc3f6209c8f9",
+      "sha256": "83ba680ba1a4d82449f84ce17da433b999bfe59375b0b0e70ce99cff702e593a",
+      "raw_source_sha256": "46e235a4a3dc4d4d2b990b667cb0af0e576e070cd99ae8f7a82504326fa34df1",
+      "prompt_sha256": "3dcd227f512ac8287a4c33540ea343f46f516e59dc2f03e8debfa7e46e747c61",
+      "bbox_exclusive_end": [
+        22,
+        19,
+        86,
+        118
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 117,
+        "8": 117,
+        "128": 117,
+        "240": 117,
+        "255": null
+      }
+    }
+  },
+  "qa": {
+    "runtime": "pending",
+    "clipping": "not engine tested; max opaque soles119/117",
+    "grounding": "initial R113 rejected; one N-only correction reached117, retained. No alignment or warping.",
+    "head_gear": "stable placement, minor palette redraw not pixelidentical",
+    "actual_routes_required": [
+      "fixed_background",
+      "3d",
+      "stop_turn_skip"
+    ]
+  },
+  "engine_accepted": false
+}

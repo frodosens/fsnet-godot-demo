@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "character": "elsbet",
+  "facing": "front_right",
+  "status": "static_candidate_parent_and_engine_review_pending",
+  "engine_accepted": false,
+  "source_commit": "f4cad8b25fb2d2ffe7da0163588c3edcc4f97773",
+  "neutral": {
+    "path": "res://assets/characters/reserve/elsbet/map/front_right.png",
+    "git_blob_sha": "77e3aebd43c7639513c21cc3fa30c0fb77e76404",
+    "sha256": "7dcc01d1666f4389999c65391563c2a9ca8f5fa31ab3c6fdbe2b6b4c4d2f8b65",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "unique_images": 3,
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "arms": "restrained; staff in anatomical RIGHT/image-left hand and satchel IMAGE RIGHT remain fixed; no arm swing",
+  "anatomy": {
+    "L": "image-right/anatomical-left boot advances; staff-side right boot trails",
+    "R": "image-left/anatomical-right boot advances towards centre; bag-side left boot trails",
+    "occlusion": "long skirt hides hips and knees; lower-leg ownership read from exit side and independent boot placement, not claimed fully visible chains"
+  },
+  "registration": {
+    "reference": "same exact current canonical N ONLY independently for both steps",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "uniform_full_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false,
+    "bbox_fit": false,
+    "local_art_composite": false
+  },
+  "generation_calls": 2,
+  "targeted_corrections": 0,
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/elsbet/front_right/left.png",
+      "git_blob_sha": "71e23aaf193b35385c4525768639dd27b436d533",
+      "sha256": "7ec86d2df46e38d82b1444ce306f844668085d6f1c09e037b8ca77a2ce36b3bc",
+      "raw_source_sha256": "d1d5a81538ceec9216f77b01daa25a979aa42f9aec7593053139d6505f75916b",
+      "prompt_sha256": "b4c845395e8176d4bc67b71ceb4eba5521c7a1a1789e1f636c32c28851817a98",
+      "bbox_exclusive_end": [
+        19,
+        20,
+        73,
+        119
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 118,
+        "8": 118,
+        "128": 118,
+        "240": 118,
+        "255": null
+      }
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/elsbet/front_right/right.png",
+      "git_blob_sha": "3179bc927ad1f607e6a3e0dde34d0ed8218a2dbd",
+      "sha256": "98ce85dd96456eb77f4eded1fa838696f4906b0a013736b1a8d5d9cbcc7e280d",
+      "raw_source_sha256": "3556c8ea0e1d0b6c40923656bf07614b33bccfbc29c6f02937f39834b935eb43",
+      "prompt_sha256": "473250f37ef0a2308cfb9bab4e78a0beab0c5ca6620520c4f13ad14691049c45",
+      "bbox_exclusive_end": [
+        19,
+        20,
+        73,
+        121
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 120,
+        "8": 120,
+        "128": 120,
+        "240": 120,
+        "255": 102
+      }
+    }
+  },
+  "qa": {
+    "local_static": "L then R inspected; opposite step silhouettes and stable face/staff/satchel seen",
+    "engine": "not run; actual route must check long-skirt boot readability and grounded staff illusion",
+    "ground": "L last occupied118, R120 including alpha>=240; current limit120, not strict119",
+    "held_frame_slip": "four-beat stylized cycle, no zero-slip claim",
+    "new_facings_or_characters": "none"
+  },
+  "upper_body_metrics": {
+    "N": {
+      "upper_mask_iou_y0_79": 1.0,
+      "upper_rgb_mae_on_intersection": 0.0,
+      "bbox": [
+        19,
+        20,
+        73,
+        120
+      ]
+    },
+    "L": {
+      "upper_mask_iou_y0_79": 0.9704387990762124,
+      "upper_rgb_mae_on_intersection": 8.646200222116452,
+      "bbox": [
+        19,
+        20,
+        73,
+        119
+      ]
+    },
+    "R": {
+      "upper_mask_iou_y0_79": 0.9621247113163972,
+      "upper_rgb_mae_on_intersection": 11.534005440870539,
+      "bbox": [
+        19,
+        20,
+        73,
+        121
+      ]
+    }
+  }
+}

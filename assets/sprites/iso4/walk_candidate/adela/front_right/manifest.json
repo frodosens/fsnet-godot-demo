@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "character": "adela",
+  "facing": "front_right",
+  "status": "static_qualified_candidate_engine_review_pending",
+  "engine_accepted": false,
+  "source_commit": "f4cad8b25fb2d2ffe7da0163588c3edcc4f97773",
+  "neutral": {
+    "path": "res://assets/characters/reserve/adela/map/front_right.png",
+    "git_blob_sha": "9033b66db94a3e99c582f5dc0579fa8199c2a6bf",
+    "sha256": "d9a9d263084a11c1489015fa481d4a0b6b5eebf8372223f120753e77675daca0",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "unique_images": 3,
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "arms": "restrained; spear in anatomical RIGHT/image-left hand, shield in LEFT/image-right hand; no arm swing",
+  "anatomy": {
+    "L": "anatomical left/image-right leg advances; right trails",
+    "R": "anatomical right/image-left leg advances; left trails",
+    "attachments": "both thighs continue below split tunic into separate connected knee/ankle/boot chains"
+  },
+  "registration": {
+    "reference": "same exact canonicalN independently for each generated step",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "uniform_full_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false,
+    "art_enlargement": false
+  },
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/adela/front_right/left.png",
+      "git_blob_sha": "8b47e9e1f78e976fe625b2306b65c3c866f60d8f",
+      "sha256": "55fbfc386ae784c64b34645d3dd572fa7792cbec74c2ffe7a8f95acc84609b4d",
+      "raw_source_sha256": "61fcde3b584d31679061b790f730ab434f88d396505478f75f03a01406f7a6aa",
+      "prompt_sha256": "571c00b9fbb808699afcb84fa7f52cbed78ed6917c03a6d34b76974609815d41",
+      "bbox_exclusive_end": [
+        6,
+        20,
+        75,
+        117
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 116,
+        "8": 116,
+        "128": 116,
+        "240": 116,
+        "255": 28
+      },
+      "stance_lowest_sole_y": 116
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/adela/front_right/right.png",
+      "git_blob_sha": "b0240d9734fec6591978e85b2cb5b9ee1293e185",
+      "sha256": "9ad1b7082a071ec18f2471407eab6784d1a396d347c15cbc3b54a3978ad25e05",
+      "raw_source_sha256": "d6fee068bfa7fcf0f9cb51783ba6e47714bdb2b5ef0df0a3bd30d6e896caaa7e",
+      "prompt_sha256": "8bd60d71c9918d52044b210957ec4a3a707eff20c268c63ae1a1b0daa17a2342",
+      "bbox_exclusive_end": [
+        6,
+        20,
+        75,
+        120
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 119,
+        "8": 119,
+        "128": 119,
+        "240": 119,
+        "255": null
+      },
+      "stance_lowest_sole_y": 119
+    }
+  },
+  "generation_calls": 2,
+  "qa": {
+    "head_gear": "stable shape/registration, hair top20 in N/L/R; not pixel-identical",
+    "palette": "mild sharpening and color rerender, upper RGB MAE L15.9 R8.9/255",
+    "grounding": "visible support max L116 R119; L3px height difference flagged for actual route; no per-frame bottom alignment; actual route still required",
+    "clipping": "no step alpha beyondy119; engine test pending",
+    "runtime_scale": "unchanged Adela scale; Oren-only1.05 does not apply",
+    "held_frame_slip": "not physically zero; simplified user-approved cadence"
+  },
+  "upper_body_metrics": {
+    "N": {
+      "upper_iou": 1.0,
+      "upper_mae": 0.0,
+      "bbox": [
+        6,
+        20,
+        75,
+        120
+      ]
+    },
+    "left": {
+      "upper_iou": 0.9739714525608733,
+      "upper_mae": 15.859770114942528,
+      "bbox": [
+        6,
+        20,
+        75,
+        117
+      ]
+    },
+    "right": {
+      "upper_iou": 0.9715123586091328,
+      "upper_mae": 8.900531838436109,
+      "bbox": [
+        6,
+        20,
+        75,
+        120
+      ]
+    }
+  }
+}
