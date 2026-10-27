@@ -35,7 +35,8 @@ static func body_width(texture):
             if queue.size()>largest:largest=queue.size();result=right-left+1
     body_width_cache[texture]=result
     return result
-func _ready():
+func _ready():refresh_art_width()
+func refresh_art_width():
     var game=get_parent();var unit=game.battle.units[unit_index]
     var textures=[]
     var allowed=["front_left","front_right","back_left","back_right"] if game.iso_roles.has(unit.role) else ["front","back","left","right"]
@@ -54,6 +55,7 @@ func _ready():
         if reserve.is_empty():neutral=idle_width_library.sample("map",unit.role+":"+direction,0,neutral,true,unit.id)
         else:neutral=reserve.map.get(direction,neutral)
         textures.append_array(walks.textures_for(unit.id,direction,neutral))
+        if get_node("/root/App").mara_sequence_preview:textures.append_array(preload("res://view/map_sequence.gd").shared().textures_for(unit.id,direction,neutral))
     body_pixels=INF
     for texture in textures:
         var measured=body_width(texture)

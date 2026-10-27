@@ -1,0 +1,211 @@
+{
+  "version": 1,
+  "profiles": {
+    "mara": {
+      "front_left": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/mara/front_left_idle_00.png",
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/mara_video_compact/idle/front_left/frame_00.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_left/frame_01.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_left/frame_02.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_left/frame_03.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_left/frame_04.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_left/frame_05.png"
+          ],
+          "ticks": [
+            6,
+            8,
+            5,
+            5,
+            9,
+            5
+          ],
+          "root": [
+            48,
+            120
+          ]
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/mara_video_compact/motion/front_left/frame_00.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_left/frame_01.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_left/frame_02.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_left/frame_03.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_left/frame_04.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_left/frame_05.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_left/frame_06.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_left/frame_07.png"
+          ],
+          "ticks": [
+            8,
+            4,
+            3,
+            6,
+            6,
+            5,
+            5,
+            1
+          ],
+          "root": [
+            64,
+            120
+          ]
+        }
+      },
+      "front_right": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/mara/front_right_idle_00.png",
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/mara_video_compact/idle/front_right/frame_00.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_right/frame_01.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_right/frame_02.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_right/frame_03.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_right/frame_04.png",
+            "assets/sprites/iso4/mara_video_compact/idle/front_right/frame_05.png"
+          ],
+          "ticks": [
+            6,
+            8,
+            5,
+            5,
+            9,
+            5
+          ],
+          "root": [
+            48,
+            120
+          ]
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/mara_video_compact/motion/front_right/frame_00.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_right/frame_01.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_right/frame_02.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_right/frame_03.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_right/frame_04.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_right/frame_05.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_right/frame_06.png",
+            "assets/sprites/iso4/mara_video_compact/motion/front_right/frame_07.png"
+          ],
+          "ticks": [
+            8,
+            4,
+            5,
+            5,
+            6,
+            4,
+            5,
+            1
+          ],
+          "root": [
+            64,
+            120
+          ]
+        }
+      },
+      "back_left": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/mara/back_left_idle_00.png",
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/mara_video_compact/idle/back_left/frame_00.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_left/frame_01.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_left/frame_02.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_left/frame_03.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_left/frame_04.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_left/frame_05.png"
+          ],
+          "ticks": [
+            5,
+            9,
+            5,
+            5,
+            9,
+            5
+          ],
+          "root": [
+            48,
+            120
+          ]
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/mara_video_compact/motion/back_left/frame_00.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_left/frame_01.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_left/frame_02.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_left/frame_03.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_left/frame_04.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_left/frame_05.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_left/frame_06.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_left/frame_07.png"
+          ],
+          "ticks": [
+            8,
+            4,
+            3,
+            6,
+            8,
+            4,
+            4,
+            1
+          ],
+          "root": [
+            64,
+            120
+          ]
+        }
+      },
+      "back_right": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/mara/back_right_idle_00.png",
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/mara_video_compact/idle/back_right/frame_00.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_right/frame_01.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_right/frame_02.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_right/frame_03.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_right/frame_04.png",
+            "assets/sprites/iso4/mara_video_compact/idle/back_right/frame_05.png"
+          ],
+          "ticks": [
+            6,
+            8,
+            5,
+            6,
+            8,
+            5
+          ],
+          "root": [
+            48,
+            120
+          ]
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/mara_video_compact/motion/back_right/frame_00.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_right/frame_01.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_right/frame_02.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_right/frame_03.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_right/frame_04.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_right/frame_05.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_right/frame_06.png",
+            "assets/sprites/iso4/mara_video_compact/motion/back_right/frame_07.png"
+          ],
+          "ticks": [
+            8,
+            4,
+            3,
+            6,
+            8,
+            4,
+            4,
+            1
+          ],
+          "root": [
+            64,
+            120
+          ]
+        }
+      }
+    }
+  }
+}

@@ -692,10 +692,32 @@ func set_character_scale(value):
 
 # Shared neutral source for stationary entry and static movement.
 # Animation is unit-scoped; unrelated Mod units keep their original art.
-func directional_idle_texture(index,direction):
+func base_directional_idle_texture(index,direction):
     var unit=battle.units[index]
     var reserve=preload("res://view/reserve_art.gd").profile(unit.id)
     if not reserve.is_empty():return reserve.map.get(direction,figures[index].texture)
     var fallback=direction_textures.get(unit.id+":"+direction,figures[index].texture)
     var idle=get_node_or_null("MapIdle")
     return idle.library.sample("map",unit.role+":"+direction,0.0,fallback,true,unit.id) if idle else fallback
+
+func directional_idle_texture(index,direction):
+    var neutral=base_directional_idle_texture(index,direction)
+    return preload("res://view/map_sequence.gd").shared().idle(battle.units[index].id,direction,0.0,neutral,true) if App.mara_sequence_preview else neutral
+func map_motion_texture(index,direction,distance):
+    var unit=battle.units[index]
+    var sequence=null
+    if App.mara_sequence_preview:sequence=preload("res://view/map_sequence.gd").shared().motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
+    return sequence if sequence!=null else motion.walk_library.sample(unit.id,direction,distance,directional_idle_texture(index,direction))
+func figure_texture_pixel_position(index,pixel):
+    # Public figure_pixel_position stays in the original 96px canonical coordinates.
+    var texture=figures[index].texture
+    return figure_pixel_position(index,pixel-Vector2((texture.get_width()-96)*0.5,0))
+func refresh_map_sequence_art():
+    var idle=get_node_or_null("MapIdle")
+    if idle:idle.clocks.clear()
+    for badge in badges:badge.refresh_art_width()
+    for i in range(figures.size()):
+        var direction=facing.get(battle.units[i].id,"front")
+        var id=battle.units[i].id
+        figures[i].texture=map_motion_texture(i,direction,motion.motions[id].travelled) if motion.motions.has(id) else directional_idle_texture(i,direction)
+    if preview_ghost.visible and selected>=0:preview_ghost.texture=directional_idle_texture(selected,facing.get(battle.units[selected].id,"front"))

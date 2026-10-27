@@ -5,6 +5,8 @@ func check(ok,label):
 func _initialize():call_deferred("run")
 func run():
     var app=root.get_node("App")
+    var compact=OS.get_environment("AMBER_COMPACT_SEQUENCE")=="1"
+    app.mara_sequence_preview=compact
     var data=preload("res://logic/content.gd").reference_content();data.units[1].x=1;data.units[1].y=8
     var actor=OS.get_environment("AMBER_WALK_ACTOR");if actor.is_empty():actor="finn"
     var direction=OS.get_environment("AMBER_WALK_DIRECTION");if direction.is_empty():direction="front_right"
@@ -34,13 +36,14 @@ func run():
         check(distance+.00001>=previous,"ordinary sync never restarts travel")
         previous=distance;samples+=1
         if runtime_id!=game.battle.get_instance_id():replacements+=1;runtime_id=game.battle.get_instance_id()
-        var clip=game.motion.walk_library.clips[actor+":"+direction]
+        var clip=game.motion.walk_library.clips.get(actor+":"+direction,{})
+        if compact:clip=preload("res://view/map_sequence.gd").shared().matching(actor,direction,game.base_directional_idle_texture(index,direction)).motion
         poses[clip.textures.find(game.figures[index].texture)]=true
         check(game.battle.snapshot()==truth,"poll keeps authoritative state")
         await process_frame
         if Time.get_ticks_msec()>deadline:check(false,"motion timeout");break
     check(replacements>=2 and samples>20,"real runtime replacements observed during walk")
-    check(poses.has(1) and poses.has(3),"real sync allows both stride poses")
+    check(poses.size()==8 if compact else (poses.has(1) and poses.has(3)),"real sync allows complete pose set")
     check(game.figures[index].position==Vector3(target.x,0,target.y),"network authoritative endpoint")
     var final_texture=game.directional_idle_texture(index,direction)
     game.get_node("MapIdle").set_process(false);game.figures[index].texture=final_texture

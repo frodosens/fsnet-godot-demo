@@ -13,7 +13,7 @@ with tempfile.TemporaryDirectory(prefix='walk-network-') as folder:
     else:
         data['units'][0].update(x=1,y=6);data['units'][1].update(x=2,y=7);data['units'][2].update(x=6,y=8)
         unit=next(u for u in data['units'] if u['id']==actor)
-        unit.update(x=1 if direction=='front_right' else 4,y=8,ally=True,movement=3)
+        unit.update(x=1 if direction=='front_right' else 4,y=5 if direction=='front_left' else 8,ally=True,movement=3)
     path=pathlib.Path(folder)/'fixture.json';path.write_text(json.dumps(data));env['AMBER_MOD']=str(path)
     with socket.socket() as sock:
         sock.bind(('127.0.0.1',0));env['AMBER_TEST_PORT']=str(sock.getsockname()[1])

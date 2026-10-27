@@ -14,8 +14,9 @@ static func content(actor,direction):
     for j in range(data.units.size()):
         if data.units[j].id==actor:i=j
     data.units[i].x=1 if direction=="front_right" else 4;data.units[i].y=8
+    if direction=="front_left":data.units[i].y=5
     data.units[i].ally=true;data.units[i].movement=3
     return data
 static func target(direction):
-    if direction=="front_right":return Vector2i(4,8)
+    if direction in ["front_right","front_left"]:return Vector2i(4,8)
     return Vector2i(1,8) if direction=="back_left" else Vector2i(4,5)

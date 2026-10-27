@@ -46,8 +46,7 @@ func advance(delta):
             var previous_position=game.figures[i].position
             game.figures[i].position=Vector3(start.x,game.figure_height(i),start.y).lerp(Vector3(end.x,game.figure_height(i),end.y),motion.distance)
             motion.travelled+=previous_position.distance_to(game.figures[i].position)
-            var neutral=game.directional_idle_texture(i,direction)
-            game.figures[i].texture=walk_library.sample(id,direction,motion.travelled,neutral)
+            game.figures[i].texture=game.map_motion_texture(i,direction,motion.travelled)
             if motion.distance>=0.999999:
                 motion.segment+=1;motion.distance=0.0
         if motion.segment>=motion.path.size()-1:
