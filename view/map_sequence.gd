@@ -31,8 +31,10 @@ func configure(data):
         for direction in DIRECTIONS:
             var item=spec.get(direction)
             if not item is Dictionary:valid=false;break
+            var idle_width=item.get("idle_canvas_width",96)
+            if not (idle_width is int or idle_width is float) or not is_finite(idle_width) or (idle_width!=96 and idle_width!=128):valid=false;break
             var guard=texture_at(item.get("neutral_guard"),Vector2i(96,128))
-            var idle={} if motion_only else decode(item.get("idle"),Vector2i(96,128))
+            var idle={} if motion_only else decode(item.get("idle"),Vector2i(int(idle_width),128))
             var motion=decode(item.get("motion"),Vector2i(128,128))
             if guard==null or (not motion_only and idle.is_empty()) or (motion_only and item.has("idle")) or motion.is_empty():valid=false;break
             decoded[direction]={"guard":guard,"idle":idle,"motion":motion}

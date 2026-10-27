@@ -329,6 +329,224 @@
           ]
         }
       }
+    },
+    "oren": {
+      "front_left": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/oren/front_left_idle_00.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/oren_video_provisional/idle/front_left_idle_00.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_left_idle_01.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_left_idle_02.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_left_idle_03.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_left_idle_04.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_left_idle_05.png"
+          ],
+          "ticks": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "cycle_ticks": 48,
+          "root": [
+            64,
+            120
+          ]
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/oren_video_provisional/walk/front_left_walk_00.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_left_walk_01.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_left_walk_02.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_left_walk_03.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_left_walk_04.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_left_walk_05.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_left_walk_06.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_left_walk_07.png"
+          ],
+          "ticks": [
+            5,
+            5,
+            5,
+            6,
+            5,
+            5,
+            5,
+            6
+          ],
+          "cycle_ticks": 42,
+          "root": [
+            64,
+            120
+          ]
+        }
+      },
+      "front_right": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/oren/front_right_idle_00.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/oren_video_provisional/idle/front_right_idle_00.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_right_idle_01.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_right_idle_02.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_right_idle_03.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_right_idle_04.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/front_right_idle_05.png"
+          ],
+          "ticks": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "cycle_ticks": 48,
+          "root": [
+            64,
+            120
+          ]
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/oren_video_provisional/walk/front_right_walk_00.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_right_walk_01.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_right_walk_02.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_right_walk_03.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_right_walk_04.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_right_walk_05.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_right_walk_06.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/front_right_walk_07.png"
+          ],
+          "ticks": [
+            5,
+            5,
+            5,
+            6,
+            5,
+            5,
+            5,
+            6
+          ],
+          "cycle_ticks": 42,
+          "root": [
+            64,
+            120
+          ]
+        }
+      },
+      "back_left": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/oren/back_left_idle_00.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/oren_video_provisional/idle/back_left_idle_00.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_left_idle_01.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_left_idle_02.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_left_idle_03.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_left_idle_04.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_left_idle_05.png"
+          ],
+          "ticks": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "cycle_ticks": 48,
+          "root": [
+            64,
+            120
+          ]
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/oren_video_provisional/walk/back_left_walk_00.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_left_walk_01.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_left_walk_02.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_left_walk_03.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_left_walk_04.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_left_walk_05.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_left_walk_06.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_left_walk_07.png"
+          ],
+          "ticks": [
+            5,
+            5,
+            5,
+            6,
+            5,
+            5,
+            5,
+            6
+          ],
+          "cycle_ticks": 42,
+          "root": [
+            64,
+            120
+          ]
+        }
+      },
+      "back_right": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/oren/back_right_idle_00.png",
+        "idle_canvas_width": 128,
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/oren_video_provisional/idle/back_right_idle_00.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_right_idle_01.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_right_idle_02.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_right_idle_03.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_right_idle_04.png",
+            "assets/sprites/iso4/oren_video_provisional/idle/back_right_idle_05.png"
+          ],
+          "ticks": [
+            8,
+            8,
+            8,
+            8,
+            8,
+            8
+          ],
+          "cycle_ticks": 48,
+          "root": [
+            64,
+            120
+          ]
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/oren_video_provisional/walk/back_right_walk_00.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_right_walk_01.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_right_walk_02.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_right_walk_03.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_right_walk_04.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_right_walk_05.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_right_walk_06.png",
+            "assets/sprites/iso4/oren_video_provisional/walk/back_right_walk_07.png"
+          ],
+          "ticks": [
+            5,
+            5,
+            5,
+            6,
+            5,
+            5,
+            5,
+            6
+          ],
+          "cycle_ticks": 42,
+          "root": [
+            64,
+            120
+          ]
+        }
+      }
     }
   }
 }
