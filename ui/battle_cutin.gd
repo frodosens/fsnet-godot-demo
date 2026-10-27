@@ -9,6 +9,9 @@ var release_played=false
 var impact_play_count=0
 var sounds={}
 var arena
+var combat_status
+var reference_background
+var legacy_backdrop=[]
 var layout_origin=Vector2.ZERO
 var shade
 var contact_points={}
@@ -39,14 +42,14 @@ func _ready():
     layer=30
     surface=Control.new();surface.theme=UI.make_theme();surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(surface)
     shade=ColorRect.new();shade.color=Color(0.10,0.09,0.08,0.88);shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);surface.add_child(shade)
+    reference_background=TextureRect.new();reference_background.texture=load("res://assets/backgrounds/amber_bridge_battle/background.png");reference_background.position=Vector2.ZERO;reference_background.size=Vector2(1586,992);reference_background.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(reference_background)
     arena=Control.new();arena.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(arena)
     contact_points=JSON.parse_string(FileAccess.get_file_as_string("res://assets/battle/contact_points.json"))
     var stage=TextureRect.new();stage.position=Vector2(100,130);stage.size=Vector2(1080,480)
-    var backdrop=GradientTexture2D.new();backdrop.width=128;backdrop.height=128;var gradient=Gradient.new();gradient.set_color(0,Color("182c2a"));gradient.set_color(1,Color("65704e"));backdrop.gradient=gradient;backdrop.fill_from=Vector2.ZERO;backdrop.fill_to=Vector2.DOWN;stage.texture=backdrop;arena.add_child(stage)
+    var backdrop=GradientTexture2D.new();backdrop.width=128;backdrop.height=128;var gradient=Gradient.new();gradient.set_color(0,Color("182c2a"));gradient.set_color(1,Color("65704e"));backdrop.gradient=gradient;backdrop.fill_from=Vector2.ZERO;backdrop.fill_to=Vector2.DOWN;stage.texture=backdrop;arena.add_child(stage);legacy_backdrop.append(stage)
     for placement in [Vector2(110,205),Vector2(900,180),Vector2(720,130)]:
-        var tree=TextureRect.new();tree.texture=load("res://assets/environment/props_v3/tree.png");tree.position=placement;tree.size=Vector2(300,300);tree.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;tree.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;tree.modulate=Color(0.48,0.58,0.52,0.85);arena.add_child(tree)
-    var floor_panel=TextureRect.new();floor_panel.texture=load("res://assets/environment/v2/grass.png");floor_panel.stretch_mode=TextureRect.STRETCH_TILE;floor_panel.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;floor_panel.modulate=Color(0.65,0.72,0.61);floor_panel.position=Vector2(100,495);floor_panel.size=Vector2(1080,115);arena.add_child(floor_panel)
-    title=UI.label("玛拉 · 突刺",26);title.position=Vector2(145,155);surface.add_child(title)
+        var tree=TextureRect.new();tree.texture=load("res://assets/environment/props_v3/tree.png");tree.position=placement;tree.size=Vector2(300,300);tree.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;tree.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;tree.modulate=Color(0.48,0.58,0.52,0.85);arena.add_child(tree);legacy_backdrop.append(tree)
+    var floor_panel=TextureRect.new();floor_panel.texture=load("res://assets/environment/v2/grass.png");floor_panel.stretch_mode=TextureRect.STRETCH_TILE;floor_panel.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;floor_panel.modulate=Color(0.65,0.72,0.61);floor_panel.position=Vector2(100,495);floor_panel.size=Vector2(1080,115);arena.add_child(floor_panel);legacy_backdrop.append(floor_panel)
     attacker=figure();defender=figure()
     flash_material=ShaderMaterial.new();flash_material.shader=load("res://view/hit_flash.gdshader");defender.material=flash_material
     impact=TextureRect.new();impact.size=Vector2(80,60);impact.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;impact.mouse_filter=Control.MOUSE_FILTER_IGNORE;arena.add_child(impact)
@@ -71,33 +74,31 @@ func _ready():
     damage_label.add_theme_font_override("font",UI.impact_font())
     damage_label.add_theme_color_override("font_shadow_color",Color("101916"));damage_label.add_theme_constant_override("shadow_offset_x",2);damage_label.add_theme_constant_override("shadow_offset_y",3)
     damage_label.add_theme_color_override("font_outline_color",Color("182421"));damage_label.add_theme_constant_override("outline_size",5)
-    var quick=UI.button("加速 ×1",func():speed=3.0 if speed==1.0 else 1.0)
-    quick.position=Vector2(850,630);quick.pressed.connect(func():quick.text="加速 ×"+str(int(speed)));surface.add_child(quick)
-    var skip=UI.button("跳过 · 空格",finish);skip.position=Vector2(1000,630);surface.add_child(skip)
-    var reduced=CheckButton.new();reduced.text="减弱震动与闪光";reduced.position=Vector2(120,635);reduced.button_pressed=App.reduced_motion;feedback_strength=0.0 if App.reduced_motion else 1.0;reduced.toggled.connect(func(on):App.reduced_motion=on;feedback_strength=0.0 if on else 1.0);surface.add_child(reduced)
+    combat_status=preload("res://ui/combat_status.gd").new();surface.add_child(combat_status);combat_status.setup(self);title=combat_status.title_label
     sound_player=AudioStreamPlayer.new();sound_player.max_polyphony=2;add_child(sound_player)
     for name in ["swing","impact","arrow","magic","critical"]:sounds[name]=load("res://assets/audio/"+name+".wav")
-    var mute=CheckButton.new();mute.text="音效";mute.button_pressed=App.sfx_enabled;mute.position=Vector2(410,635);mute.toggled.connect(func(on):App.sfx_enabled=on;if_not_enabled_stop());surface.add_child(mute)
-    var volume=HSlider.new();volume.min_value=-30;volume.max_value=0;volume.step=1;volume.value=App.sfx_volume_db;volume.position=Vector2(560,647);volume.size=Vector2(140,24);volume.tooltip_text="音效音量 dB";volume.value_changed.connect(func(value):App.sfx_volume_db=value);surface.add_child(volume)
-    surface.resized.connect(layout_surface)
+    get_viewport().size_changed.connect(layout_surface)
     layout_surface()
     surface.hide()
 func layout_surface():
-    var next=Vector2((get_viewport().get_visible_rect().size.x-1280)*0.5,0)
-    var delta=next-layout_origin
-    for child in surface.get_children():
-        if child!=shade:child.position+=delta
-    layout_origin=next
+    var viewport=get_viewport().get_visible_rect().size
+    surface.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT);surface.size=Vector2(1586,992)
+    var factor=minf(viewport.x/1586.0,viewport.y/992.0);surface.scale=Vector2.ONE*factor;surface.position=(viewport-surface.size*factor)*0.5
+    layout_origin=Vector2(160,149);arena.position=layout_origin
 func if_not_enabled_stop():
     if not App.sfx_enabled:sound_player.stop()
 func play_sound(name):
     if App.sfx_enabled and sounds.has(name):sound_player.volume_db=App.sfx_volume_db;sound_player.stream=sounds[name];sound_player.play()
 func figure():
     var image=TextureRect.new();image.size=Vector2(384,320);image.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;image.mouse_filter=Control.MOUSE_FILTER_IGNORE;arena.add_child(image);return image
-func consume(step,events):
+func consume(step,events,units=[],content={}):
     if step==last_seen_step:return
     finish();last_seen_step=step
-    for item in events:
+    var authored=preload("res://logic/content.gd").reference_content()
+    var compatible=not content.is_empty() and content.get("id")==authored.id and content.get("width")==authored.width and content.get("height")==authored.height and content.get("terrain")==authored.terrain
+    reference_background.visible=compatible
+    for node in legacy_backdrop:node.visible=not compatible
+    for item in preload("res://ui/combat_context.gd").annotate(events,units):
         if item.get("kind")!="attack" or (item.get("target")!="oren" and not defender_sets.has(item.get("target"))):continue
         if item.actor!="mara" and not actor_sets.has(item.actor):continue
         if item.actor=="neri" and item.get("ability") not in ["ember","focus_bolt"]:continue
@@ -109,6 +110,10 @@ func play_next():
     tick_seconds=1.0/12.0 if event.actor=="mara" else actor_sets[event.actor].tick_seconds
     release_tick=int(contact_points.mara.contact_tick) if event.actor=="mara" else actor_sets[event.actor].release
     title.text={"mara":"玛拉 · 突刺","finn":"芬恩 · 放箭","neri":"奈莉 · 施法","oren":"奥伦 · 突刺","tessa":"苔莎 · 短刃","bram":"布兰 · 重锤"}[event.actor]
+    title.text=str(event.get("ability","attack")) if event.get("ability","attack")!="attack" else "普通攻击"
+    title.text={"ember":"余烬","focus_bolt":"专注魔弹","strong_shot":"强力射击","rally":"鼓舞"}.get(title.text,title.text)
+    feedback_strength=0.0 if App.reduced_motion else 1.0
+    combat_status.show_event(event)
     surface.show();draw_tick(0)
 func is_melee():return event.get("actor") in ["mara","oren","tessa","bram"]
 func hit_tick():return release_tick if is_melee() else release_tick+4
@@ -122,6 +127,7 @@ func draw_tick(frame):
     if event.actor=="mara":attacker.texture=load("res://assets/battle/mara/"+MARA[TIMELINE[tick]]+".png")
     else:
         var data=actor_sets[event.actor];attacker.texture=data.textures[int(data.timeline[tick])]
+    combat_status.update_health(event,tick>=hit_tick())
     var hit=hit_tick();var after=maxf(0.0,(frame-hit)*tick_seconds)
     var defend=0 if tick<release_tick-2 else (1 if tick<hit else (2 if tick<hit+4 else 3))
     if event.get("hp",1)==0 and tick>=hit:defend=2

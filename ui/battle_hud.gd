@@ -322,7 +322,14 @@ func toggle_pause():
     var level=HSlider.new();level.min_value=0;level.max_value=0.6;level.step=0.05;level.value=App.character_emission;level.custom_minimum_size=Vector2(320,44);level.tooltip_text="只调整角色原色补光，保留场景光照与阴影。"
     level.value_changed.connect(func(value):App.character_emission=value)
     brightness.add_child(level)
+    c.add_child(UI.button("音效与动态效果",show_feedback_settings))
     c.get_child(2).grab_focus()
+func show_feedback_settings():
+    var c=modal_page("音效与动态效果")
+    var reduced=CheckButton.new();reduced.text="减弱震动与闪光";reduced.button_pressed=App.reduced_motion;reduced.toggled.connect(func(on):App.reduced_motion=on);c.add_child(reduced)
+    var sound=CheckButton.new();sound.text="战斗音效";sound.button_pressed=App.sfx_enabled;sound.toggled.connect(func(on):App.sfx_enabled=on);c.add_child(sound)
+    var volume=HSlider.new();volume.min_value=-30;volume.max_value=0;volume.step=1;volume.value=App.sfx_volume_db;volume.custom_minimum_size=Vector2(320,36);volume.tooltip_text="音效音量 dB";volume.value_changed.connect(func(value):App.sfx_volume_db=value);c.add_child(volume)
+    c.add_child(UI.button("返回暂停菜单",func():clear_modal();toggle_pause()))
 func toggle_scene_renderer():
     if game.scene_view.set_fixed(not game.scene_view.active):
         App.scene_renderer="fixed" if game.scene_view.active else "three_d"

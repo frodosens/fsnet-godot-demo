@@ -409,7 +409,7 @@ func refresh():
         badges[i].position = Vector3(u.pos.x,badge_height(i),u.pos.y)
         badges[i].update_health(u.hp,u.max_hp,u.ally,i==selected)
     if hud:hud.refresh()
-    if cutin and not motion.active():cutin.consume(battle.step,battle.events)
+    if cutin and not motion.active():cutin.consume(battle.step,battle.events,battle.units,battle.content)
     if heal_feedback:heal_feedback.consume(battle.step,battle.events)
 
 func _unhandled_input(event):
@@ -489,7 +489,7 @@ func projected_facing(from_cell,to_cell,diagonal=false):
 func presentation_active():return (motion and motion.active()) or (cutin and cutin.active)
 func motion_finished():
     if hud:hud.action_menu_open=true
-    if cutin:cutin.consume(battle.step,battle.events)
+    if cutin:cutin.consume(battle.step,battle.events,battle.units,battle.content)
 func skip_presentation():
     if heal_feedback:heal_feedback.clear()
     if motion:motion.finish()
