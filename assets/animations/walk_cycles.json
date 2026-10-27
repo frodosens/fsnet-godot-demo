@@ -12,6 +12,36 @@
       "left": "assets/sprites/iso4/walk_candidate/oren/front_right/left.png",
       "right": "assets/sprites/iso4/walk_candidate/oren/front_right/right.png",
       "cycle_distance": 1
+    },
+    "finn:back_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/finn/back_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/finn/back_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/finn/back_right/right.png",
+      "cycle_distance": 1
+    },
+    "oren:back_left": {
+      "neutral": "assets/sprites/iso4/idle_candidate/oren/back_left_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/oren/back_left/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/oren/back_left/right.png",
+      "cycle_distance": 1
+    },
+    "oren:back_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/oren/back_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/oren/back_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/oren/back_right/right.png",
+      "cycle_distance": 1
+    },
+    "mara:front_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/mara/front_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/mara/front_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/mara/front_right/right.png",
+      "cycle_distance": 1
+    },
+    "bram:front_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/bram/front_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/bram/front_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/bram/front_right/right.png",
+      "cycle_distance": 1
     }
   }
 }

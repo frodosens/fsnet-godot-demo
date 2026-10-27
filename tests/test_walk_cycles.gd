@@ -7,9 +7,9 @@ func check(ok,label):
 func _initialize():call_deferred("run")
 func run():
     var Library=load("res://view/walk_library.gd")
-    var lib=Library.new();check(lib.errors.is_empty() and lib.clips.size()==2,"valid pilot manifest")
+    var lib=Library.new();check(lib.errors.is_empty() and lib.clips.has("finn:front_right") and lib.clips.has("oren:front_right"),"valid pilot manifest")
     var source=JSON.parse_string(FileAccess.get_file_as_string(Library.MANIFEST))
-    source.clips.erase("oren:front_right")
+    source.clips={"finn:front_right":source.clips["finn:front_right"]}
     var neutral=lib.clips["finn:front_right"].textures[0]
     for entry in [null,[],1,"bad",{}, {"cycle_distance":null}]:
         var test=source.duplicate(true);test.clips["finn:front_right"]=entry;lib.configure(test)
@@ -60,7 +60,7 @@ func run():
     game.motion.advance(1.0/game.character_scale)
     check(game.figures[i].texture==neutral and game.motion.motions.finn.segment==1,"corner grid boundary is neutral")
     game.motion.advance(.25/game.character_scale)
-    check(game.facing.finn=="back_right" and game.figures[i].texture==game.directional_idle_texture(i,"back_right"),"unregistered turn direction static")
+    check(game.facing.finn=="back_right" and game.figures[i].texture==game.motion.walk_library.sample("finn","back_right",game.motion.motions.finn.travelled,game.directional_idle_texture(i,"back_right")),"turn uses registered direction or static fallback")
     var position=game.figures[i].position;var distance=game.motion.motions.finn.travelled
     game.motion.set_process(true);paused=true
     await process_frame;await process_frame

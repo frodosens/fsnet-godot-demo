@@ -1,6 +1,6 @@
 # Distance-driven three-pose walk pilot
 
-Candidate scope: Finn and Oren, `front_right` only. All other directions and units retain their current directional neutral image while moving. This is not completion of the eight-character/four-direction asset set. Combat, rules, input confirmation, native libraries and content are unchanged.
+Initial pilot scope: Finn and Oren, `front_right` only. See [the subsequent bounded direction batch](walk-direction-batch1.md) for current candidate coverage. All other directions and units retain their current directional neutral image while moving. This is not completion of the eight-character/four-direction asset set. Combat, rules, input confirmation, native libraries and content are unchanged.
 
 ## Binding and calibration
 

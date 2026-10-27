@@ -4,7 +4,13 @@ import json,os,pathlib,secrets,socket,subprocess,tempfile
 root=pathlib.Path(__file__).resolve().parents[1]
 env=os.environ.copy();env['AMBER_TOKEN']=secrets.token_hex(24)
 with tempfile.TemporaryDirectory(prefix='walk-network-') as folder:
-    data=json.loads((root/'content/reference_bridge.json').read_text());data['units'][1].update(x=1,y=8)
+    data=json.loads((root/'content/reference_bridge.json').read_text())
+    actor=env.get('AMBER_WALK_ACTOR','finn');direction=env.get('AMBER_WALK_DIRECTION','front_right')
+    if direction=='front_right' and actor=='finn':data['units'][1].update(x=1,y=8)
+    else:
+        data['units'][0].update(x=1,y=6);data['units'][1].update(x=2,y=7);data['units'][2].update(x=6,y=8)
+        unit=next(u for u in data['units'] if u['id']==actor)
+        unit.update(x=1 if direction=='front_right' else 4,y=8,ally=True,movement=3)
     path=pathlib.Path(folder)/'fixture.json';path.write_text(json.dumps(data));env['AMBER_MOD']=str(path)
     with socket.socket() as sock:
         sock.bind(('127.0.0.1',0));env['AMBER_TEST_PORT']=str(sock.getsockname()[1])
