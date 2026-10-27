@@ -10,7 +10,7 @@ func frames():
 func run():
     var app=root.get_node("App");var Fixture=preload("res://tests/walk_rear_fixture.gd")
     var Walk=preload("res://view/walk_library.gd").shared();var Meter=load("res://view/unit_health.gd")
-    for entry in [["finn","back_right"],["oren","back_left"],["oren","back_right"],["mara","front_right"],["bram","front_right"],["neri","front_right"],["tessa","front_right"],["adela","front_right"],["elsbet","front_right"]]:
+    for entry in [["finn","back_right"],["oren","back_left"],["oren","back_right"],["mara","front_right"],["bram","front_right"],["neri","front_right"],["tessa","front_right"],["adela","front_right"],["elsbet","front_right"],["mara","back_left"],["mara","back_right"],["bram","back_left"],["bram","back_right"]]:
         var actor=entry[0];var direction=entry[1]
         check(Walk.clips.has(actor+":"+direction),"expected registered direction")
         if not Walk.clips.has(actor+":"+direction):continue

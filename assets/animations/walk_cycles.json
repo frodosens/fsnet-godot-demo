@@ -66,6 +66,30 @@
       "left": "assets/sprites/iso4/walk_candidate/elsbet/front_right/left.png",
       "right": "assets/sprites/iso4/walk_candidate/elsbet/front_right/right.png",
       "cycle_distance": 1
+    },
+    "mara:back_left": {
+      "neutral": "assets/sprites/iso4/idle_candidate/mara/back_left_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/mara/back_left/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/mara/back_left/right.png",
+      "cycle_distance": 1
+    },
+    "mara:back_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/mara/back_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/mara/back_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/mara/back_right/right.png",
+      "cycle_distance": 1
+    },
+    "bram:back_left": {
+      "neutral": "assets/sprites/iso4/idle_candidate/bram/back_left_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/bram/back_left/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/bram/back_left/right.png",
+      "cycle_distance": 1
+    },
+    "bram:back_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/bram/back_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/bram/back_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/bram/back_right/right.png",
+      "cycle_distance": 1
     }
   }
 }

@@ -26,7 +26,10 @@ func run():
     check(game.battle.snapshot()==before)
     check(app.session.submit({"kind":"move","unit":0,"x":3,"y":6}));game.battle=app.session.logic;game.refresh()
     var after=game.battle.snapshot();game.motion.advance(.2);idle.advance(.2)
-    check(idle.clocks.mara==0);check(game.figures[0].texture==game.directional_idle_texture(0,game.facing.mara))
+    check(idle.clocks.mara==0)
+    var neutral=game.directional_idle_texture(0,game.facing.mara)
+    var travel=game.motion.motions.mara.travelled
+    check(game.figures[0].texture==game.motion.walk_library.sample("mara",game.facing.mara,travel,neutral))
     game.motion.finish();idle.advance(0);check(game.figures[0].texture==idle.library.clips.map["knight:"+game.facing.mara].textures[0])
     idle.advance(.4);check(game.battle.snapshot()==after)
     # A scene replacement uses fresh presentation clocks; no persisted idle phase.
