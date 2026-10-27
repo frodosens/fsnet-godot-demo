@@ -265,7 +265,7 @@ func refresh():
     if not game.pending_move.is_empty():hint_label.text="移动 %d 格 · Enter 确认 · Esc 取消"%[game.preview_path.size()-1]
     if action_panel.visible:hint_label.text="选择行动 · 方向键切换 · Enter 确认"
     if logic.outcome!="playing":hint_label.text="旅程暂告一段落 · Esc 保存或返回"
-    if dock:dock.refresh_dock()
+    # refresh_story() below synchronizes the dock after the latest modal/story state.
     if last_step!=logic.step:
         if last_step>=0 and logic.step>last_step:
             var changes=[]

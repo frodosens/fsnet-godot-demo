@@ -549,7 +549,7 @@ func _process(delta):
         if hud:hud.action_menu_open=true
         last_step=battle.step
         refresh()
-    if hud:hud.refresh_story();hud.refresh()
+    if hud:hud.refresh() # refresh() ends with refresh_story(); avoid duplicate dock work.
 
 func _exit_tree():
     if session:session.defer_poll=false # App owns the session across scenes.
