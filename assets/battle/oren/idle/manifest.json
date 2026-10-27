@@ -43,6 +43,50 @@
     "limits": [
       "Current idle window167ms shorter than960mspreview.",
       "No canonical game-dev validation; CLI unavailable."
-    ]
+    ],
+    "bounds_threshold": "alpha>100",
+    "alpha_bounds": {
+      "neutral": {
+        "alpha_gt_0": [
+          59,
+          40,
+          130,
+          143
+        ],
+        "alpha_ge_16": [
+          59,
+          40,
+          130,
+          143
+        ],
+        "alpha_gt_100": [
+          59,
+          40,
+          130,
+          143
+        ]
+      },
+      "inhale": {
+        "alpha_gt_0": [
+          20,
+          23,
+          144,
+          157
+        ],
+        "alpha_ge_16": [
+          58,
+          39,
+          130,
+          144
+        ],
+        "alpha_gt_100": [
+          58,
+          39,
+          130,
+          144
+        ]
+      }
+    },
+    "residue": "Faint alpha residue beyond body; PNG unchanged, not clean-alpha approved. Foot metrics use alpha>100, not full nonzeroalpha."
   }
 }
