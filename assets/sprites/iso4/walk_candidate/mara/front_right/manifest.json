@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "character": "mara",
+  "facing": "front_right",
+  "status": "static_candidate_engine_review_pending",
+  "source_ref": "22af7e8",
+  "neutral": {
+    "path": "res://assets/sprites/iso4/idle_candidate/mara/front_right_idle_00.png",
+    "git_blob_sha": "bc995e2526e7719bc8d472b37f979d7677456441",
+    "sha256": "d2d745576a2027cdc35f95fa46e6107449e3f55dec36f72040bcf584387d2971",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "unique_images": 3,
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "arms": "restrained; sword RIGHT/image-left, shield LEFT/image-right",
+  "leg_ownership": {
+    "L": "anatomical left/shield-side leads",
+    "R": "anatomical right/sword-side leads"
+  },
+  "registration": {
+    "sole_character_reference": "same canonicalN independently for both steps",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "uniform_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false,
+    "art_scale_change": false
+  },
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/mara/front_right/left.png",
+      "git_blob_sha": "233f8bf7306d6630f73685273a1a302994dddfd8",
+      "sha256": "a8fb6511138dcbebe99d02e533f16081c1f9a89c8e04ac36cd798f5e7fd849fb",
+      "source_sha256": "1b798272153b5d8dde65b7bc45393471e820a97433e539b8db52021a35b4327b",
+      "prompt_sha256": "7b247e760855863f0a7d7bada4040340203b8201e094e9923fa9909abe1583d9",
+      "bbox_exclusive_end": [
+        6,
+        21,
+        75,
+        118
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 117,
+        "8": 117,
+        "128": 117,
+        "240": 117,
+        "255": 97
+      }
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/mara/front_right/right.png",
+      "git_blob_sha": "fd273f9011624fd503b596f37cee79289375cc97",
+      "sha256": "76951fe71b38c41f69bb279298dc27562411d118fdfd8d29f1e44d0af57789f0",
+      "source_sha256": "ccf3473fcfca2e4124eb6c483b357e4753666c2aab33669bda2bf5c6c41c02a5",
+      "prompt_sha256": "082168cf77e470668137690a0796a7e88bb82bee34f9a07cbe7b6164b343bec5",
+      "bbox_exclusive_end": [
+        6,
+        21,
+        75,
+        119
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 118,
+        "8": 118,
+        "128": 118,
+        "240": 118,
+        "255": 97
+      }
+    }
+  },
+  "qa": {
+    "head_top": "N20, L21, R21",
+    "support_sole_y": "N119, L117, R118; actual route grounding review pending",
+    "weapon_hand_flip": false,
+    "same_side_arm_swing": false,
+    "full_counter_swing_drawn": false,
+    "runtime_clipping": "pending, both generated support soles within119",
+    "generation_calls": 2,
+    "retries": 0,
+    "upper_body_metrics": {
+      "N": {
+        "bbox": [
+          6,
+          20,
+          75,
+          120
+        ],
+        "upper_iou": 1.0,
+        "upper_mae": 0.0
+      },
+      "left": {
+        "bbox": [
+          6,
+          21,
+          75,
+          118
+        ],
+        "upper_iou": 0.9725776965265083,
+        "upper_mae": 11.087719298245613
+      },
+      "right": {
+        "bbox": [
+          6,
+          21,
+          75,
+          119
+        ],
+        "upper_iou": 0.9789280806229959,
+        "upper_mae": 5.5774450163781
+      }
+    }
+  },
+  "source_commit": "22af7e8be5758d8641ae423b0e3d3d35c24d2b2f"
+}

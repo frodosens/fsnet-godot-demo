@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "character": "bram",
+  "facing": "front_right",
+  "status": "static_qualified_candidate_engine_review_pending",
+  "engine_accepted": false,
+  "source_commit": "22af7e8be5758d8641ae423b0e3d3d35c24d2b2f",
+  "neutral": {
+    "path": "res://assets/sprites/iso4/idle_candidate/bram/front_right_idle_00.png",
+    "git_blob_sha": "4e362db5e164cc1abf055dd1a013dd4d30f50c42",
+    "sha256": "41d89eb6abe3a48b4639bbcf7225061d05f50d68e4f43783c0a0146fd2e2c9be",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "unique_images": 3,
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "arms": "restrained; hammer in anatomical RIGHT/image-left hand, LEFT/image-right hand empty; no arm swing",
+  "anatomy": {
+    "L": "anatomical left/image-right leg advances; right trails",
+    "R": "anatomical right/image-left leg advances; left trails",
+    "attachments": "both thighs continue below apron into separate connected knee/ankle/boot chains"
+  },
+  "registration": {
+    "reference": "same exact canonicalN independently for each generated step",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "uniform_full_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false,
+    "art_enlargement": false
+  },
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/bram/front_right/left.png",
+      "git_blob_sha": "a99e4c07af3bfddc8cfa1d859fafc1beb7d5fe1f",
+      "sha256": "bf170618ef85246224e01947cb69df2f172a404ca4e26fbbd9d23314bdbeeeec",
+      "raw_source_sha256": "bbfeb4c8e6bb515c94326a20b610e2636fa10058f5decca44c5b89beb60419d6",
+      "prompt_sha256": "6db3622cb5fe84b7e68a54cecb531b47d59251cd97a25ac199473e08a2b1fb20",
+      "bbox_exclusive_end": [
+        16,
+        9,
+        84,
+        119
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 118,
+        "8": 118,
+        "128": 118,
+        "240": 118,
+        "255": null
+      },
+      "stance_lowest_sole_y": 118
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/bram/front_right/right.png",
+      "git_blob_sha": "e5fcbd4ee4eada24392a0d9e796cc8080ecf9b84",
+      "sha256": "b0e38e05be0ea0b514548637cc5af2a18173f6157feb325a1168ab525c845042",
+      "raw_source_sha256": "e98ecb96ee46b5071932e9d2c0b911262b4badcb0f21c9ccf1e868ff47131beb",
+      "prompt_sha256": "9137ee8f1962884d2de71752c2064183716c4dc47af68a6defde8b47c1d18998",
+      "bbox_exclusive_end": [
+        16,
+        10,
+        84,
+        120
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 119,
+        "8": 119,
+        "128": 119,
+        "240": 119,
+        "255": null
+      },
+      "stance_lowest_sole_y": 119
+    }
+  },
+  "generation_calls": 2,
+  "qa": {
+    "head_gear": "stable shape/registration, hair top L9/R10 vs N10; not pixel-identical",
+    "palette": "mild sharpening and color rerender, upper RGB MAE L12.6 R10.5/255",
+    "grounding": "visible support max L118 R119; no per-frame bottom alignment; actual route still required",
+    "clipping": "no step alpha beyondy119; engine test pending",
+    "runtime_scale": "unchanged Bram scale; Oren-only1.05 does not apply",
+    "held_frame_slip": "not physically zero; simplified user-approved cadence"
+  },
+  "upper_body_metrics": {
+    "N": {
+      "upper_iou": 1.0,
+      "upper_mae": 0.0,
+      "bbox": [
+        15,
+        10,
+        84,
+        121
+      ]
+    },
+    "left": {
+      "upper_iou": 0.9741970903101839,
+      "upper_mae": 12.576124729970886,
+      "bbox": [
+        16,
+        9,
+        84,
+        119
+      ]
+    },
+    "right": {
+      "upper_iou": 0.9790691269622693,
+      "upper_mae": 10.526113455227378,
+      "bbox": [
+        16,
+        10,
+        84,
+        120
+      ]
+    }
+  }
+}
