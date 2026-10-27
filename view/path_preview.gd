@@ -2,6 +2,9 @@ extends MeshInstance3D
 # Ground-space geometry, depth-tested against opaque/discard character pixels.
 # Pixel-sized strokes are unprojected back onto the same ground plane as the range.
 var game
+var art_route_enabled=true # Candidate can revert to the previous ribbon without changing rules.
+var route_art=preload("res://view/route_art.gd").new()
+var art_parts=[]
 var cells:MeshInstance3D
 var ground_materials={}
 var signature=""
@@ -116,18 +119,21 @@ func _process(delta):
         var common=0
         while common<mini(path.size(),last_path.size()) and path[common]==last_path[common]:common+=1
         reveal=minf(reveal,maxf(0,common-1.0));last_path=path.duplicate(true)
+        art_parts=route_art.plan(path)
     var route=rounded_route(path);route_length=0.0
     for i in range(route.size()-1):route_length+=route[i].distance_to(route[i+1])
     reveal=route_length if App.reduced_motion else minf(route_length,reveal+delta*18.0)
     var animated=(route_length>0 or (game.mode=="move" and not game.preview_reachable.is_empty())) and not App.reduced_motion
     var tick=int(clock*30.0) if animated else 0
-    var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.hud.action_menu_open,game.camera.global_transform,game.camera.size,game.camera.keep_aspect,get_viewport().get_visible_rect(),tick])
+    var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.hud.action_menu_open,game.camera.global_transform,game.camera.size,game.camera.keep_aspect,art_route_enabled,get_viewport().get_visible_rect(),tick])
     if state==signature:return
     signature=state;mesh.clear_surfaces();cells.mesh.clear_surfaces();building=false
     if game.presentation_active():return
     if game.mode=="move" and not game.hud.action_menu_open and game.selected>=0 and game.battle.usable(game.selected) and not game.battle.units[game.selected].moved:
         draw_range()
-    if route.size()>=2:
+    if route.size()>=2 and art_route_enabled and route_art.ready:
+        route_art.draw(cells.mesh,art_parts,HEIGHT+0.004,1.0 if App.reduced_motion else clampf(reveal/maxf(route_length,.001),0.0,1.0))
+    elif route.size()>=2:
         var points=[]
         for cell in prefix(route,reveal):points.append(projected(cell))
         if points.size()>=2:
