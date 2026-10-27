@@ -1,0 +1,268 @@
+{
+  "status": "Review candidate only: not loaded by game, not final acceptance",
+  "source_sha256": "8e1f74756a9615ddd837f99596a8ce78a0554167fd025a0ecb9d8e2b816d4533",
+  "canvas": [
+    96,
+    128
+  ],
+  "foot_anchor": [
+    48,
+    120
+  ],
+  "scale": 0.256,
+  "loop": [
+    0,
+    1,
+    2,
+    1
+  ],
+  "frame_ms": 400,
+  "operations": "crop and connected-figure isolation, shared nearest scale, fixed per-direction translation; no pose warping",
+  "frames": [
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/front_left_idle_00.png",
+      "source_rect": [
+        0,
+        50,
+        313,
+        460
+      ],
+      "placement": [
+        7,
+        17
+      ],
+      "opaque_bbox": [
+        10,
+        21,
+        77,
+        120
+      ],
+      "sha256": "1afd7ae9d2bcd22fdf3f92e6e3644d2861736ba29036b8c08f132c5ca9ebc286"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/front_right_idle_00.png",
+      "source_rect": [
+        313,
+        50,
+        627,
+        460
+      ],
+      "placement": [
+        3,
+        17
+      ],
+      "opaque_bbox": [
+        6,
+        21,
+        75,
+        120
+      ],
+      "sha256": "d2d745576a2027cdc35f95fa46e6107449e3f55dec36f72040bcf584387d2971"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/back_left_idle_00.png",
+      "source_rect": [
+        627,
+        50,
+        940,
+        460
+      ],
+      "placement": [
+        10,
+        17
+      ],
+      "opaque_bbox": [
+        22,
+        23,
+        90,
+        120
+      ],
+      "sha256": "551695e8051a2b5d1ee02102af69958124e3239e3b782a5a054e4146ca29d648"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/back_right_idle_00.png",
+      "source_rect": [
+        940,
+        50,
+        1254,
+        460
+      ],
+      "placement": [
+        9,
+        18
+      ],
+      "opaque_bbox": [
+        27,
+        22,
+        88,
+        120
+      ],
+      "sha256": "25666be8bc74025fcb36ee9ab54ab21d42cbd0b0ca1fe65b11a2b3ae8c16cac9"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/front_left_idle_01.png",
+      "source_rect": [
+        0,
+        445,
+        313,
+        855
+      ],
+      "placement": [
+        7,
+        17
+      ],
+      "opaque_bbox": [
+        10,
+        21,
+        77,
+        119
+      ],
+      "sha256": "044ec22f1f86ec2a8f1aefae2817e91ef88a3087ffd5934361a5524fa68ff329"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/front_right_idle_01.png",
+      "source_rect": [
+        313,
+        445,
+        627,
+        855
+      ],
+      "placement": [
+        3,
+        17
+      ],
+      "opaque_bbox": [
+        6,
+        21,
+        76,
+        119
+      ],
+      "sha256": "f6fcaed54070b66e4ca9064ae3583e8875eeaf02ea41d0d175a64d9225c584af"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/back_left_idle_01.png",
+      "source_rect": [
+        627,
+        445,
+        940,
+        855
+      ],
+      "placement": [
+        10,
+        17
+      ],
+      "opaque_bbox": [
+        22,
+        24,
+        90,
+        119
+      ],
+      "sha256": "5b2ee3c1f606da53272991503915aab9ed5a3259de84ac0162372e1a03473cae"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/back_right_idle_01.png",
+      "source_rect": [
+        940,
+        445,
+        1254,
+        855
+      ],
+      "placement": [
+        9,
+        18
+      ],
+      "opaque_bbox": [
+        27,
+        23,
+        88,
+        120
+      ],
+      "sha256": "8b6f2c86b82e1ca991a719007c0df523329a016e01ee2237643ee94e7571fca2"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/front_left_idle_02.png",
+      "source_rect": [
+        0,
+        835,
+        313,
+        1245
+      ],
+      "placement": [
+        7,
+        17
+      ],
+      "opaque_bbox": [
+        10,
+        21,
+        77,
+        119
+      ],
+      "sha256": "64ba21b279e3ed1bb91fbdeef093c047108b9b97704140bbedd7270ea6aa890a"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/front_right_idle_02.png",
+      "source_rect": [
+        313,
+        835,
+        627,
+        1245
+      ],
+      "placement": [
+        3,
+        17
+      ],
+      "opaque_bbox": [
+        6,
+        21,
+        76,
+        119
+      ],
+      "sha256": "652aa4a620b2b5d855b43bf2ac145b328d8f3219f9d98530463e4967008f6107"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/back_left_idle_02.png",
+      "source_rect": [
+        627,
+        835,
+        940,
+        1245
+      ],
+      "placement": [
+        10,
+        17
+      ],
+      "opaque_bbox": [
+        22,
+        24,
+        90,
+        120
+      ],
+      "sha256": "7f4c99f03296f7ff70a218f71d1ed2c79a1ffafafe11e1c1eaa296253907dbd3"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/mara/back_right_idle_02.png",
+      "source_rect": [
+        940,
+        835,
+        1254,
+        1245
+      ],
+      "placement": [
+        9,
+        18
+      ],
+      "opaque_bbox": [
+        27,
+        23,
+        88,
+        120
+      ],
+      "sha256": "363e2f66baba23d8d17f14454932927b1d32fc4c666dcf00109a5bcee934b6b4"
+    }
+  ],
+  "source_canvas": [
+    1254,
+    1254
+  ],
+  "base_commit": "8b64cc83805eadc13bc1272dab04088d82bf72c5"
+}

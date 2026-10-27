@@ -1,0 +1,269 @@
+{
+  "generator": "host-native image_gen",
+  "prompt": "Edit/extend this actual GAME MAP sprite strip into a square idle-animation atlas. Preserve the reference's EXACT existing character design, pixel-cluster size aesthetic, squat original body proportions, worn silver armor, brown armored skirt, chestnut hair, red neck scarf, sword and round shield, elevated isometric camera, and all FOUR exact diagonal facings. This task adds a breathing idle loop to existing sprites, NOT a redesign, NOT tall new art, NOT battle sideview.\nOUTPUT exact layout FOUR columns by THREE rows on true transparent background. Each column is the SAME corresponding character facing as the reference, left to right: front-left, front-right, back-left, back-right. Do not alter facing. All three rows must match their column's body and costume, with same scale and ground footprint. Source reference is four cells across; add breathing-phase rows below it.\nRow1: reproduce original relaxed exhale stance.\nRow2: halfway inhale; chest/shoulder plate and arms rise subtly and chest expands slightly, scarf responds gently. Knees, hips, boots remain exactly still. Head remains stable.\nRow3: full inhale; shoulders a little higher than row2, upper chest expanded, arms follow naturally, scarf tip slightly lifted; legs/boots/hip anchor stay exactly same. At final96x128 sprite resolution breathing should be about1-2pixels upper-body movement, NOT huge motion.\nThe loop will play rows1,2,3,2. Draw true small anatomical pose changes to shoulder joints/chest/hands/scarf. NO global image scaling, NO whole-figure translation, NO hopping. Feet absolutely locked in every phase, ground footprint unchanged. Keep sword and shield anatomically consistent in each angle. No duplicate unchanged frames.\nSquare image, aligned uniform rectangular cells, equal baseline within every cell, ample transparent gutters, complete sword and feet within cells. Crisp original pixel-art, no painterly upgrade or new face detail. Absolutely transparent alpha outside sprites, no floor, background, shadow, labels, boxes, text, checkerboard, glow, extra characters.\n",
+  "reference_identity_verified_against_main_git_tree": true,
+  "base_commit": "8b64cc83805eadc13bc1272dab04088d82bf72c5",
+  "references": [
+    {
+      "repository_path": "assets/sprites/iso4/knight_front_left_idle.png",
+      "sha256": "6589d2fb6d402dffeb92df6954c2168d733556f8b15bf01b591c3b528f9bbbb4",
+      "git_blob_sha": "2e36aadd7d78b7a9d6b5a63dc7facdcbfcffcdd8",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "repository_path": "assets/sprites/iso4/knight_front_right_idle.png",
+      "sha256": "2c2caa761f97d89016caa3bb70f9d151631f1f036ba91fa8de7d18f0db7c4977",
+      "git_blob_sha": "8acc00a79f7c7da0856a4ff7ad2951ca75b88017",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "repository_path": "assets/sprites/iso4/knight_back_left_idle.png",
+      "sha256": "6c7db64e6a00b666e9c629029b3b27b5d046d7a09406c8b80ea01203379ad449",
+      "git_blob_sha": "f4b26af8b98815f0a548e4f13e7facccb8728c9f",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "repository_path": "assets/sprites/iso4/knight_back_right_idle.png",
+      "sha256": "cab2bda5e57a639fe08360d0a9df3e2b0e78b39068496fe00ae4e5c1be6f5893",
+      "git_blob_sha": "10b5cf226e2bf33f7fbc42b11b44f5ed0e528089",
+      "size": [
+        96,
+        128
+      ]
+    }
+  ],
+  "generated_source_sha256": "8e1f74756a9615ddd837f99596a8ce78a0554167fd025a0ecb9d8e2b816d4533",
+  "source_canvas": [
+    1254,
+    1254
+  ],
+  "processing": "crop and connected-figure isolation, shared nearest scale, fixed per-direction translation; no pose warping",
+  "static_qa": {
+    "meaning": "Static pixel comparison, not a claimed human temporal or engine acceptance. Foot redraw drift exists.",
+    "directions": {
+      "front_left": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            10,
+            21,
+            77,
+            120
+          ],
+          "lower_28px_bbox": [
+            27,
+            100,
+            66,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "same_lower_rgba_fraction_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            10,
+            21,
+            77,
+            119
+          ],
+          "lower_28px_bbox": [
+            27,
+            100,
+            66,
+            119
+          ],
+          "lower_mask_iou_vs_phase0": 0.909375,
+          "same_lower_rgba_fraction_vs_phase0": 0.8612351190476191
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            10,
+            21,
+            77,
+            119
+          ],
+          "lower_28px_bbox": [
+            27,
+            100,
+            66,
+            119
+          ],
+          "lower_mask_iou_vs_phase0": 0.9213836477987422,
+          "same_lower_rgba_fraction_vs_phase0": 0.8608630952380952
+        }
+      ],
+      "front_right": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            6,
+            21,
+            75,
+            120
+          ],
+          "lower_28px_bbox": [
+            6,
+            100,
+            70,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "same_lower_rgba_fraction_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            6,
+            21,
+            76,
+            119
+          ],
+          "lower_28px_bbox": [
+            6,
+            100,
+            70,
+            119
+          ],
+          "lower_mask_iou_vs_phase0": 0.889168765743073,
+          "same_lower_rgba_fraction_vs_phase0": 0.8251488095238095
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            6,
+            21,
+            76,
+            119
+          ],
+          "lower_28px_bbox": [
+            6,
+            100,
+            70,
+            119
+          ],
+          "lower_mask_iou_vs_phase0": 0.9242424242424242,
+          "same_lower_rgba_fraction_vs_phase0": 0.8273809523809523
+        }
+      ],
+      "back_left": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            22,
+            23,
+            90,
+            120
+          ],
+          "lower_28px_bbox": [
+            28,
+            100,
+            90,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "same_lower_rgba_fraction_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            22,
+            24,
+            90,
+            119
+          ],
+          "lower_28px_bbox": [
+            28,
+            100,
+            89,
+            119
+          ],
+          "lower_mask_iou_vs_phase0": 0.8800904977375565,
+          "same_lower_rgba_fraction_vs_phase0": 0.8184523809523809
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            22,
+            24,
+            90,
+            120
+          ],
+          "lower_28px_bbox": [
+            28,
+            100,
+            89,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9606481481481481,
+          "same_lower_rgba_fraction_vs_phase0": 0.8191964285714286
+        }
+      ],
+      "back_right": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            27,
+            22,
+            88,
+            120
+          ],
+          "lower_28px_bbox": [
+            32,
+            100,
+            88,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "same_lower_rgba_fraction_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            27,
+            23,
+            88,
+            120
+          ],
+          "lower_28px_bbox": [
+            32,
+            100,
+            88,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9357142857142857,
+          "same_lower_rgba_fraction_vs_phase0": 0.8218005952380952
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            27,
+            23,
+            88,
+            120
+          ],
+          "lower_28px_bbox": [
+            32,
+            100,
+            88,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9519230769230769,
+          "same_lower_rgba_fraction_vs_phase0": 0.8203125
+        }
+      ]
+    }
+  },
+  "acceptance": "Still requires real-time in-engine visual review. Chest/shoulder/scarf phases drawn; no whole-body procedural warp. Generated lower-body texture/one-pixel baseline drift retained honestly. No existing asset overwritten.",
+  "license": "Original host-generated project asset; no third-party pack or new license acceptance asserted."
+}
