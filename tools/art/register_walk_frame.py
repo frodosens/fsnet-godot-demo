@@ -2,7 +2,8 @@
 """Technical square-reference registration only. Requires Pillow and numpy.
 No bounding-box fitting, limb editing, warping, or bottom alignment.
 """
-import argparse, hashlib, json
+import argparse, hashlib, io, json, os
+from contextlib import ExitStack
 from pathlib import Path
 from PIL import Image
 import numpy as np
@@ -26,9 +27,9 @@ pixels = np.array(im)
 pixels[pixels[:, :, 3] < a.alpha_floor, 3] = 0
 im = Image.fromarray(pixels).resize((128, 128), Image.Resampling.NEAREST)
 im = im.crop((16, 0, 112, 128))
-a.output.parent.mkdir(parents=True, exist_ok=True)
-with a.output.open("xb") as output:
-    im.save(output, format="PNG")
+encoded = io.BytesIO()
+im.save(encoded, format="PNG")
+png_bytes = encoded.getvalue()
 alpha = np.array(im)[:, :, 3]
 last = {}
 for threshold in (1, 8, 128, 240, 255):
@@ -36,13 +37,34 @@ for threshold in (1, 8, 128, 240, 255):
     last[str(threshold)] = int(ys.max()) if len(ys) else None
 receipt = {
     'source_sha256': hashlib.sha256(a.source.read_bytes()).hexdigest(),
-    'output_sha256': hashlib.sha256(a.output.read_bytes()).hexdigest(),
+    'output_sha256': hashlib.sha256(png_bytes).hexdigest(),
     'source_size': original_size, 'output_size': im.size,
     'alpha_floor': a.alpha_floor, 'resize': 'uniform full square to128, nearest',
     'crop': [16, 0, 112, 128], 'root': [48, 120],
     'bbox_exclusive_end': im.getbbox(), 'last_occupied_y_by_alpha': last,
     'art_review': 'pending', 'runtime_clipping': 'pending',
 }
-with a.output.with_suffix('.registration.json').open('x') as output:
-    output.write(json.dumps(receipt, indent=2)+'\n')
+receipt_bytes = (json.dumps(receipt, indent=2)+'\n').encode('utf-8')
+a.output.parent.mkdir(parents=True, exist_ok=True)
+created = []
+try:
+    with ExitStack() as stack:
+        # Reserve both names exclusively before writing either payload.
+        outputs = []
+        for path in (a.output, a.output.with_suffix('.registration.json')):
+            output = stack.enter_context(path.open('xb'))
+            identity = os.fstat(output.fileno())
+            created.append((path, identity.st_dev, identity.st_ino))
+            outputs.append(output)
+        for output, payload in zip(outputs, (png_bytes, receipt_bytes)):
+            output.write(payload)
+except BaseException:
+    # Only remove files created by this invocation, never a competing replacement.
+    for path, device, inode in reversed(created):
+        try:
+            current = path.lstat()
+            if (current.st_dev, current.st_ino) == (device, inode):path.unlink()
+        except FileNotFoundError:
+            pass
+    raise
 print(json.dumps(receipt, indent=2))
