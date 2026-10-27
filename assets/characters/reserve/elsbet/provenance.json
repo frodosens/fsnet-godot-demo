@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "character_id": "elsbet",
+  "generation": "Original project character art generated with built-in imagegen using project-owned portrait and sprite references.",
+  "license": "Distributed under the repository LICENSE; no third-party asset pack or reference-game character design copied.",
+  "source_reference_commit": "425e3b8848436ae603ea6f0d70bdcd28d5531885",
+  "package_base_commit": "796e4c84daba4f0e1941f04541379e68ef51f54a",
+  "processing": "Technical nearest-neighbor normalization, per-frame placement, and low-alpha<=8 cleanup where recorded. No cancelled map-composite frame included.",
+  "identity_prompt_summary": "Adult58 woman, grey hair and oatmeal kerchief, plum-brown coat, olive medical bag, plain wooden staff; grounded modest outfit.",
+  "map_prompt_summary": "Four diagonal orthographic map neutral views, same identity and gear, planted feet, transparent background, no walking, no VFX.",
+  "battle_prompt_summary": "Right-facing side-view neutral, subtle independently generated inhale, anticipation, contact, and hurt poses. Three unique attack poses; reused anticipation recovery.",
+  "quality_notes": [
+    "Staff length approximately70-80px across accepted battle poses versus neutral~74px; candidate, not final runtime polish."
+  ],
+  "accepted_source_hashes": {
+    "hurt-source.png": "d9ac4fe7cf2582188d74fdc977d6b019b5464869e068635563cfb23218c01c74",
+    "hurt-00-candidate.png": "83588a77ff0950c74a84a874b86bfb99a8e84ad79fbd6c7b5f6ae890bb673dba",
+    "idle-01-candidate.png": "2ba2a52551014b9eb0c76cd43614a9c8388998fdfd49d0070ef5ef1068b86484",
+    "anticipation-corrected-source.png": "4673d8df5766936846a3296e51c18b06cfd1ed51e7229e519627df3ac78acf95",
+    "idle-00-candidate.png": "88abb9c3c34c5750a84fe6fdabd0110ef925814773eca314dddc03fca3eaf04b",
+    "idle-breath-source.png": "a3c94253582c9a08efb923650b36af1c3db007edf38c0907e447ccd9fe6adb6c",
+    "contact-corrected-source.png": "38059d8d7f6fe36030fa1a4d0c6a80942cfb9625f9e6a265c575719d4af3d4cb",
+    "attack-01-corrected-candidate.png": "0bfad6943bb5646a4310e0fb4084a10481a834296a52a6cc585ebe534692743d",
+    "attack-02-candidate.png": "f4febef1ca54862e58db70aa2d349f28b0b6feca82ead5741ba5fa8b5250b12e"
+  },
+  "runtime_png_hashes": {
+    "portrait.png": "ba7777c4d72acb71a71571919c70bff7f898fe27361b669434cbaf9aecc92b27",
+    "map/front_left.png": "31cf0222b8b411a851f7449bbf0c7ee0f6e8141bf4ad7a8245719e719900469e",
+    "map/front_right.png": "7dcc01d1666f4389999c65391563c2a9ca8f5fa31ab3c6fdbe2b6b4c4d2f8b65",
+    "map/back_left.png": "9bbb81e93d2499663730299b85a77a19a37526dabaaa67aede097f8e68f3513f",
+    "map/back_right.png": "7f41c6c17fc983b97f4c10f3fd7b0a3a4712c55bd6eaeee1c777b61218df2e85",
+    "battle/idle_00.png": "88abb9c3c34c5750a84fe6fdabd0110ef925814773eca314dddc03fca3eaf04b",
+    "battle/idle_01.png": "2ba2a52551014b9eb0c76cd43614a9c8388998fdfd49d0070ef5ef1068b86484",
+    "battle/anticipation.png": "0bfad6943bb5646a4310e0fb4084a10481a834296a52a6cc585ebe534692743d",
+    "battle/contact.png": "f4febef1ca54862e58db70aa2d349f28b0b6feca82ead5741ba5fa8b5250b12e",
+    "battle/hurt.png": "83588a77ff0950c74a84a874b86bfb99a8e84ad79fbd6c7b5f6ae890bb673dba"
+  }
+}

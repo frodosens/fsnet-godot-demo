@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "character_id": "adela",
+  "status": "reserve art candidate; not assigned to gameplay or story",
+  "portrait": {
+    "file": "portrait.png",
+    "canvas": [
+      512,
+      512
+    ],
+    "sha256": "e525fe5d31cb3760107024f79541c08989271af93547596fc1fb2ea5ca75c784"
+  },
+  "map": {
+    "canvas": [
+      96,
+      128
+    ],
+    "foot_anchor": [
+      48,
+      120
+    ],
+    "directions": {
+      "front_left": {
+        "file": "map/front_left.png",
+        "sha256": "ed877c5e494e07798e9e3cd34c4d653e41f48776aaee8fe5e69146b4e63e26bd"
+      },
+      "front_right": {
+        "file": "map/front_right.png",
+        "sha256": "d9a9d263084a11c1489015fa481d4a0b6b5eebf8372223f120753e77675daca0"
+      },
+      "back_left": {
+        "file": "map/back_left.png",
+        "sha256": "914b29e329293a277006dab10994e6ecf447fc24eebb2e4db84bc926e296f397"
+      },
+      "back_right": {
+        "file": "map/back_right.png",
+        "sha256": "db74fae98caad9cac919e219ce225c0c47ac4f93edcefe7503ec9062fe0648cf"
+      }
+    },
+    "idle_mode": "static",
+    "movement_mode": "same-facing static neutral",
+    "walk_animation": false
+  },
+  "battle": {
+    "canvas": [
+      192,
+      160
+    ],
+    "foot_anchor": [
+      96,
+      144
+    ],
+    "facing": "right",
+    "neutral": "battle/idle_00.png",
+    "static_neutral_deduplicated_by_exact_bytes": true,
+    "frames": {
+      "idle_00.png": {
+        "file": "battle/idle_00.png",
+        "sha256": "8be074db27df476f78ae405791736f1f832b4b9f288fc2aba82785d1c62f3b46"
+      },
+      "idle_01.png": {
+        "file": "battle/idle_01.png",
+        "sha256": "49b2d95ff4fc802d6ca50fc5b64b46036f84830c1befe8f5a194d2777981687a"
+      },
+      "anticipation.png": {
+        "file": "battle/anticipation.png",
+        "sha256": "a5e5c81bab22b0985560346a5d0be686d903fcf7a7d6c847f00069b0871c0ffa"
+      },
+      "contact.png": {
+        "file": "battle/contact.png",
+        "sha256": "9ec9f7d551e5168cbdf95ac2fcfce99ae3bf9458b7e802d3cf2b738c54d2e2dc"
+      },
+      "hurt.png": {
+        "file": "battle/hurt.png",
+        "sha256": "5fd85cc2ac2cb06a903dffe8c42842318a0e068d2dbd57d3d345dcae2cf270ff"
+      }
+    },
+    "sequences": {
+      "idle": {
+        "frames": [
+          "battle/idle_00.png",
+          "battle/idle_01.png"
+        ],
+        "frame_ms": [
+          450,
+          450
+        ],
+        "duration_ms": 900,
+        "loop": true,
+        "unique_frames": 2
+      },
+      "attack": {
+        "frames": [
+          "battle/idle_00.png",
+          "battle/anticipation.png",
+          "battle/contact.png",
+          "battle/anticipation.png",
+          "battle/idle_00.png"
+        ],
+        "frame_ms": [
+          350,
+          180,
+          120,
+          180,
+          350
+        ],
+        "duration_ms": 1180,
+        "loop": false,
+        "unique_frames": 3
+      },
+      "hurt": {
+        "frames": [
+          "battle/idle_00.png",
+          "battle/hurt.png",
+          "battle/idle_00.png"
+        ],
+        "frame_ms": [
+          400,
+          180,
+          400
+        ],
+        "duration_ms": 980,
+        "loop": false,
+        "unique_frames": 2
+      }
+    },
+    "attack_recovery": "Reuses anticipation; three unique attack poses including neutral, not a new recovery drawing.",
+    "hurt_new_frames": 1,
+    "left_facing_supplied": false,
+    "runtime_verified": false,
+    "geometry": {
+      "attack_contact_frame_index": 2,
+      "attack_contact_tip_xy": [
+        186,
+        80
+      ],
+      "tip_measurement": "visually identified weapon endpoint, sampled actual PNG RGBA alpha>128; Adela rightmost robust spearpoint pixel; Elsbet forward blunt knob edge midpoint",
+      "tip_uncertainty_px": 1,
+      "neutral_body_anchor_xy": [
+        94,
+        84
+      ],
+      "hurt_body_anchor_xy": [
+        88,
+        84
+      ],
+      "hurt_head_anchor_xy": [
+        88,
+        64
+      ],
+      "hurt_front_surface_anchor_xy": [
+        114,
+        82
+      ],
+      "body_anchor_method": "visually selected opaque torso/face pixels, not an automatic centroid; anatomy/impact preference has +/-3px uncertainty",
+      "body_anchor_uncertainty_px": 3,
+      "alignment_notes": "Spear tip y80 is torso-height, hurt torso/body or shield front surface can be targets; shield-front is not torso center.",
+      "mirroring": "For horizontal bitmap flip x becomes191-x; for continuous geometric transforms use the actual engine pivot/flip transform rather than mixing191/192 conventions. Transform tip and defender anchor consistently.",
+      "coordinate_system": "Native192x160 integer pixel centers, origin top-left, x right/y down; anchor positions measured from accepted images."
+    },
+    "sequences_timing_status": "Authored preview timing with ready/settle presentation holds, not verified combat latency.",
+    "engineering_timing_suggestion": {
+      "status": "Unverified starting point; engineering must calibrate",
+      "idle_frame_ms": [
+        450,
+        450
+      ],
+      "attack_frame_ms": [
+        80,
+        180,
+        120,
+        180,
+        120
+      ],
+      "attack_contact_event_ms": 260,
+      "attack_total_ms": 680,
+      "hurt_frames": [
+        "battle/hurt.png",
+        "battle/idle_00.png"
+      ],
+      "hurt_frame_ms": [
+        180,
+        180
+      ]
+    }
+  },
+  "constraints": [
+    "No new gameplay class, ability, faction or default-lineup assignment.",
+    "No map breathing frames or local-composite trial included.",
+    "Keep existing six characters unchanged.",
+    "Review left-facing handedness before any mirroring."
+  ]
+}
