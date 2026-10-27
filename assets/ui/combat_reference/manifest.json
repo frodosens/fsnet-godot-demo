@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "status": "approved asset set; engine integration and runtime QA pending",
+  "reference_canvas": [
+    1586,
+    992
+  ],
+  "provenance": {
+    "generator": "OpenAI built-in imagegen",
+    "approved_date": "2026-10-27",
+    "ui_direction": "same-style derivative of approved combat concept and tactical-map UI; no redesign",
+    "background_direction": "independent map-derived side-on battle plate: one inn, one small stone bridge, woodland and stream",
+    "normalization": "UI generated as independent blank transparent components, cropped/alpha-cleaned and three-slice normalized; background preserved at native resolution",
+    "excluded": "concepts, preview composites, screenshots, videos, source sheets, private Library URLs"
+  },
+  "background": {
+    "resource": "res://assets/backgrounds/amber_bridge_battle/background.png",
+    "dimensions": [
+      1586,
+      992
+    ],
+    "mode": "RGB",
+    "sha256": "495a970bf02a65e786b143186de6cb8118c084583db8e5a3de55d2db6cad0474",
+    "foot_y_range": [
+      635,
+      650
+    ],
+    "clear_floor_rect_xyxy": [
+      120,
+      555,
+      1470,
+      655
+    ],
+    "left_foot_x_range": [
+      350,
+      580
+    ],
+    "right_foot_x_range": [
+      1020,
+      1260
+    ],
+    "hud_safe_rect_xyxy": [
+      0,
+      756,
+      1586,
+      992
+    ]
+  },
+  "layout_rects_xywh": {
+    "status_left": [
+      18,
+      756,
+      622,
+      156
+    ],
+    "status_right": [
+      944,
+      756,
+      622,
+      156
+    ],
+    "move_title": [
+      540,
+      58,
+      506,
+      80
+    ],
+    "hp_left": [
+      265,
+      830,
+      274,
+      28
+    ],
+    "hp_right": [
+      1033,
+      830,
+      274,
+      28
+    ],
+    "hp_fill_left": [
+      273,
+      836,
+      258,
+      16
+    ],
+    "hp_fill_right": [
+      1041,
+      836,
+      258,
+      16
+    ],
+    "speed": [
+      656,
+      839,
+      100,
+      56
+    ],
+    "skip": [
+      767,
+      839,
+      164,
+      56
+    ]
+  },
+  "portrait_reserved_rects_xyxy": {
+    "left": [
+      24,
+      744,
+      205,
+      902
+    ],
+    "right": [
+      1383,
+      744,
+      1558,
+      902
+    ]
+  },
+  "ninepatch_margins_ltrb": {
+    "status_left.png": [
+      39,
+      32,
+      39,
+      32
+    ],
+    "status_right.png": [
+      39,
+      32,
+      39,
+      32
+    ],
+    "move_title.png": [
+      40,
+      28,
+      40,
+      28
+    ],
+    "hp_track.png": [
+      17,
+      10,
+      17,
+      10
+    ],
+    "speed-normal.png": [
+      16,
+      14,
+      16,
+      14
+    ],
+    "skip-normal.png": [
+      16,
+      14,
+      16,
+      14
+    ],
+    "speed-focused.png": [
+      16,
+      14,
+      16,
+      14
+    ],
+    "skip-focused.png": [
+      16,
+      14,
+      16,
+      14
+    ],
+    "speed-pressed.png": [
+      16,
+      14,
+      16,
+      14
+    ],
+    "skip-pressed.png": [
+      16,
+      14,
+      16,
+      14
+    ]
+  },
+  "runtime_rules": [
+    "Keep text, numeric HP, portraits, actors and hit effects separate from PNG assets.",
+    "Do not add skill selection to the automatic cut-in.",
+    "HP fills are full width: clip horizontally by live HP fraction rather than squashing the complete image.",
+    "Recent-loss fill recommended opacity 0.35; actual animation follows settings.",
+    "Audio and accessibility controls remain in settings, not the main combat overlay.",
+    "Scale the 1586x992 design canvas uniformly; do not non-uniformly stretch the background.",
+    "Keep actor feet near y=635..650 and combat effects above the HUD at y=756."
+  ],
+  "assets": [
+    {
+      "file": "action-sword.png",
+      "dimensions": [
+        48,
+        48
+      ],
+      "mode": "RGBA",
+      "sha256": "82f31ef10b54908b33fdc5363369331608d029028a85003d8077a13926116977"
+    },
+    {
+      "file": "skip-focused.png",
+      "dimensions": [
+        164,
+        56
+      ],
+      "mode": "RGBA",
+      "sha256": "26892f695d0ed668532d466c6aed11fc4a993024b91e91664a8a9b0319536d58"
+    },
+    {
+      "file": "skip-next.png",
+      "dimensions": [
+        32,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "8427d71cd791ab8df263dbc78f2b10f648e68127e66ff7f0293f2ee122d9a2fa"
+    },
+    {
+      "file": "skip-normal.png",
+      "dimensions": [
+        164,
+        56
+      ],
+      "mode": "RGBA",
+      "sha256": "d80d05f588fa5cb5bc345b4c89ab9d1ebec014103cfef12f6e519f36fa4c996d"
+    },
+    {
+      "file": "skip-pressed.png",
+      "dimensions": [
+        164,
+        56
+      ],
+      "mode": "RGBA",
+      "sha256": "cd80d7d9615715347b113c991bba7d86f2f80eeff0aeefbd6ef231fe9fcb03a4"
+    },
+    {
+      "file": "speed-fastforward.png",
+      "dimensions": [
+        40,
+        32
+      ],
+      "mode": "RGBA",
+      "sha256": "fb2a0fb23345d413bde9be790e6113e758809ee134396b7e9f1f0bdfe67895ba"
+    },
+    {
+      "file": "speed-focused.png",
+      "dimensions": [
+        100,
+        56
+      ],
+      "mode": "RGBA",
+      "sha256": "ff90289d5a5961ba8890f346e2dd776b01197096abfa6d799029d6052abc2aaf"
+    },
+    {
+      "file": "speed-normal.png",
+      "dimensions": [
+        100,
+        56
+      ],
+      "mode": "RGBA",
+      "sha256": "6b41fda9ab2154d15a1acfe0f871ca07621d039fc8977e78efa4ba65017569b7"
+    },
+    {
+      "file": "speed-pressed.png",
+      "dimensions": [
+        100,
+        56
+      ],
+      "mode": "RGBA",
+      "sha256": "ed5ca6f340fda7a0139a29b39aaee7b59267e83811d727d12b6ef46312a67cef"
+    },
+    {
+      "file": "hp_fill_ally.png",
+      "dimensions": [
+        258,
+        16
+      ],
+      "mode": "RGBA",
+      "sha256": "a5f02770c3eacb35fba8ab1824926671a29291716d83540e62e8f4d41a7e688d"
+    },
+    {
+      "file": "hp_fill_enemy.png",
+      "dimensions": [
+        258,
+        16
+      ],
+      "mode": "RGBA",
+      "sha256": "f00a47e5f56af17e998f25fe5c9b233fa368ab471bf74722daca6464c86eba7c"
+    },
+    {
+      "file": "hp_fill_recent_loss.png",
+      "dimensions": [
+        258,
+        16
+      ],
+      "mode": "RGBA",
+      "sha256": "90603904de34da7235334624ef3534a4b1bb31732ad20eb46207b5a4d2040c2b"
+    },
+    {
+      "file": "hp_track.png",
+      "dimensions": [
+        274,
+        28
+      ],
+      "mode": "RGBA",
+      "sha256": "1dc0dd1a06d86cc2f5a72c93e9d73358c5864b656929e701ea7fab2210bd0c1b"
+    },
+    {
+      "file": "move_title.png",
+      "dimensions": [
+        506,
+        80
+      ],
+      "mode": "RGBA",
+      "sha256": "204ee2fda52cc2888c2197d9d05abbdc667668f7062fadd8a3091a5609b5f0fa"
+    },
+    {
+      "file": "status_left.png",
+      "dimensions": [
+        622,
+        156
+      ],
+      "mode": "RGBA",
+      "sha256": "01671b03e5dae91c1d7cbf8cd5160524cb90ae077ed2ecca67e02d27dfe924bf"
+    },
+    {
+      "file": "status_right.png",
+      "dimensions": [
+        622,
+        156
+      ],
+      "mode": "RGBA",
+      "sha256": "03da77148bb9708438287b200a8c60a93bb84c38f47e92a9a289067f09e82419"
+    }
+  ],
+  "validation": {
+    "png_dimensions": "passed",
+    "ui_alpha": "RGBA with all four corners alpha=0",
+    "source_sha256_match": "passed",
+    "engine_import": "not performed in this asset-only branch",
+    "runtime_tests": "not performed in this asset-only branch"
+  }
+}
