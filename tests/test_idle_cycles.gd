@@ -5,7 +5,7 @@ func check(value):
     assert(value)
 func _initialize():call_deferred("run")
 func run():
-    var lib=preload("res://view/idle_library.gd").new()
+    var lib=preload("res://view/idle_library.gd").new("res://assets/animations/absent_test_manifest.json")
     var fallback=load("res://assets/sprites/iso4/knight_back_right_idle.png")
     check(lib.sample("map","knight:back_right",99,fallback)==fallback)
     # Distinct existing poses are test sentinels, NOT accepted idle animation art.

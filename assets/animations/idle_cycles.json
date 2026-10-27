@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "map": {
+    "knight:front_left": {
+      "frames": [
+        "assets/sprites/iso4/idle_candidate/mara/front_left_idle_00.png",
+        "assets/sprites/iso4/idle_candidate/mara/front_left_idle_01.png",
+        "assets/sprites/iso4/idle_candidate/mara/front_left_idle_02.png",
+        "assets/sprites/iso4/idle_candidate/mara/front_left_idle_01.png"
+      ],
+      "frame_ms": [
+        400,
+        400,
+        400,
+        400
+      ]
+    },
+    "knight:front_right": {
+      "frames": [
+        "assets/sprites/iso4/idle_candidate/mara/front_right_idle_00.png",
+        "assets/sprites/iso4/idle_candidate/mara/front_right_idle_01.png",
+        "assets/sprites/iso4/idle_candidate/mara/front_right_idle_02.png",
+        "assets/sprites/iso4/idle_candidate/mara/front_right_idle_01.png"
+      ],
+      "frame_ms": [
+        400,
+        400,
+        400,
+        400
+      ]
+    },
+    "knight:back_left": {
+      "frames": [
+        "assets/sprites/iso4/idle_candidate/mara/back_left_idle_00.png",
+        "assets/sprites/iso4/idle_candidate/mara/back_left_idle_01.png",
+        "assets/sprites/iso4/idle_candidate/mara/back_left_idle_02.png",
+        "assets/sprites/iso4/idle_candidate/mara/back_left_idle_01.png"
+      ],
+      "frame_ms": [
+        400,
+        400,
+        400,
+        400
+      ]
+    },
+    "knight:back_right": {
+      "frames": [
+        "assets/sprites/iso4/idle_candidate/mara/back_right_idle_00.png",
+        "assets/sprites/iso4/idle_candidate/mara/back_right_idle_01.png",
+        "assets/sprites/iso4/idle_candidate/mara/back_right_idle_02.png",
+        "assets/sprites/iso4/idle_candidate/mara/back_right_idle_01.png"
+      ],
+      "frame_ms": [
+        400,
+        400,
+        400,
+        400
+      ]
+    }
+  },
+  "battle": {}
+}

@@ -1,8 +1,9 @@
 # Four-direction map and side-view battle idle: candidate interface
 
-Status: **interface candidate only**. No accepted new idle artwork is supplied and no
-multi-frame idle is enabled by default. Existing single-frame and attack/hit assets
-remain unchanged. No eight-direction battle requirement. This branch is not main.
+Status: **isolated Mara map-art review candidate**, not accepted for main. The optional
+manifest now enables knight four-diagonal idle from art commit b72e5a5 (three source
+frames in 0,1,2,1 order, 400 ms each). Other current characters and all battle idle
+remain single-frame. Original files and attack/hit assets are unchanged.
 
 Optional local runtime manifest: `assets/animations/idle_cycles.json`:
 
@@ -43,3 +44,24 @@ foot-position invariance, cut-in hit preservation, skip and scene destruction.
 These test sentinels are **not proposed idle artwork**. Actual loop quality, foot
 registration, light consistency and all six roles require the upcoming artwork and
 real rendered acceptance before integration into main.
+
+## Candidate integration check (2026-10-27)
+
+Godot 4.6.3 Linux llvmpipe: four actual map-facing cycles, one real Lua movement
+command followed by idle, pause/frozen clock and resume were recorded at normal
+30 fps simulation. 1280x800 and 960x600 captures produced locally; no review media
+is committed. Facing changes in the clip are presentation fixtures, not player
+commands. A marked nearest-neighbor 3x inset in the delivery video exposes small
+pose changes without changing game pixels. Native recording rendered slower than
+real time; it is not a game performance benchmark.
+
+Source alpha>=128 sole maximum y: front_left/front_right 119,118,118; back_left
+119,118,119; back_right 119,119,119. This is approximately one source-pixel foot
+variation, not a perfectly planted loop. Fixed-Y baseline at 1280 projects one
+vertical source pixel to about 0.67 screen pixels. No compensating root motion or
+image warp was added. Head/scarf changes are modest; static movement uses the old
+idle image and returning to the new pose can still pop slightly. Art acceptance is
+pending; no claim that the loop is final or that battle idle is complete.
+
+Tests: 68 candidate-specific checks; complete suite 4337 checks and five real
+three-process network/reconnect cases. Windows visual acceptance remains untested.
