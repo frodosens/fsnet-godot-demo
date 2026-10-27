@@ -105,6 +105,7 @@ func refresh_dock():
     confirm.disabled=(game.pending_move.is_empty() and game.pending_target.is_empty()) or game.targeting_locked()
     cost.text="请选择落点" if game.preview_path.is_empty() else "%d 格 · 移动 1 次"%[game.preview_path.size()-1]
     if game.mode!="move":cost.text="再点目标确认" if not game.pending_target.is_empty() else "请选择目标"
+    if not game.queued_confirmation.is_empty():cost.text="等待同步确认"
     for kind in action_nodes:
         var b=action_nodes[kind];b.text="";b.add_theme_stylebox_override("normal",skin("buttons/"+("selected" if selected==kind and not b.disabled else "normal")+".png"))
         b.get_meta("caption").modulate=Color("a4aaa4") if b.disabled else Color("eee2c6")

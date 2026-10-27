@@ -30,6 +30,7 @@ var preview_reason=""
 var preview_reachable={}
 var pending_move={}
 var pending_target={}
+var queued_confirmation={}
 var preview_path=[]
 var preview_cell=Vector2i(-1,-1)
 var route_mesh
@@ -343,7 +344,7 @@ func stage_move(cell):
     if targeting_locked() or selected<0:return false
     pending_move={};update_move_preview(cell)
     if preview_path.is_empty():return false
-    pending_move={"unit":selected,"actor_id":battle.units[selected].id,"step":battle.step,"cell":cell,"path":preview_path.duplicate(true),"state":proposal_state(),"logic_id":battle.get_instance_id(),"mode":mode}
+    pending_move={"unit":selected,"actor_id":battle.units[selected].id,"step":battle.step,"cell":cell,"path":preview_path.duplicate(true),"state":proposal_state(),"checked_runtime":battle.get_instance_id(),"session_id":session.get_instance_id(),"connection":session.connection_generation,"mode":mode}
     hud.refresh();return true
 
 func confirm_move():
@@ -351,16 +352,34 @@ func confirm_move():
     if pending_move.is_empty():return false
     if targeting_locked():clear_move_preview();return false
     var proposal=pending_move.duplicate(true)
-    var valid=mode==proposal.mode and mode=="move" and proposal_state()==proposal.state and battle.get_instance_id()==proposal.logic_id and selected==proposal.unit and battle.step==proposal.step and battle.units[selected].id==proposal.actor_id and battle.path_to(selected,proposal.cell)==proposal.path
+    var valid=mode==proposal.mode and mode=="move" and proposal_state()==proposal.state and proposal_context_matches(proposal) and selected==proposal.unit and battle.step==proposal.step and battle.units[selected].id==proposal.actor_id and battle.path_to(selected,proposal.cell)==proposal.path
     clear_move_preview()
     if not valid:hud.refresh();return false
-    var accepted=session.submit({"kind":"move","unit":selected,"actor_id":proposal.actor_id,"x":proposal.cell.x,"y":proposal.cell.y})
-    battle=session.logic;refresh();return accepted
+    return dispatch_confirmation(proposal,{"kind":"move","unit":selected,"actor_id":proposal.actor_id,"x":proposal.cell.x,"y":proposal.cell.y})
 
 func proposal_state():return battle.content_hash+":"+battle.rules_hash+":"+battle.state_hash()
 
-func targeting_locked():
-    return session.pending or session.failed or presentation_active() or hud.blocks_input()
+func proposal_blocked():
+    return session.command_pending or session.failed or (session.online and not session.ready) or presentation_active() or hud.blocks_input()
+func targeting_locked():return proposal_blocked() or not queued_confirmation.is_empty()
+func proposal_context_matches(proposal):
+    return selected==proposal.unit and mode==proposal.mode and battle.step==proposal.step and session.get_instance_id()==proposal.session_id and session.connection_generation==proposal.connection
+func dispatch_confirmation(proposal,command):
+    # Poll and command share one transport slot. Never overlap sends or blindly retry.
+    if session.pending:
+        queued_confirmation={"proposal":proposal,"command":command};session.defer_poll=true;hud.refresh();return true
+    var accepted=session.submit(command)
+    battle=session.logic;hud.action_menu_open=true;refresh();return accepted
+func flush_confirmation():
+    if queued_confirmation.is_empty():return
+    var proposal=queued_confirmation.proposal
+    if proposal_blocked() or not proposal_context_matches(proposal) or proposal_state()!=proposal.state:
+        clear_move_preview();return
+    if session.pending:return
+    var command=queued_confirmation.command
+    queued_confirmation={};session.defer_poll=false # Consume once, even when submission is rejected.
+    session.submit(command)
+    battle=session.logic;hud.action_menu_open=true;refresh()
 
 func target_command(target):
     var command={"unit":selected,"target":target,"kind":mode}
@@ -373,7 +392,7 @@ func stage_target(cell):
     update_target_preview(cell)
     if targeting_locked() or target_preview.is_empty() or selected<0:return false
     var target=target_preview_index
-    pending_target={"unit":selected,"actor_id":battle.units[selected].id,"mode":mode,"step":battle.step,"state":proposal_state(),"logic_id":battle.get_instance_id(),"target":target,"target_id":battle.units[target].id,"cell":cell,"command":target_command(target)}
+    pending_target={"unit":selected,"actor_id":battle.units[selected].id,"mode":mode,"step":battle.step,"state":proposal_state(),"checked_runtime":battle.get_instance_id(),"session_id":session.get_instance_id(),"connection":session.connection_generation,"target":target,"target_id":battle.units[target].id,"cell":cell,"command":target_command(target)}
     hud.refresh();return true
 
 func confirm_proposal():
@@ -381,13 +400,12 @@ func confirm_proposal():
     if not pending_move.is_empty():return confirm_move()
     if pending_target.is_empty():return false
     var proposal=pending_target.duplicate(true)
-    var valid=not targeting_locked() and selected==proposal.unit and mode==proposal.mode and battle.step==proposal.step and proposal_state()==proposal.state and battle.get_instance_id()==proposal.logic_id
+    var valid=not targeting_locked() and selected==proposal.unit and mode==proposal.mode and battle.step==proposal.step and proposal_state()==proposal.state and proposal_context_matches(proposal)
     if valid:
         valid=battle.units[selected].id==proposal.actor_id and battle.at(proposal.cell)==proposal.target and battle.units[proposal.target].id==proposal.target_id and battle.preview_action(proposal.command).get("legal",false)
     clear_move_preview() # Consume before submit, including rejected/pending commands.
     if not valid:hud.refresh();return false
-    var accepted=session.submit(proposal.command)
-    battle=session.logic;hud.action_menu_open=true;refresh();return accepted
+    return dispatch_confirmation(proposal,proposal.command)
 
 func wait_selected():
     if selected<0 or presentation_active() or hud.blocks_input():return false
@@ -457,8 +475,11 @@ func _unhandled_input(event):
             else:hud.toggle_pause()
             return
         if hud.story_panel.visible and event.physical_keycode in [KEY_SPACE,KEY_ENTER]:hud.advance(false);return
+    if not queued_confirmation.is_empty() and event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_RIGHT:
+        hud.cancel_targeting();return
     if targeting_locked():
-        clear_move_preview();return
+        if queued_confirmation.is_empty():clear_move_preview()
+        return
     if event is InputEventJoypadButton and event.pressed and event.button_index==JOY_BUTTON_A:
         if hud.activate_focused_action():get_viewport().set_input_as_handled()
         return
@@ -508,8 +529,14 @@ func _unhandled_input(event):
 
 func _process(delta):
     battle=session.logic
+    flush_confirmation()
     var proposal=pending_move if not pending_move.is_empty() else pending_target
-    if not proposal.is_empty() and (targeting_locked() or selected!=proposal.unit or mode!=proposal.mode or battle.step!=proposal.step or battle.get_instance_id()!=proposal.logic_id):clear_move_preview()
+    if not proposal.is_empty():
+        if proposal_blocked() or not proposal_context_matches(proposal):clear_move_preview()
+        elif battle.get_instance_id()!=proposal.checked_runtime:
+            # Ordinary poll replies replace the VM even when the state is identical.
+            if proposal_state()!=proposal.state:clear_move_preview()
+            else:proposal.checked_runtime=battle.get_instance_id()
     if battle.step!=last_step:
         if hud:hud.action_menu_open=true
         last_step=battle.step
@@ -517,7 +544,7 @@ func _process(delta):
     if hud:hud.refresh_story();hud.refresh()
 
 func _exit_tree():
-    pass # App owns session across menus; explicit leave closes transport.
+    if session:session.defer_poll=false # App owns the session across scenes.
 
 func request_exit():hud.confirm_leave(true)
 
@@ -545,7 +572,8 @@ func mouse_cell(screen):
     var hit=origin+direction*(-origin.y/direction.y)
     return Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
 func clear_move_preview():
-    pending_move={};pending_target={};target_preview={};target_preview_index=-1
+    if not queued_confirmation.is_empty():session.defer_poll=false
+    pending_move={};pending_target={};queued_confirmation={};target_preview={};target_preview_index=-1
     preview_path=[];preview_reason="";preview_cell=Vector2i(-1,-1)
     if preview_ghost:preview_ghost.hide()
     route_mesh.mesh.clear_surfaces();route_arrows.mesh.clear_surfaces()

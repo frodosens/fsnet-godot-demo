@@ -20,3 +20,5 @@ python3 "$root/tests/run_network.py" --extended --mod-fixture
 AMBER_MOD="$root/content/reference_bridge.json" python3 "$root/tests/run_network.py"
 
 AMBER_TEST_WAIT=1 python3 "$root/tests/run_network.py"
+
+python3 "$root/tests/run_target_network.py"

@@ -7,7 +7,11 @@ var transport
 var online = false
 var client_id = Crypto.new().generate_random_bytes(16).hex_encode()
 var request_id = 0
-var pending = false
+var pending = false # Any outstanding transport request, including ordinary polls.
+var defer_poll = false # A confirmed UI action reserves the next free transport slot.
+var command_pending = false
+var ready = false
+var connection_generation = 0
 var port = 27840
 var token = ""
 var retry_clock = 0.0
@@ -15,6 +19,7 @@ var status = "Offline · shared Lua rules"
 var failed = false
 
 func offline(data={}):
+    connection_generation+=1;command_pending=false;ready=false;defer_poll=false
     if transport: transport.shutdown()
     transport = null
     online = false
@@ -26,6 +31,8 @@ func offline(data={}):
     status = "Offline · shared Lua rules"
 
 func connect_local(p,secret):
+    if transport:transport.shutdown()
+    connection_generation+=1;command_pending=false;ready=false;defer_poll=false
     port=p; token=secret;online=true;failed=false
     transport=ClassDB.instantiate("AmberTransport")
     if not transport.start(false,port,token):
@@ -36,7 +43,7 @@ func connect_local(p,secret):
 func envelope(): return {"rules":logic.rules_hash,"content":logic.content_hash,"client":client_id}
 
 func submit(command):
-    if failed or pending: return false
+    if failed or pending or (online and not ready): return false
     command=command.duplicate(true)
     command.step=logic.step+1
     request_id+=1
@@ -49,7 +56,7 @@ func submit(command):
         return reply.get("accepted",false)
     if not transport.send(JSON.stringify(request)):
         request_id-=1;status="Transport rejected send";return false
-    pending=true
+    pending=true;command_pending=true
     status="Waiting for ordered command…"
     return true
 
@@ -74,21 +81,22 @@ func synchronize(reply):
     if not (ack is int or ack is float) or not is_finite(float(ack)) or float(ack)!=floor(float(ack)) or ack<0 or ack>1000000:
         status="Invalid acknowledgement";failed=true;return false
     request_id=int(ack)
-    logic=candidate
+    logic=candidate;ready=true
     status="Online · action %d · %s" % [logic.step,reply.get("reason","sync")]
     return true
 
 func tick(delta):
     if not online or failed: return
     for event in transport.poll_events():
-        pending=false
+        pending=false;command_pending=false
         if event.status!=0:
+            connection_generation+=1;ready=false
             status="Disconnected; reconnecting (no blind command retry)…"
             transport.shutdown()
             transport.start(false,port,token)
             retry_clock=0.5
         else: synchronize(Runtime.Content.parse_json(event.payload))
     retry_clock-=delta
-    if not pending and retry_clock<=0.0:
+    if not pending and not defer_poll and retry_clock<=0.0:
         pending=transport.send(JSON.stringify(envelope()))
         retry_clock=0.15

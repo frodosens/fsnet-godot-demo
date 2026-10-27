@@ -62,13 +62,15 @@ func run():
     await cell(Vector2i(4,7));check(game.battle.supplies[0]==2 and game.battle.snapshot()==before,"item preview consumes nothing")
     await tap(game.hud.dock.confirm);check(game.battle.step==1 and game.battle.supplies[0]==1,"confirm button consumes one item")
     await fresh();await tap(game.hud.action_buttons.attack);await cell(Vector2i(5,7));before=game.battle.snapshot()
-    game.session.pending=true;await frames();await cell(Vector2i(5,7));check(game.pending_target.is_empty() and game.battle.snapshot()==before,"pending network request blocks input and invalidates proposal");game.session.pending=false
+    game.session.pending=true;game.session.command_pending=true;await frames();await cell(Vector2i(5,7));check(game.pending_target.is_empty() and game.battle.snapshot()==before,"pending network request blocks input and invalidates proposal");game.session.pending=false;game.session.command_pending=false
     await cell(Vector2i(5,7));check(not game.pending_target.is_empty(),"fresh target after pending")
     check(game.session.submit({"kind":"end_turn"}),"legal intervening authoritative state")
     await frames();check(game.pending_target.is_empty(),"new authoritative step discards proposal")
     await fresh();await tap(game.hud.action_buttons.attack);await cell(Vector2i(5,7));game.selected=1;await frames();check(game.pending_target.is_empty(),"actor change invalidates proposal")
     await fresh();await tap(game.hud.action_buttons.attack);await cell(Vector2i(5,7))
-    game.session.logic=preload("res://logic/runtime.gd").new(game.battle.content)
+    # A legal alternative starting content produces a distinct authoritative state at step0.
+    var altered=game.battle.content.duplicate(true);altered.units[0].hp-=1
+    game.session.logic=preload("res://logic/runtime.gd").new(altered)
     check(not game.confirm_proposal() and game.session.request_id==0,"same-step replacement state cannot confirm stale target before next process")
     await fresh();await tap(game.hud.action_buttons.attack);await cell(Vector2i(5,7))
     game.mode="ability:rally";await frames();check(game.pending_target.is_empty(),"changed ability invalidates previous target")
