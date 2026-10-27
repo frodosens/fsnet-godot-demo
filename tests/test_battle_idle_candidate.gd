@@ -13,7 +13,7 @@ func run():
     var neutral=load("res://assets/battle/mara/00_idle.png")
     var inhale=load("res://assets/battle/mara/idle/01_inhale.png")
     check(cutin.idle_library.errors.is_empty(),"valid clips")
-    check(cutin.idle_library.clips.battle.keys()==["mara:right"],"Mara only")
+    check(cutin.idle_library.clips.battle.keys()==["mara:right","oren:left"],"Mara right and Oren defensive left only")
     var data=Content.reference_content();data.units[3].x=data.units[0].x+1;data.units[3].y=data.units[0].y
     var logic=Runtime.new(data)
     check(logic.apply_command({"kind":"attack","actor_id":"mara","target_id":"oren","step":1}),"real player attack")

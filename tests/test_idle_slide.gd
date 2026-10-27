@@ -20,7 +20,7 @@ func run():
             game.motion.consume(step,[{"kind":"move","actor":unit.id,"path":path}])
             game.motion.advance(0.15)
             var direction=game.projected_facing(origin,unit.pos,true)
-            check(game.figures[i].texture==game.direction_textures[unit.id+":"+direction],unit.id+" correct idle direction "+direction)
+            check(game.figures[i].texture==game.directional_idle_texture(i,direction),unit.id+" correct idle direction "+direction)
             var texture=game.figures[i].texture;game.motion.advance(0.15)
             check(game.figures[i].texture==texture,"same idle image throughout segment")
             var before=game.figures[i].position;game.motion.consume(step,[])

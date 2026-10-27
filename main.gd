@@ -406,8 +406,7 @@ func refresh():
             if event.get("kind")=="attack" and event.get("actor")==u.id:
                 for target in battle.units:
                     if target.id==event.target:facing[u.id]=projected_facing(u.pos,target.pos,iso_roles.has(u.role))
-        var texture_key=u.id+":"+facing.get(u.id,"front")
-        if direction_textures.has(texture_key) and not motion.motions.has(u.id):figures[i].texture=direction_textures[texture_key]
+        if not motion.motions.has(u.id):figures[i].texture=directional_idle_texture(i,facing.get(u.id,"front"))
         if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,figure_height(i),u.pos.y)
         badges[i].position = badge_position(i)
         badges[i].update_health(u.hp,u.max_hp,u.ally,i==selected)
@@ -615,3 +614,11 @@ func set_character_scale(value):
         badges[i].position=badge_position(i)
     preview_ghost.pixel_size=MAP_PIXEL_SIZE*character_scale
     if preview_ghost.visible and selected>=0:preview_ghost.position.y=figure_height(selected)
+
+# Shared neutral source for stationary entry and static movement.
+# Animation is unit-scoped; unrelated Mod units keep their original art.
+func directional_idle_texture(index,direction):
+    var unit=battle.units[index]
+    var fallback=direction_textures.get(unit.id+":"+direction,figures[index].texture)
+    var idle=get_node_or_null("MapIdle")
+    return idle.library.sample("map",unit.role+":"+direction,0.0,fallback,true,unit.id) if idle else fallback

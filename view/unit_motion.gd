@@ -19,6 +19,10 @@ func consume(step,events):
             if path is Array and path.size()>=2:
                 motions[u.id]={"index":i,"path":path,"elapsed":0.0,"role":u.role,"segment":0,"distance":0.0}
                 var first=path[0];game.figures[i].position=Vector3(first.x,game.figure_height(i),first.y)
+                var next=path[1]
+                var direction=game.projected_facing(Vector2i(first.x,first.y),Vector2i(next.x,next.y),game.iso_roles.has(u.role))
+                game.facing[u.id]=direction
+                game.figures[i].texture=game.directional_idle_texture(i,direction)
 func _process(delta):advance(delta)
 func advance(delta):
     if motions.is_empty():return
@@ -38,8 +42,7 @@ func advance(delta):
             remaining=maxf(0,remaining-travel/velocity)
             game.facing[id]=direction
             game.figures[i].position=Vector3(start.x,game.figure_height(i),start.y).lerp(Vector3(end.x,game.figure_height(i),end.y),motion.distance)
-            var key=id+":"+direction
-            if game.direction_textures.has(key):game.figures[i].texture=game.direction_textures[key]
+            game.figures[i].texture=game.directional_idle_texture(i,direction)
             if motion.distance>=0.999999:
                 motion.segment+=1;motion.distance=0.0
         if motion.segment>=motion.path.size()-1:
@@ -52,8 +55,7 @@ func settle(id,index):
     var u=game.battle.units[index]
     if game.selected==index:game.selection_ring.position=Vector3(u.x,0.04,u.y)
     game.figures[index].position=Vector3(u.x,game.figure_height(index),u.y);game.badges[index].position=game.badge_position(index)
-    var key=id+":"+game.facing.get(id,"front")
-    if game.direction_textures.has(key):game.figures[index].texture=game.direction_textures[key]
+    game.figures[index].texture=game.directional_idle_texture(index,game.facing.get(id,"front"))
 func finish(notify=true):
     for id in motions:
         var index=motions[id].index

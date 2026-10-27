@@ -9,7 +9,7 @@ func run():
     change_scene_to_file("res://main.tscn");await process_frame;await process_frame
     var game=current_scene;var idle=game.get_node("MapIdle");idle.set_process(false);game.motion.set_process(false)
     while not app.next_story().is_empty():app.advance_story(true)
-    game.refresh();check(idle.library.errors.is_empty());check(idle.library.clips.map.size()==4);check(idle.library.clips.battle.keys()==["mara:right"])
+    game.refresh();check(idle.library.errors.is_empty());check(idle.library.clips.map.size()==24);check(idle.library.clips.battle.keys()==["mara:right","oren:left"])
     var before=game.battle.snapshot();var position=game.figures[0].position
     for direction in ["front_left","front_right","back_left","back_right"]:
         game.facing.mara=direction;idle.clocks.clear();idle.advance(0)
@@ -20,11 +20,13 @@ func run():
         game.hud.toggle_pause();var clock=idle.clocks.mara;var texture=game.figures[0].texture;idle.advance(3)
         check(idle.clocks.mara==clock);check(game.figures[0].texture==texture);game.hud.clear_modal();idle.advance(.4)
         check(idle.clocks.mara>clock)
-    for i in range(1,6):check(game.figures[i].texture==game.direction_textures[game.battle.units[i].id+":"+game.facing[game.battle.units[i].id]])
+    for i in range(1,6):
+        var u=game.battle.units[i];var d=game.facing[u.id]
+        check(game.figures[i].texture==idle.library.sample("map",u.role+":"+d,idle.clocks[u.id],game.direction_textures[u.id+":"+d],false,u.id))
     check(game.battle.snapshot()==before)
     check(app.session.submit({"kind":"move","unit":0,"x":3,"y":6}));game.battle=app.session.logic;game.refresh()
     var after=game.battle.snapshot();game.motion.advance(.2);idle.advance(.2)
-    check(idle.clocks.mara==0);check(game.figures[0].texture==game.direction_textures["mara:"+game.facing.mara])
+    check(idle.clocks.mara==0);check(game.figures[0].texture==game.directional_idle_texture(0,game.facing.mara))
     game.motion.finish();idle.advance(0);check(game.figures[0].texture==idle.library.clips.map["knight:"+game.facing.mara].textures[0])
     idle.advance(.4);check(game.battle.snapshot()==after)
     # A scene replacement uses fresh presentation clocks; no persisted idle phase.

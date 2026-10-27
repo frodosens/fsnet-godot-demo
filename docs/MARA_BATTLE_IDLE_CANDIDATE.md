@@ -1,7 +1,7 @@
 # Mara battle idle candidate
 
 Isolated trial; not authorization to replace the main branch. The map idle is a
-separate asset/clock and is unchanged. The only new battle clip is `mara:right`,
+separate asset/clock and is unchanged. The Mara battle clip is `mara:right`,
 restricted to unit ID `mara` in `assets/animations/idle_cycles.json`.
 
 ## Source and timing
@@ -36,8 +36,9 @@ choice, not a hidden delay.
   would require an independently matching `oren:right` clip.
 - Oren defence: `assets/battle/oren/00_idle.png`, already left-facing, no runtime
   flip; a clip derived from this file must use `oren:left` only.
-- Other five characters currently have no new battle idle clip and retain their
-  existing single-frame neutral fallback. Missing clips never switch identities.
+- Subsequent combined-candidate integration enables `oren:left` only, as recorded
+  in ALL_IDLE_CANDIDATES.md. Oren right attack and the other four characters keep
+  their single-frame neutral fallback. Missing clips never switch identities.
 
 ## Reproduction and acceptance
 

@@ -18,7 +18,7 @@ func run():
         check(app.session.submit({"kind":"move","unit":0,"x":entry[0].x,"y":entry[0].y}),"legal move for "+entry[1])
         game.battle=app.session.logic;game.refresh();game.motion.advance(10)
         var expected={"right":"front_right","front":"front_left","left":"back_left","back":"back_right"}[entry[1]] if game.iso_roles.has("knight") else entry[1]
-        check(game.facing.mara==expected and game.figures[0].texture==game.direction_textures["mara:"+expected],"correct actual direction texture "+entry[1])
+        check(game.facing.mara==expected and game.figures[0].texture==game.directional_idle_texture(0,expected),"correct actual direction texture "+entry[1])
         if "--capture-directions" in OS.get_cmdline_user_args():
             assert(DisplayServer.get_name()!="headless")
             DirAccess.make_dir_recursive_absolute("/tmp/amber-direction-validation")
