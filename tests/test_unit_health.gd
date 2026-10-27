@@ -29,7 +29,7 @@ func run():
                     for x in range(image.get_width()):
                         if image.get_pixel(x,y).a>=0.5:top=y;break
                     if top<128:break
-                var head=camera.unproject_position(game.figures[i].position+Vector3.UP*(64-top)*game.figures[i].pixel_size)*scale
+                var head=camera.unproject_position(game.figure_pixel_position(i,Vector2(48,top)))*scale
                 var center=camera.unproject_position(bar.position)*scale
                 check(head.y-center.y-bar.rendered_size.y*0.5>1.0,"meter clears opaque head by at least one physical pixel")
                 measurements.append({"viewport":[size.x,size.y],"fixed":fixed,"id":game.battle.units[i].id,"height_px":a.distance_to(b)})

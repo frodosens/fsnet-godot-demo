@@ -44,14 +44,14 @@ func advance(delta):
                 motion.segment+=1;motion.distance=0.0
         if motion.segment>=motion.path.size()-1:
             settle(id,i);motions.erase(id);continue
-        game.badges[i].position=game.figures[i].position+Vector3(0,game.badge_height(i)-game.figure_height(i),0)
+        game.badges[i].position=game.badge_position(i)
         if game.selected==i:game.selection_ring.position=Vector3(game.figures[i].position.x,0.04,game.figures[i].position.z)
 
     if motions.is_empty():game.motion_finished()
 func settle(id,index):
     var u=game.battle.units[index]
     if game.selected==index:game.selection_ring.position=Vector3(u.x,0.04,u.y)
-    game.figures[index].position=Vector3(u.x,game.figure_height(index),u.y);game.badges[index].position=Vector3(u.x,game.badge_height(index),u.y)
+    game.figures[index].position=Vector3(u.x,game.figure_height(index),u.y);game.badges[index].position=game.badge_position(index)
     var key=id+":"+game.facing.get(id,"front")
     if game.direction_textures.has(key):game.figures[index].texture=game.direction_textures[key]
 func finish(notify=true):

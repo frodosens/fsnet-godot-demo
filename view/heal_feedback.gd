@@ -14,7 +14,7 @@ func consume(step,events):
             if game.battle.units[i].id!=event.target:continue
             var label=UI.label("+"+str(event.amount),32,Color("b6d5a2"));label.add_theme_color_override("font_outline_color",Color("1f2c2a"));label.add_theme_constant_override("outline_size",2);add_child(label)
             var lane=lanes.get(event.target,0);lanes[event.target]=lane+1
-            var base=game.camera.unproject_position(game.figures[i].position+Vector3(0,0.8,0))+Vector2(-15+lane*24,-35)
+            var base=game.camera.unproject_position(game.badge_position(i))+Vector2(-15+lane*24,-18)
             numbers.append({"label":label,"base":base,"age":0.0})
 func _process(delta):
     for entry in numbers.duplicate():

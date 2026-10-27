@@ -57,8 +57,7 @@ func _process(delta):
     # Protect nearby faces without moving a meter multiple tiles away from its owner.
     var game=get_parent()
     if unit_index>=0 and unit_index<game.figures.size():
-        var owner_figure=game.figures[unit_index]
-        var base=owner_figure.position+Vector3.UP*(game.badge_height(unit_index)-game.figure_height(unit_index))
+        var base=game.badge_position(unit_index)
         var center=camera.unproject_position(base)*pixels_per_logical
         horizontal_offset=0
         for offset in [0.0,width+12.0,-width-12.0]:
@@ -66,9 +65,8 @@ func _process(delta):
             var clear=true
             for i in range(game.figures.size()):
                 if i==unit_index or game.battle.units[i].hp<=0:continue
-                var figure=game.figures[i];var unit_pixel=figure.pixel_size
-                var top=camera.unproject_position(figure.position-camera.global_basis.x*20*unit_pixel+Vector3.UP*52*unit_pixel)*pixels_per_logical
-                var bottom=camera.unproject_position(figure.position+camera.global_basis.x*20*unit_pixel+Vector3.UP*6*unit_pixel)*pixels_per_logical
+                var top=camera.unproject_position(game.figure_pixel_position(i,Vector2(28,12)))*pixels_per_logical
+                var bottom=camera.unproject_position(game.figure_pixel_position(i,Vector2(68,58)))*pixels_per_logical
                 if rect.intersects(Rect2(top,bottom-top)):clear=false;break
             if clear:horizontal_offset=offset;break
         position=base+camera.global_basis.x*horizontal_offset*world_per_pixel

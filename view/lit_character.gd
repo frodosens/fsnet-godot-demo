@@ -5,7 +5,7 @@ func _ready():
     process_priority=90
     layers=2 # Dedicated character lighting layer; original world lights include it.
     actor_material=StandardMaterial3D.new()
-    actor_material.billboard_mode=BaseMaterial3D.BILLBOARD_FIXED_Y
+    actor_material.billboard_mode=billboard
     actor_material.billboard_keep_scale=true
     actor_material.cull_mode=BaseMaterial3D.CULL_DISABLED
     actor_material.transparency=BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR

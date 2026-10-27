@@ -39,6 +39,7 @@ var route_arrows
 var selection_ring
 var scene_view
 var ground_overlay
+const MAP_PIXEL_SIZE=0.010727272727 # 99px Mara -> 90 logical px in reference camera at 1.25 scale.
 var character_scale=1.0
 
 func material(color):
@@ -236,7 +237,7 @@ func build_world():
             for side in [-1,1]:
                 var frame=box(p+Vector3(edge*0.10,1,side*0.10),Vector3(0.025,0.32,0.025),"594633");frame.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
         var cap=box(p+Vector3(0,1.18,0),Vector3(0.26,0.05,0.26),"594633");cap.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-    preview_ghost=Sprite3D.new();preview_ghost.render_priority=2;preview_ghost.billboard=BaseMaterial3D.BILLBOARD_FIXED_Y;preview_ghost.modulate=Color(1.0,0.78,0.42,0.35);preview_ghost.pixel_size=0.01125;preview_ghost.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST;preview_ghost.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;preview_ghost.hide();add_child(preview_ghost)
+    preview_ghost=Sprite3D.new();preview_ghost.render_priority=2;preview_ghost.billboard=BaseMaterial3D.BILLBOARD_ENABLED;preview_ghost.offset=Vector2(0,56);preview_ghost.modulate=Color(1.0,0.78,0.42,0.35);preview_ghost.pixel_size=MAP_PIXEL_SIZE;preview_ghost.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST;preview_ghost.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;preview_ghost.hide();add_child(preview_ghost)
     selection_ring=MeshInstance3D.new();var ring=TorusMesh.new();ring.inner_radius=0.36;ring.outer_radius=0.42;selection_ring.mesh=ring
     var ring_material=StandardMaterial3D.new();ring_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;ring_material.albedo_color=Color("91aaa3");selection_ring.material_override=ring_material;selection_ring.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;add_child(selection_ring)
     camera = Camera3D.new()
@@ -276,9 +277,10 @@ func build_world():
                 for direction in loaded:direction_textures[u.id+":"+direction]=loaded[direction]
         facing[u.id]=("back_right" if u.ally else "front_left") if iso_roles.has(u.role) else ("back" if u.ally else "front")
         last_positions[u.id]=u.pos
-        sprite.pixel_size = 0.01125 if sprite.get_meta("formal_art") else 0.045
+        sprite.pixel_size = MAP_PIXEL_SIZE if sprite.get_meta("formal_art") else 0.045
         sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
-        sprite.billboard = BaseMaterial3D.BILLBOARD_FIXED_Y
+        sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED if sprite.get_meta("formal_art") else BaseMaterial3D.BILLBOARD_FIXED_Y
+        if sprite.get_meta("formal_art"):sprite.offset=Vector2(0,56)
         sprite.shaded = true
         sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
         sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
@@ -407,7 +409,7 @@ func refresh():
         var texture_key=u.id+":"+facing.get(u.id,"front")
         if direction_textures.has(texture_key) and not motion.motions.has(u.id):figures[i].texture=direction_textures[texture_key]
         if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,figure_height(i),u.pos.y)
-        badges[i].position = Vector3(u.pos.x,badge_height(i),u.pos.y)
+        badges[i].position = badge_position(i)
         badges[i].update_health(u.hp,u.max_hp,u.ally,i==selected)
     if hud:hud.refresh()
     if cutin and not motion.active():cutin.consume(battle.step,battle.events,battle.units,battle.content)
@@ -595,14 +597,21 @@ func landscape_box(pos,size,color):
     return node
 
 func figure_height(index):
-    return 56.0*figures[index].pixel_size if figures[index].get_meta("formal_art") else 0.72
+    return 0.0 if figures[index].get_meta("formal_art") else 0.72
+func figure_pixel_position(index,pixel):
+    var figure=figures[index]
+    if figure.get_meta("formal_art"):
+        return figure.position+camera.global_basis.x*(pixel.x-48)*figure.pixel_size+camera.global_basis.y*(120-pixel.y)*figure.pixel_size
+    return figure.position+camera.global_basis.x*(pixel.x-12)*figure.pixel_size+Vector3.UP*(16-pixel.y)*figure.pixel_size
+func badge_position(index):
+    return figure_pixel_position(index,Vector2(48,0))+camera.global_basis.y*0.15 if figures[index].get_meta("formal_art") else figures[index].position+Vector3.UP*0.9
 func badge_height(index):
-    return figure_height(index)+56.0*figures[index].pixel_size+0.15 if figures[index].get_meta("formal_art") else 1.62
+    return badge_position(index).y
 func set_character_scale(value):
     character_scale=clampf(value,0.5,1.5)
     for i in range(figures.size()):
-        if figures[i].get_meta("formal_art"):figures[i].pixel_size=0.01125*character_scale
+        if figures[i].get_meta("formal_art"):figures[i].pixel_size=MAP_PIXEL_SIZE*character_scale
         figures[i].position.y=figure_height(i)
-        badges[i].position=Vector3(figures[i].position.x,badge_height(i),figures[i].position.z)
-    preview_ghost.pixel_size=0.01125*character_scale
+        badges[i].position=badge_position(i)
+    preview_ghost.pixel_size=MAP_PIXEL_SIZE*character_scale
     if preview_ghost.visible and selected>=0:preview_ghost.position.y=figure_height(selected)

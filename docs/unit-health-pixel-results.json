@@ -1,7 +1,7 @@
 [
   {
     "fixed": false,
-    "height_px": 9.00009155273438,
+    "height_px": 8.99996948242188,
     "id": "mara",
     "viewport": [
       960,
@@ -10,7 +10,7 @@
   },
   {
     "fixed": false,
-    "height_px": 8.0,
+    "height_px": 8.00003051757812,
     "id": "finn",
     "viewport": [
       960,
@@ -19,7 +19,7 @@
   },
   {
     "fixed": false,
-    "height_px": 8.00003051757812,
+    "height_px": 8.0,
     "id": "neri",
     "viewport": [
       960,
@@ -37,7 +37,7 @@
   },
   {
     "fixed": false,
-    "height_px": 7.99998474121094,
+    "height_px": 8.0,
     "id": "tessa",
     "viewport": [
       960,
@@ -51,6 +51,114 @@
     "viewport": [
       960,
       600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 9.00001525878906,
+    "id": "mara",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 7.99998474121094,
+    "id": "finn",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.0,
+    "id": "neri",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 7.99999237060547,
+    "id": "oren",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.00001525878906,
+    "id": "tessa",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": true,
+    "height_px": 8.0,
+    "id": "bram",
+    "viewport": [
+      960,
+      600
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.99993896484375,
+    "id": "mara",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.00006103515625,
+    "id": "finn",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.00006103515625,
+    "id": "neri",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.00009155273438,
+    "id": "oren",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.00006103515625,
+    "id": "tessa",
+    "viewport": [
+      1280,
+      800
+    ]
+  },
+  {
+    "fixed": false,
+    "height_px": 8.00009155273438,
+    "id": "bram",
+    "viewport": [
+      1280,
+      800
     ]
   },
   {
@@ -58,8 +166,8 @@
     "height_px": 9.0,
     "id": "mara",
     "viewport": [
-      960,
-      600
+      1280,
+      800
     ]
   },
   {
@@ -67,17 +175,17 @@
     "height_px": 8.0,
     "id": "finn",
     "viewport": [
-      960,
-      600
+      1280,
+      800
     ]
   },
   {
     "fixed": true,
-    "height_px": 7.99996948242188,
+    "height_px": 8.0,
     "id": "neri",
     "viewport": [
-      960,
-      600
+      1280,
+      800
     ]
   },
   {
@@ -85,114 +193,6 @@
     "height_px": 8.00001525878906,
     "id": "oren",
     "viewport": [
-      960,
-      600
-    ]
-  },
-  {
-    "fixed": true,
-    "height_px": 8.00001525878906,
-    "id": "tessa",
-    "viewport": [
-      960,
-      600
-    ]
-  },
-  {
-    "fixed": true,
-    "height_px": 8.0,
-    "id": "bram",
-    "viewport": [
-      960,
-      600
-    ]
-  },
-  {
-    "fixed": false,
-    "height_px": 9.00003051757812,
-    "id": "mara",
-    "viewport": [
-      1280,
-      800
-    ]
-  },
-  {
-    "fixed": false,
-    "height_px": 8.00003051757812,
-    "id": "finn",
-    "viewport": [
-      1280,
-      800
-    ]
-  },
-  {
-    "fixed": false,
-    "height_px": 8.0,
-    "id": "neri",
-    "viewport": [
-      1280,
-      800
-    ]
-  },
-  {
-    "fixed": false,
-    "height_px": 7.99995422363281,
-    "id": "oren",
-    "viewport": [
-      1280,
-      800
-    ]
-  },
-  {
-    "fixed": false,
-    "height_px": 8.0,
-    "id": "tessa",
-    "viewport": [
-      1280,
-      800
-    ]
-  },
-  {
-    "fixed": false,
-    "height_px": 8.0,
-    "id": "bram",
-    "viewport": [
-      1280,
-      800
-    ]
-  },
-  {
-    "fixed": true,
-    "height_px": 9.00009155273438,
-    "id": "mara",
-    "viewport": [
-      1280,
-      800
-    ]
-  },
-  {
-    "fixed": true,
-    "height_px": 8.0,
-    "id": "finn",
-    "viewport": [
-      1280,
-      800
-    ]
-  },
-  {
-    "fixed": true,
-    "height_px": 8.0,
-    "id": "neri",
-    "viewport": [
-      1280,
-      800
-    ]
-  },
-  {
-    "fixed": true,
-    "height_px": 7.99990844726562,
-    "id": "oren",
-    "viewport": [
       1280,
       800
     ]
@@ -217,7 +217,7 @@
   },
   {
     "fixed": false,
-    "height_px": 11.7999572753906,
+    "height_px": 11.7999267578125,
     "id": "mara",
     "viewport": [
       1920,
@@ -226,7 +226,7 @@
   },
   {
     "fixed": false,
-    "height_px": 10.8000183105469,
+    "height_px": 10.8000793457031,
     "id": "finn",
     "viewport": [
       1920,
@@ -235,7 +235,7 @@
   },
   {
     "fixed": false,
-    "height_px": 10.7999877929688,
+    "height_px": 10.8001098632812,
     "id": "neri",
     "viewport": [
       1920,
@@ -244,7 +244,7 @@
   },
   {
     "fixed": false,
-    "height_px": 10.7999420166016,
+    "height_px": 10.8001251220703,
     "id": "oren",
     "viewport": [
       1920,
@@ -253,7 +253,7 @@
   },
   {
     "fixed": false,
-    "height_px": 10.7999877929688,
+    "height_px": 10.8000793457031,
     "id": "tessa",
     "viewport": [
       1920,
@@ -262,7 +262,7 @@
   },
   {
     "fixed": false,
-    "height_px": 10.7999877929688,
+    "height_px": 10.8001098632812,
     "id": "bram",
     "viewport": [
       1920,
@@ -271,7 +271,7 @@
   },
   {
     "fixed": true,
-    "height_px": 11.7999572753906,
+    "height_px": 11.8000793457031,
     "id": "mara",
     "viewport": [
       1920,
@@ -298,7 +298,7 @@
   },
   {
     "fixed": true,
-    "height_px": 10.7998809814453,
+    "height_px": 10.8000335693359,
     "id": "oren",
     "viewport": [
       1920,

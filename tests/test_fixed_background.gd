@@ -18,7 +18,7 @@ func run():
     check(game.figures[0].visible and game.figures[0].shaded and not game.tiles[Vector2i(4,7)].node.visible,"retain shaded units, hide physical terrain")
     check(is_equal_approx(game.character_scale,1.25),"fixed-only character scale")
     for figure in game.figures:
-        check(is_equal_approx(figure.position.y,56.0*figure.pixel_size),"scaled sole anchor remains on ground")
+        check(is_zero_approx(figure.position.y) and figure.offset==Vector2(0,56),"scaled sole anchor remains on ground")
     var contract=JSON.parse_string(FileAccess.get_file_as_string("res://docs/fixed-background-contract.json"))
     for size in [Vector2i(960,600),Vector2i(1280,720),Vector2i(1280,800),Vector2i(1920,1080),Vector2i(2560,1440),Vector2i(2560,1080),Vector2i(1280,1024)]:
         root.size=size;await frames();adapter.fit()
