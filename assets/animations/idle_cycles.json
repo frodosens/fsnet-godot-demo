@@ -70,5 +70,21 @@
       ]
     }
   },
-  "battle": {}
+  "battle": {
+    "mara:right": {
+      "frames": [
+        "assets/battle/mara/00_idle.png",
+        "assets/battle/mara/idle/01_inhale.png",
+        "assets/battle/mara/00_idle.png"
+      ],
+      "frame_ms": [
+        320,
+        320,
+        320
+      ],
+      "unit_ids": [
+        "mara"
+      ]
+    }
+  }
 }

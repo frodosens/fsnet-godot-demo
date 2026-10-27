@@ -136,11 +136,12 @@ func draw_tick(frame):
     if event.target=="oren":defender.texture=load("res://assets/battle/oren/"+OREN[defend]+".png")
     else:
         var poses=defender_sets[event.target];defender.texture=poses.hit if defend==2 else (poses.recover if defend==3 else poses.idle)
-    # Idle only outside authored attack/brace/hit/recovery poses. Never changes timing.
-    var idle_time=maxf(0,frame-22 if tick>=22 else frame)*tick_seconds
-    if tick<2 or tick>=22:
+    # Idle only in authored neutral windows. Guard/brace, hit and recovery
+    # keep their own frames, including the final two settle/recover ticks.
+    var idle_time=maxf(0,frame)*tick_seconds
+    if tick<2:
         attacker.texture=idle_library.sample("battle",event.actor+":right",idle_time,attacker.texture,App.reduced_motion,event.actor)
-    if defend==0 or (tick>=22 and event.get("hp",1)>0):
+    if defend==0:
         defender.texture=idle_library.sample("battle",event.target+(":left" if event.target=="oren" else ":right"),idle_time,defender.texture,App.reduced_motion,event.target)
     contact_target=socket_point(contact_points[event.target].hurt_point)
     if melee:
