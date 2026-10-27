@@ -1,0 +1,255 @@
+{
+  "unit_ids": [
+    "neri"
+  ],
+  "sprite_key": "mage",
+  "generator": "host-native image_gen",
+  "references": [
+    {
+      "direction": "front_left",
+      "local_path": "production_art/iso4/runtime/mage_front_left_idle.png",
+      "repo_path": "assets/sprites/iso4/mage_front_left_idle.png",
+      "git_blob_sha": "4621d05b001559975ee77ef2c6e81e086e57d32b",
+      "sha256": "d760d308606f7f0e4623aa820e2bb4ef683e67b9233c7b02231cea386175983f",
+      "bounds": [
+        27,
+        17,
+        83,
+        120
+      ]
+    },
+    {
+      "direction": "front_right",
+      "local_path": "production_art/iso4/runtime/mage_front_right_idle.png",
+      "repo_path": "assets/sprites/iso4/mage_front_right_idle.png",
+      "git_blob_sha": "4e6f0c52be93938e0f68b1afd5310d7b576f5c70",
+      "sha256": "34dfaf225e424a3d722bcd68fbfb3c038a3dd3df8a497301760991bb2029502e",
+      "bounds": [
+        23,
+        18,
+        83,
+        120
+      ]
+    },
+    {
+      "direction": "back_left",
+      "local_path": "production_art/iso4/runtime/mage_back_left_idle.png",
+      "repo_path": "assets/sprites/iso4/mage_back_left_idle.png",
+      "git_blob_sha": "5c61d1a47b7048879096fd3b54ace4484cd90187",
+      "sha256": "c264e41aa8d82fc52e944d12e9e50300e843fa05a0c3ed1938d9e60721852c16",
+      "bounds": [
+        20,
+        19,
+        69,
+        120
+      ]
+    },
+    {
+      "direction": "back_right",
+      "local_path": "production_art/iso4/runtime/mage_back_right_idle.png",
+      "repo_path": "assets/sprites/iso4/mage_back_right_idle.png",
+      "git_blob_sha": "4cc8e2813fd1d8825f2e434b22082240051a7c88",
+      "sha256": "2531d484fd09203c82f02b67a1a5135a55b3d7f5d3b1400756f17a069048c2a4",
+      "bounds": [
+        16,
+        19,
+        70,
+        120
+      ]
+    }
+  ],
+  "references_verified_at_main": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
+  "verification_evidence": "production_art/remaining_map4_idles/reference-verification.json",
+  "prompts": {
+    "prompt.txt": "Use case: identity-preserve. Extend the reference actual GAME MAP sprite strip into a square breathing-idle animation atlas. Preserve the EXACT existing Neri design: woman with dark indigo hair in high bun, blue gold-trimmed travel cloak and tunic, white cuffs, dark trousers, brown boots, wooden staff with small cyan stone, same hand holding staff in each facing. Preserve existing pixel-art and body proportions, elevated isometric map camera, not side-view battle, not a redesign.\nFOUR columns by THREE rows, exactly12full-body sprites on truly transparent background. Columns MUST match reference left-to-right: front-left, front-right, back-left, back-right. Preserve each corresponding diagonal facing and equipment placement.\nRow1 original relaxed exhale stance. Row2 halfway inhale: chest slightly expanded, shoulders and sleeves gently rise, cloak folds respond modestly. Row3 full inhale: shoulders slightly higher, chest expanded and cloak upper folds lifting gently. Staff remains planted vertical in its original hand; its tip on ground stays stationary. Feet, legs, hips and lower cloak silhouette stay in the identical place across phases. Head mostly still. Only modest genuinely redrawn upper chest/shoulder/cuff/cloak movement, about1\u20132pixels at96x128 runtime size. No global scaling, whole-body bouncing/translation, hopping, walking or changing poses.\nUniform cell sizes and equal scale, foot baseline fixed per cell, generous transparent gutters. Full staff, feet, bun and cloak all within each cell. The playback will be rows1,2,3,2 for breathing. Match the reference art rather than upgrading resolution/face details. Keep staff hand and cloak/tunic construction absolutely consistent.\nBackground true transparent alpha. No shadows, floor, rectangle, gradient, checkerboard, labels, text, boxes, particles, glow, spell effects or extra characters.\n",
+    "framing-correction-prompt.txt": "Correct ONLY the framing of this transparent game idle atlas. There are four columns and three rows of the SAME Neri mage. The entire bottom row's boots have been cut off by the image bottom. Recreate the complete atlas with a GENEROUS empty transparent margin beneath the bottom row so EVERY boot and staff tip is fully visible. Also add transparent gutters between rows. Do not crop any body part. Fit all12figures comfortably into the output canvas, with their full feet and staff tips visible. Preserve all existing four diagonal facings and three subtle idle breathing phases, exact costume/identity/staff hand/pixel-art style/proportions and consistent scale. Do not add frames, labels, shadows, scenery or redesign. Transparent alpha background. Each phase row has fixed planted feet and staff-ground point; only shoulder/chest/cloak breathing. All complete figures, generous transparent safety margins on ALL FOUR edges.\n",
+    "phase2-prompt.txt": "Edit only upper-body breathing phase in this single horizontal row of FOUR isometric Neri map sprites. Keep the four identical facings, pixel art, all proportions and costume, hair bun, blue gold-trimmed cape, staff hand and exact feet poses. Draw FULL INHALE: shoulders slightly raised, upper chest expanded, elbows and white cuffs subtly lifted, upper cloak folds lift slightly. Do NOT change waist, legs, boots or staff ground point; not walking. Modest2logicalpixels upper-body movement. No whole-body scaling or translation. Output ONLY ONE ROW, FOUR COLUMNS, wide horizontal transparent PNG. Copy exact figure size and positions, with extra generous transparent space BELOW every boot to avoid clipping. No text/labels/scenery/background/shadow. True transparent alpha. Full body every figure must be complete, especially toes, heels, staff tip and hair bun. Keep original pixel clusters, no smooth cartoon redesign.\n"
+  },
+  "source_sha256": {
+    "source.png": "c051224060119b261547ac1ffdac12e81e665043bc618baa5d56b20cf37a6058",
+    "source-corrected.png": "6b4d51b6e06efc9f28b466826a2fe06509076e5223ca5d390358ef9dd3581022",
+    "phase2-source.png": "1f1fbcfa8f94b916dfc7b003fe74c76f40d6e8b8c374a11e4de4bb990ec116a3"
+  },
+  "source_use": "Only source.png rows0/1 used for candidate; all4thirdphase PNGs moved non-destructively to rejected_frames/.",
+  "normalization": "Single source-wide .25 scale for8candidateframes, ground registration120,front-left phase1 shifted1pxleft for foot registration; no warping or procedural breathing.",
+  "qa": {
+    "front_left": [
+      {
+        "phase": 0,
+        "lower28px_mask_iou_vs_phase0": 1.0
+      },
+      {
+        "phase": 1,
+        "lower28px_mask_iou_vs_phase0": 0.8926553672316384
+      },
+      {
+        "phase": 2,
+        "lower28px_mask_iou_vs_phase0": 0.9441176470588235
+      }
+    ],
+    "front_right": [
+      {
+        "phase": 0,
+        "lower28px_mask_iou_vs_phase0": 1.0
+      },
+      {
+        "phase": 1,
+        "lower28px_mask_iou_vs_phase0": 0.9862637362637363
+      },
+      {
+        "phase": 2,
+        "lower28px_mask_iou_vs_phase0": 0.91005291005291
+      }
+    ],
+    "back_left": [
+      {
+        "phase": 0,
+        "lower28px_mask_iou_vs_phase0": 1.0
+      },
+      {
+        "phase": 1,
+        "lower28px_mask_iou_vs_phase0": 0.947103274559194
+      },
+      {
+        "phase": 2,
+        "lower28px_mask_iou_vs_phase0": 0.9213197969543148
+      }
+    ],
+    "back_right": [
+      {
+        "phase": 0,
+        "lower28px_mask_iou_vs_phase0": 1.0
+      },
+      {
+        "phase": 1,
+        "lower28px_mask_iou_vs_phase0": 0.9207708779443254
+      },
+      {
+        "phase": 2,
+        "lower28px_mask_iou_vs_phase0": 0.859538784067086
+      }
+    ]
+  },
+  "boot_region_bounds_y108": {
+    "front_left": [
+      [
+        31,
+        108,
+        73,
+        120
+      ],
+      [
+        31,
+        108,
+        72,
+        120
+      ],
+      [
+        32,
+        108,
+        73,
+        120
+      ]
+    ],
+    "front_right": [
+      [
+        33,
+        108,
+        75,
+        120
+      ],
+      [
+        33,
+        108,
+        75,
+        120
+      ],
+      [
+        33,
+        108,
+        75,
+        120
+      ]
+    ],
+    "back_left": [
+      [
+        26,
+        108,
+        61,
+        120
+      ],
+      [
+        26,
+        108,
+        61,
+        120
+      ],
+      [
+        26,
+        108,
+        61,
+        120
+      ]
+    ],
+    "back_right": [
+      [
+        23,
+        108,
+        60,
+        120
+      ],
+      [
+        23,
+        108,
+        60,
+        120
+      ],
+      [
+        23,
+        108,
+        61,
+        120
+      ]
+    ]
+  },
+  "status": "Third phase excluded after parent/root visual review. Candidate is now TWO genuine phases,8frames,loop0,1,0@400ms. Requires final parent/in-engine acceptance.",
+  "license": "Original host-generated project asset; no third-party asset pack or external provider.",
+  "candidate_qa": {
+    "front_left": {
+      "lower28px_mask_iou": 0.8926553672316384,
+      "upper_body_changed_pixel_fraction_y35_85": 0.44333333333333336,
+      "opaque_bottoms": [
+        120,
+        120
+      ],
+      "upper_body_note": "Generated shoulder/cloak/sleeve phase difference; no synthesized pose"
+    },
+    "front_right": {
+      "lower28px_mask_iou": 0.9862637362637363,
+      "upper_body_changed_pixel_fraction_y35_85": 0.4554166666666667,
+      "opaque_bottoms": [
+        120,
+        120
+      ],
+      "upper_body_note": "Generated shoulder/cloak/sleeve phase difference; no synthesized pose"
+    },
+    "back_left": {
+      "lower28px_mask_iou": 0.947103274559194,
+      "upper_body_changed_pixel_fraction_y35_85": 0.40208333333333335,
+      "opaque_bottoms": [
+        120,
+        120
+      ],
+      "upper_body_note": "Generated shoulder/cloak/sleeve phase difference; no synthesized pose"
+    },
+    "back_right": {
+      "lower28px_mask_iou": 0.9207708779443254,
+      "upper_body_changed_pixel_fraction_y35_85": 0.41458333333333336,
+      "opaque_bottoms": [
+        120,
+        120
+      ],
+      "upper_body_note": "Generated shoulder/cloak/sleeve phase difference; no synthesized pose"
+    }
+  }
+}

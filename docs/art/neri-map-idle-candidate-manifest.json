@@ -1,0 +1,307 @@
+{
+  "unit_ids": [
+    "neri"
+  ],
+  "sprite_key": "mage",
+  "status": "Two-phase candidate; in-engine review pending",
+  "canvas": [
+    96,
+    128
+  ],
+  "foot_anchor": [
+    48,
+    120
+  ],
+  "loop": [
+    0,
+    1,
+    0
+  ],
+  "frame_ms": 400,
+  "source_canvas": {
+    "source.png": [
+      1254,
+      1254
+    ]
+  },
+  "operations": "Component extraction, global uniform resize per source (same scale for all figures from same source), integer registration to reference left edge and ground baseline. No pose warping or synthesized motion.",
+  "frames": [
+    {
+      "file": "assets/sprites/iso4/idle_candidate/neri/front_left_idle_00.png",
+      "phase": 0,
+      "source": "source.png",
+      "source_rect": [
+        0,
+        35,
+        313,
+        465
+      ],
+      "component_crop": [
+        45,
+        19,
+        283,
+        430
+      ],
+      "uniform_source_scale": 0.25,
+      "placement": [
+        26,
+        18
+      ],
+      "opaque_bbox": [
+        27,
+        19,
+        85,
+        120
+      ],
+      "sha256": "0a2dd82ec29a3429f2772ceca632f5debd42f0ef89c2f794faa79bc70715ad46"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/neri/front_right_idle_00.png",
+      "phase": 0,
+      "source": "source.png",
+      "source_rect": [
+        313,
+        35,
+        627,
+        465
+      ],
+      "component_crop": [
+        40,
+        19,
+        296,
+        428
+      ],
+      "uniform_source_scale": 0.25,
+      "placement": [
+        22,
+        19
+      ],
+      "opaque_bbox": [
+        23,
+        20,
+        85,
+        120
+      ],
+      "sha256": "c668aa7a0f8ebffb636980ff925b3a50d020c4359e28069bc5699ea4cee0fe68"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/neri/back_left_idle_00.png",
+      "phase": 0,
+      "source": "source.png",
+      "source_rect": [
+        627,
+        35,
+        940,
+        465
+      ],
+      "component_crop": [
+        61,
+        26,
+        270,
+        430
+      ],
+      "uniform_source_scale": 0.25,
+      "placement": [
+        20,
+        20
+      ],
+      "opaque_bbox": [
+        20,
+        20,
+        71,
+        120
+      ],
+      "sha256": "a7f98225a98cfd345478eb573e4ddaea8c83ad7b6766e02b182eb93b7615ce13"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/neri/back_right_idle_00.png",
+      "phase": 0,
+      "source": "source.png",
+      "source_rect": [
+        940,
+        35,
+        1254,
+        465
+      ],
+      "component_crop": [
+        50,
+        23,
+        279,
+        424
+      ],
+      "uniform_source_scale": 0.25,
+      "placement": [
+        15,
+        21
+      ],
+      "opaque_bbox": [
+        16,
+        21,
+        72,
+        120
+      ],
+      "sha256": "72d3bc614f27a59fd68bf8fd8e98d47031a7c2da120253deebae8c7f2d512914"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/neri/front_left_idle_01.png",
+      "phase": 1,
+      "source": "source.png",
+      "source_rect": [
+        0,
+        465,
+        313,
+        895
+      ],
+      "component_crop": [
+        45,
+        5,
+        285,
+        412
+      ],
+      "uniform_source_scale": 0.25,
+      "placement": [
+        26,
+        19
+      ],
+      "opaque_bbox": [
+        26,
+        20,
+        85,
+        120
+      ],
+      "sha256": "5edd6ce325b3fc95b70e59f885ab5d53be9a477113baf025329d186eba93948d"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/neri/front_right_idle_01.png",
+      "phase": 1,
+      "source": "source.png",
+      "source_rect": [
+        313,
+        465,
+        627,
+        895
+      ],
+      "component_crop": [
+        40,
+        5,
+        298,
+        412
+      ],
+      "uniform_source_scale": 0.25,
+      "placement": [
+        22,
+        19
+      ],
+      "opaque_bbox": [
+        23,
+        20,
+        86,
+        120
+      ],
+      "sha256": "ae5ce67fb4e3a21b5ca3c6d8875681df1bd3f068e8165d3d444dee72d774c286"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/neri/back_left_idle_01.png",
+      "phase": 1,
+      "source": "source.png",
+      "source_rect": [
+        627,
+        465,
+        940,
+        895
+      ],
+      "component_crop": [
+        61,
+        12,
+        274,
+        412
+      ],
+      "uniform_source_scale": 0.25,
+      "placement": [
+        20,
+        21
+      ],
+      "opaque_bbox": [
+        20,
+        21,
+        73,
+        120
+      ],
+      "sha256": "401ea419516354970ee25144dfcbe1ba279a98a219874c5cc90d2cec3333f90f"
+    },
+    {
+      "file": "assets/sprites/iso4/idle_candidate/neri/back_right_idle_01.png",
+      "phase": 1,
+      "source": "source.png",
+      "source_rect": [
+        940,
+        465,
+        1254,
+        895
+      ],
+      "component_crop": [
+        49,
+        8,
+        280,
+        409
+      ],
+      "uniform_source_scale": 0.25,
+      "placement": [
+        15,
+        21
+      ],
+      "opaque_bbox": [
+        16,
+        22,
+        72,
+        120
+      ],
+      "sha256": "a470901c0b0c6b243e750f85f36f0b2661cff9d3f3dd8eec0de57de2aedbba30"
+    }
+  ],
+  "static_qa": {
+    "front_left": [
+      {
+        "phase": 0,
+        "lower28px_mask_iou_vs_phase0": 1.0
+      },
+      {
+        "phase": 1,
+        "lower28px_mask_iou_vs_phase0": 0.8926553672316384
+      }
+    ],
+    "front_right": [
+      {
+        "phase": 0,
+        "lower28px_mask_iou_vs_phase0": 1.0
+      },
+      {
+        "phase": 1,
+        "lower28px_mask_iou_vs_phase0": 0.9862637362637363
+      }
+    ],
+    "back_left": [
+      {
+        "phase": 0,
+        "lower28px_mask_iou_vs_phase0": 1.0
+      },
+      {
+        "phase": 1,
+        "lower28px_mask_iou_vs_phase0": 0.947103274559194
+      }
+    ],
+    "back_right": [
+      {
+        "phase": 0,
+        "lower28px_mask_iou_vs_phase0": 1.0
+      },
+      {
+        "phase": 1,
+        "lower28px_mask_iou_vs_phase0": 0.9207708779443254
+      }
+    ]
+  },
+  "phase_count": 2,
+  "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
+  "timing_note": "Loop0,1,0 each400ms yields1200msperiod and800msneutral acrosswrap; only2unique poses, not3."
+}
