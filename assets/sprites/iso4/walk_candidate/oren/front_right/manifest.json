@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "status": "candidate_not_accepted",
+  "character": "oren",
+  "facing": "front_right",
+  "source_commit": "7521b80f9d6eb8568221f9213fb9e38e8136dfd4",
+  "neutral": {
+    "path": "res://assets/sprites/iso4/idle_candidate/oren/front_right_idle_00.png",
+    "git_blob_sha": "00f7a02ed48fa281bf5e889ac5bc6cc0a8dfbac1",
+    "sha256": "5d2351b8372daafcf71402ca614fce658333531ccca1070272bba29f6c980ec7",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "unique_images": 3,
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "cadence": {
+    "grid_distance_per_cycle": 1,
+    "driver": "actual_post_collision_grid_distance",
+    "stop_pose": "N",
+    "blocked_phase_does_not_advance": true,
+    "nominal_fixed_background_seconds_per_grid": 0.8,
+    "nominal_3d_seconds_per_grid": 1
+  },
+  "registration": {
+    "reference": "canonical neutral ONLY for each independent step",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "output_full_square_resize": [
+      128,
+      128
+    ],
+    "resampler": "nearest",
+    "alpha_floor": 8,
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "per_frame_translation": false
+  },
+  "gait": {
+    "L": "anatomical left shield-side leg leads, right trails",
+    "R": "anatomical right sword-side leg leads, left trails",
+    "right_hand": "sword, image-left",
+    "left_hand": "shield, image-right",
+    "arms": "restrained occupied hands; no new arm swing",
+    "full_contralateral_arm_swing_drawn": false
+  },
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/oren/front_right/left.png",
+      "sha256": "4e43e007a39f2dff2abb0435b781bc67e7cd44ff7bbb76d4c863408df318ca19",
+      "git_blob_sha": "68738d1eafb2d08e84cc85e8faa9ed446d5befcf",
+      "source_sha256": "1dbecf15f8ad9bec527c5ea93ed885900c7f4b5a7081055732c1ead4a00a4d5b",
+      "prompt_sha256": "e900de8cd6de4b660ef0e15c6f96d9bacb96515bc487c2d421b5e5979c4937f2",
+      "bbox_exclusive_end": [
+        6,
+        22,
+        75,
+        115
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 114,
+        "8": 114,
+        "128": 114,
+        "240": 114,
+        "255": null
+      }
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/oren/front_right/right.png",
+      "sha256": "67c1582aa7c3cf7cd95d6bf2afbc6e9f168e9f5726f5b4b52edd8e4ebd7b799f",
+      "git_blob_sha": "dadcb628526913ddcc66b482c5fce85452f59339",
+      "source_sha256": "9db44c999f2fa4a19fe25921a9ef72e82c6aa759e1a650e3c006a94fa234f670",
+      "prompt_sha256": "8a57a434975292aa846193e83dda012d05b663ee5342191f275f3d87c6c5f5d1",
+      "bbox_exclusive_end": [
+        6,
+        22,
+        75,
+        121
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 120,
+        "8": 120,
+        "128": 120,
+        "240": 120,
+        "255": null
+      }
+    }
+  },
+  "qa": {
+    "art_review": "static coherent candidate; root and runtime review pending",
+    "engine_acceptance": "pending",
+    "alpha_foot_warning": "R occupied y120, bbox bottom121; actual3D and background clipping unverified. L occupied y114. No foot bottom alignment applied.",
+    "held_frame_slip": "not zero; verify visually on actual authoritative route",
+    "upper_body": "same scale/location; rerendered pixels, R somewhat brighter",
+    "generation_calls": 2,
+    "old_walk_reused": false,
+    "arm_trial": "not included; abandoned per user"
+  }
+}
