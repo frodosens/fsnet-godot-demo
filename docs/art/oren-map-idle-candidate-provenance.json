@@ -1,0 +1,275 @@
+{
+  "generator": "host-native image_gen",
+  "unit_ids": [
+    "oren"
+  ],
+  "sprite_role": "raider",
+  "prompt": "Edit/extend this actual GAME MAP sprite strip into a square idle-animation atlas. Preserve EXACT existing Oren raider identity, grey-brown short hair and stubble, dark olive neck scarf and tunic, ochre brown shoulder leather, crossing brown straps, brown boots, short sword RIGHT hand and small round shield LEFT hand, original pixel-cluster style/body proportions, elevated isometric camera and all FOUR exact diagonal facings. NOT a redesign, NOT battle sideview.\nOUTPUT FOUR columns by THREE rows on real transparent alpha. Columns correspond exactly to reference left to right front-left, front-right, back-left, back-right. In each column all rows have identical body proportions/costume/footprint and scale.\nRow1 original relaxed exhale pose. Row2 halfway inhale, modest chest expansion and shoulders/hands rise slightly with natural scarf response. Row3 full inhale, upper chest and shoulders a little higher and scarf slightly lifted. 1\u20132 pixels of upper-body motion at final96x128 resolution. Legs/hips/boots remain COMPLETELY stationary, exactly same outlines and placement across three rows; head stable. Loop will be rows1,2,3,2. Genuine redrawn chest/shoulder/hand/scarf poses, no body scaling, translation, hopping, walking, weapon swing, duplicated unchanged frames.\nSquare atlas with uniform cells, feet same baseline and stable centers, ample clear transparent margins including swordtips. All12 full-body sprites completely visible. Pixel-art same as reference, no added photoreal detail, new props, text, numbers, backgrounds, shadows, halos or checkerboard. True transparency outside sprites.\n",
+  "references": [
+    {
+      "repository_path": "assets/sprites/iso4/raider_front_left_idle.png",
+      "sha256": "fc5d136d73a12a079ddcce320862a8e49296300a34232aa716bca6c996ec4519",
+      "git_blob_sha": "0997f8836096f63167e174521a2ae16a8f8cb05b",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "repository_path": "assets/sprites/iso4/raider_front_right_idle.png",
+      "sha256": "02cd70cd32ddcf4ba734633dbe797e7523ef58d12e70e19fbe94a9d50474dfc3",
+      "git_blob_sha": "28f6d683e982795b96ba0b36f50a6f2942a3434f",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "repository_path": "assets/sprites/iso4/raider_back_left_idle.png",
+      "sha256": "5b9b6b991eeb7191eb8f0e07f4fc0c030a0c9ef19f2088f3b9803c462412bccf",
+      "git_blob_sha": "5e513a54fa4eba2d37ff558641e36d209c88242b",
+      "size": [
+        96,
+        128
+      ]
+    },
+    {
+      "repository_path": "assets/sprites/iso4/raider_back_right_idle.png",
+      "sha256": "360878b63292345be76c9dc5b559733091161570f95efdd70c2a4dd2d55e0ff7",
+      "git_blob_sha": "aec96ad098702c5a46b67d4fb4b6a97d4afc54b2",
+      "size": [
+        96,
+        128
+      ]
+    }
+  ],
+  "source_canvas": [
+    1254,
+    1254
+  ],
+  "generated_source_sha256": "60c0e363e9faf5f9fbed8c39ff0de2d6d4553d1f08b74eba37ef3a8aafad984b",
+  "processing": "crop and connected-figure isolation, shared nearest scale, fixed per-direction translation; no pose warping",
+  "qa": {
+    "meaning": "Static image pixel QA, not runtime acceptance. Rendered upper-body poses visually reviewed; generated subpixel/onepixel foot texture drift retained.",
+    "directions": {
+      "front_left": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            8,
+            22,
+            77,
+            120
+          ],
+          "lower_28px_bbox": [
+            24,
+            100,
+            65,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "boot_region_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            8,
+            23,
+            77,
+            121
+          ],
+          "lower_28px_bbox": [
+            24,
+            100,
+            65,
+            121
+          ],
+          "lower_mask_iou_vs_phase0": 0.9651741293532339,
+          "boot_region_mask_iou_vs_phase0": 0.964735516372796
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            8,
+            22,
+            77,
+            121
+          ],
+          "lower_28px_bbox": [
+            24,
+            100,
+            65,
+            121
+          ],
+          "lower_mask_iou_vs_phase0": 0.9650872817955112,
+          "boot_region_mask_iou_vs_phase0": 0.9646464646464646
+        }
+      ],
+      "front_right": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            6,
+            22,
+            75,
+            120
+          ],
+          "lower_28px_bbox": [
+            6,
+            100,
+            70,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "boot_region_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            6,
+            23,
+            76,
+            120
+          ],
+          "lower_28px_bbox": [
+            6,
+            100,
+            70,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 0.9279069767441861,
+          "boot_region_mask_iou_vs_phase0": 0.9718670076726342
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            6,
+            22,
+            76,
+            121
+          ],
+          "lower_28px_bbox": [
+            6,
+            100,
+            70,
+            121
+          ],
+          "lower_mask_iou_vs_phase0": 0.8761467889908257,
+          "boot_region_mask_iou_vs_phase0": 0.9496221662468514
+        }
+      ],
+      "back_left": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            20,
+            23,
+            89,
+            120
+          ],
+          "lower_28px_bbox": [
+            26,
+            100,
+            68,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "boot_region_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            20,
+            23,
+            89,
+            121
+          ],
+          "lower_28px_bbox": [
+            26,
+            100,
+            68,
+            121
+          ],
+          "lower_mask_iou_vs_phase0": 0.9536423841059603,
+          "boot_region_mask_iou_vs_phase0": 0.9536423841059603
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            20,
+            23,
+            89,
+            121
+          ],
+          "lower_28px_bbox": [
+            26,
+            100,
+            68,
+            121
+          ],
+          "lower_mask_iou_vs_phase0": 0.9431072210065645,
+          "boot_region_mask_iou_vs_phase0": 0.9431072210065645
+        }
+      ],
+      "back_right": [
+        {
+          "phase": 0,
+          "opaque_bbox": [
+            24,
+            23,
+            88,
+            120
+          ],
+          "lower_28px_bbox": [
+            30,
+            100,
+            88,
+            120
+          ],
+          "lower_mask_iou_vs_phase0": 1.0,
+          "boot_region_mask_iou_vs_phase0": 1.0
+        },
+        {
+          "phase": 1,
+          "opaque_bbox": [
+            24,
+            23,
+            88,
+            121
+          ],
+          "lower_28px_bbox": [
+            30,
+            100,
+            88,
+            121
+          ],
+          "lower_mask_iou_vs_phase0": 0.9470338983050848,
+          "boot_region_mask_iou_vs_phase0": 0.9727891156462585
+        },
+        {
+          "phase": 2,
+          "opaque_bbox": [
+            24,
+            23,
+            88,
+            121
+          ],
+          "lower_28px_bbox": [
+            30,
+            100,
+            88,
+            121
+          ],
+          "lower_mask_iou_vs_phase0": 0.9322033898305084,
+          "boot_region_mask_iou_vs_phase0": 0.9727891156462585
+        }
+      ]
+    },
+    "boot_region": "x25..70, y100..127 excludes sword tip; fixed for all four directions"
+  },
+  "acceptance": "Review candidate only. Chest/shoulder/arm phases distinct; original silhouette/style retained. Source hashes confirmed by parent against main. No runtime test claimed.",
+  "license": "Original host-generated project asset; no third-party asset pack, no external provider.",
+  "reference_identity_verified_against_main_git_tree": true,
+  "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
+  "reference_verification_evidence": "production_art/remaining_map4_idles/reference-verification.json (verified by staging parent)"
+}

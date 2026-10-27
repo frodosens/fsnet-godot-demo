@@ -1,0 +1,168 @@
+{
+  "generator": "host-native image_gen",
+  "unit_ids": [
+    "finn"
+  ],
+  "prompt": "Edit/extend this actual GAME MAP sprite strip into a square idle-animation atlas for Finn the archer. Preserve reference EXACT design, pixel-cluster aesthetic, original body proportions, brown tousled hair, forest-green cloak and hood down, brown leather clothes, quiver and wooden bow; preserve handedness and four exact elevated-isometric diagonal facings. NOT redesign, not sideview battle.\nOUTPUT FOUR columns by THREE rows on transparent alpha. Columns correspond exactly to reference: front-left, front-right, back-left, back-right. Row1 relaxed exhale; row2 half inhale with subtle raised shoulder joints/chest expansion and cloak responding; row3 full inhale with shoulders/chest slightly higher, arms and bow following slightly, cloak gently shifted. All phases same anatomy, same costume construction, same scale. Loop is rows1,2,3,2. Motion should read as1-2pixels in a96x128 final sprite, not large movement.\nFeet, knees, pelvis, and boots MUST stay planted at identical relative positions in every phase. Head stable. No whole-body bob, no global resizing, no walking or attack. Genuine drawn shoulder/chest/cape motion, not duplicate unchanged frames. Quiver and bow remain consistently attached.\nAll twelve complete sprites in uniform cells, full feet/bow/cape within each cell. Keep generous transparent margins including rightmost figure; don't clip hand or bow at image edge. Pixel art matches original, no painterly upgrade. No new objects, text, labels, guide lines, shadows, ground, background, glow, checkerboard. True alpha.\n",
+  "source_canvas": [
+    1254,
+    1254
+  ],
+  "source_sha256": "985a18355d1d797c1778482745a536b20f8c432211e5212e557001402a19ad2c",
+  "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
+  "reference_identity_verified_against_main_git_tree": true,
+  "references": [
+    {
+      "path": "assets/sprites/iso4/archer_back_left_idle.png",
+      "git_blob_sha": "9ce8060729671072f88273f6652044391ade749f",
+      "sha256": "c7e314878c37b5fc597264bb008c71b672fead2bb759b54946cd244c9b1b76c7"
+    },
+    {
+      "path": "assets/sprites/iso4/archer_back_right_idle.png",
+      "git_blob_sha": "8b7f220ca5e4dd83fe2d509cb187e5f96c5a26b6",
+      "sha256": "44e95d2fce15d8dd88c7bfb928a8509e9494d52243ba6ba16a1d37ace0a53770"
+    },
+    {
+      "path": "assets/sprites/iso4/archer_front_left_idle.png",
+      "git_blob_sha": "a26b6ad4f30eb9d80cb0caa0e624516d9a18a0d4",
+      "sha256": "601c7ec3de390772ff21e07fe88090cfc20ac9c07714f5754c69e9a17cd3ad18"
+    },
+    {
+      "path": "assets/sprites/iso4/archer_front_right_idle.png",
+      "git_blob_sha": "ab98f96ce58febebd0b1e99d25317b8691723605",
+      "sha256": "980170a3b2cff7088ee4c5fac0b3b48079c68b981e9890072441c300dec944ec"
+    }
+  ],
+  "operations": "crop and connected-figure isolation, shared nearest scale, fixed per-direction translation; no pose warping",
+  "static_qa": {
+    "front_left": [
+      {
+        "phase": 0,
+        "opaque_bbox": [
+          22,
+          12,
+          80,
+          120
+        ],
+        "lower_mask_iou_vs0": 1.0
+      },
+      {
+        "phase": 1,
+        "opaque_bbox": [
+          22,
+          12,
+          81,
+          120
+        ],
+        "lower_mask_iou_vs0": 0.9840764331210191
+      },
+      {
+        "phase": 2,
+        "opaque_bbox": [
+          22,
+          11,
+          81,
+          120
+        ],
+        "lower_mask_iou_vs0": 0.9808917197452229
+      }
+    ],
+    "front_right": [
+      {
+        "phase": 0,
+        "opaque_bbox": [
+          15,
+          12,
+          83,
+          120
+        ],
+        "lower_mask_iou_vs0": 1.0
+      },
+      {
+        "phase": 1,
+        "opaque_bbox": [
+          15,
+          12,
+          83,
+          120
+        ],
+        "lower_mask_iou_vs0": 0.9783783783783784
+      },
+      {
+        "phase": 2,
+        "opaque_bbox": [
+          15,
+          11,
+          83,
+          120
+        ],
+        "lower_mask_iou_vs0": 0.9704301075268817
+      }
+    ],
+    "back_left": [
+      {
+        "phase": 0,
+        "opaque_bbox": [
+          21,
+          13,
+          80,
+          120
+        ],
+        "lower_mask_iou_vs0": 1.0
+      },
+      {
+        "phase": 1,
+        "opaque_bbox": [
+          21,
+          13,
+          80,
+          120
+        ],
+        "lower_mask_iou_vs0": 0.9875930521091811
+      },
+      {
+        "phase": 2,
+        "opaque_bbox": [
+          21,
+          12,
+          80,
+          120
+        ],
+        "lower_mask_iou_vs0": 0.9558823529411765
+      }
+    ],
+    "back_right": [
+      {
+        "phase": 0,
+        "opaque_bbox": [
+          24,
+          12,
+          83,
+          120
+        ],
+        "lower_mask_iou_vs0": 1.0
+      },
+      {
+        "phase": 1,
+        "opaque_bbox": [
+          24,
+          12,
+          84,
+          120
+        ],
+        "lower_mask_iou_vs0": 0.9819121447028424
+      },
+      {
+        "phase": 2,
+        "opaque_bbox": [
+          24,
+          11,
+          84,
+          120
+        ],
+        "lower_mask_iou_vs0": 0.9766839378238342
+      }
+    ]
+  },
+  "acceptance": "Candidate: genuine generated upper-body phases, common scale and static registration; no procedural animation warp. Pending real-time engine review. Minor generated pixel/foot drift disclosed."
+}
