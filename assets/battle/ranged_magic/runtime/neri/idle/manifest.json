@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "status": "candidate_review_pending",
+  "character": "neri",
+  "facing": "right",
+  "canvas": [
+    192,
+    160
+  ],
+  "anchor": [
+    96,
+    144
+  ],
+  "original_idle": "res://assets/battle/ranged_magic/runtime/neri/00_idle.png",
+  "new_idle": "res://assets/battle/ranged_magic/runtime/neri/idle/01_inhale.png",
+  "sequence": [
+    "res://assets/battle/ranged_magic/runtime/neri/00_idle.png",
+    "res://assets/battle/ranged_magic/runtime/neri/idle/01_inhale.png",
+    "res://assets/battle/ranged_magic/runtime/neri/00_idle.png"
+  ],
+  "duration_ms": [
+    320,
+    320,
+    320
+  ],
+  "unique_poses": 2,
+  "qa": {
+    "neutral": {
+      "bbox_threshold": "alpha>100",
+      "bbox": [
+        66,
+        45,
+        121,
+        144
+      ],
+      "alpha_gt_0_bbox": [
+        66,
+        45,
+        121,
+        144
+      ],
+      "alpha_gt_15_bbox": [
+        66,
+        45,
+        121,
+        144
+      ],
+      "alpha_gt_100_bbox": [
+        66,
+        45,
+        121,
+        144
+      ],
+      "alpha_gt_127_bbox": [
+        66,
+        45,
+        121,
+        144
+      ],
+      "foot_left": [
+        78,
+        130,
+        89,
+        144
+      ],
+      "foot_right": [
+        97,
+        130,
+        114,
+        143
+      ]
+    },
+    "inhale": {
+      "bbox_threshold": "alpha>100",
+      "bbox": [
+        66,
+        45,
+        121,
+        144
+      ],
+      "alpha_gt_0_bbox": [
+        28,
+        45,
+        122,
+        145
+      ],
+      "alpha_gt_15_bbox": [
+        66,
+        45,
+        121,
+        144
+      ],
+      "alpha_gt_100_bbox": [
+        66,
+        45,
+        121,
+        144
+      ],
+      "alpha_gt_127_bbox": [
+        66,
+        45,
+        121,
+        144
+      ],
+      "foot_left": [
+        78,
+        130,
+        90,
+        144
+      ],
+      "foot_right": [
+        97,
+        130,
+        114,
+        143
+      ]
+    },
+    "original_git_blob": "37696f527e6bcb6782f57037979dc0f2247159e6",
+    "source_sha256": "ef50c14d6e775ba9e156369af67a0797cad68b941d3aa1fbac49dcf942e10020",
+    "runtime_sha256": "52d6a57043261b1991f058c286ce21ab17029e872f9162a7830a600823db7ac3",
+    "status": "awaiting_visual_review"
+  },
+  "limits": [
+    "Root approved for isolated candidate staging, not game integration.",
+    "Faint alpha residue persists beyond thresholded bounds; not clean-alpha approved.",
+    "Foot metrics use alpha>100. All threshold bbox measurements are recorded.",
+    "Attack/hurt unchanged. Actual visible breathing and transition require engine temporal review."
+  ]
+}

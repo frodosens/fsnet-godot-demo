@@ -1,0 +1,7 @@
+# Neri sideview idle candidate
+
+Host-native image_gen reference edit. Onlyfullytransparent reference RGB cleared before8xnearest enlargement; visible source pixels untouched. Output fullcanvas nearest192x160 normalization, no posewarp/repaint. Raw generated source retained locally. Faint residual alpha remains, all threshold bounds inmanifest. Existing attack/hurt unchanged; no demos inGit. Runtime visibility pending.
+
+## Exact prompt
+
+This is the exact existing Neri mage sprite enlarged by nearest-neighbor8x. Conservative small edit, NOT a redraw. Preserve all visible pixel clusters, same silhouette, same head size, scale, body placement, staff and costume. Dark-skinned blue-haired female mage faces RIGHT, blue hair in high bun, blue cape and tunic with gold edging, brown boots, wooden staff with cyan jewel. Change ONLY an internal blue collar fold and upper chest highlight by ONE original pixel block/8imagepixels to suggest slight inhalation. Do not make character taller. Head/bun, hands, staff, jewel, belt, hem, cape outline, knees and boots must be fixed. Preserve exact fullbody shape, all transparent margins, same1536x1280canvas composition. No smoothing, no enhancing face, no additional effects, no magic glow, no new equipment, no direction change. ONE nearly identical sprite. Actual transparent background, no ground shadow. Tiny internal shoulder/chest motion only. Reproduce original lowresolutionpixel rendering instead of refining it.
