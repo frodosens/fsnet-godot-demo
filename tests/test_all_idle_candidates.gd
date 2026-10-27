@@ -55,5 +55,5 @@ func run():
     check(c.defender.texture.resource_path=="res://assets/battle/oren/idle/01_inhale.png" and not c.defender.flip_h,"Oren left inhale no double mirror")
     c.draw_tick(8);check(c.defender.texture.resource_path.ends_with("battle/oren/01_brace.png"),"Oren brace takes priority")
     c.draw_tick(23);check(c.defender.texture.resource_path.ends_with("battle/oren/03_recover.png"),"Oren recover preserved")
-    check(not c.idle_library.clips.battle.has("oren:right"),"no attack group substitution")
+    check(c.idle_library.clips.battle["oren:right"].textures[0]==c.actor_sets.oren.textures[0],"separate right attack neutral")
     c.finish();print("ALL_IDLE_CANDIDATES checks=",checks," failures=0");quit()

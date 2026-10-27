@@ -462,6 +462,51 @@
       "unit_ids": [
         "neri"
       ]
+    },
+    "tessa:right": {
+      "frames": [
+        "assets/battle/enemy_combat/runtime/tessa/00_idle.png",
+        "assets/battle/enemy_combat/runtime/tessa/idle/01_inhale.png",
+        "assets/battle/enemy_combat/runtime/tessa/00_idle.png"
+      ],
+      "frame_ms": [
+        320,
+        320,
+        320
+      ],
+      "unit_ids": [
+        "tessa"
+      ]
+    },
+    "bram:right": {
+      "frames": [
+        "assets/battle/enemy_combat/runtime/bram/00_idle.png",
+        "assets/battle/enemy_combat/runtime/bram/idle/01_inhale.png",
+        "assets/battle/enemy_combat/runtime/bram/00_idle.png"
+      ],
+      "frame_ms": [
+        320,
+        320,
+        320
+      ],
+      "unit_ids": [
+        "bram"
+      ]
+    },
+    "oren:right": {
+      "frames": [
+        "assets/battle/enemy_combat/runtime/oren/00_idle.png",
+        "assets/battle/enemy_combat/runtime/oren/idle/01_inhale.png",
+        "assets/battle/enemy_combat/runtime/oren/00_idle.png"
+      ],
+      "frame_ms": [
+        320,
+        320,
+        320
+      ],
+      "unit_ids": [
+        "oren"
+      ]
     }
   }
 }

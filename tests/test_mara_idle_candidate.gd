@@ -9,7 +9,7 @@ func run():
     change_scene_to_file("res://main.tscn");await process_frame;await process_frame
     var game=current_scene;var idle=game.get_node("MapIdle");idle.set_process(false);game.motion.set_process(false)
     while not app.next_story().is_empty():app.advance_story(true)
-    game.refresh();check(idle.library.errors.is_empty());check(idle.library.clips.map.size()==24);check(idle.library.clips.battle.keys()==["mara:right","oren:left","finn:right","neri:right"])
+    game.refresh();check(idle.library.errors.is_empty());check(idle.library.clips.map.size()==24);check(idle.library.clips.battle.keys()==["mara:right","oren:left","finn:right","neri:right","tessa:right","bram:right","oren:right"])
     var before=game.battle.snapshot();var position=game.figures[0].position
     for direction in ["front_left","front_right","back_left","back_right"]:
         game.facing.mara=direction;idle.clocks.clear();idle.advance(0)

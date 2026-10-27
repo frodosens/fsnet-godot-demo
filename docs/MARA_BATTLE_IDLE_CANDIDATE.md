@@ -37,8 +37,8 @@ choice, not a hidden delay.
 - Oren defence: `assets/battle/oren/00_idle.png`, already left-facing, no runtime
   flip; a clip derived from this file must use `oren:left` only.
 - Subsequent combined-candidate integration enables `oren:left` only, as recorded
-  in ALL_IDLE_CANDIDATES.md. Later Finn/Neri right-source clips are listed there;
-  Oren right attack and Tessa/Bram retain single-frame neutral fallback. Missing clips never switch identities.
+  in ALL_IDLE_CANDIDATES.md. Later additions bind all remaining right-source
+  clips separately; that document lists their exact visibility limits. Missing clips never switch identities.
 
 ## Reproduction and acceptance
 
