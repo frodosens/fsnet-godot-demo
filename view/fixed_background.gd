@@ -14,6 +14,7 @@ var saved_size=11.8
 var saved_aspect=Camera3D.KEEP_HEIGHT
 var art_rect=Rect2()
 var original_character_scale=1.0
+var compatibility_message=""
 func compatible():
     var authored=preload("res://logic/content.gd").reference_content()
     var current=game.battle.content
@@ -34,7 +35,13 @@ func plate(texture,depth,transparent=false):
     mesh.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;game.add_child(mesh);return mesh
 func set_fixed(enabled,fixture_texture:Texture2D=null):
     if enabled==active:return true
-    if enabled and (not compatible() or (fixture_texture==null and not available())):return false
+    if enabled and not compatible():
+        var authored=preload("res://logic/content.gd").reference_content()
+        if game.battle.content.id==authored.id and game.battle.content.revision<authored.revision:
+            compatibility_message="旧版地图 · 3D兼容视图"
+        return false
+    if enabled and fixture_texture==null and not available():return false
+    compatibility_message=""
     if enabled:
         var keep=[game.ground_overlay,game.camera,game.route_mesh,game.route_arrows,game.selection_ring,game.preview_ghost]
         keep.append_array(game.figures);keep.append_array(game.badges)

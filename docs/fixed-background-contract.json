@@ -2072,7 +2072,7 @@
           301.69
         ]
       ],
-      "terrain": "D"
+      "terrain": "X"
     },
     {
       "cell": [
@@ -2647,7 +2647,7 @@
   "map": "amber_bridge_reference",
   "ortho_height": 11.8000001907349,
   "projection": "orthographic fixed 45deg azimuth/45deg elevation",
-  "revision": 1,
+  "revision": 2,
   "runtime_fit": "Uniform contain / letterbox; independent HUD anchors. No stretch or arbitrary crop.",
   "units": [
     {

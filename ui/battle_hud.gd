@@ -206,6 +206,10 @@ func refresh():
     for line in [hint_label,log_label]:
         line.clip_text=true;line.custom_minimum_size.x=0;line.size.x=maxf(100,view.x-690);line.tooltip_text=line.text
     net_label.text="离线旅程" if not game.session.online else ("已连接 · 合作小队" if game.session.status.begins_with("Online") else "连接中 / 正在重连")
+    net_label.tooltip_text=""
+    if game.scene_view and not game.scene_view.active and not game.scene_view.compatibility_message.is_empty():
+        net_label.text=(net_label.text+" · 旧图3D") if game.session.online else game.scene_view.compatibility_message
+        net_label.tooltip_text="旧存档保留原地图与单位坐标，不套用新障碍；使用3D兼容视图继续游戏。"
     if game.session.failed:net_label.text="连接失败 · 请返回重试"
     var button_index=1
     for i in range(logic.units.size()):
