@@ -30,3 +30,7 @@ AMBER_WALK_ACTOR=oren AMBER_WALK_DIRECTION=back_left python3 "$root/tests/run_wa
 AMBER_WALK_ACTOR=oren AMBER_WALK_DIRECTION=back_right python3 "$root/tests/run_walk_network.py"
 AMBER_WALK_ACTOR=mara AMBER_WALK_DIRECTION=front_right python3 "$root/tests/run_walk_network.py"
 AMBER_WALK_ACTOR=bram AMBER_WALK_DIRECTION=front_right python3 "$root/tests/run_walk_network.py"
+AMBER_WALK_ACTOR=neri AMBER_WALK_DIRECTION=front_right python3 "$root/tests/run_walk_network.py"
+AMBER_WALK_ACTOR=tessa AMBER_WALK_DIRECTION=front_right python3 "$root/tests/run_walk_network.py"
+AMBER_WALK_ACTOR=adela AMBER_WALK_DIRECTION=front_right python3 "$root/tests/run_walk_network.py"
+AMBER_WALK_ACTOR=elsbet AMBER_WALK_DIRECTION=front_right python3 "$root/tests/run_walk_network.py"

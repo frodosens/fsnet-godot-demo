@@ -10,8 +10,9 @@ func frames():
 func run():
     var app=root.get_node("App");var Fixture=preload("res://tests/walk_rear_fixture.gd")
     var Walk=preload("res://view/walk_library.gd").shared();var Meter=load("res://view/unit_health.gd")
-    for entry in [["finn","back_right"],["oren","back_left"],["oren","back_right"],["mara","front_right"],["bram","front_right"]]:
+    for entry in [["finn","back_right"],["oren","back_left"],["oren","back_right"],["mara","front_right"],["bram","front_right"],["neri","front_right"],["tessa","front_right"],["adela","front_right"],["elsbet","front_right"]]:
         var actor=entry[0];var direction=entry[1]
+        check(Walk.clips.has(actor+":"+direction),"expected registered direction")
         if not Walk.clips.has(actor+":"+direction):continue
         for fixed in [true,false]:
             var data=Fixture.content(actor,direction);var target=Fixture.target(direction)
@@ -60,5 +61,5 @@ func run():
             check(game.figures[index].texture==Walk.sample(actor,second,1.25,fallback),"turn selects new direction or fallback")
             game.motion.finish()
             check(game.battle.snapshot()==truth and game.figures[index].position==Vector3(corner_target.x,0,corner_target.y),"legal corner skip settles rule endpoint")
-    for key in ["finn:front_left","finn:back_left","oren:front_left","adela:front_right","elsbet:front_right"]:check(not Walk.clips.has(key),"held/unproduced direction not enabled")
+    for key in ["finn:front_left","finn:back_left","oren:front_left","adela:back_right","elsbet:back_right"]:check(not Walk.clips.has(key),"held/unproduced direction not enabled")
     print("WALK_DIRECTION_BATCH checks=",checks," failures=",failures);quit(1 if failures else 0)

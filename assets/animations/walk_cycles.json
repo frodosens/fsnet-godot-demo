@@ -42,6 +42,30 @@
       "left": "assets/sprites/iso4/walk_candidate/bram/front_right/left.png",
       "right": "assets/sprites/iso4/walk_candidate/bram/front_right/right.png",
       "cycle_distance": 1
+    },
+    "neri:front_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/neri/front_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/neri/front_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/neri/front_right/right.png",
+      "cycle_distance": 1
+    },
+    "tessa:front_right": {
+      "neutral": "assets/sprites/iso4/idle_candidate/tessa/front_right_idle_00.png",
+      "left": "assets/sprites/iso4/walk_candidate/tessa/front_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/tessa/front_right/right.png",
+      "cycle_distance": 1
+    },
+    "adela:front_right": {
+      "neutral": "assets/characters/reserve/adela/map/front_right.png",
+      "left": "assets/sprites/iso4/walk_candidate/adela/front_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/adela/front_right/right.png",
+      "cycle_distance": 1
+    },
+    "elsbet:front_right": {
+      "neutral": "assets/characters/reserve/elsbet/map/front_right.png",
+      "left": "assets/sprites/iso4/walk_candidate/elsbet/front_right/left.png",
+      "right": "assets/sprites/iso4/walk_candidate/elsbet/front_right/right.png",
+      "cycle_distance": 1
     }
   }
 }

@@ -8,13 +8,13 @@ func run():
     var data=preload("res://logic/content.gd").reference_content();data.units[1].x=1;data.units[1].y=8
     var actor=OS.get_environment("AMBER_WALK_ACTOR");if actor.is_empty():actor="finn"
     var direction=OS.get_environment("AMBER_WALK_DIRECTION");if direction.is_empty():direction="front_right"
-    var index=0
-    for j in range(data.units.size()):
-        if data.units[j].id==actor:index=j
     var target=Vector2i(4,8)
     if direction!="front_right" or actor!="finn":
         data=preload("res://tests/walk_rear_fixture.gd").content(actor,direction)
         target=preload("res://tests/walk_rear_fixture.gd").target(direction)
+    var index=0
+    for j in range(data.units.size()):
+        if data.units[j].id==actor:index=j
     check(app.start_room(false,int(OS.get_environment("AMBER_TEST_PORT")),OS.get_environment("AMBER_TOKEN"),data),"connect real authority")
     var deadline=Time.get_ticks_msec()+15000
     while not app.session.ready or app.session.pending:
@@ -24,7 +24,7 @@ func run():
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.motion.speed=.5
     while app.session.pending:await process_frame
-    check(app.session.submit({"kind":"move","unit":index,"x":target.x,"y":target.y}),"network legal Finn move")
+    check(app.session.submit({"kind":"move","unit":index,"x":target.x,"y":target.y}),"network legal actor move")
     while game.battle.step<1:
         await process_frame
         if Time.get_ticks_msec()>deadline:check(false,"command timeout");quit(1);return
