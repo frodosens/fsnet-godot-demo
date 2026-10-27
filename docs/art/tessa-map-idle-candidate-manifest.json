@@ -82,7 +82,7 @@
       "opaque_bbox": [
         18,
         9,
-        86,
+        87,
         120
       ],
       "sha256": "e9a805d500a80ee48a44ed228040b387aeacf419a9a3d31b638a9079d13ff2ea"
@@ -269,5 +269,148 @@
     }
   ],
   "sprite_role": "scout",
-  "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d"
+  "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
+  "opaque_bbox_definition": "Half-open [left,top,right,bottom] bounds of pixels with uint8 alpha >=128. RGB under alpha0 ignored.",
+  "alpha128_frame_geometry": {
+    "front_left": [
+      {
+        "frame": "front_left_idle_00",
+        "bbox": [
+          17,
+          9,
+          84,
+          120
+        ],
+        "width": 67,
+        "bottom": 120
+      },
+      {
+        "frame": "front_left_idle_01",
+        "bbox": [
+          17,
+          9,
+          84,
+          120
+        ],
+        "width": 67,
+        "bottom": 120
+      },
+      {
+        "frame": "front_left_idle_02",
+        "bbox": [
+          17,
+          9,
+          84,
+          120
+        ],
+        "width": 67,
+        "bottom": 120
+      }
+    ],
+    "front_right": [
+      {
+        "frame": "front_right_idle_00",
+        "bbox": [
+          16,
+          9,
+          81,
+          120
+        ],
+        "width": 65,
+        "bottom": 120
+      },
+      {
+        "frame": "front_right_idle_01",
+        "bbox": [
+          16,
+          9,
+          81,
+          120
+        ],
+        "width": 65,
+        "bottom": 120
+      },
+      {
+        "frame": "front_right_idle_02",
+        "bbox": [
+          16,
+          10,
+          81,
+          120
+        ],
+        "width": 65,
+        "bottom": 120
+      }
+    ],
+    "back_left": [
+      {
+        "frame": "back_left_idle_00",
+        "bbox": [
+          18,
+          9,
+          87,
+          120
+        ],
+        "width": 69,
+        "bottom": 120
+      },
+      {
+        "frame": "back_left_idle_01",
+        "bbox": [
+          18,
+          9,
+          86,
+          120
+        ],
+        "width": 68,
+        "bottom": 120
+      },
+      {
+        "frame": "back_left_idle_02",
+        "bbox": [
+          18,
+          9,
+          87,
+          120
+        ],
+        "width": 69,
+        "bottom": 120
+      }
+    ],
+    "back_right": [
+      {
+        "frame": "back_right_idle_00",
+        "bbox": [
+          22,
+          9,
+          89,
+          120
+        ],
+        "width": 67,
+        "bottom": 120
+      },
+      {
+        "frame": "back_right_idle_01",
+        "bbox": [
+          22,
+          9,
+          89,
+          120
+        ],
+        "width": 67,
+        "bottom": 120
+      },
+      {
+        "frame": "back_right_idle_02",
+        "bbox": [
+          22,
+          10,
+          89,
+          120
+        ],
+        "width": 67,
+        "bottom": 120
+      }
+    ]
+  }
 }

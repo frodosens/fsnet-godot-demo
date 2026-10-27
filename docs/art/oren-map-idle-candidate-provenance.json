@@ -271,5 +271,152 @@
   "license": "Original host-generated project asset; no third-party asset pack, no external provider.",
   "reference_identity_verified_against_main_git_tree": true,
   "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
-  "reference_verification_evidence": "production_art/remaining_map4_idles/reference-verification.json (verified by staging parent)"
+  "reference_verification_evidence": "production_art/remaining_map4_idles/reference-verification.json (verified by staging parent)",
+  "bbox_metadata_revision": {
+    "definition": "Half-open [left,top,right,bottom] bounds of pixels with uint8 alpha >=128. RGB under alpha0 ignored.",
+    "png_bytes_unchanged": true,
+    "frame_geometry": {
+      "front_left": [
+        {
+          "frame": "front_left_idle_00",
+          "bbox": [
+            8,
+            22,
+            77,
+            120
+          ],
+          "width": 69,
+          "bottom": 120
+        },
+        {
+          "frame": "front_left_idle_01",
+          "bbox": [
+            8,
+            23,
+            77,
+            121
+          ],
+          "width": 69,
+          "bottom": 121
+        },
+        {
+          "frame": "front_left_idle_02",
+          "bbox": [
+            8,
+            22,
+            77,
+            121
+          ],
+          "width": 69,
+          "bottom": 121
+        }
+      ],
+      "front_right": [
+        {
+          "frame": "front_right_idle_00",
+          "bbox": [
+            6,
+            22,
+            75,
+            120
+          ],
+          "width": 69,
+          "bottom": 120
+        },
+        {
+          "frame": "front_right_idle_01",
+          "bbox": [
+            6,
+            23,
+            76,
+            120
+          ],
+          "width": 70,
+          "bottom": 120
+        },
+        {
+          "frame": "front_right_idle_02",
+          "bbox": [
+            6,
+            22,
+            76,
+            121
+          ],
+          "width": 70,
+          "bottom": 121
+        }
+      ],
+      "back_left": [
+        {
+          "frame": "back_left_idle_00",
+          "bbox": [
+            20,
+            23,
+            89,
+            120
+          ],
+          "width": 69,
+          "bottom": 120
+        },
+        {
+          "frame": "back_left_idle_01",
+          "bbox": [
+            20,
+            23,
+            89,
+            121
+          ],
+          "width": 69,
+          "bottom": 121
+        },
+        {
+          "frame": "back_left_idle_02",
+          "bbox": [
+            20,
+            23,
+            89,
+            121
+          ],
+          "width": 69,
+          "bottom": 121
+        }
+      ],
+      "back_right": [
+        {
+          "frame": "back_right_idle_00",
+          "bbox": [
+            24,
+            23,
+            88,
+            120
+          ],
+          "width": 64,
+          "bottom": 120
+        },
+        {
+          "frame": "back_right_idle_01",
+          "bbox": [
+            24,
+            23,
+            88,
+            121
+          ],
+          "width": 64,
+          "bottom": 121
+        },
+        {
+          "frame": "back_right_idle_02",
+          "bbox": [
+            24,
+            23,
+            88,
+            121
+          ],
+          "width": 64,
+          "bottom": 121
+        }
+      ]
+    }
+  },
+  "runtime_acceptance": "Not claimed; metadata/static checks only."
 }

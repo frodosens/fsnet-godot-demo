@@ -259,7 +259,7 @@
         25,
         12,
         94,
-        119
+        120
       ],
       "sha256": "ae5f09d59cdde9368247860e5f4bd4c348ecefc82fd4d24a23c8cb6fe359b96d"
     }
@@ -270,5 +270,153 @@
   ],
   "reference_identity_verified_against_main_git_tree": true,
   "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
-  "reference_verification_evidence": "production_art/remaining_map4_idles/reference-verification.json (verified by staging parent)"
+  "reference_verification_evidence": "production_art/remaining_map4_idles/reference-verification.json (verified by staging parent)",
+  "opaque_bbox_definition": "Half-open [left,top,right,bottom] bounds of pixels with uint8 alpha >=128. RGB under alpha0 ignored.",
+  "alpha128_frame_geometry": {
+    "front_left": [
+      {
+        "frame": "front_left_idle_00",
+        "bbox": [
+          13,
+          11,
+          83,
+          120
+        ],
+        "width": 70,
+        "bottom": 120
+      },
+      {
+        "frame": "front_left_idle_01",
+        "bbox": [
+          13,
+          11,
+          83,
+          120
+        ],
+        "width": 70,
+        "bottom": 120
+      },
+      {
+        "frame": "front_left_idle_02",
+        "bbox": [
+          13,
+          13,
+          83,
+          120
+        ],
+        "width": 70,
+        "bottom": 120
+      }
+    ],
+    "front_right": [
+      {
+        "frame": "front_right_idle_00",
+        "bbox": [
+          16,
+          11,
+          83,
+          120
+        ],
+        "width": 67,
+        "bottom": 120
+      },
+      {
+        "frame": "front_right_idle_01",
+        "bbox": [
+          16,
+          10,
+          83,
+          120
+        ],
+        "width": 67,
+        "bottom": 120
+      },
+      {
+        "frame": "front_right_idle_02",
+        "bbox": [
+          16,
+          12,
+          83,
+          120
+        ],
+        "width": 67,
+        "bottom": 120
+      }
+    ],
+    "back_left": [
+      {
+        "frame": "back_left_idle_00",
+        "bbox": [
+          16,
+          10,
+          77,
+          119
+        ],
+        "width": 61,
+        "bottom": 119
+      },
+      {
+        "frame": "back_left_idle_01",
+        "bbox": [
+          16,
+          10,
+          77,
+          120
+        ],
+        "width": 61,
+        "bottom": 120
+      },
+      {
+        "frame": "back_left_idle_02",
+        "bbox": [
+          16,
+          12,
+          77,
+          119
+        ],
+        "width": 61,
+        "bottom": 119
+      }
+    ],
+    "back_right": [
+      {
+        "frame": "back_right_idle_00",
+        "bbox": [
+          26,
+          10,
+          94,
+          119
+        ],
+        "width": 68,
+        "bottom": 119
+      },
+      {
+        "frame": "back_right_idle_01",
+        "bbox": [
+          25,
+          10,
+          94,
+          120
+        ],
+        "width": 69,
+        "bottom": 120
+      },
+      {
+        "frame": "back_right_idle_02",
+        "bbox": [
+          25,
+          12,
+          94,
+          120
+        ],
+        "width": 69,
+        "bottom": 120
+      }
+    ]
+  },
+  "review_notes": [
+    "alpha>=128 back_left bottoms119/120/119; back_right bottoms119/120/120 and widths68/69/69.",
+    "Original-to-candidate visiblewidth delta6\u20137px; review movement-to-idle transition.",
+    "Candidate only; no actual runtime acceptance claimed."
+  ]
 }

@@ -164,5 +164,152 @@
       }
     ]
   },
-  "acceptance": "Candidate: genuine generated upper-body phases, common scale and static registration; no procedural animation warp. Pending real-time engine review. Minor generated pixel/foot drift disclosed."
+  "acceptance": "Candidate: genuine generated upper-body phases, common scale and static registration; no procedural animation warp. Pending real-time engine review. Minor generated pixel/foot drift disclosed.",
+  "bbox_metadata_revision": {
+    "definition": "Half-open [left,top,right,bottom] bounds of pixels with uint8 alpha >=128. RGB under alpha0 ignored.",
+    "png_bytes_unchanged": true,
+    "frame_geometry": {
+      "front_left": [
+        {
+          "frame": "front_left_idle_00",
+          "bbox": [
+            22,
+            12,
+            80,
+            120
+          ],
+          "width": 58,
+          "bottom": 120
+        },
+        {
+          "frame": "front_left_idle_01",
+          "bbox": [
+            22,
+            12,
+            81,
+            120
+          ],
+          "width": 59,
+          "bottom": 120
+        },
+        {
+          "frame": "front_left_idle_02",
+          "bbox": [
+            21,
+            11,
+            81,
+            120
+          ],
+          "width": 60,
+          "bottom": 120
+        }
+      ],
+      "front_right": [
+        {
+          "frame": "front_right_idle_00",
+          "bbox": [
+            15,
+            12,
+            83,
+            120
+          ],
+          "width": 68,
+          "bottom": 120
+        },
+        {
+          "frame": "front_right_idle_01",
+          "bbox": [
+            15,
+            12,
+            83,
+            120
+          ],
+          "width": 68,
+          "bottom": 120
+        },
+        {
+          "frame": "front_right_idle_02",
+          "bbox": [
+            15,
+            11,
+            83,
+            120
+          ],
+          "width": 68,
+          "bottom": 120
+        }
+      ],
+      "back_left": [
+        {
+          "frame": "back_left_idle_00",
+          "bbox": [
+            21,
+            13,
+            80,
+            120
+          ],
+          "width": 59,
+          "bottom": 120
+        },
+        {
+          "frame": "back_left_idle_01",
+          "bbox": [
+            21,
+            13,
+            80,
+            120
+          ],
+          "width": 59,
+          "bottom": 120
+        },
+        {
+          "frame": "back_left_idle_02",
+          "bbox": [
+            21,
+            12,
+            80,
+            120
+          ],
+          "width": 59,
+          "bottom": 120
+        }
+      ],
+      "back_right": [
+        {
+          "frame": "back_right_idle_00",
+          "bbox": [
+            24,
+            12,
+            83,
+            120
+          ],
+          "width": 59,
+          "bottom": 120
+        },
+        {
+          "frame": "back_right_idle_01",
+          "bbox": [
+            24,
+            12,
+            84,
+            120
+          ],
+          "width": 60,
+          "bottom": 120
+        },
+        {
+          "frame": "back_right_idle_02",
+          "bbox": [
+            24,
+            11,
+            84,
+            120
+          ],
+          "width": 60,
+          "bottom": 120
+        }
+      ]
+    }
+  },
+  "runtime_acceptance": "Not claimed; metadata/static checks only."
 }

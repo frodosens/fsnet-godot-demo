@@ -303,5 +303,109 @@
   },
   "phase_count": 2,
   "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
-  "timing_note": "Loop0,1,0 each400ms yields1200msperiod and800msneutral acrosswrap; only2unique poses, not3."
+  "timing_note": "Loop0,1,0 each400ms yields1200msperiod and800msneutral acrosswrap; only2unique poses, not3.",
+  "opaque_bbox_definition": "Half-open [left,top,right,bottom] bounds of pixels with uint8 alpha >=128. RGB under alpha0 ignored.",
+  "alpha128_frame_geometry": {
+    "front_left": [
+      {
+        "frame": "front_left_idle_00",
+        "bbox": [
+          27,
+          19,
+          85,
+          120
+        ],
+        "width": 58,
+        "bottom": 120
+      },
+      {
+        "frame": "front_left_idle_01",
+        "bbox": [
+          26,
+          20,
+          85,
+          120
+        ],
+        "width": 59,
+        "bottom": 120
+      }
+    ],
+    "front_right": [
+      {
+        "frame": "front_right_idle_00",
+        "bbox": [
+          23,
+          20,
+          85,
+          120
+        ],
+        "width": 62,
+        "bottom": 120
+      },
+      {
+        "frame": "front_right_idle_01",
+        "bbox": [
+          23,
+          20,
+          86,
+          120
+        ],
+        "width": 63,
+        "bottom": 120
+      }
+    ],
+    "back_left": [
+      {
+        "frame": "back_left_idle_00",
+        "bbox": [
+          20,
+          20,
+          71,
+          120
+        ],
+        "width": 51,
+        "bottom": 120
+      },
+      {
+        "frame": "back_left_idle_01",
+        "bbox": [
+          20,
+          21,
+          73,
+          120
+        ],
+        "width": 53,
+        "bottom": 120
+      }
+    ],
+    "back_right": [
+      {
+        "frame": "back_right_idle_00",
+        "bbox": [
+          16,
+          21,
+          72,
+          120
+        ],
+        "width": 56,
+        "bottom": 120
+      },
+      {
+        "frame": "back_right_idle_01",
+        "bbox": [
+          16,
+          22,
+          72,
+          120
+        ],
+        "width": 56,
+        "bottom": 120
+      }
+    ]
+  },
+  "review_notes": [
+    "Two unique poses; loop0,1,0@400ms has800msneutral acrosswrap.",
+    "alpha>=128 back_left width51\u219253; review robe expansion/transition.",
+    "Rejected thirdphase excluded. Candidate only; no actual runtime acceptance claimed."
+  ]
 }

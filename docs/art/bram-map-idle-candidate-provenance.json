@@ -273,5 +273,152 @@
   "base_commit": "1bedc02ccd1430c042938e3c40ad4e733c69fb0d",
   "reference_verification_evidence": "production_art/remaining_map4_idles/reference-verification.json (verified by staging parent)",
   "framing_correction_prompt": "Correct ONLY the atlas framing of this exact twelve-pose Bram idle sheet. The bottom row boots are clipped at the bottom edge; this is unacceptable. Keep ALL12 existing characters, exact original identity, clothing, dark rectangular hand tool, pixel art, directions and breathing phases. Do not redesign or alter poses.\nPlace the SAME four columns x three rows into properly padded equal cells on a square transparent canvas. Each full-body figure should occupy only80% of cell height, with10% clear margin above and below. Need generous transparent margins outside the whole atlas and between rows. Reconstruct the COMPLETE uncut bottom-row boots using identical boots of the same facing in rows1/2; keep feet planted, no stance changes. All feet, hair and tools must be entirely in frame with transparent padding. Do NOT crop any sprite. Four facings front-left/front-right/back-left/back-right from left to right, exhale/partial/full inhale top to bottom.\nTrue transparent alpha background; no color fill/checkerboard/text/shadows. Keep chest/shoulder breathing differences, identical leg geometry across phases, and all12 figures same scale.\n",
-  "rejected_source": "source-rejected-clipped.png: bottom back boots touched atlas edge; regenerated with margins."
+  "rejected_source": "source-rejected-clipped.png: bottom back boots touched atlas edge; regenerated with margins.",
+  "bbox_metadata_revision": {
+    "definition": "Half-open [left,top,right,bottom] bounds of pixels with uint8 alpha >=128. RGB under alpha0 ignored.",
+    "png_bytes_unchanged": true,
+    "frame_geometry": {
+      "front_left": [
+        {
+          "frame": "front_left_idle_00",
+          "bbox": [
+            13,
+            11,
+            83,
+            120
+          ],
+          "width": 70,
+          "bottom": 120
+        },
+        {
+          "frame": "front_left_idle_01",
+          "bbox": [
+            13,
+            11,
+            83,
+            120
+          ],
+          "width": 70,
+          "bottom": 120
+        },
+        {
+          "frame": "front_left_idle_02",
+          "bbox": [
+            13,
+            13,
+            83,
+            120
+          ],
+          "width": 70,
+          "bottom": 120
+        }
+      ],
+      "front_right": [
+        {
+          "frame": "front_right_idle_00",
+          "bbox": [
+            16,
+            11,
+            83,
+            120
+          ],
+          "width": 67,
+          "bottom": 120
+        },
+        {
+          "frame": "front_right_idle_01",
+          "bbox": [
+            16,
+            10,
+            83,
+            120
+          ],
+          "width": 67,
+          "bottom": 120
+        },
+        {
+          "frame": "front_right_idle_02",
+          "bbox": [
+            16,
+            12,
+            83,
+            120
+          ],
+          "width": 67,
+          "bottom": 120
+        }
+      ],
+      "back_left": [
+        {
+          "frame": "back_left_idle_00",
+          "bbox": [
+            16,
+            10,
+            77,
+            119
+          ],
+          "width": 61,
+          "bottom": 119
+        },
+        {
+          "frame": "back_left_idle_01",
+          "bbox": [
+            16,
+            10,
+            77,
+            120
+          ],
+          "width": 61,
+          "bottom": 120
+        },
+        {
+          "frame": "back_left_idle_02",
+          "bbox": [
+            16,
+            12,
+            77,
+            119
+          ],
+          "width": 61,
+          "bottom": 119
+        }
+      ],
+      "back_right": [
+        {
+          "frame": "back_right_idle_00",
+          "bbox": [
+            26,
+            10,
+            94,
+            119
+          ],
+          "width": 68,
+          "bottom": 119
+        },
+        {
+          "frame": "back_right_idle_01",
+          "bbox": [
+            25,
+            10,
+            94,
+            120
+          ],
+          "width": 69,
+          "bottom": 120
+        },
+        {
+          "frame": "back_right_idle_02",
+          "bbox": [
+            25,
+            12,
+            94,
+            120
+          ],
+          "width": 69,
+          "bottom": 120
+        }
+      ]
+    }
+  },
+  "runtime_acceptance": "Not claimed; metadata/static checks only."
 }

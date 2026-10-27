@@ -256,5 +256,152 @@
       ]
     }
   },
-  "status": "review candidate only, no Git or Library publication by this producer"
+  "status": "review candidate only, no Git or Library publication by this producer",
+  "bbox_metadata_revision": {
+    "definition": "Half-open [left,top,right,bottom] bounds of pixels with uint8 alpha >=128. RGB under alpha0 ignored.",
+    "png_bytes_unchanged": true,
+    "frame_geometry": {
+      "front_left": [
+        {
+          "frame": "front_left_idle_00",
+          "bbox": [
+            17,
+            9,
+            84,
+            120
+          ],
+          "width": 67,
+          "bottom": 120
+        },
+        {
+          "frame": "front_left_idle_01",
+          "bbox": [
+            17,
+            9,
+            84,
+            120
+          ],
+          "width": 67,
+          "bottom": 120
+        },
+        {
+          "frame": "front_left_idle_02",
+          "bbox": [
+            17,
+            9,
+            84,
+            120
+          ],
+          "width": 67,
+          "bottom": 120
+        }
+      ],
+      "front_right": [
+        {
+          "frame": "front_right_idle_00",
+          "bbox": [
+            16,
+            9,
+            81,
+            120
+          ],
+          "width": 65,
+          "bottom": 120
+        },
+        {
+          "frame": "front_right_idle_01",
+          "bbox": [
+            16,
+            9,
+            81,
+            120
+          ],
+          "width": 65,
+          "bottom": 120
+        },
+        {
+          "frame": "front_right_idle_02",
+          "bbox": [
+            16,
+            10,
+            81,
+            120
+          ],
+          "width": 65,
+          "bottom": 120
+        }
+      ],
+      "back_left": [
+        {
+          "frame": "back_left_idle_00",
+          "bbox": [
+            18,
+            9,
+            87,
+            120
+          ],
+          "width": 69,
+          "bottom": 120
+        },
+        {
+          "frame": "back_left_idle_01",
+          "bbox": [
+            18,
+            9,
+            86,
+            120
+          ],
+          "width": 68,
+          "bottom": 120
+        },
+        {
+          "frame": "back_left_idle_02",
+          "bbox": [
+            18,
+            9,
+            87,
+            120
+          ],
+          "width": 69,
+          "bottom": 120
+        }
+      ],
+      "back_right": [
+        {
+          "frame": "back_right_idle_00",
+          "bbox": [
+            22,
+            9,
+            89,
+            120
+          ],
+          "width": 67,
+          "bottom": 120
+        },
+        {
+          "frame": "back_right_idle_01",
+          "bbox": [
+            22,
+            9,
+            89,
+            120
+          ],
+          "width": 67,
+          "bottom": 120
+        },
+        {
+          "frame": "back_right_idle_02",
+          "bbox": [
+            22,
+            10,
+            89,
+            120
+          ],
+          "width": 67,
+          "bottom": 120
+        }
+      ]
+    }
+  },
+  "runtime_acceptance": "Not claimed; metadata/static checks only."
 }
