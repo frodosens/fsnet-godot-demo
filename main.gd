@@ -43,6 +43,9 @@ var scene_view
 var ground_overlay
 const MAP_PIXEL_SIZE=0.010727272727 # 99px Mara -> 90 logical px in reference camera at 1.25 scale.
 var character_scale=1.0
+# Map art only: never feed per-unit size into movement speed or combat art.
+const MAP_RENDER_FACTORS={"oren":1.05}
+func map_render_factor(unit_id):return MAP_RENDER_FACTORS.get(unit_id,1.0)
 
 func material(color):
     var m = StandardMaterial3D.new()
@@ -284,7 +287,7 @@ func build_world():
             for direction in reserve.map:direction_textures[u.id+":"+direction]=reserve.map[direction]
         facing[u.id]=("back_right" if u.ally else "front_left") if iso_roles.has(u.role) else ("back" if u.ally else "front")
         last_positions[u.id]=u.pos
-        sprite.pixel_size = MAP_PIXEL_SIZE if sprite.get_meta("formal_art") else 0.045
+        sprite.pixel_size = MAP_PIXEL_SIZE*map_render_factor(u.id) if sprite.get_meta("formal_art") else 0.045
         sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
         sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED if sprite.get_meta("formal_art") else BaseMaterial3D.BILLBOARD_FIXED_Y
         if sprite.get_meta("formal_art"):sprite.offset=Vector2(0,56)
@@ -588,7 +591,7 @@ func update_move_preview(cell):
     if selected<0 or mode!="move" or presentation_active() or hud.blocks_input():return
     preview_path=battle.path_to(selected,cell)
     if preview_path.is_empty():preview_reason="此格不可达 · 选择范围内的空格";return
-    preview_ghost.texture=figures[selected].texture;preview_ghost.position=Vector3(cell.x,figures[selected].position.y,cell.y);preview_ghost.show()
+    preview_ghost.texture=figures[selected].texture;preview_ghost.pixel_size=figures[selected].pixel_size;preview_ghost.position=Vector3(cell.x,figures[selected].position.y,cell.y);preview_ghost.show()
     var line=route_mesh.mesh;var arrows=route_arrows.mesh
     line.surface_begin(Mesh.PRIMITIVE_LINES);arrows.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
     for i in range(preview_path.size()-1):
@@ -681,10 +684,10 @@ func badge_height(index):
 func set_character_scale(value):
     character_scale=clampf(value,0.5,1.5)
     for i in range(figures.size()):
-        if figures[i].get_meta("formal_art"):figures[i].pixel_size=MAP_PIXEL_SIZE*character_scale
+        if figures[i].get_meta("formal_art"):figures[i].pixel_size=MAP_PIXEL_SIZE*character_scale*map_render_factor(battle.units[i].id)
         figures[i].position.y=figure_height(i)
         badges[i].position=badge_position(i)
-    preview_ghost.pixel_size=MAP_PIXEL_SIZE*character_scale
+    preview_ghost.pixel_size=figures[selected].pixel_size if selected>=0 and selected<figures.size() else MAP_PIXEL_SIZE*character_scale
     if preview_ghost.visible and selected>=0:preview_ghost.position.y=figure_height(selected)
 
 # Shared neutral source for stationary entry and static movement.

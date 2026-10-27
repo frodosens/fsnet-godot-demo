@@ -60,7 +60,7 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
         var shader=Shader.new();shader.code="shader_type spatial; render_mode unshaded, fog_disabled, cull_disabled, depth_draw_never; void fragment(){float d=length((UV-vec2(0.5))*2.0);ALBEDO=vec3(0.06,0.08,0.07);ALPHA=(1.0-smoothstep(0.15,1.0,d))*0.32;}"
         var material=ShaderMaterial.new();material.shader=shader
         for unit in game.battle.units:
-            var shadow=MeshInstance3D.new();var plane=PlaneMesh.new();plane.size=Vector2(0.56,0.38)*game.character_scale;shadow.mesh=plane;shadow.material_override=material;shadow.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;game.add_child(shadow);shadows.append(shadow)
+            var shadow=MeshInstance3D.new();var plane=PlaneMesh.new();plane.size=Vector2(0.56,0.38)*game.character_scale*game.map_render_factor(unit.id);shadow.mesh=plane;shadow.material_override=material;shadow.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;game.add_child(shadow);shadows.append(shadow)
         active=true;fit();setup_lights();sync_shadows()
     else:
         for entry in hidden:
@@ -88,7 +88,7 @@ func accepts_point(point):return not active or art_rect.has_point(point)
 func sync_shadows():
     for i in range(shadows.size()):
         var p=game.figures[i].position
-        var footprint=Vector2(0.56,0.38)*game.character_scale
+        var footprint=Vector2(0.56,0.38)*game.character_scale*game.map_render_factor(game.battle.units[i].id)
         if not shadows[i].mesh.size.is_equal_approx(footprint):shadows[i].mesh.size=footprint
         shadows[i].position=Vector3(p.x,0.008,p.z);shadows[i].visible=game.battle.units[i].hp>0
 func _process(_delta):
