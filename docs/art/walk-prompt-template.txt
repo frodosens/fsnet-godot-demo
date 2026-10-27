@@ -1,0 +1,32 @@
+TEMPLATE — substitute verified anatomy/image-side mapping for THIS facing.
+
+Use case: precise-object-edit / identity-preserve.
+Edit this ONE canonical [CHARACTER] neutral into ONE [LEFT/RIGHT]-step sprite.
+The attached canonical N is the ONLY character-identity reference. This is not a redesign.
+
+HIGHEST PRIORITY: keep head, face, hair, quiver/equipment, cloak, chest, shoulders,
+arms/hands and weapon in the SAME position, shape, scale and palette. Preserve pixel
+clusters and modest low-resolution style. No sharpening, new outline, beautification,
+body bob, cape flutter or lighting change. Change only the trouser legs/boots needed
+for a modest readable step.
+
+His/her anatomical [LEAD LEG] leg, appearing on [IMAGE SIDE] and connected to
+[VERIFIED HIP/LANDMARK], advances modestly [PROJECTED FORWARD DIRECTION]. The other
+leg trails. Preserve connected hip/knee/ankle/boot anatomy and original thickness.
+No jump, kick, high knee, exaggerated lunge or mirrored weapon.
+
+Keep the exact square transparent canvas and character placement: the96x128 input
+was padded16px horizontally to128x128 and enlarged8x to1024 square. Do not recenter,
+rescale or fit the character to the canvas. Preserve head/root registration and
+safe foot margin under the current renderer. [OPTIONAL VERIFIED FOOT GUIDE].
+
+Return ONE whole-character sprite on real transparency. No labels, text, ground,
+shadow, sheet or additional images. If choosing between new detail and fidelity,
+keep the reference unchanged.
+
+USAGE
+- Instantiate independently for L and R with the SAME exact canonical N.
+- Never use generated L as R's identity reference.
+- Check anatomy and current identity before approving either output.
+- For a bounded same-phase small correction only, use that exact accepted pose as
+  the sole reference, explicitly lock all non-target anatomy, and stop if it drifts.
