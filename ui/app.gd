@@ -23,17 +23,20 @@ var cutins_enabled=true
 var reduced_motion=false
 var sfx_enabled=true
 var sfx_volume_db=-12.0
+var finn_motion_preview=false # Motion-only trial; original Finn idle is retained.
 var mara_sequence_preview=false # Local opt-in for unapproved compact art candidate.
 var health_bar_avoidance=false
 var presentation_preferences_path="user://presentation.cfg"
 func load_presentation_preferences():
-    health_bar_avoidance=false;mara_sequence_preview=false
+    health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false
     var config=ConfigFile.new()
     if config.load(presentation_preferences_path)==OK:
         var value=config.get_value("map","health_bar_avoidance",false)
         if value is bool:health_bar_avoidance=value
         value=config.get_value("map","mara_sequence_preview",false)
         if value is bool:mara_sequence_preview=value
+        value=config.get_value("map","finn_motion_preview",false)
+        if value is bool:finn_motion_preview=value
 func set_health_bar_avoidance(on):
     health_bar_avoidance=bool(on)
     var config=ConfigFile.new();config.load(presentation_preferences_path)
@@ -198,4 +201,14 @@ func set_mara_sequence_preview(on):
     config.set_value("map","mara_sequence_preview",mara_sequence_preview)
     if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save map sequence preference")
     var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art()
+    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("mara")
+
+func map_sequence_enabled(id):
+    return mara_sequence_preview if id=="mara" else (finn_motion_preview if id=="finn" else false)
+func set_finn_motion_preview(on):
+    finn_motion_preview=bool(on)
+    var config=ConfigFile.new();config.load(presentation_preferences_path)
+    config.set_value("map","finn_motion_preview",finn_motion_preview)
+    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Finn motion preference")
+    var game=get_tree().current_scene
+    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("finn")

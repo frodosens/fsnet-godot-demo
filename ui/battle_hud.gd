@@ -339,6 +339,7 @@ func show_feedback_settings():
     var reduced=CheckButton.new();reduced.text="减弱震动与闪光";reduced.button_pressed=App.reduced_motion;reduced.toggled.connect(func(on):App.reduced_motion=on);c.add_child(reduced)
     var avoid=CheckButton.new();avoid.text="头顶血条自动避让";avoid.button_pressed=App.health_bar_avoidance;avoid.tooltip_text="默认关闭；开启后血条会横向避让附近角色，头顶跟随始终保留。";avoid.toggled.connect(App.set_health_bar_avoidance);c.add_child(avoid)
     var sequence=CheckButton.new();sequence.text="玛拉视频关键帧（候选）";sequence.button_pressed=App.mara_sequence_preview;sequence.tooltip_text="仅玛拉地图待机/移动；关闭恢复旧素材。移动为连续碎步候选，每格一循环。";sequence.toggled.connect(App.set_mara_sequence_preview);c.add_child(sequence)
+    var finn=CheckButton.new();finn.text="芬恩视频移动（候选）";finn.button_pressed=App.finn_motion_preview;finn.tooltip_text="只替换芬恩移动，原待机不变；关闭恢复旧移动。";finn.toggled.connect(App.set_finn_motion_preview);c.add_child(finn)
     var sound=CheckButton.new();sound.text="战斗音效";sound.button_pressed=App.sfx_enabled;sound.toggled.connect(func(on):App.sfx_enabled=on);c.add_child(sound)
     var volume=HSlider.new();volume.min_value=-30;volume.max_value=0;volume.step=1;volume.value=App.sfx_volume_db;volume.custom_minimum_size=Vector2(320,36);volume.tooltip_text="音效音量 dB";volume.value_changed.connect(func(value):App.sfx_volume_db=value);c.add_child(volume)
     c.add_child(UI.button("返回暂停菜单",func():clear_modal();toggle_pause()))

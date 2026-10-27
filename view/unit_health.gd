@@ -55,7 +55,7 @@ func refresh_art_width():
         if reserve.is_empty():neutral=idle_width_library.sample("map",unit.role+":"+direction,0,neutral,true,unit.id)
         else:neutral=reserve.map.get(direction,neutral)
         textures.append_array(walks.textures_for(unit.id,direction,neutral))
-        if get_node("/root/App").mara_sequence_preview:textures.append_array(preload("res://view/map_sequence.gd").shared().textures_for(unit.id,direction,neutral))
+        if get_node("/root/App").map_sequence_enabled(unit.id):textures.append_array(preload("res://view/map_sequence.gd").shared().textures_for(unit.id,direction,neutral))
     body_pixels=INF
     for texture in textures:
         var measured=body_width(texture)

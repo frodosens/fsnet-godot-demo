@@ -25,14 +25,16 @@ func configure(data):
         var spec=data.profiles[id]
         if not preload("res://logic/content.gd").identifier(id) or not spec is Dictionary:
             errors.append("invalid sequence profile ID/spec");continue
+        var motion_only=spec.get("motion_only",false)
+        if not motion_only is bool:errors.append("invalid motion_only flag: "+str(id));continue
         var decoded={};var valid=true
         for direction in DIRECTIONS:
             var item=spec.get(direction)
             if not item is Dictionary:valid=false;break
             var guard=texture_at(item.get("neutral_guard"),Vector2i(96,128))
-            var idle=decode(item.get("idle"),Vector2i(96,128))
+            var idle={} if motion_only else decode(item.get("idle"),Vector2i(96,128))
             var motion=decode(item.get("motion"),Vector2i(128,128))
-            if guard==null or idle.is_empty() or motion.is_empty():valid=false;break
+            if guard==null or (not motion_only and idle.is_empty()) or (motion_only and item.has("idle")) or motion.is_empty():valid=false;break
             decoded[direction]={"guard":guard,"idle":idle,"motion":motion}
         if valid:profiles[id]=decoded
         else:errors.append("invalid sequence profile: "+str(id)+"; old art retained")
@@ -49,6 +51,8 @@ func decode(spec,canvas):
     for value in root:
         if not (value is int or value is float) or not is_finite(value):return {}
     if root[0]!=canvas.x/2 or root[1]!=120:return {}
+    var expected=spec.get("cycle_ticks",38)
+    if not (expected is int or expected is float) or not is_finite(expected) or expected!=floor(expected) or expected<1 or expected>384:return {}
     var textures=[];var ends=[];var total=0
     for i in range(paths.size()):
         var tick=holds[i]
@@ -56,7 +60,7 @@ func decode(spec,canvas):
         var texture=texture_at(paths[i],canvas)
         if texture==null:return {}
         total+=int(tick);textures.append(texture);ends.append(total)
-    if total!=38:return {}
+    if total!=int(expected):return {}
     return {"textures":textures,"ends":ends,"ticks":total,"root":Vector2(root[0],root[1])}
 func matching(id,direction,guard):
     var profile=profiles.get(id,{})
@@ -69,8 +73,8 @@ func pick(clip,phase):
     return clip.textures[0]
 func idle(id,direction,time,guard,reduced=false):
     var entry=matching(id,direction,guard)
-    if entry.is_empty() or not is_finite(time):return guard
-    return pick(entry.idle,0.0 if reduced else maxf(0,time)*24.0/38.0)
+    if entry.is_empty() or entry.idle.is_empty() or not is_finite(time):return guard
+    return pick(entry.idle,0.0 if reduced else maxf(0,time)*24.0/entry.idle.ticks)
 func motion(id,direction,distance,guard):
     var entry=matching(id,direction,guard)
     if entry.is_empty() or not is_finite(distance) or distance<0:return null
@@ -78,4 +82,4 @@ func motion(id,direction,distance,guard):
     return pick(entry.motion,phase)
 func textures_for(id,direction,guard):
     var entry=matching(id,direction,guard)
-    return [] if entry.is_empty() else entry.idle.textures+entry.motion.textures
+    return [] if entry.is_empty() else entry.idle.get("textures",[])+entry.motion.textures

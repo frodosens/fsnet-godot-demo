@@ -18,9 +18,10 @@ func advance(delta):
         var fallback=game.direction_textures.get(id+":"+direction,game.figures[i].texture)
         var reserve=preload("res://view/reserve_art.gd").profile(id)
         var texture=reserve.map.get(direction,fallback) if not reserve.is_empty() else library.sample("map",unit.role+":"+direction,time,fallback,App.reduced_motion,id)
-        if App.mara_sequence_preview:
+        if App.map_sequence_enabled(id):
             var guard=game.base_directional_idle_texture(i,direction)
             var sequences=preload("res://view/map_sequence.gd").shared()
-            if not sequences.matching(id,direction,guard).is_empty():texture=sequences.idle(id,direction,time,guard,App.reduced_motion)
+            var entry=sequences.matching(id,direction,guard)
+            if not entry.is_empty() and not entry.idle.is_empty():texture=sequences.idle(id,direction,time,guard,App.reduced_motion)
 
         game.figures[i].texture=texture

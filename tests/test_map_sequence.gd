@@ -8,7 +8,7 @@ func check(ok,label):
 func run():
     var Library=preload("res://view/map_sequence.gd")
     var lib=Library.new();var data=JSON.parse_string(FileAccess.get_file_as_string(Library.PATH))
-    check(lib.errors.is_empty() and lib.profiles.size()==1,"complete sole Mara profile")
+    check(lib.errors.is_empty() and lib.profiles.size()==2,"complete sole Mara profile")
     if lib.profiles.is_empty():quit(1);return
     for direction in Library.DIRECTIONS:
         var entry=lib.profiles.mara[direction]
@@ -29,21 +29,21 @@ func run():
         check(lib.motion("mara",direction,-1,entry.guard)==null,"negative fallback")
     for value in [null,[],42,"bad"]:
         var bad=data.duplicate(true);bad.profiles.mara.front_right=value;lib.configure(bad)
-        check(lib.profiles.is_empty() and not lib.errors.is_empty(),"atomic bad direction fallback")
+        check(not lib.profiles.has("mara") and not lib.errors.is_empty(),"atomic bad direction fallback")
         bad=data.duplicate(true);bad.profiles.mara.front_right.motion=value;lib.configure(bad)
-        check(lib.profiles.is_empty(),"bad nested clip fallback")
+        check(not lib.profiles.has("mara"),"bad nested clip fallback")
     for field in ["frames","ticks","root"]:
         for value in [null,[],"bad",42]:
             var bad=data.duplicate(true);bad.profiles.mara.front_right.motion[field]=value;lib.configure(bad)
-            check(lib.profiles.is_empty(),"bad clip field fallback")
+            check(not lib.profiles.has("mara"),"bad clip field fallback")
     for value in [null,{},"bad",NAN,INF,-1,0,1.5,39]:
         var bad=data.duplicate(true);bad.profiles.mara.front_right.motion.ticks[0]=value;lib.configure(bad)
-        check(lib.profiles.is_empty(),"invalid tick rejected")
+        check(not lib.profiles.has("mara"),"invalid tick rejected")
     for value in ["../bad.png","assets/../bad.png","user://bad.png","assets/missing.png",null,{}]:
         var bad=data.duplicate(true);bad.profiles.mara.front_right.motion.frames[0]=value;lib.configure(bad)
-        check(lib.profiles.is_empty(),"unsafe/missing path rejected")
+        check(not lib.profiles.has("mara"),"unsafe/missing path rejected")
     for value in [[{},120],[64,null],[true,120],[64,INF],[64,NAN],[48,120]]:
         var bad=data.duplicate(true);bad.profiles.mara.front_right.motion.root=value;lib.configure(bad)
-        check(lib.profiles.is_empty(),"invalid root rejected")
-    lib.configure(data);check(lib.profiles.size()==1,"valid reload")
+        check(not lib.profiles.has("mara"),"invalid root rejected")
+    lib.configure(data);check(lib.profiles.size()==2,"valid reload")
     print("MAP_SEQUENCE checks=",checks," failures=",failures);quit(1 if failures else 0)
