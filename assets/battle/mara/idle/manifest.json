@@ -31,26 +31,68 @@
   "candidate_git_blob": "6b9cfd8cab8eec4062d59342281f8725ebdb68bf",
   "scope": "Add one drawn idle inhalation candidate; do not alter existing attack/hurt or map animations.",
   "qa": {
-    "neutral_alpha_bbox": [
-      65,
-      49,
-      145,
-      143
-    ],
-    "inhale_alpha_bbox": [
-      65,
-      48,
-      145,
-      143
-    ],
-    "foot_baseline_note": "Overall bottom anchor unchanged; boot outer edge expands1px and right boot bottom extends1px compared with neutral.",
+    "foot_baseline_note": "Reported boot/outline metrics use alpha>100 (same bounds here as>=128), not full nonzero alpha. Inhale has faint residual pixels beyond body bounds including bottom row alpha1. No alpha cleanup applied; engine visual validation required. At alpha>100 overall bottom anchor unchanged, boot outer edge expands1px and right boot bottom extends1px.",
     "review": "User approved native preview amplitude (可以), per parent handoff2026-10-27; runtime integration and in-game visibility remain unverified.",
     "limits": [
       "Only2unique poses; neutral repeats are not additional drawn frames.",
       "Small shading/detail differences remain; not pixel-perfect.",
       "No Godot import/playback test performed by art worker.",
       "game-dev CLI unavailable; no canonical-package validation."
-    ]
+    ],
+    "alpha_bounds": {
+      "neutral": {
+        "alpha_gt_0": [
+          65,
+          49,
+          145,
+          143
+        ],
+        "alpha_ge_16": [
+          65,
+          49,
+          145,
+          143
+        ],
+        "alpha_gt_100": [
+          65,
+          49,
+          145,
+          143
+        ],
+        "alpha_ge_128": [
+          65,
+          49,
+          145,
+          143
+        ]
+      },
+      "inhale": {
+        "alpha_gt_0": [
+          20,
+          48,
+          162,
+          160
+        ],
+        "alpha_ge_16": [
+          64,
+          48,
+          146,
+          143
+        ],
+        "alpha_gt_100": [
+          65,
+          48,
+          145,
+          143
+        ],
+        "alpha_ge_128": [
+          65,
+          48,
+          145,
+          143
+        ]
+      }
+    }
   },
   "cadence_proposal": {
     "preview_cycle_ms": 960,
