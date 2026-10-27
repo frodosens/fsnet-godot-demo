@@ -89,7 +89,7 @@ func ribbon(points,width,color):
 func range_alpha(cost,max_cost,time,reduced):
     var layer=clampf(float(cost)/maxf(1.0,float(max_cost)),0.0,1.0)
     var breath=1.0 if reduced else 0.94+0.06*sin(time*TAU/3.2)
-    return Vector2(lerpf(0.26,0.115,layer)*breath,lerpf(0.66,0.34,layer)*breath)
+    return Vector2(maxf(0.50,lerpf(0.78,0.56,layer)*breath),lerpf(0.66,0.34,layer)*breath)
 func draw_range():
     var max_cost=1.0
     for value in game.preview_reachable.values():max_cost=maxf(max_cost,float(value))
