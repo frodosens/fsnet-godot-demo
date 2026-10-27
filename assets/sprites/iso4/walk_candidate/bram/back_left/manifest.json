@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "character": "bram",
+  "facing": "back_left",
+  "status": "static_qualified_candidate_engine_review_pending",
+  "engine_accepted": false,
+  "source_commit": "bad7f355c0bc65a77b0a9bf22fec17281b98a714",
+  "neutral": {
+    "path": "res://assets/sprites/iso4/idle_candidate/bram/back_left_idle_00.png",
+    "git_blob_sha": "69597ba920ceabcc001268b271f14b56a92edebe",
+    "sha256": "5df734f92f004dcec1e35601ca40b1d90c31cab6d4b94440b2a04919cc61a257",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "unique_images": 3,
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "anatomy": {
+    "left_leg": "image-left, advances away/up for L",
+    "right_leg": "image-right, advances away/up for R",
+    "right_hand": "hammer, image-right; occluded by body in BL, visibly held in BR",
+    "left_hand": "empty image-left",
+    "arms": "restrained, no swing"
+  },
+  "registration": {
+    "reference": "same exact facing canonicalN as sole reference independently",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "uniform_full_square_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false,
+    "art_enlargement": false
+  },
+  "frames": {
+    "L": {
+      "path": "res://assets/sprites/iso4/walk_candidate/bram/back_left/left.png",
+      "git_blob_sha": "263d2e3ab31824608707587002f0bd71f7fdd1a4",
+      "sha256": "a8bc65ba5266933ebe58363c2994434f4af268a513ac1969fe3afbc4babf08d7",
+      "raw_source_sha256": "d3a38ac480c0b3bb4f6574792e604ed8c7a564d9682f5ec48cc030206e6919ff",
+      "prompt_sha256": "45f6d9043d7f354d1591ec8332e247bb0f0ba118e04871aa9a4d95f1f2eb8c6c",
+      "bbox_exclusive_end": [
+        16,
+        9,
+        77,
+        115
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 114,
+        "8": 114,
+        "128": 114,
+        "240": 114,
+        "255": null
+      },
+      "stance_lowest_sole_y": 114
+    },
+    "R": {
+      "path": "res://assets/sprites/iso4/walk_candidate/bram/back_left/right.png",
+      "git_blob_sha": "4629f4a762981842227dc319388aea5d18c50109",
+      "sha256": "a9f0fcb6709375106bf093ef5402432989593a351ec907c61f681e14d7553b93",
+      "raw_source_sha256": "c181029acea95376b60491c8260052d3f969aba558b5d38c15db0e46b1554641",
+      "prompt_sha256": "a551938afccc0bdce06a11a845b08fae45532457b1890dc0e3a9c3c786482f00",
+      "bbox_exclusive_end": [
+        16,
+        9,
+        77,
+        120
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 119,
+        "8": 119,
+        "128": 119,
+        "240": 119,
+        "255": null
+      },
+      "stance_lowest_sole_y": 119
+    }
+  },
+  "generation_calls": 3,
+  "qa": {
+    "identity": "head/red hair, white shirt patches, apron straps/tie and held hammer consistent with each own N and four-facing identity sheet",
+    "grounding": "BL L114 vs R119 ground-height asymmetry requires actual-route review; no bottom alignment",
+    "failure_or_relabel": "initial requestedR repeated L-phase and was excluded; one N-only image-space correction supplies selectedR",
+    "no_full_counter_swing_claim": true,
+    "runtime_scale": "normal Bram scale, no Oren enlargement applied",
+    "held_frame_slip": "stylized hold sequence, not zero slip"
+  },
+  "upper_body_metrics": {
+    "N": {
+      "upper_iou": 1.0,
+      "upper_mae": 0.0,
+      "bbox": [
+        15,
+        9,
+        78,
+        120
+      ]
+    },
+    "L": {
+      "upper_iou": 0.9828571428571429,
+      "upper_mae": 10.412076703386372,
+      "bbox": [
+        16,
+        9,
+        77,
+        115
+      ]
+    },
+    "R": {
+      "upper_iou": 0.9808325846061695,
+      "upper_mae": 8.392264631043258,
+      "bbox": [
+        16,
+        9,
+        77,
+        120
+      ]
+    }
+  },
+  "candidate_base_commit": "bad7f355c0bc65a77b0a9bf22fec17281b98a714"
+}

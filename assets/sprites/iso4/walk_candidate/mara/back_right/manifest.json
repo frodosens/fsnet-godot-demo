@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "character": "mara",
+  "facing": "back_right",
+  "status": "candidate_engine_review_pending",
+  "source_commit": "bad7f355c0bc65a77b0a9bf22fec17281b98a714",
+  "neutral": {
+    "path": "res://assets/sprites/iso4/idle_candidate/mara/back_right_idle_00.png",
+    "git_blob_sha": "a4b20fae8fd58acae9472b1082a493bf04486aa0",
+    "sha256": "25666be8bc74025fcb36ee9ab54ab21d42cbd0b0ca1fe65b11a2b3ae8c16cac9",
+    "unchanged": true
+  },
+  "canvas": [
+    96,
+    128
+  ],
+  "root": [
+    48,
+    120
+  ],
+  "beats": [
+    "N",
+    "L",
+    "N",
+    "R"
+  ],
+  "unique_images": 3,
+  "phase_starts": [
+    0,
+    0.25,
+    0.5,
+    0.75
+  ],
+  "grid_distance_per_cycle": 1,
+  "phase_driver": "actual_post_collision_grid_distance",
+  "stop_pose": "N",
+  "hands": "shield LEFT/image-left, sword RIGHT/image-right; held stable",
+  "legs": "L shield-side leg leads; R sword-side leg leads; rear-view hip/knee/boot attachments inspected",
+  "registration": {
+    "reference": "same exact canonicalN independently for every generation",
+    "padding": [
+      16,
+      0,
+      16,
+      0
+    ],
+    "reference_scale": 8,
+    "uniform_resize": [
+      128,
+      128
+    ],
+    "crop": [
+      16,
+      0,
+      112,
+      128
+    ],
+    "alpha_floor": 8,
+    "resampler": "nearest",
+    "translation": false,
+    "art_scale_change": false
+  },
+  "frames": {
+    "left": {
+      "path": "res://assets/sprites/iso4/walk_candidate/mara/back_right/left.png",
+      "git_blob_sha": "87d257c19031a1446539d786f019354ef349d7a4",
+      "sha256": "6c894d91fc073604ac19802a9103b7b2b55ba7eeab2794d7734b5c0c1832cfc2",
+      "source_sha256": "6e560df29ff21ea3ab46c8316b031e0d4c1759e6a3fdb18850d966e04f7ef67c",
+      "prompt_sha256": "79564db84967e93f2d604309afa4f8bee332ce0719ae6236c5190387737d5d29",
+      "bbox_exclusive_end": [
+        27,
+        22,
+        88,
+        120
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 119,
+        "8": 119,
+        "128": 119,
+        "240": 119,
+        "255": null
+      }
+    },
+    "right": {
+      "path": "res://assets/sprites/iso4/walk_candidate/mara/back_right/right.png",
+      "git_blob_sha": "3e13d8e608d71e7657700bba3fdf73344bbd2341",
+      "sha256": "6fc840729221ba3e7d1aa01c64eb90b7dea483147d895b9a09aea1ecc286c1c5",
+      "source_sha256": "5dc0355644aa4e1956278c632cecdfebad4ceab783098d66bd74bd89f9d14bc3",
+      "prompt_sha256": "604d894768ae9515ab966b9d3c68e6606665ecf7eac0d6b5ddc850d1e5179bde",
+      "bbox_exclusive_end": [
+        27,
+        22,
+        88,
+        118
+      ],
+      "last_occupied_y_by_alpha": {
+        "1": 117,
+        "8": 117,
+        "128": 117,
+        "240": 117,
+        "255": 104
+      }
+    }
+  },
+  "generation_calls": 3,
+  "targeted_corrections": 1,
+  "qa": {
+    "engine_accepted": false,
+    "head_top": "BL N22/L23/R23; BR N21/L22/R22",
+    "support_y": "L119/R117 corrected from R113",
+    "grounding": "BL L115 remains explicit asymmetry/possiblefloat review; BR correction lengthens left support leg, y117 now2px aboveN119. No bottom alignment.",
+    "gear": "same redscarf/silverarmor/tanpanels, same hands; BR correctedR exposes more side kneeplate, inspect in route",
+    "upper_body_metrics": {
+      "N": {
+        "alpha_iou": 1.0,
+        "rgb_mae": 0.0
+      },
+      "L": {
+        "alpha_iou": 0.983419689119171,
+        "rgb_mae": 12.804004214963118
+      },
+      "R chosen": {
+        "alpha_iou": 0.9783169850283944,
+        "rgb_mae": 14.063500439753739
+      }
+    },
+    "failed_original": "initialR support113 preserved outside qualified; not selected"
+  },
+  "candidate_base_commit": "bad7f355c0bc65a77b0a9bf22fec17281b98a714",
+  "engine_accepted": false
+}
