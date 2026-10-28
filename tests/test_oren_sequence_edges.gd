@@ -47,7 +47,7 @@ func run():
                 key=key.duplicate();key.pressed=false;root.push_input(key,true);await frames()
                 check(not app.oren_sequence_preview,"keyboard restores old art")
             game.hud.clear_modal();app.set_oren_sequence_preview(true)
-            game.selected=3;game.mode="move"
+            check(game.select_actor(3),"select actor through actual selection lifecycle");await frames()
             var preview_texture=game.figures[3].texture
             game.update_move_preview(Vector2i(2,8));await frames()
             check(game.preview_ghost.visible and game.preview_ghost.texture==preview_texture,"preview current actor texture")

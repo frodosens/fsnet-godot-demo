@@ -43,6 +43,10 @@ func hero(index):
     game.hud.cancel_targeting()
     await cell(u.pos)
     verify(game.selected==index,"select player through board")
+    # Selection now arms Move; return through the visible cancel control before choosing actions.
+    if not game.hud.action_menu_open:
+        verify(game.hud.dock.cancel.is_visible_in_tree() and not game.hud.dock.cancel.disabled,"move cancel shown")
+        await click_at(game.hud.dock.cancel.get_global_rect().get_center())
 func end_turn():
     await click_at(game.hud.turn_button.get_global_rect().get_center())
     if button("确认结束"):await press("确认结束")
