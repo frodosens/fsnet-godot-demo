@@ -787,7 +787,6 @@ func refresh_map_sequence_art(actor_id=""):
         var id=battle.units[i].id
         if not actor_id.is_empty() and id!=actor_id:continue
         if idle:idle.clocks.erase(id)
-        badges[i].refresh_art_width()
         var direction=facing.get(id,"front")
         figures[i].texture=map_motion_texture(i,direction,motion.motions[id].travelled) if motion.motions.has(id) else directional_idle_texture(i,direction)
     if preview_ghost.visible and selected>=0 and (actor_id.is_empty() or battle.units[selected].id==actor_id):

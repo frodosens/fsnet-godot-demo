@@ -27,13 +27,13 @@ func run():
             check(clip.textures[0]==neutral and clip.textures[2]==neutral,"exact canonical N twice")
             check(app.session.submit({"kind":"move","unit":index,"x":target.x,"y":target.y}),"real legal Lua path")
             game.battle=app.session.logic;game.refresh();var truth=game.battle.snapshot()
-            var bar=game.badges[index];var width=bar.body_pixels
+            var bar=game.badges[index];bar._process(0);var width=bar.rendered_size.x
             for beat in range(1,12):
                 game.motion.advance(.25/game.character_scale)
                 check(game.facing[actor]==direction,"world direction matches binding")
                 check(game.figures[index].texture==clip.textures[beat%4],"N L N R by actual distance")
                 check(game.figure_pixel_position(index,Vector2(48,120)).is_equal_approx(game.figures[index].position),"foot anchor unchanged")
-                check(bar.body_pixels==width and width<=Meter.body_width(game.figures[index].texture),"HP cached width bounded and stable")
+                check(bar.rendered_size.x==width,"fixed HP width stable")
                 game.get_node("MapIdle").advance(.1)
                 check(game.figures[index].texture==clip.textures[beat%4],"idle does not overwrite gait")
             game.motion.advance(.25/game.character_scale)

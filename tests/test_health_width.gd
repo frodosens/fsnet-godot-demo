@@ -21,7 +21,8 @@ func run():
     check(not app.health_bar_avoidance,"local preference persists false")
     var image=Image.create(30,30,false,Image.FORMAT_RGBA8);image.fill(Color.TRANSPARENT)
     image.fill_rect(Rect2i(10,10,8,16),Color.WHITE);image.set_pixel(0,0,Color.WHITE);image.set_pixel(29,29,Color(1,1,1,.1))
-    check(Meter.body_width(ImageTexture.create_from_image(image))==8,"opaque isolated speck and faint margins excluded")
+    check(preload("res://tests/health_width_oracle.gd").body_width(ImageTexture.create_from_image(image))==8,"opaque isolated speck and faint margins excluded")
+    if "--3d" in OS.get_cmdline_user_args():app.scene_renderer="3d"
     for data in [preload("res://logic/content.gd").reference_content(),preload("res://tests/reserve_art_fixture.gd").content()]:
         app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
         while not app.next_story().is_empty():app.advance_story(true)
@@ -37,14 +38,14 @@ func run():
                         game.get_node("MapIdle").clocks[unit.id]=phase;game.get_node("MapIdle").advance(0)
                         bar.update_health(1 if phase==.4 else unit.max_hp,unit.max_hp,unit.ally,phase==.8);bar._process(0)
                         var scale=minf(float(size.x)/root.get_visible_rect().size.x,float(size.y)/root.get_visible_rect().size.y)
-                        var figure=game.figures[i];var current_width=Meter.body_width(figure.texture)*figure.pixel_size
+                        var figure=game.figures[i];var current_width=preload("res://tests/health_width_oracle.gd").body_width(figure.texture)*figure.pixel_size
                         var projected=game.camera.unproject_position(figure.position+game.camera.global_basis.x*current_width).distance_to(game.camera.unproject_position(figure.position))*scale
                         check(bar.rendered_size.x<=projected+.01,"outer frame bounded by visible body "+unit.id+direction)
                         check(bar.horizontal_offset==0 and bar.position.is_equal_approx(game.badge_position(i)),"default follows anchor without avoidance")
                         if previous_width>=0:check(is_equal_approx(previous_width,bar.rendered_size.x),"directions/idle/damage never oscillate width")
                         previous_width=bar.rendered_size.x
-                var count=Meter.body_width_cache.size();bar._process(.1);bar._process(.1)
-                check(Meter.body_width_cache.size()==count,"steady update never scans new textures")
+                bar._process(.1);bar._process(.1)
+                check(is_equal_approx(bar.rendered_size.x,Meter.FIXED_WIDTH*minf(float(size.x)/root.get_visible_rect().size.x,float(size.y)/root.get_visible_rect().size.y)),"fixed logical width independent of texture")
         # Deliberately overlap a nearby face with the meter; this is presentation-only QA.
         var bar=game.badges[0];var other=game.figures[1];var old_position=other.position
         other.position=game.badge_position(0)-game.camera.global_basis.y*85*other.pixel_size

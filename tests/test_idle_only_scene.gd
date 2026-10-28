@@ -38,8 +38,9 @@ func run():
                 check(g.directional_idle_texture(i,d)==e.idle.textures[0],"idle zero")
                 for tick in range(16):check(g.map_motion_texture(i,d,tick/16.0)==oldposes[tick],"all old movement textures identical")
                 var truth=g.battle.snapshot();idle.clocks[actor]=0;idle.advance(.9)
-                var hp_width=g.badges[i].body_pixels
-                check(hp_width<=Meter.body_width(g.figures[i].texture),"idle HP bounded")
+                g.badges[i]._process(0)
+                var hp_width=g.badges[i].rendered_size.x
+                check(hp_width>0,"idle HP visible")
                 check(g.figures[i].texture==Seq.idle(actor,d,.9,old),"idle visible clock")
                 check(g.figure_texture_pixel_position(i,Vector2(64,120)).is_equal_approx(g.figures[i].position),"padded foot anchor")
                 g.hud.show_feedback_settings();await frames();var time=idle.clocks[actor];idle.advance(1);check(idle.clocks[actor]==time,"pause holds idle");g.hud.clear_modal()
@@ -54,7 +55,7 @@ func run():
                     g.motion.advance(1.0/(16*g.character_scale));var travel=g.motion.motions[actor].travelled
                     var expected=g.motion.walk_library.sample(actor,d,travel,old)
                     check(g.figures[i].texture==expected,"old walk during actual travel")
-                    check(g.badges[i].body_pixels==hp_width and hp_width<=Meter.body_width(expected),"HP stable and bounded")
+                    check(g.badges[i].rendered_size.x==hp_width,"fixed HP width stable")
                     var tex=g.figures[i].texture;idle.advance(.1);check(g.figures[i].texture==tex,"idle never replaces movement")
                 g.motion.consume(g.battle.step,g.battle.events);check(g.motion.motions[actor].travelled>1,"duplicate no reset")
                 g.motion.finish();check(g.figures[i].texture==e.idle.textures[0],"stop resumes idle zero")

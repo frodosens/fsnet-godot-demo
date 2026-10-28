@@ -31,7 +31,7 @@ func run():
                     var pixels=game.figures[3].pixel_size
                     check(is_equal_approx(pixels,game.MAP_PIXEL_SIZE*global_scale*1.05),"same scale every direction and pose")
                     game.badges[3]._process(0)
-                    var c=game.camera;var width=game.badges[3].projected_body_width(c,1.0)
+                    var width=game.badges[3].FIXED_WIDTH*minf(float(root.size.x)/root.get_visible_rect().size.x,float(root.size.y)/root.get_visible_rect().size.y)
                     check(game.badges[3].rendered_size.x<=width+.01,"meter stays within conservative body width")
                     check(game.badges[3].position.is_equal_approx(game.badge_position(3)),"meter follows scaled head anchor")
             game.select_mode("move");game.update_move_preview(Vector2i(2,8))

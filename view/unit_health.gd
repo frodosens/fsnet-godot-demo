@@ -1,5 +1,5 @@
 extends Node3D
-# Screen-facing meter bounded by the smallest opaque body width in its idle set.
+# Fixed-width screen-facing meter; no runtime texture reads or silhouette scans.
 var fill:Sprite3D
 var frame:Sprite3D
 var backing:Sprite3D
@@ -11,61 +11,8 @@ var rendered_size=Vector2.ZERO
 var faction_ally=true
 var unit_index=-1
 var horizontal_offset=0.0
-var body_pixels=0.0
-static var body_width_cache={}
-static var idle_width_library
-static func body_width(texture):
-    if body_width_cache.has(texture):return body_width_cache[texture]
-    var image=texture.get_image();var width=image.get_width();var height=image.get_height()
-    var visited={};var largest=0;var result=0
-    # Largest connected alpha>=0.5 component ignores transparent margins and isolated specks.
-    for y in range(height):
-        for x in range(width):
-            var start=y*width+x
-            if visited.has(start) or image.get_pixel(x,y).a<0.5:continue
-            var queue=[start];visited[start]=true;var cursor=0;var left=x;var right=x
-            while cursor<queue.size():
-                var point=queue[cursor];cursor+=1;var px=point%width;var py=point/width
-                left=mini(left,px);right=maxi(right,px)
-                for dy in range(-1,2):
-                    for dx in range(-1,2):
-                        var nx=px+dx;var ny=py+dy;var next=ny*width+nx
-                        if nx<0 or ny<0 or nx>=width or ny>=height or visited.has(next):continue
-                        if image.get_pixel(nx,ny).a>=0.5:visited[next]=true;queue.append(next)
-            if queue.size()>largest:largest=queue.size();result=right-left+1
-    body_width_cache[texture]=result
-    return result
-func _ready():refresh_art_width()
-func refresh_art_width():
-    var game=get_parent();var unit=game.battle.units[unit_index]
-    var textures=[]
-    var allowed=["front_left","front_right","back_left","back_right"] if game.iso_roles.has(unit.role) else ["front","back","left","right"]
-    for direction in allowed:
-        if game.direction_textures.has(unit.id+":"+direction):textures.append(game.direction_textures[unit.id+":"+direction])
-    if textures.is_empty():textures.append(game.figures[unit_index].texture)
-    if idle_width_library==null:idle_width_library=preload("res://view/idle_library.gd").new()
-    var reserve=preload("res://view/reserve_art.gd").profile(unit.id)
-    if reserve.is_empty():
-        for key in idle_width_library.clips.map:
-            var clip=idle_width_library.clips.map[key]
-            if key.begins_with(unit.role+":") and (clip.unit_ids.is_empty() or unit.id in clip.unit_ids):textures.append_array(clip.textures)
-    var walks=preload("res://view/walk_library.gd").shared()
-    for direction in allowed:
-        var neutral=game.direction_textures.get(unit.id+":"+direction,game.figures[unit_index].texture)
-        if reserve.is_empty():neutral=idle_width_library.sample("map",unit.role+":"+direction,0,neutral,true,unit.id)
-        else:neutral=reserve.map.get(direction,neutral)
-        textures.append_array(walks.textures_for(unit.id,direction,neutral))
-        if get_node("/root/App").map_sequence_enabled(unit.id):textures.append_array(preload("res://view/map_sequence.gd").shared().textures_for(unit.id,direction,neutral))
-    body_pixels=INF
-    for texture in textures:
-        var measured=body_width(texture)
-        if measured>0:body_pixels=minf(body_pixels,measured)
-    if not is_finite(body_pixels):body_pixels=0
-func projected_body_width(camera,pixels_per_logical):
-    var game=get_parent()
-    var a=game.figure_pixel_position(unit_index,Vector2(48,100))
-    var b=game.figure_pixel_position(unit_index,Vector2(48+body_pixels,100))
-    return camera.unproject_position(a).distance_to(camera.unproject_position(b))*pixels_per_logical
+# Logical viewport pixels; uniform across characters, poses and animation toggles.
+const FIXED_WIDTH=24.0
 func _init():
     backing=make_sprite("",0)
     var texture=GradientTexture2D.new();texture.width=320;texture.height=24
@@ -95,7 +42,7 @@ func _process(delta):
     if not camera:return
     var physical=Vector2(get_tree().root.size);var logical=get_viewport().get_visible_rect().size
     var pixels_per_logical=minf(physical.x/logical.x,physical.y/logical.y)
-    var outer_width=minf(54*pixels_per_logical,projected_body_width(camera,pixels_per_logical)*0.96)
+    var outer_width=FIXED_WIDTH*pixels_per_logical
     if outer_width<=0:return
     var outline=minf(1,outer_width*0.04)
     var width=outer_width-2*outline;var height=maxf(8,8*pixels_per_logical)

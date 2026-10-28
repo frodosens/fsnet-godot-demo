@@ -64,7 +64,7 @@ func run():
                 await frames(50)
                 game.motion.set_process(false)
                 game.motion.last_step=-1;game.motion.consume(game.battle.step,game.battle.events)
-            var meter=game.badges[5];var width=meter.body_pixels
+            var meter=game.badges[5];meter._process(0);var width=meter.rendered_size.x
             # Deliberately sample 38 subdivisions/grid, independent of the 23 clip ticks.
             for tick in range(1,114):
                 game.motion.advance(1.0/(38*game.character_scale))
@@ -74,7 +74,7 @@ func run():
                 check(tex==Seq.motion("bram",direction,travelled,old),"distance weighted frame")
                 check(game.figures[5].pixel_size==scale,"padding never rescales actor")
                 check(game.figure_texture_pixel_position(5,Vector2(64,120)).is_equal_approx(game.figures[5].position),"padded root fixed")
-                check(meter.body_pixels==width and width<=Meter.body_width(tex),"HP bounded without jitter")
+                check(meter.rendered_size.x==width,"fixed HP width without jitter")
                 game.get_node("MapIdle").advance(.1)
                 check(game.figures[5].texture==tex,"motion wins over idle")
                 var foot_tick=23 if direction=="front_left" else 27

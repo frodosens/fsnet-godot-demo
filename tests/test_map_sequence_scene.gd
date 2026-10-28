@@ -58,7 +58,7 @@ func run():
                 await frames(50)
                 game.motion.set_process(false)
                 game.motion.last_step=-1;game.motion.consume(game.battle.step,game.battle.events)
-            var meter=game.badges[0];var width=meter.body_pixels
+            var meter=game.badges[0];meter._process(0);var width=meter.rendered_size.x
             for tick in range(1,114):
                 game.motion.advance(1.0/(38*game.character_scale))
                 var tex=game.figures[0].texture
@@ -67,7 +67,7 @@ func run():
                 check(tex==Seq.motion("mara",direction,travelled,old),"distance weighted frame")
                 check(game.figures[0].pixel_size==scale,"padding never rescales actor")
                 check(game.figure_texture_pixel_position(0,Vector2(64,120)).is_equal_approx(game.figures[0].position),"padded root fixed")
-                check(meter.body_pixels==width and width<=Meter.body_width(tex),"HP bounded without jitter")
+                check(meter.rendered_size.x==width,"fixed HP width without jitter")
                 game.get_node("MapIdle").advance(.1)
                 check(game.figures[0].texture==tex,"motion wins over idle")
             game.motion.speed=0;var pos=game.figures[0].position;game.motion.advance(3)
