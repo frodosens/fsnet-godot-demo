@@ -17,3 +17,15 @@ Baseline c0feb9c, Godot 4.6.3, Linux llvmpipe, 1280x800. Assets were imported be
 | Third in same process | 422.716 | 389.421 |
 
 First-entry reduction: 1534.582 ms (69.6%). This removes the measured roughly 1.48-second silhouette computation; it does not eliminate every resource/scene/render startup cost. These are bounded samples, not p95 or Android hardware benchmarks. Visual screenshots remain outside Git.
+
+Independent repeat measurements varied: first entry was approximately 6236 ms
+versus 4189 ms, and warm entry did not improve. The table above records the
+original author's bounded samples, not a universal speedup; no percentage is
+promised for Android or other hardware.
+
+Integration onto the mobile-targeting/sequential-event main retains target hover
+reset/invalidation, ordered movement and attacks, allied traversal, second-tap
+confirmation and the independently fitted battle scene. The old first-launch
+test expected one-click movement; its test input now checks the initial preview
+and a second click before asserting the authoritative move. Production input
+behavior is unchanged by this test correction.
