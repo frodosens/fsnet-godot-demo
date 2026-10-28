@@ -79,6 +79,26 @@
       ],
       "mode": "RGBA",
       "sha256": "a51bc1c5a3bdd105b553c6e5bfdf320f02fd1b204d5670e15bdf752be8f613ec"
+    },
+    {
+      "id": "rally",
+      "path": "icons/rally.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "e63c236bd3c534a40d5678d78839546b414e585a4450d62166d975039bd0049c"
+    },
+    {
+      "id": "strong_shot",
+      "path": "icons/strong_shot.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "6147dfecdd922ab1511f9104c1e807da260f9d037afaba9f6ac0c8670bd56cee"
     }
   ],
   "item_icon_mapping": {
