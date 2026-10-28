@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "character_id": "adela",
+  "status": "user_accepted_video_candidate_runtime_QA_pending",
+  "motion_only": true,
+  "canvas": [
+    128,
+    128
+  ],
+  "root": [
+    64,
+    120
+  ],
+  "frame_count": 8,
+  "frame_weights": [
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3
+  ],
+  "one_grid_one_cycle": true,
+  "preserve_movement_speed": true,
+  "preserve_existing_idle": true,
+  "direction_sources": {
+    "front_left": {
+      "source": "front_left",
+      "mirrorX": false
+    },
+    "front_right": {
+      "source": "front_left",
+      "mirrorX": true
+    },
+    "back_left": {
+      "source": "back_left",
+      "mirrorX": false
+    },
+    "back_right": {
+      "source": "back_left",
+      "mirrorX": true
+    }
+  },
+  "mirror_axis_x": 64,
+  "mirror_policy": "Reflectaroundtexturecenter/rootx64; noextra1pxshift.",
+  "fixed_registration": {
+    "source_panel": [
+      640,
+      720
+    ],
+    "source_panel_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      128,
+      0,
+      3,
+      168
+    ],
+    "resampling": "nearest",
+    "per_frame_recenter": false
+  },
+  "frames": [
+    {
+      "direction": "front_left",
+      "frame": 0,
+      "file": "motion/front_left/front_left_walk_00.png",
+      "weight": 3,
+      "sha256": "421986bf7184b7903ae24c1c25cc520bd5183bd2d047027de43b1f977be8bc56",
+      "alpha_bbox_exclusive": [
+        13,
+        17,
+        91,
+        120
+      ]
+    },
+    {
+      "direction": "front_left",
+      "frame": 1,
+      "file": "motion/front_left/front_left_walk_01.png",
+      "weight": 3,
+      "sha256": "2a4f81c4b8347449f8542f3bd8e698b41ee0c926a44f136e5f18f04656c6f3ab",
+      "alpha_bbox_exclusive": [
+        14,
+        17,
+        91,
+        121
+      ]
+    },
+    {
+      "direction": "front_left",
+      "frame": 2,
+      "file": "motion/front_left/front_left_walk_02.png",
+      "weight": 3,
+      "sha256": "363638060dd8776364b94331f02b6437dd79bd86ffacbfe49cb7e4b6a6d87091",
+      "alpha_bbox_exclusive": [
+        16,
+        18,
+        91,
+        122
+      ]
+    },
+    {
+      "direction": "front_left",
+      "frame": 3,
+      "file": "motion/front_left/front_left_walk_03.png",
+      "weight": 3,
+      "sha256": "6062d6ccc59f1842b2a00c3c46e6e04cf1d19e09077cfd580448c61baeb5b06b",
+      "alpha_bbox_exclusive": [
+        17,
+        19,
+        90,
+        122
+      ]
+    },
+    {
+      "direction": "front_left",
+      "frame": 4,
+      "file": "motion/front_left/front_left_walk_04.png",
+      "weight": 4,
+      "sha256": "57f4ba2bf04d17acd2e4144ea53abd2ed2b7629037bb27b089d50be0d5944caf",
+      "alpha_bbox_exclusive": [
+        20,
+        19,
+        90,
+        121
+      ]
+    },
+    {
+      "direction": "front_left",
+      "frame": 5,
+      "file": "motion/front_left/front_left_walk_05.png",
+      "weight": 3,
+      "sha256": "44579db3dc8bee06fbacaa248c7f714649f7d571d5080ddce16822cc622867e5",
+      "alpha_bbox_exclusive": [
+        20,
+        19,
+        90,
+        119
+      ]
+    },
+    {
+      "direction": "front_left",
+      "frame": 6,
+      "file": "motion/front_left/front_left_walk_06.png",
+      "weight": 3,
+      "sha256": "b0a6adfeb412132e4cfa50a92f0d69ab419385038c44c77e3c6ffca57d79e89b",
+      "alpha_bbox_exclusive": [
+        18,
+        18,
+        90,
+        118
+      ]
+    },
+    {
+      "direction": "front_left",
+      "frame": 7,
+      "file": "motion/front_left/front_left_walk_07.png",
+      "weight": 3,
+      "sha256": "72be60b444a621e4ab3a8536dfc1cec04846a72efb52a032fd23ac07696e0102",
+      "alpha_bbox_exclusive": [
+        15,
+        17,
+        91,
+        119
+      ]
+    },
+    {
+      "direction": "back_left",
+      "frame": 0,
+      "file": "motion/back_left/back_left_walk_00.png",
+      "weight": 3,
+      "sha256": "96233a76f010ec78a93b5344c1a06cff399a1ba4e13bb46767c80f1faf2eac94",
+      "alpha_bbox_exclusive": [
+        37,
+        18,
+        112,
+        121
+      ]
+    },
+    {
+      "direction": "back_left",
+      "frame": 1,
+      "file": "motion/back_left/back_left_walk_01.png",
+      "weight": 3,
+      "sha256": "ab30cdc8eef6086831e17dae0ff1327d73f40876154cf847591905d05f348279",
+      "alpha_bbox_exclusive": [
+        38,
+        18,
+        112,
+        121
+      ]
+    },
+    {
+      "direction": "back_left",
+      "frame": 2,
+      "file": "motion/back_left/back_left_walk_02.png",
+      "weight": 3,
+      "sha256": "aa5cfd2e1a75c8d013a3b27696007022c20e95ac1e474f1869a532accc3ef4dd",
+      "alpha_bbox_exclusive": [
+        39,
+        19,
+        110,
+        120
+      ]
+    },
+    {
+      "direction": "back_left",
+      "frame": 3,
+      "file": "motion/back_left/back_left_walk_03.png",
+      "weight": 3,
+      "sha256": "1c13e752d6e47896d3ce049f47aaa6b4c880d80e0250deaa0b7db6b54416197e",
+      "alpha_bbox_exclusive": [
+        39,
+        20,
+        107,
+        120
+      ]
+    },
+    {
+      "direction": "back_left",
+      "frame": 4,
+      "file": "motion/back_left/back_left_walk_04.png",
+      "weight": 4,
+      "sha256": "3a6515008bee3cde126913d53cfa8ca0c4be1d3cdd8cd4b58102843baa9ab1c5",
+      "alpha_bbox_exclusive": [
+        40,
+        20,
+        105,
+        120
+      ]
+    },
+    {
+      "direction": "back_left",
+      "frame": 5,
+      "file": "motion/back_left/back_left_walk_05.png",
+      "weight": 3,
+      "sha256": "6e5453a050409ce926e77a58e01fc7e9c5831355d85f66dcfafd41837df093fa",
+      "alpha_bbox_exclusive": [
+        40,
+        20,
+        105,
+        120
+      ]
+    },
+    {
+      "direction": "back_left",
+      "frame": 6,
+      "file": "motion/back_left/back_left_walk_06.png",
+      "weight": 3,
+      "sha256": "ae6d37ee5c6c831b521986a185607085b7ad7077845573014dfb39b5bd13371c",
+      "alpha_bbox_exclusive": [
+        39,
+        19,
+        107,
+        120
+      ]
+    },
+    {
+      "direction": "back_left",
+      "frame": 7,
+      "file": "motion/back_left/back_left_walk_07.png",
+      "weight": 3,
+      "sha256": "ed517fe87698cb96f9dee039e22be6d3fcc43a4ef0d28e4a5c86138871d87de9",
+      "alpha_bbox_exclusive": [
+        38,
+        18,
+        110,
+        120
+      ]
+    }
+  ],
+  "limitations": [
+    "Useracceptedvideo; actualruntimegrounding/transitionspending.",
+    "Passingfeetoverlapandminorcontourchangesremain.",
+    "Mirroredwalkreversesweaponhand/costumeasymmetry; originalidleunchanged, stoppinginmirroreddirectionmaychangehandedness."
+  ]
+}

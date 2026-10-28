@@ -31,6 +31,7 @@ var bram_sequence_preview=false # User-accepted provisional gesture and shuffle.
 var oren_sequence_preview=false # Provisional idle/motion; old art remains available.
 var tessa_motion_preview=false
 const NERI_MOTION_DEFAULT_VERSION=1
+var adela_motion_preview=false # Independent movement-only two-panel trial.
 var neri_motion_preview=true # User-approved default; independent of Neri idle.
 var finn_motion_preview=false # Motion-only trial; original Finn idle is retained.
 var mara_sequence_preview=false # Local opt-in for unapproved compact art candidate.
@@ -38,7 +39,7 @@ var health_bar_avoidance=false
 var presentation_preferences_path="user://presentation.cfg"
 func load_presentation_preferences():
     for id in idle_sequence_previews:idle_sequence_previews[id]=false
-    neri_motion_preview=true;tessa_motion_preview=false;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
+    adela_motion_preview=false;neri_motion_preview=true;tessa_motion_preview=false;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
     var config=ConfigFile.new()
     var loaded=config.load(presentation_preferences_path)
     if loaded==OK:
@@ -48,6 +49,8 @@ func load_presentation_preferences():
         if value is bool:mara_sequence_preview=value
         value=config.get_value("map","neri_motion_preview",true)
         if value is bool:neri_motion_preview=value
+        value=config.get_value("map","adela_motion_preview",false)
+        if value is bool:adela_motion_preview=value
         value=config.get_value("map","finn_motion_preview",false)
         if value is bool:finn_motion_preview=value
         value=config.get_value("map","oren_sequence_preview",false)
@@ -353,3 +356,13 @@ func set_neri_motion_preview(on):
     else:push_warning("Cannot save Neri preference without overwriting unreadable settings")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("neri")
+
+func set_adela_motion_preview(on):
+    adela_motion_preview=bool(on)
+    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
+    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
+        config.set_value("map","adela_motion_preview",adela_motion_preview)
+        if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Adela motion preference")
+    else:push_warning("Cannot save Adela preference without overwriting unreadable settings")
+    var game=get_tree().current_scene
+    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("adela")

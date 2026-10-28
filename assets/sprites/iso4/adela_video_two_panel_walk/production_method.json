@@ -1,0 +1,37 @@
+{
+  "reference_dimensions": [
+    1280,
+    720
+  ],
+  "reference_layout": [
+    "front_left",
+    "back_left"
+  ],
+  "canonical_scale": 3,
+  "reference_pastes": [
+    [
+      176,
+      168
+    ],
+    [
+      816,
+      168
+    ]
+  ],
+  "reference_roots": [
+    [
+      320,
+      528
+    ],
+    [
+      960,
+      528
+    ]
+  ],
+  "exact_accepted_prompt": "Both views of Adela perform a natural, continuous walking cycle in their original facing directions. Each figure stays at its original location within its own panel; the two-panel layout remains unchanged. Preserve both original viewing angles, pixel-art style, body proportions, costume, shield and weapon. Fixed camera, full bodies visible, unchanged green background.",
+  "mirrored_directions": {
+    "front_right": "front_left",
+    "back_right": "back_left"
+  },
+  "notes": "Keepmotiononlyandrootconsistent; originalidleunchangedunlessseparatelyauthorized."
+}
