@@ -8,7 +8,7 @@ func check(ok,label):
 func run():
     var Lib=preload("res://view/map_sequence.gd");var lib=Lib.new()
     var data=JSON.parse_string(FileAccess.get_file_as_string(Lib.PATH))
-    check(lib.errors.is_empty() and lib.profiles.size()==7,"seven profiles")
+    check(lib.errors.is_empty() and lib.profiles.size()==8,"eight profiles")
     for id in ["neri","adela","elsbet"]:
         for d in Lib.DIRECTIONS:
             var e=lib.profiles[id][d];var clip=e.idle;var start=0

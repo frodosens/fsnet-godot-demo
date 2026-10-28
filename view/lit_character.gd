@@ -1,5 +1,6 @@
 extends Sprite3D
 # One shaded material with texture-colored emission; never changes source pixels.
+var padded_tessa_motion=false
 var actor_material:StandardMaterial3D
 func _ready():
     process_priority=90
@@ -20,6 +21,7 @@ func _ready():
     material_override=actor_material
     sync_material()
 func sync_material():
+    if padded_tessa_motion:offset=Vector2(0,52 if texture!=null and texture.get_height()==136 else 56)
     if not actor_material:return
     if actor_material.albedo_texture!=texture:
         actor_material.albedo_texture=texture;actor_material.emission_texture=texture

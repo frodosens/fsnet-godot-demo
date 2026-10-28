@@ -7,6 +7,7 @@ func run():
     var app=root.get_node("App")
     var compact=OS.get_environment("AMBER_COMPACT_SEQUENCE")=="1"
     app.mara_sequence_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="mara"
+    app.tessa_motion_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="tessa"
     app.finn_motion_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="finn"
     app.oren_sequence_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="oren"
     app.bram_sequence_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="bram"

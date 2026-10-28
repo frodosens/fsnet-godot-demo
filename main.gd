@@ -291,6 +291,7 @@ func build_world():
         sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
         sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED if sprite.get_meta("formal_art") else BaseMaterial3D.BILLBOARD_FIXED_Y
         if sprite.get_meta("formal_art"):sprite.offset=Vector2(0,56)
+        sprite.padded_tessa_motion=u.id=="tessa" and sprite.get_meta("formal_art")
         sprite.shaded = true
         sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
         sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
@@ -591,6 +592,7 @@ func update_move_preview(cell):
     if selected<0 or mode!="move" or presentation_active() or hud.blocks_input():return
     preview_path=battle.path_to(selected,cell)
     if preview_path.is_empty():preview_reason="此格不可达 · 选择范围内的空格";return
+    preview_ghost.offset=Vector2(0,52 if battle.units[selected].id=="tessa" and figures[selected].texture.get_height()==136 else 56)
     preview_ghost.texture=figures[selected].texture;preview_ghost.pixel_size=figures[selected].pixel_size;preview_ghost.position=Vector3(cell.x,figures[selected].position.y,cell.y);preview_ghost.show()
     var line=route_mesh.mesh;var arrows=route_arrows.mesh
     line.surface_begin(Mesh.PRIMITIVE_LINES);arrows.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -729,3 +731,4 @@ func refresh_map_sequence_art(actor_id=""):
         figures[i].texture=map_motion_texture(i,direction,motion.motions[id].travelled) if motion.motions.has(id) else directional_idle_texture(i,direction)
     if preview_ghost.visible and selected>=0 and (actor_id.is_empty() or battle.units[selected].id==actor_id):
         preview_ghost.texture=directional_idle_texture(selected,facing.get(battle.units[selected].id,"front"))
+        preview_ghost.offset=Vector2(0,56)

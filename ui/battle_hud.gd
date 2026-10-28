@@ -344,6 +344,7 @@ func show_feedback_settings():
     var finn=CheckButton.new();finn.text="芬恩视频移动（候选）";finn.button_pressed=App.finn_motion_preview;finn.tooltip_text="只替换芬恩移动，原待机不变；关闭恢复旧移动。";finn.toggled.connect(App.set_finn_motion_preview);options.add_child(finn)
     var oren=CheckButton.new();oren.text="奥伦视频关键帧（暂用）";oren.button_pressed=App.oren_sequence_preview;oren.tooltip_text="奥伦待机与移动暂用素材，保留姿态/碎步限制；关闭恢复旧素材。";oren.toggled.connect(App.set_oren_sequence_preview);options.add_child(oren)
     var bram=CheckButton.new();bram.text="布拉姆视频关键帧（暂用）";bram.button_pressed=App.bram_sequence_preview;bram.tooltip_text="布拉姆待机与移动暂用素材，保留挥锤/躯干转动/窄步限制；关闭恢复旧素材。";bram.toggled.connect(App.set_bram_sequence_preview);options.add_child(bram)
+    var tessa=CheckButton.new();tessa.text="泰莎视频移动（试验）";tessa.button_pressed=App.tessa_motion_preview;tessa.tooltip_text="仅移动；保留原待机。前向伸脚可能被3D地面裁切。";tessa.toggled.connect(App.set_tessa_motion_preview);options.add_child(tessa)
     for id in ["neri","adela","elsbet"]:
         var option=CheckButton.new();option.text={"neri":"奈莉","adela":"阿黛拉","elsbet":"埃尔丝贝特"}[id]+"视频待机（暂用）";option.button_pressed=App.map_sequence_enabled(id);option.tooltip_text="只替换待机；移动仍使用原素材。关闭恢复原待机。";option.toggled.connect(App.set_idle_sequence_preview.bind(id));options.add_child(option)
     var sound=CheckButton.new();sound.text="战斗音效";sound.button_pressed=App.sfx_enabled;sound.toggled.connect(func(on):App.sfx_enabled=on);c.add_child(sound)
