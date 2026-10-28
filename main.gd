@@ -29,6 +29,8 @@ var buttons = []
 var facing={}
 # Separate movement-only opt-in; does not replace Neri idle profile.
 var neri_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/neri_motion_trial.json")
+var vera_motion_enabled=true # Candidate may be disabled locally; missing art falls back to canonical static.
+var vera_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/vera_chapter_motion.json")
 var adela_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/adela_motion_trial.json")
 var last_positions={}
 var direction_textures={}
@@ -833,12 +835,18 @@ func neri_motion_entry(index,direction):
 func adela_motion_entry(index,direction):
     if battle.units[index].id!="adela" or not App.adela_motion_preview:return {}
     return adela_motion_library.matching("adela",direction,base_directional_idle_texture(index,direction))
+func vera_motion_entry(index,direction):
+    if battle.units[index].id!="vera" or not vera_motion_enabled:return {}
+    return vera_motion_library.matching("vera",direction,base_directional_idle_texture(index,direction))
 func apply_map_motion_texture(index,direction,distance):
-    var entry=adela_motion_entry(index,direction) if battle.units[index].id=="adela" else neri_motion_entry(index,direction)
+    var entry=vera_motion_entry(index,direction) if battle.units[index].id=="vera" else adela_motion_entry(index,direction) if battle.units[index].id=="adela" else neri_motion_entry(index,direction)
     figures[index].flip_h=is_finite(distance) and distance>=0 and not entry.is_empty() and entry.motion.get("flip_h",false)
     figures[index].texture=map_motion_texture(index,direction,distance)
 func map_motion_texture(index,direction,distance):
     var unit=battle.units[index]
+    if not vera_motion_entry(index,direction).is_empty():
+        var trial=vera_motion_library.motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
+        if trial!=null:return trial
     if not adela_motion_entry(index,direction).is_empty():
         var trial=adela_motion_library.motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
         if trial!=null:return trial

@@ -9,6 +9,8 @@ with tempfile.TemporaryDirectory(prefix='walk-network-') as folder:
     if actor in ('adela','elsbet'):
         data['units'][0 if actor=='adela' else 3].update(id=actor,name='阿黛拉' if actor=='adela' else '埃尔丝贝特')
         data['story']['events']=[]
+    if actor=='vera':
+        data['units'][1].update(id='vera',name='维拉');data['story']['events']=[]
     if direction=='front_right' and actor=='finn':data['units'][1].update(x=1,y=8)
     else:
         data['units'][0].update(x=1,y=6);data['units'][1].update(x=2,y=7);data['units'][2].update(x=6,y=8)

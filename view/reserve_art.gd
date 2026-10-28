@@ -13,6 +13,7 @@ static func texture_at(base,path,canvas):
     var texture=load(base+path)
     return texture if texture is Texture2D and texture.get_size()==canvas else null
 static func profile(id):
+    if id in preload("res://view/chapter_guard_art.gd").IDS:return preload("res://view/chapter_guard_art.gd").profile(id)
     if id not in IDS:return {}
     if cache.has(id):return cache[id]
     cache[id]={}

@@ -53,19 +53,22 @@ func run():
         if adela_mirror:
             clip=game.adela_motion_entry(index,direction).motion
             check(game.figures[index].flip_h==direction.ends_with("right"),"Adela mirror survives Runtime replacement")
+        if actor=="vera":
+            clip=game.vera_motion_entry(index,direction).motion
+            check(game.figures[index].flip_h==direction.ends_with("right"),"Vera mirror survives Runtime replacement")
         poses[clip.textures.find(game.figures[index].texture)]=true
         check(game.battle.snapshot()==truth,"poll keeps authoritative state")
         await process_frame
         if Time.get_ticks_msec()>deadline:check(false,"motion timeout");break
     check(replacements>=2 and samples>20,"real runtime replacements observed during walk")
-    check(poses.size()==8 if neri_mirror or adela_mirror or (compact and not app.idle_sequence_previews.has(actor)) else (poses.has(1) and poses.has(3)),"real sync allows complete pose set")
+    check(poses.size()==8 if actor=="vera" or neri_mirror or adela_mirror or (compact and not app.idle_sequence_previews.has(actor)) else (poses.has(1) and poses.has(3)),"real sync allows complete pose set")
     check(game.figures[index].position==Vector3(target.x,0,target.y),"network authoritative endpoint")
     var final_texture=game.directional_idle_texture(index,direction)
     game.get_node("MapIdle").set_process(false);game.figures[index].texture=final_texture
     var until=Time.get_ticks_msec()+500
     while Time.get_ticks_msec()<until:await process_frame
     check(not game.motion.active(),"post-completion polls don't replay")
-    if neri_mirror or adela_mirror:check(not game.figures[index].flip_h,"network completion clears mirror")
+    if actor=="vera" or neri_mirror or adela_mirror:check(not game.figures[index].flip_h,"network completion clears mirror")
     if compact and app.idle_sequence_previews.has(actor):
         var idle=game.get_node("MapIdle");idle.set_process(true);idle.clocks[actor]=0.0
         var elapsed=0.0;var idle_replacements=0;runtime_id=game.battle.get_instance_id();until=Time.get_ticks_msec()+1400

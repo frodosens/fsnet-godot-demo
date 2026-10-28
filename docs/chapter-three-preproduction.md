@@ -83,10 +83,8 @@ factor compensates the larger orthographic size, retaining Mara's ~90px body;
 Ground marks outline playable-to-X/off-map interfaces (not invented walls),
 and the existing gold cell texture marks the office forecourt at (8,1). Four
 measured painted-lamp anchors illuminate actors only. The map image remains
-unchanged, with no new foreground masks or passage changes. Unknown guard art
-still uses diagnostic fallbacks; their genuine future poses need separate QA.
-The battle background shares the existing 642px floor anchors. Known-character
-cut-in fixtures test its composition and own-side-left layout, not guard attacks.
+unchanged, with no new foreground masks or passage changes. Both new guards now use their own portrait, four canonical map facings and battle poses. Missing or invalid contracts retain a diagnostic fallback with a warning; this is not the accepted shipped identity.
+The battle background shares the existing 642px floor anchors. Known-character and new-guard cut-in fixtures cover composition, own-side-left layout, melee contact and arrow impact.
 
 `test_chapter_three_art.gd` covers 1280x800, 1024x768 and 2400x1080, all 62
 projected/picked cell centers and 96 topological adjacencies, view switching,
@@ -97,3 +95,40 @@ uses explicitly labeled display-only Mara placements at all 62 cells with an
 unchanged snapshot; it is not a record of legal commands or full gameplay.
 The inspected contact sheet showed no conspicuous Mara foot clipping, but does
 not certify all future guard silhouettes or animated transition sweeps.
+
+## Guard integration candidate
+
+Rodd and Vera retain knight/archer rules, not new professions. Their 128x128
+map canvases use root (64,120), without cropping weapons or changing body scale.
+Both map idles and both battle idles are static. Rodd also moves statically.
+Vera alone uses eight weighted frames per canonical left-facing direction;
+right-facing motion mirrors these around root x64. Each complete grid interval
+is one cycle; stopping restores the distinct unmirrored canonical idle.
+`vera_motion_enabled` is a presentation-only fallback switch, not a saved rule.
+The motion remains provisional: torso yaw, bow flex and leg crossing remain.
+
+Battle timing is unchanged: 24 ticks at 60ms; Rodd contact tick9, Vera arrow
+release12 and impact16. Supplied hurt coordinates are already defender-left;
+they are not mirrored a second time. All original actors keep their bindings.
+
+The new guard and background JSON contracts are explicitly included by the
+Android export preset; an editor import alone would not guarantee packaging.
+No Android device or Windows runtime acceptance is claimed by Linux tests.
+
+Guard acceptance evidence (Linux Godot 4.6.3 / llvmpipe): 4,840 graphical
+checks across fixed-background 1280x800/2400x1080 and 3D 1280x800/960x600;
+38 neutral-canvas checks; 99 asset/export-admission checks. Real Vera movement
+observed 31 Runtime replacements in each of four directions without phase
+restart, then static idle/flip reset. Chapter-three server/two-client reconnect
+produced identical state hashes. Two 62-cell display-only contact sheets showed
+no conspicuous canonical-foot clipping on bridges or the forecourt; this is
+not a claim of pixel-perfect occlusion for every animated silhouette. Actual
+command-driven footage includes all four Vera facings, Rodd melee and Vera
+arrow attack from the enemy side. Fixed-frame movie capture preserves normal
+simulation timing; the onscreen throughput counter is not device performance.
+
+The full regression's 98 reported check groups passed before its shell reader
+was interrupted by editing the test list while it was running. The remaining
+migration/Adela/Vera/chapter-network section was restarted from its first
+unexecuted section; no gameplay test failure was suppressed. A final clean
+checkout separately imports and loads the new profiles and export contracts.

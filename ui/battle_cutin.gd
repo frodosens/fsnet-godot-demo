@@ -77,6 +77,7 @@ func _ready():
         for frame in data.frames:textures.append(load("res://assets/battle/enemy_combat/"+frame.path))
         defender_sets[id]={"idle":mara_idle if id=="mara" else actor_sets[id].textures[0],"hit":textures[0],"recover":textures[1]}
     register_reserve_art()
+    register_chapter_guards()
     damage_label=UI.label("",42,Color("d5a18b"));damage_label.position=Vector2(850,275);arena.add_child(damage_label)
     damage_label.add_theme_font_override("font",UI.impact_font())
     damage_label.add_theme_color_override("font_shadow_color",Color("101916"));damage_label.add_theme_constant_override("shadow_offset_x",2);damage_label.add_theme_constant_override("shadow_offset_y",3)
@@ -120,6 +121,14 @@ func register_reserve_art():
         # Integer source coordinates denote pixel centers; flip in continuous
         # TextureRect coordinates (192-x), never mix with integer 191-x indexing.
         contact_points[id]={"weapon_tip":[geo.attack_contact_tip_xy[0]+0.5,geo.attack_contact_tip_xy[1]+0.5],"hurt_point":[192-(geo.hurt_body_anchor_xy[0]+0.5),geo.hurt_body_anchor_xy[1]+0.5],"hurt_radius":16,"contact_tick":9}
+func register_chapter_guards():
+    var library=preload("res://view/chapter_guard_art.gd")
+    for id in library.IDS:
+        var art=library.profile(id)
+        if art.is_empty():continue
+        actor_sets[id]=art.actor_set;defender_sets[id]=art.defender_set
+        # Already measured on LEFT-facing defender. Do not mirror these again.
+        contact_points[id]=art.contact
 func sample_reserve_idle(id,time,fallback):
     if not reserve_sets.has(id):return fallback
     return reserve_sets[id].poses.idle_00 if App.reduced_motion or fposmod(time,0.9)<0.45 else reserve_sets[id].poses.idle_01
@@ -150,7 +159,7 @@ func play_next():
     actor_left=event.get("actor_left",true)
     combat_status.show_event(event)
     surface.show();draw_tick(0)
-func is_melee():return event.get("actor") in ["mara","oren","tessa","bram"] or reserve_sets.has(event.get("actor"))
+func is_melee():return event.get("actor") in ["mara","oren","tessa","bram"] or reserve_sets.has(event.get("actor")) or actor_sets.get(event.get("actor"),{}).get("melee",false)
 func hit_tick():return release_tick if is_melee() else release_tick+4
 func socket_point(values):return Vector2(values[0],values[1])
 func hurt_screen_point():return arena.position+defender.position+contact_target*2.0
@@ -190,6 +199,8 @@ func draw_tick(frame):
         if reserve_sets.has(event.target):
             var head=reserve_sets[event.target].geometry.hurt_head_anchor_xy
             contact_target=Vector2(192-(head[0]+0.5),head[1]+0.5)
+        elif event.target in ["rodd","vera"]:
+            contact_target=Vector2(contact_target.x,64.5)
         else:
             var x=float(preload("res://view/reserve_art.gd").LEGACY_HEAD_X[event.target])+0.5
             contact_target=Vector2(192-x if defender.flip_h else x,60.5)
@@ -249,7 +260,7 @@ func _process(delta):
     var next=elapsed+delta*speed;var contact_time=hit_tick()*tick_seconds
     var sound_time=(maxi(0,release_tick-3) if is_melee() else release_tick)*tick_seconds
     if not release_played and next>=sound_time:
-        release_played=true;play_sound("swing" if is_melee() else ("arrow" if event.actor=="finn" else "magic"))
+        release_played=true;play_sound("swing" if is_melee() else ("arrow" if event.actor in ["finn","vera"] else "magic"))
     if not hitstop_done and next>=contact_time:
         elapsed=contact_time;hitstop_done=true;impact_play_count+=1;play_sound("critical" if event.get("is_critical",false) else "impact");hitstop_remaining=(0.10 if event.get("is_critical",false) else 0.055)*feedback_strength
     else:elapsed=next

@@ -7,6 +7,8 @@ static func content(actor,direction):
         data.units[reserve_index].id=actor
         data.units[reserve_index].name="阿黛拉" if actor=="adela" else "埃尔丝贝特"
         data.story.events=[]
+    if actor=="vera":
+        data.units[1].id="vera";data.units[1].name="维拉";data.story.events=[]
     data.units[0].x=1;data.units[0].y=6
     data.units[1].x=2;data.units[1].y=7
     data.units[2].x=6;data.units[2].y=8

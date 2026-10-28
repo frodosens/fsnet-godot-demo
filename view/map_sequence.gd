@@ -35,7 +35,15 @@ func configure(data):
             if not item is Dictionary:valid=false;break
             var idle_width=item.get("idle_canvas_width",96)
             if not (idle_width is int or idle_width is float) or not is_finite(idle_width) or (idle_width!=96 and idle_width!=128):valid=false;break
-            var guard=texture_at(item.get("neutral_guard"),Vector2i(96,128))
+            var guard_width=item.get("neutral_canvas_width",96)
+            if not (guard_width is int or guard_width is float) or not is_finite(guard_width) or (guard_width!=96 and guard_width!=128):valid=false;break
+            var guard_root=item.get("neutral_root",[48,120] if guard_width==96 else null)
+            if not guard_root is Array or guard_root.size()!=2:valid=false;break
+            var root_valid=true
+            for value in guard_root:
+                if not (value is int or value is float) or not is_finite(value):root_valid=false
+            if not root_valid or guard_root[0]!=guard_width/2 or guard_root[1]!=120:valid=false;break
+            var guard=texture_at(item.get("neutral_guard"),Vector2i(int(guard_width),128))
             var idle={} if motion_only else decode(item.get("idle"),Vector2i(int(idle_width),128))
             var motion_canvas=Vector2i(128,136) if id=="tessa" else Vector2i(128,128)
             var motion={} if idle_only else decode(item.get("motion"),motion_canvas)
