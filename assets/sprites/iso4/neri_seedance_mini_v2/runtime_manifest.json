@@ -1,0 +1,191 @@
+{
+  "version": 2,
+  "profiles": {
+    "neri": {
+      "canvas": [
+        160,
+        160
+      ],
+      "front_left": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/front_left_idle_00.png",
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/neri_seedance_mini_v2/idle/front_left/front_left_idle_00.png"
+          ],
+          "ticks": [
+            1
+          ],
+          "cycle_ticks": 1,
+          "root": [
+            80,
+            144
+          ],
+          "flip_h": false
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_00.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_01.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_02.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_03.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_04.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_05.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_06.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_07.png"
+          ],
+          "ticks": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "cycle_ticks": 24,
+          "root": [
+            80,
+            144
+          ],
+          "flip_h": false
+        }
+      },
+      "front_right": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/front_right_idle_00.png",
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/neri_seedance_mini_v2/idle/front_left/front_left_idle_00.png"
+          ],
+          "ticks": [
+            1
+          ],
+          "cycle_ticks": 1,
+          "root": [
+            80,
+            144
+          ],
+          "flip_h": true
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_00.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_01.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_02.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_03.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_04.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_05.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_06.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/front_left/front_left_walk_07.png"
+          ],
+          "ticks": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "cycle_ticks": 24,
+          "root": [
+            80,
+            144
+          ],
+          "flip_h": true
+        }
+      },
+      "back_left": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/back_left_idle_00.png",
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/neri_seedance_mini_v2/idle/back_left/back_left_idle_00.png"
+          ],
+          "ticks": [
+            1
+          ],
+          "cycle_ticks": 1,
+          "root": [
+            80,
+            144
+          ],
+          "flip_h": false
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_00.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_01.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_02.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_03.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_04.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_05.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_06.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_07.png"
+          ],
+          "ticks": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "cycle_ticks": 24,
+          "root": [
+            80,
+            144
+          ],
+          "flip_h": false
+        }
+      },
+      "back_right": {
+        "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/back_right_idle_00.png",
+        "idle": {
+          "frames": [
+            "assets/sprites/iso4/neri_seedance_mini_v2/idle/back_left/back_left_idle_00.png"
+          ],
+          "ticks": [
+            1
+          ],
+          "cycle_ticks": 1,
+          "root": [
+            80,
+            144
+          ],
+          "flip_h": true
+        },
+        "motion": {
+          "frames": [
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_00.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_01.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_02.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_03.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_04.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_05.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_06.png",
+            "assets/sprites/iso4/neri_seedance_mini_v2/motion/back_left/back_left_walk_07.png"
+          ],
+          "ticks": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "cycle_ticks": 24,
+          "root": [
+            80,
+            144
+          ],
+          "flip_h": true
+        }
+      }
+    }
+  }
+}

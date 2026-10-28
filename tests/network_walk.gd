@@ -5,6 +5,8 @@ func check(ok,label):
 func _initialize():call_deferred("run")
 func run():
     var app=root.get_node("App")
+    var hero_refresh=OS.get_environment("AMBER_HERO_REFRESH")=="1"
+    for id in app.hero_map_refresh_previews:app.hero_map_refresh_previews[id]=hero_refresh and OS.get_environment("AMBER_WALK_ACTOR")==id
     var compact=OS.get_environment("AMBER_COMPACT_SEQUENCE")=="1"
     var adela_mirror=OS.get_environment("AMBER_ADELA_MOTION")=="1"
     app.adela_motion_preview=adela_mirror
@@ -56,18 +58,22 @@ func run():
         if actor=="vera":
             clip=game.vera_motion_entry(index,direction).motion
             check(game.figures[index].flip_h==direction.ends_with("right"),"Vera mirror survives Runtime replacement")
+        if hero_refresh:
+            clip=game.hero_refresh_entry(index,direction).motion
+            check(game.figures[index].flip_h==direction.ends_with("right") and game.figures[index].offset==Vector2(0,64),"hero root/mirror survives Runtime replacement")
         poses[clip.textures.find(game.figures[index].texture)]=true
         check(game.battle.snapshot()==truth,"poll keeps authoritative state")
         await process_frame
         if Time.get_ticks_msec()>deadline:check(false,"motion timeout");break
     check(replacements>=2 and samples>20,"real runtime replacements observed during walk")
-    check(poses.size()==8 if actor=="vera" or neri_mirror or adela_mirror or (compact and not app.idle_sequence_previews.has(actor)) else (poses.has(1) and poses.has(3)),"real sync allows complete pose set")
+    check(poses.size()==8 if hero_refresh or actor=="vera" or neri_mirror or adela_mirror or (compact and not app.idle_sequence_previews.has(actor)) else (poses.has(1) and poses.has(3)),"real sync allows complete pose set")
     check(game.figures[index].position==Vector3(target.x,0,target.y),"network authoritative endpoint")
     var final_texture=game.directional_idle_texture(index,direction)
     game.get_node("MapIdle").set_process(false);game.figures[index].texture=final_texture
     var until=Time.get_ticks_msec()+500
     while Time.get_ticks_msec()<until:await process_frame
     check(not game.motion.active(),"post-completion polls don't replay")
+    if hero_refresh:check(game.figures[index].flip_h==direction.ends_with("right") and game.figures[index].offset==Vector2(0,64),"completion preserves mirrored static idle")
     if actor=="vera" or neri_mirror or adela_mirror:check(not game.figures[index].flip_h,"network completion clears mirror")
     if compact and app.idle_sequence_previews.has(actor):
         var idle=game.get_node("MapIdle");idle.set_process(true);idle.clocks[actor]=0.0

@@ -24,8 +24,7 @@ func consume(step,events):
                 var next=path[1]
                 var direction=game.projected_facing(Vector2i(first.x,first.y),Vector2i(next.x,next.y),game.iso_roles.has(u.role))
                 game.facing[u.id]=direction
-                game.figures[i].flip_h=false
-                game.figures[i].texture=game.map_motion_neutral_texture(i,direction)
+                game.apply_map_idle_texture(i,direction,game.map_motion_neutral_texture(i,direction))
 func _process(delta):advance(delta)
 func advance(delta):
     if motions.is_empty():return
@@ -66,8 +65,7 @@ func settle(id,index,point=null):
     var cell=Vector2i(u.x,u.y) if point==null else point
     if game.selected==index:game.selection_ring.position=Vector3(cell.x,0.04,cell.y)
     game.figures[index].position=Vector3(cell.x,game.figure_height(index),cell.y);game.badges[index].position=game.badge_position(index)
-    game.figures[index].flip_h=false
-    game.figures[index].texture=game.directional_idle_texture(index,game.facing.get(id,"front"))
+    game.apply_map_idle_texture(index,game.facing.get(id,"front"))
 func finish(notify=true):
     for id in motions:
         var index=motions[id].index

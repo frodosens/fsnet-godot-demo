@@ -1,0 +1,507 @@
+{
+  "schema_version": 1,
+  "character_id": "mara",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "canonical_reference_body_height_px": 100,
+  "alpha_bbox_threshold": 128,
+  "bbox_convention": "exclusive right/bottom",
+  "direction_sources": {
+    "front_left": {
+      "source": "front_left",
+      "mirrorX": false
+    },
+    "front_right": {
+      "source": "front_left",
+      "mirrorX": true
+    },
+    "back_left": {
+      "source": "back_left",
+      "mirrorX": false
+    },
+    "back_right": {
+      "source": "back_left",
+      "mirrorX": true
+    }
+  },
+  "source_cycles": {
+    "front_left": {
+      "indices": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        17,
+        20,
+        23
+      ],
+      "endpoint": 26,
+      "weights": [
+        3,
+        3,
+        3,
+        3,
+        2,
+        3,
+        3,
+        3
+      ],
+      "fps": 24
+    },
+    "back_left": {
+      "indices": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        17,
+        20,
+        23
+      ],
+      "endpoint": 26,
+      "weights": [
+        3,
+        3,
+        3,
+        3,
+        2,
+        3,
+        3,
+        3
+      ],
+      "fps": 24
+    }
+  },
+  "idle_source_frames": {
+    "front_left": 0,
+    "back_left": 0
+  },
+  "idle_selection": "Initial frame0 neutral fallback: later inspected contact phases had overlapping or lifted feet, so no fabricated neutral pose. Texture/style differs from later generated motion; static, not breathing.",
+  "fixed_registration": {
+    "source_resolution": [
+      1280,
+      720
+    ],
+    "source_panel": [
+      640,
+      720
+    ],
+    "source_panel_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resampling": "nearest",
+    "per_frame_adjustment": false
+  },
+  "key": {
+    "alpha": "1-clip((g-max(r,b)-0.08)/0.32,0,1)",
+    "force_zero": "g>0.45 and g>1.4*max(r,b)",
+    "edge_despill": "partial alpha only: G=min(G,max(R,B)+12) byte units",
+    "zero_alpha_rgb_zero": false
+  },
+  "frames": [
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "motion/front_left/front_left_walk_00.png",
+      "sha256": "5cda67d24bc0164e491bb2178b8c4c486f583d93dbd75fbbd6547b3f8c2e0f92",
+      "source_frame": 3,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        40,
+        45,
+        115,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        40,
+        45,
+        115,
+        143
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 1,
+      "file": "motion/front_left/front_left_walk_01.png",
+      "sha256": "b00ec548a5b22395afc9d0d489cb899ac9d107b02690b9c5d40503df7a366016",
+      "source_frame": 6,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        39,
+        47,
+        123,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        39,
+        46,
+        123,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 2,
+      "file": "motion/front_left/front_left_walk_02.png",
+      "sha256": "2766e3b1006ef2cd40763c47b40954a1b354f7dd6238986f9372e65ca5fea9a6",
+      "source_frame": 9,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        39,
+        46,
+        128,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        38,
+        46,
+        128,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 3,
+      "file": "motion/front_left/front_left_walk_03.png",
+      "sha256": "74029d9be50514df0be5a065569673bb832080b6b0ecf252cd0aacd5a57d44d6",
+      "source_frame": 12,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        35,
+        45,
+        128,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        34,
+        45,
+        128,
+        143
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 4,
+      "file": "motion/front_left/front_left_walk_04.png",
+      "sha256": "12b475c28906bd3d6631605c390f7b4135cec16f03d5dc5494d451bf19d23edd",
+      "source_frame": 15,
+      "weight": 2,
+      "alpha_bbox_exclusive": [
+        32,
+        45,
+        126,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        32,
+        45,
+        126,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 5,
+      "file": "motion/front_left/front_left_walk_05.png",
+      "sha256": "a800824f0f74187f0946eeb1947e0cfc79c3376c559dba2e31a1a6e42a43fb96",
+      "source_frame": 17,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        32,
+        46,
+        126,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        32,
+        46,
+        126,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 6,
+      "file": "motion/front_left/front_left_walk_06.png",
+      "sha256": "0b8987a3648bd5afae895a786f85bb04ae528737fc95c4454620cef5b4cf7631",
+      "source_frame": 20,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        35,
+        47,
+        127,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        34,
+        47,
+        127,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 7,
+      "file": "motion/front_left/front_left_walk_07.png",
+      "sha256": "e2fa5ae56ed462c9932be7617ece172906c26dae754d59a8184ba448e05a1896",
+      "source_frame": 23,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        35,
+        45,
+        127,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        35,
+        45,
+        127,
+        144
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "idle/front_left/front_left_idle_00.png",
+      "sha256": "4cc25bc3141fd1ff6204804bf4d7c325f9a3df85adf443e4dbbcd4eb9750b454",
+      "source_frame": 0,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        42,
+        45,
+        109,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        42,
+        45,
+        109,
+        144
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "motion/back_left/back_left_walk_00.png",
+      "sha256": "4651e442149d00bcc24112aec3702c21c911ad878622cb0cb9d5dc0a485eb9c8",
+      "source_frame": 3,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        45,
+        128,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        45,
+        128,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 1,
+      "file": "motion/back_left/back_left_walk_01.png",
+      "sha256": "45647889aebef057a7208318114061067556fa1c25fe74dae3e8f5135169b8c9",
+      "source_frame": 6,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        40,
+        47,
+        131,
+        151
+      ],
+      "any_alpha_bbox_exclusive": [
+        40,
+        46,
+        131,
+        151
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 2,
+      "file": "motion/back_left/back_left_walk_02.png",
+      "sha256": "7da90253dfe289d4aac0414b28f16cca3343e4cc790cbaa17337070c1e4be143",
+      "source_frame": 9,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        36,
+        47,
+        132,
+        150
+      ],
+      "any_alpha_bbox_exclusive": [
+        36,
+        47,
+        132,
+        150
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 3,
+      "file": "motion/back_left/back_left_walk_03.png",
+      "sha256": "7bf08b97dbe61277a4f594e4bd1c38665a58a132d73d3a412662f4a2b46fa6d3",
+      "source_frame": 12,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        35,
+        45,
+        131,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        35,
+        45,
+        131,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 4,
+      "file": "motion/back_left/back_left_walk_04.png",
+      "sha256": "9c632922a646dbde1fa14bdd20f43d04ee57f309ef3771bbfcf03d3e760823d5",
+      "source_frame": 15,
+      "weight": 2,
+      "alpha_bbox_exclusive": [
+        37,
+        45,
+        128,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        37,
+        45,
+        128,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 5,
+      "file": "motion/back_left/back_left_walk_05.png",
+      "sha256": "e38c96793ffbb8d12d0d047886c90d28ebec05602651247e0fa0af2932de510d",
+      "source_frame": 17,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        37,
+        46,
+        125,
+        150
+      ],
+      "any_alpha_bbox_exclusive": [
+        37,
+        46,
+        125,
+        150
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 6,
+      "file": "motion/back_left/back_left_walk_06.png",
+      "sha256": "da820467e2dac80fbdedd7640dd3c859370cf41f7590e41e2d88f130f5561751",
+      "source_frame": 20,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        37,
+        47,
+        122,
+        151
+      ],
+      "any_alpha_bbox_exclusive": [
+        37,
+        47,
+        122,
+        151
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 7,
+      "file": "motion/back_left/back_left_walk_07.png",
+      "sha256": "188b1f774b407e6de2742ee789842c36bf7aac6497c896994ae647ce8925a062",
+      "source_frame": 23,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        40,
+        45,
+        123,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        40,
+        45,
+        123,
+        145
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "idle/back_left/back_left_idle_00.png",
+      "sha256": "10de110d8aa6b5d53e3bc19d992c2c9157f0424e101e429882efb6c55fc0411e",
+      "source_frame": 0,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        54,
+        47,
+        122,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        54,
+        47,
+        122,
+        144
+      ]
+    }
+  ],
+  "limitations": [
+    "Candidate pending actual game grounding, transition and depth review.",
+    "Generated style is simplified/bolder than canonical; fixed scale preserves source mapping rather than forcing original silhouette height.",
+    "Passing feet overlap and equipment/cloth silhouettes change slightly.",
+    "Mirrored idle and motion reverse equipment handedness; old neutral_guard stays canonical.",
+    "Extra padding prevents PNG clipping, not in-game ground occlusion.",
+    "Scarf phase and rear yaw differ at cycle seam; no interpolation or torso repair applied."
+  ]
+}

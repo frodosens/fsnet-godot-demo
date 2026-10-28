@@ -28,6 +28,10 @@ var message: Label
 var buttons = []
 var facing={}
 # Separate movement-only opt-in; does not replace Neri idle profile.
+var hero_refresh_libraries={
+    "mara":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/mara_seedance_mini_v2/runtime_manifest.json"),
+    "finn":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/finn_seedance_mini_v2/runtime_manifest.json"),
+    "neri":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/neri_seedance_mini_v2/runtime_manifest.json")}
 var neri_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/neri_motion_trial.json")
 var vera_motion_enabled=true # Candidate may be disabled locally; missing art falls back to canonical static.
 var vera_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/vera_chapter_motion.json")
@@ -388,7 +392,7 @@ func apply_selection_presentation():
     if not battle.usable(selected):selection_pending_move=false;selection_pending_focus=false;return
     if selection_pending_focus and scene_view:
         var center=Vector3(battle.units[selected].pos.x,figure_height(selected),battle.units[selected].pos.y)
-        center+=camera.global_basis.y*figures[selected].offset.y*figures[selected].pixel_size
+        center+=camera.global_basis.y*(56.0 if not hero_refresh_entry(selected,facing.get(battle.units[selected].id,"front")).is_empty() else figures[selected].offset.y)*figures[selected].pixel_size
         scene_view.focus_actor(center)
     selection_pending_focus=false
     if selection_pending_move:
@@ -560,8 +564,7 @@ func refresh():
                 for target in battle.units:
                     if target.id==event.target:facing[u.id]=projected_facing(u.pos,target.pos,iso_roles.has(u.role))
         if not motion.motions.has(u.id):
-            figures[i].flip_h=false
-            figures[i].texture=directional_idle_texture(i,facing.get(u.id,"front"))
+            apply_map_idle_texture(i,facing.get(u.id,"front"))
         if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,figure_height(i),u.pos.y)
         badges[i].position = badge_position(i)
         badges[i].update_health(u.hp,u.max_hp,u.ally,i==selected)
@@ -709,9 +712,8 @@ func update_move_preview(cell):
     if selected<0 or mode!="move" or presentation_active() or hud.blocks_input():return
     preview_path=battle.path_to(selected,cell)
     if preview_path.is_empty():preview_reason="此格不可达 · 选择范围内的空格";return
-    preview_ghost.flip_h=false
-    preview_ghost.offset=Vector2(0,52 if battle.units[selected].id=="tessa" and figures[selected].texture.get_height()==136 else 56)
-    preview_ghost.texture=figures[selected].texture;preview_ghost.pixel_size=figures[selected].pixel_size;preview_ghost.position=Vector3(cell.x,figures[selected].position.y,cell.y);preview_ghost.show()
+    refresh_preview_ghost_art(selected)
+    preview_ghost.pixel_size=figures[selected].pixel_size;preview_ghost.position=Vector3(cell.x,figures[selected].position.y,cell.y);preview_ghost.show()
     var line=route_mesh.mesh;var arrows=route_arrows.mesh
     line.surface_begin(Mesh.PRIMITIVE_LINES);arrows.surface_begin(Mesh.PRIMITIVE_TRIANGLES)
     for i in range(preview_path.size()-1):
@@ -820,7 +822,26 @@ func base_directional_idle_texture(index,direction):
     var idle=get_node_or_null("MapIdle")
     return idle.library.sample("map",unit.role+":"+direction,0.0,fallback,true,unit.id) if idle else fallback
 
+func hero_refresh_entry(index,direction):
+    var id=battle.units[index].id
+    if not App.hero_map_refresh_previews.get(id,false) or not hero_refresh_libraries.has(id):return {}
+    return hero_refresh_libraries[id].matching(id,direction,base_directional_idle_texture(index,direction))
+func apply_map_idle_texture(index,direction,legacy_texture=null):
+    var entry=hero_refresh_entry(index,direction)
+    var figure=figures[index]
+    if not entry.is_empty():
+        figure.texture=entry.idle.textures[0];figure.flip_h=entry.idle.flip_h;figure.offset=Vector2(0,64)
+    else:
+        figure.flip_h=false;figure.texture=directional_idle_texture(index,direction) if legacy_texture==null else legacy_texture
+        if figure.get_meta("formal_art"):figure.offset=Vector2(0,56)
+func refresh_preview_ghost_art(index):
+    var direction=facing.get(battle.units[index].id,"front");var entry=hero_refresh_entry(index,direction)
+    preview_ghost.texture=figures[index].texture if entry.is_empty() else entry.idle.textures[0]
+    preview_ghost.flip_h=not entry.is_empty() and entry.idle.flip_h
+    preview_ghost.offset=Vector2(0,64 if not entry.is_empty() else (52 if battle.units[index].id=="tessa" and preview_ghost.texture.get_height()==136 else 56))
 func directional_idle_texture(index,direction):
+    var entry=hero_refresh_entry(index,direction)
+    if not entry.is_empty():return entry.idle.textures[0]
     var neutral=base_directional_idle_texture(index,direction)
     return preload("res://view/map_sequence.gd").shared().idle(battle.units[index].id,direction,0.0,neutral,true) if App.map_sequence_enabled(battle.units[index].id) else neutral
 func map_motion_neutral_texture(index,direction):
@@ -839,10 +860,19 @@ func vera_motion_entry(index,direction):
     if battle.units[index].id!="vera" or not vera_motion_enabled:return {}
     return vera_motion_library.matching("vera",direction,base_directional_idle_texture(index,direction))
 func apply_map_motion_texture(index,direction,distance):
+    var refreshed=hero_refresh_entry(index,direction)
+    if not refreshed.is_empty():
+        if not is_finite(distance) or distance<0:apply_map_idle_texture(index,direction);return
+        figures[index].texture=hero_refresh_libraries[battle.units[index].id].pick(refreshed.motion,distance)
+        figures[index].flip_h=refreshed.motion.flip_h;figures[index].offset=Vector2(0,64);return
+    if figures[index].get_meta("formal_art"):figures[index].offset=Vector2(0,56)
     var entry=vera_motion_entry(index,direction) if battle.units[index].id=="vera" else adela_motion_entry(index,direction) if battle.units[index].id=="adela" else neri_motion_entry(index,direction)
     figures[index].flip_h=is_finite(distance) and distance>=0 and not entry.is_empty() and entry.motion.get("flip_h",false)
     figures[index].texture=map_motion_texture(index,direction,distance)
 func map_motion_texture(index,direction,distance):
+    var refreshed=hero_refresh_entry(index,direction)
+    if not refreshed.is_empty():
+        return hero_refresh_libraries[battle.units[index].id].pick(refreshed.motion,distance) if is_finite(distance) and distance>=0 else refreshed.idle.textures[0]
     var unit=battle.units[index]
     if not vera_motion_entry(index,direction).is_empty():
         var trial=vera_motion_library.motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
@@ -860,7 +890,8 @@ func figure_texture_pixel_position(index,pixel):
     # Public figure_pixel_position stays in the original 96px canonical coordinates.
     var texture=figures[index].texture
     if figures[index].flip_h:pixel.x=texture.get_width()-pixel.x
-    return figure_pixel_position(index,pixel-Vector2((texture.get_width()-96)*0.5,0))
+    var padding_y=figures[index].offset.y+texture.get_height()*0.5-120 if figures[index].get_meta("formal_art") else 0.0
+    return figure_pixel_position(index,pixel-Vector2((texture.get_width()-96)*0.5,padding_y))
 func refresh_map_sequence_art(actor_id=""):
     var idle=get_node_or_null("MapIdle")
     for i in range(figures.size()):
@@ -870,9 +901,6 @@ func refresh_map_sequence_art(actor_id=""):
         var direction=facing.get(id,"front")
         if motion.motions.has(id):apply_map_motion_texture(i,direction,motion.motions[id].travelled)
         else:
-            figures[i].flip_h=false
-            figures[i].texture=directional_idle_texture(i,direction)
+            apply_map_idle_texture(i,direction)
     if preview_ghost.visible and selected>=0 and (actor_id.is_empty() or battle.units[selected].id==actor_id):
-        preview_ghost.texture=directional_idle_texture(selected,facing.get(battle.units[selected].id,"front"))
-        preview_ghost.flip_h=false
-        preview_ghost.offset=Vector2(0,56)
+        refresh_preview_ghost_art(selected)

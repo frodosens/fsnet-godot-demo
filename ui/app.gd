@@ -26,6 +26,7 @@ var cutins_enabled=true
 var reduced_motion=false
 var sfx_enabled=true
 var sfx_volume_db=-12.0
+var hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Independent v2 A/B trials; no automatic migration.
 var idle_sequence_previews={"neri":false,"adela":false,"elsbet":false}
 var bram_sequence_preview=false # User-accepted provisional gesture and shuffle.
 var oren_sequence_preview=false # Provisional idle/motion; old art remains available.
@@ -38,6 +39,7 @@ var mara_sequence_preview=false # Local opt-in for unapproved compact art candid
 var health_bar_avoidance=false
 var presentation_preferences_path="user://presentation.cfg"
 func load_presentation_preferences():
+    for id in hero_map_refresh_previews:hero_map_refresh_previews[id]=false
     for id in idle_sequence_previews:idle_sequence_previews[id]=false
     adela_motion_preview=false;neri_motion_preview=true;tessa_motion_preview=false;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
     var config=ConfigFile.new()
@@ -59,6 +61,9 @@ func load_presentation_preferences():
         if value is bool:bram_sequence_preview=value
         value=config.get_value("map","tessa_motion_preview",false)
         if value is bool:tessa_motion_preview=value
+        for id in hero_map_refresh_previews:
+            value=config.get_value("map","hero_refresh_v2_"+id,false)
+            if value is bool:hero_map_refresh_previews[id]=value
         for id in idle_sequence_previews:
             value=config.get_value("map",id+"_idle_preview",false)
             if value is bool:idle_sequence_previews[id]=value
@@ -366,3 +371,14 @@ func set_adela_motion_preview(on):
     else:push_warning("Cannot save Adela preference without overwriting unreadable settings")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("adela")
+
+func set_hero_map_refresh_preview(on,id):
+    if not hero_map_refresh_previews.has(id):return
+    hero_map_refresh_previews[id]=bool(on)
+    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
+    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
+        config.set_value("map","hero_refresh_v2_"+id,hero_map_refresh_previews[id])
+        if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save hero refresh preference")
+    else:push_warning("Cannot save hero refresh preference without overwriting unreadable settings")
+    var game=get_tree().current_scene
+    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art(id)

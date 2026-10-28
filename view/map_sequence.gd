@@ -18,7 +18,7 @@ func configure(data):
     if not data is Dictionary or not data.get("profiles") is Dictionary:
         errors.append("invalid map sequence manifest");return
     var version=data.get("version")
-    if not (version is int or version is float) or not is_finite(version) or version!=1:
+    if not (version is int or version is float) or not is_finite(version) or (version!=1 and version!=2):
         errors.append("unsupported map sequence version");return
     if data.profiles.size()>16:errors.append("too many sequence profiles");return
     for id in data.profiles:
@@ -29,6 +29,9 @@ func configure(data):
         var idle_only=spec.get("idle_only",false)
         if not idle_only is bool or not motion_only is bool:errors.append("invalid sequence mode flag: "+str(id));continue
         if idle_only and motion_only:errors.append("conflicting sequence modes: "+str(id));continue
+        var hero_canvas=version==2
+        if hero_canvas and (id not in ["mara","finn","neri"] or not valid_hero_canvas(spec.get("canvas")) or motion_only or idle_only):
+            errors.append("invalid hero refresh profile: "+str(id));continue
         var decoded={};var valid=true
         for direction in DIRECTIONS:
             var item=spec.get(direction)
@@ -44,19 +47,25 @@ func configure(data):
                 if not (value is int or value is float) or not is_finite(value):root_valid=false
             if not root_valid or guard_root[0]!=guard_width/2 or guard_root[1]!=120:valid=false;break
             var guard=texture_at(item.get("neutral_guard"),Vector2i(int(guard_width),128))
-            var idle={} if motion_only else decode(item.get("idle"),Vector2i(int(idle_width),128))
-            var motion_canvas=Vector2i(128,136) if id=="tessa" else Vector2i(128,128)
-            var motion={} if idle_only else decode(item.get("motion"),motion_canvas)
+            var idle={} if motion_only else decode(item.get("idle"),Vector2i(160,160) if hero_canvas else Vector2i(int(idle_width),128),144 if hero_canvas else 120)
+            var motion_canvas=Vector2i(160,160) if hero_canvas else (Vector2i(128,136) if id=="tessa" else Vector2i(128,128))
+            var motion={} if idle_only else decode(item.get("motion"),motion_canvas,144 if hero_canvas else 120)
             if guard==null or (not motion_only and idle.is_empty()) or (motion_only and item.has("idle")) or (not idle_only and motion.is_empty()) or (idle_only and item.has("motion")):valid=false;break
+            if hero_canvas and (idle.textures.size()!=1 or idle.flip_h!=motion.flip_h or idle.flip_h!=direction.ends_with("right")):valid=false;break
             decoded[direction]={"guard":guard,"idle":idle,"motion":motion}
         if valid:profiles[id]=decoded
         else:errors.append("invalid sequence profile: "+str(id)+"; old art retained")
+func valid_hero_canvas(canvas):
+    if not canvas is Array or canvas.size()!=2:return false
+    for value in canvas:
+        if not (value is int or value is float) or not is_finite(value) or value!=160:return false
+    return true
 func texture_at(path,canvas):
     if not path is String or not path.begins_with("assets/") or path.contains("..") or path.contains(":") or path.contains("\\") or not path.ends_with(".png"):return null
     if not ResourceLoader.exists("res://"+path):return null
     var texture=load("res://"+path)
     return texture if texture is Texture2D and Vector2i(texture.get_size())==canvas else null
-func decode(spec,canvas):
+func decode(spec,canvas,anchor_y=120):
     if not spec is Dictionary:return {}
     var paths=spec.get("frames");var holds=spec.get("ticks");var root=spec.get("root")
     var flip=spec.get("flip_h",false)
@@ -65,7 +74,7 @@ func decode(spec,canvas):
     if not root is Array or root.size()!=2:return {}
     for value in root:
         if not (value is int or value is float) or not is_finite(value):return {}
-    if root[0]!=canvas.x/2 or root[1]!=120:return {}
+    if root[0]!=canvas.x/2 or root[1]!=anchor_y:return {}
     var expected=spec.get("cycle_ticks",38)
     if not (expected is int or expected is float) or not is_finite(expected) or expected!=floor(expected) or expected<1 or expected>384:return {}
     var textures=[];var ends=[];var total=0

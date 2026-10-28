@@ -1,0 +1,507 @@
+{
+  "schema_version": 1,
+  "character_id": "neri",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "canonical_reference_body_height_px": 103,
+  "alpha_bbox_threshold": 128,
+  "bbox_convention": "exclusive right/bottom",
+  "direction_sources": {
+    "front_left": {
+      "source": "front_left",
+      "mirrorX": false
+    },
+    "front_right": {
+      "source": "front_left",
+      "mirrorX": true
+    },
+    "back_left": {
+      "source": "back_left",
+      "mirrorX": false
+    },
+    "back_right": {
+      "source": "back_left",
+      "mirrorX": true
+    }
+  },
+  "source_cycles": {
+    "front_left": {
+      "indices": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24
+      ],
+      "endpoint": 27,
+      "weights": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "fps": 24
+    },
+    "back_left": {
+      "indices": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24
+      ],
+      "endpoint": 27,
+      "weights": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "fps": 24
+    }
+  },
+  "idle_source_frames": {
+    "front_left": 22,
+    "back_left": 22
+  },
+  "idle_selection": "Frame22 grounded-looking held contact pose matching generated style; static, not breathing.",
+  "fixed_registration": {
+    "source_resolution": [
+      1280,
+      720
+    ],
+    "source_panel": [
+      640,
+      720
+    ],
+    "source_panel_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resampling": "nearest",
+    "per_frame_adjustment": false
+  },
+  "key": {
+    "alpha": "1-clip((g-max(r,b)-0.08)/0.32,0,1)",
+    "force_zero": "g>0.45 and g>1.4*max(r,b)",
+    "edge_despill": "partial alpha only: G=min(G,max(R,B)+12) byte units",
+    "zero_alpha_rgb_zero": true
+  },
+  "frames": [
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "motion/front_left/front_left_walk_00.png",
+      "sha256": "96088bfe9241c44807ef3a6b80777e9fb62060de9260d06bdde0965167a1760e",
+      "source_frame": 3,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        54,
+        43,
+        119,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        53,
+        43,
+        119,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 1,
+      "file": "motion/front_left/front_left_walk_01.png",
+      "sha256": "6e32ab7942528227c49904f5a1261fb152951606b1b58b1e14b40b1034418fa5",
+      "source_frame": 6,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        48,
+        42,
+        117,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        48,
+        42,
+        117,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 2,
+      "file": "motion/front_left/front_left_walk_02.png",
+      "sha256": "f788d5b9a4e4af0348902d5d798c822d0041265973169affa948c6ed0ec09547",
+      "source_frame": 9,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        42,
+        117,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        42,
+        117,
+        144
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 3,
+      "file": "motion/front_left/front_left_walk_03.png",
+      "sha256": "903d39c3b61d2b3f90603ae22c3c37a2611b5a2d6b10d9bd34d1e5d7576f534e",
+      "source_frame": 12,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        44,
+        43,
+        120,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        44,
+        43,
+        120,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 4,
+      "file": "motion/front_left/front_left_walk_04.png",
+      "sha256": "c2836a887159ec8159fd8097f292f41e4b480e69ef50c94ccdcad8cb052f76e7",
+      "source_frame": 15,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        43,
+        121,
+        150
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        43,
+        121,
+        150
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 5,
+      "file": "motion/front_left/front_left_walk_05.png",
+      "sha256": "e3376caa71bdbf80219abebc2d4aba8eb215b155788585464f5e29c8b272912c",
+      "source_frame": 18,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        48,
+        41,
+        118,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        48,
+        41,
+        119,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 6,
+      "file": "motion/front_left/front_left_walk_06.png",
+      "sha256": "a6be305b87e5001d7a38c55815abbd68235781ae75b6cd19f52717810ab952e0",
+      "source_frame": 21,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        52,
+        41,
+        117,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        52,
+        41,
+        117,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 7,
+      "file": "motion/front_left/front_left_walk_07.png",
+      "sha256": "019f711faf00fd0dc3f2a5806081fbb11fdff8848263dfbd9adc305a52b5fd83",
+      "source_frame": 24,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        55,
+        43,
+        119,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        55,
+        42,
+        119,
+        146
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "idle/front_left/front_left_idle_00.png",
+      "sha256": "0c180ae312888d486208f15c00cd3cae3e7284e0142838f09f597ebc369b422d",
+      "source_frame": 22,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        54,
+        42,
+        117,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        54,
+        42,
+        118,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "motion/back_left/back_left_walk_00.png",
+      "sha256": "cc3fe3a2ddfe7ca54b4e25d613042cefe2a8132351ffd2de229168e712a94fac",
+      "source_frame": 3,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        47,
+        43,
+        108,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        47,
+        43,
+        108,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 1,
+      "file": "motion/back_left/back_left_walk_01.png",
+      "sha256": "d61032863be424258da3d86860210392b6dcacc4003a4a1203c780a6e23da621",
+      "source_frame": 6,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        42,
+        111,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        42,
+        111,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 2,
+      "file": "motion/back_left/back_left_walk_02.png",
+      "sha256": "74336dd3bf4b86ee469a2150d9bb04e025a2211f4ede02c0f8e50821cd909153",
+      "source_frame": 9,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        43,
+        112,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        44,
+        42,
+        112,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 3,
+      "file": "motion/back_left/back_left_walk_03.png",
+      "sha256": "fe384b35ce5720d4bb38ddafa92fc796c7307a977316c08a9dbc264c94ca74ac",
+      "source_frame": 12,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        43,
+        113,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        43,
+        113,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 4,
+      "file": "motion/back_left/back_left_walk_04.png",
+      "sha256": "fa1ac048301c6911557913465f53ee3d24980555f5b5c4f7303ae91719b58513",
+      "source_frame": 15,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        48,
+        43,
+        111,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        48,
+        43,
+        112,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 5,
+      "file": "motion/back_left/back_left_walk_05.png",
+      "sha256": "3b1dfef5c481fd89a36f71db329de5069b48bcbf31aecb1ba8f09eb1f2774f8c",
+      "source_frame": 18,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        51,
+        42,
+        108,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        42,
+        108,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 6,
+      "file": "motion/back_left/back_left_walk_06.png",
+      "sha256": "c30bb8b6d809665fd6b51e4e1c43303257ea1092786efc0d51571c6a9373ad1e",
+      "source_frame": 21,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        53,
+        43,
+        105,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        53,
+        42,
+        106,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 7,
+      "file": "motion/back_left/back_left_walk_07.png",
+      "sha256": "b34a3424979d9446f656532aa59491a5d5f88156e357ad426412d1e3d7497151",
+      "source_frame": 24,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        53,
+        44,
+        105,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        53,
+        44,
+        105,
+        145
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "idle/back_left/back_left_idle_00.png",
+      "sha256": "599a63a6b6f3b3c5e52c2aed6c0cc81475d95fb45a1ec95ed80b3202ad698af9",
+      "source_frame": 22,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        53,
+        43,
+        104,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        53,
+        43,
+        104,
+        145
+      ]
+    }
+  ],
+  "limitations": [
+    "Candidate pending actual game grounding, transition and depth review.",
+    "Generated style is simplified/bolder than canonical; fixed scale preserves source mapping rather than forcing original silhouette height.",
+    "Passing feet overlap and equipment/cloth silhouettes change slightly.",
+    "Mirrored idle and motion reverse equipment handedness; old neutral_guard stays canonical.",
+    "Extra padding prevents PNG clipping, not in-game ground occlusion.",
+    "Only early cycle3..26 used; later rear-facing drift excluded. Early cycle still has mild rear yaw and cape variation."
+  ]
+}
