@@ -1,0 +1,867 @@
+{
+  "original_video": "finn_walk_regenerated.mp4",
+  "original_sha256": "1e7af4ae6a8a23dc512592347d5d5f2616b3f1528dac8680f4c78583d24ded96",
+  "original_library_file_id": "libfile_91212c4835a081918ce77ae476e65353",
+  "source_fps": 24,
+  "original_frames": 121,
+  "original_dimensions": [
+    960,
+    960
+  ],
+  "cycle_start": 42,
+  "cycle_end_exclusive": 67,
+  "source_indices": [
+    42,
+    45,
+    48,
+    51,
+    54,
+    58,
+    61,
+    64
+  ],
+  "frame_weights": [
+    3,
+    3,
+    3,
+    3,
+    4,
+    3,
+    3,
+    3
+  ],
+  "cycle_duration_seconds": 1.0416666666666667,
+  "motion_only": true,
+  "status": "regenerated_video_art_candidate_not_runtime_accepted",
+  "preserve_existing_idle": true,
+  "normalization": {
+    "canvas": [
+      128,
+      128
+    ],
+    "root": [
+      64,
+      120
+    ],
+    "scale": 0.35555555555555557,
+    "fixed_offset": [
+      -21.333333333333332,
+      -21.333333333333332
+    ],
+    "source_quadrant_root": [
+      240,
+      397.5
+    ],
+    "inverse_affine": [
+      2.8125,
+      0,
+      60,
+      0,
+      2.8125,
+      60
+    ],
+    "resampling": "nearest",
+    "color_key": {
+      "alpha": "1-clip((g-max(r,b)-0.08)/0.32,0,1)",
+      "force_transparent": "g>0.45 and g>1.4*max(r,b)",
+      "edge_despill": "0<alpha<1 only: g=min(g,max(r,b)+12/255)",
+      "transparent_rgb": 0
+    }
+  },
+  "runtime_frames": [
+    {
+      "direction": "front_left",
+      "frame": 0,
+      "source_frame": 42,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_00.png",
+      "sha256": "5d65dc2cc0b970fd5ea182ca6dd0bd7bab4b5a39b6f6caf4bb174aa1c394ac99",
+      "size_bytes": 11254,
+      "alpha_bbox": [
+        34,
+        13,
+        93,
+        123
+      ],
+      "max_opaque_y": 122,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_left",
+      "frame": 1,
+      "source_frame": 45,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_01.png",
+      "sha256": "91ade1bb84b2b748fc3e6c76d13156f5e0f4047866b89378ee1af32a1bc781d6",
+      "size_bytes": 11627,
+      "alpha_bbox": [
+        34,
+        13,
+        95,
+        124
+      ],
+      "max_opaque_y": 123,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_left",
+      "frame": 2,
+      "source_frame": 48,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_02.png",
+      "sha256": "ced59f4d00ced178ad55b4155bad21500e9849024c8ad3d62cc53142953b0ba2",
+      "size_bytes": 11928,
+      "alpha_bbox": [
+        36,
+        12,
+        96,
+        123
+      ],
+      "max_opaque_y": 122,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_left",
+      "frame": 3,
+      "source_frame": 51,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_03.png",
+      "sha256": "2641dcadb085ff772eb969775291db4c1c418d1c74e32edc6c4e9bd2b4862ece",
+      "size_bytes": 11355,
+      "alpha_bbox": [
+        38,
+        13,
+        97,
+        120
+      ],
+      "max_opaque_y": 119,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_left",
+      "frame": 4,
+      "source_frame": 54,
+      "weight": 4,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_04.png",
+      "sha256": "4cc680a8ef1636570ac66d0344b342ce1eacbb6f1d0885c9d527c66223717c15",
+      "size_bytes": 11119,
+      "alpha_bbox": [
+        40,
+        13,
+        95,
+        116
+      ],
+      "max_opaque_y": 115,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_left",
+      "frame": 5,
+      "source_frame": 58,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_05.png",
+      "sha256": "e3774984c49c215dc4080c26cd3e417a1230b94a0693548d002bb8895021c8eb",
+      "size_bytes": 10893,
+      "alpha_bbox": [
+        39,
+        11,
+        92,
+        114
+      ],
+      "max_opaque_y": 113,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_left",
+      "frame": 6,
+      "source_frame": 61,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_06.png",
+      "sha256": "daeb10f376e3819aab742bd25a5835aac0cc5db2e915355007ee7d05e8c042f9",
+      "size_bytes": 10720,
+      "alpha_bbox": [
+        38,
+        11,
+        91,
+        118
+      ],
+      "max_opaque_y": 117,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_left",
+      "frame": 7,
+      "source_frame": 64,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_07.png",
+      "sha256": "c74e3b06698d08e543ed94fd94c960b7eb7e8c76b152471a97f4e084979ea0a8",
+      "size_bytes": 11003,
+      "alpha_bbox": [
+        36,
+        12,
+        91,
+        122
+      ],
+      "max_opaque_y": 121,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 0,
+      "source_frame": 42,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_00.png",
+      "sha256": "c1f6c12d90da78d0389a1e2c83a21ca0dafe14ca1cac4499d486767cb42e2f06",
+      "size_bytes": 12638,
+      "alpha_bbox": [
+        34,
+        13,
+        99,
+        126
+      ],
+      "max_opaque_y": 125,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 1,
+      "source_frame": 45,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_01.png",
+      "sha256": "67e4b4b954e032f0821cc8759a725922f0a950881133c99da2a2c69188bdb2b4",
+      "size_bytes": 12908,
+      "alpha_bbox": [
+        33,
+        12,
+        98,
+        125
+      ],
+      "max_opaque_y": 124,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 2,
+      "source_frame": 48,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_02.png",
+      "sha256": "7ef6ff80a8d9a74ccdf7f24f2642b925b80e2bf6b2e6f9ee1fe76dc219af0cc2",
+      "size_bytes": 13058,
+      "alpha_bbox": [
+        32,
+        13,
+        99,
+        123
+      ],
+      "max_opaque_y": 122,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 3,
+      "source_frame": 51,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_03.png",
+      "sha256": "469a704710a5d30fce7c1db5cee7a57eb635e6aaca5dfd53826b072e55a828bf",
+      "size_bytes": 12803,
+      "alpha_bbox": [
+        33,
+        14,
+        100,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_right",
+      "frame": 4,
+      "source_frame": 54,
+      "weight": 4,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_04.png",
+      "sha256": "3f00de1019f727986a3eddf3fa2d6010a52381f091cd1c5138ea70a2b4231619",
+      "size_bytes": 13014,
+      "alpha_bbox": [
+        36,
+        12,
+        102,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_right",
+      "frame": 5,
+      "source_frame": 58,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_05.png",
+      "sha256": "17cac7e832147c38064ffa1a9f23038a7c95bd762f4181ee9e0ef9e69f9e4d97",
+      "size_bytes": 12652,
+      "alpha_bbox": [
+        37,
+        11,
+        103,
+        122
+      ],
+      "max_opaque_y": 121,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 6,
+      "source_frame": 61,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_06.png",
+      "sha256": "01244b6faf35886abdd50206bf2d606e5fd97f407feb698d5acfffb14ab528cc",
+      "size_bytes": 12395,
+      "alpha_bbox": [
+        37,
+        14,
+        102,
+        124
+      ],
+      "max_opaque_y": 123,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 7,
+      "source_frame": 64,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_07.png",
+      "sha256": "e206ac676e0f98ec9a43d9720b5add38e5aa572b8db64d76e1b6af4a017557e3",
+      "size_bytes": 12571,
+      "alpha_bbox": [
+        36,
+        14,
+        100,
+        127
+      ],
+      "max_opaque_y": 126,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "back_left",
+      "frame": 0,
+      "source_frame": 42,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_00.png",
+      "sha256": "7827f694b88c6dd94c8f62b089cba72dee92895d31899a8f58309c7238cc6e21",
+      "size_bytes": 11918,
+      "alpha_bbox": [
+        30,
+        14,
+        95,
+        120
+      ],
+      "max_opaque_y": 119,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 1,
+      "source_frame": 45,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_01.png",
+      "sha256": "de9db2d5a893b3405812313345f110678fcce36534235cafbc383de30357b510",
+      "size_bytes": 11666,
+      "alpha_bbox": [
+        32,
+        13,
+        95,
+        118
+      ],
+      "max_opaque_y": 117,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 2,
+      "source_frame": 48,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_02.png",
+      "sha256": "06165135dda9c1a106fd9ad2f9415c6aa9983d5e76c677c0e288278339ed2f3a",
+      "size_bytes": 11818,
+      "alpha_bbox": [
+        34,
+        13,
+        96,
+        118
+      ],
+      "max_opaque_y": 117,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 3,
+      "source_frame": 51,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_03.png",
+      "sha256": "03f85a7fe4aa4234a281207b1ca8688dab8a47ed85170d78d0930f91429d8a11",
+      "size_bytes": 11432,
+      "alpha_bbox": [
+        37,
+        14,
+        96,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 4,
+      "source_frame": 54,
+      "weight": 4,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_04.png",
+      "sha256": "1d1fbc23f5c69f31bae5b4312e8f8b885ced98c84fde11473b34f5e87a1ea209",
+      "size_bytes": 11472,
+      "alpha_bbox": [
+        36,
+        13,
+        95,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 5,
+      "source_frame": 58,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_05.png",
+      "sha256": "0b70e9766227706c1323fe4f72cb2ac7ed64ff8b6cc595abe2632a50255a2eab",
+      "size_bytes": 11655,
+      "alpha_bbox": [
+        33,
+        12,
+        95,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 6,
+      "source_frame": 61,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_06.png",
+      "sha256": "a9446526c8ee1a741901ae10e48b2bb88e142e01b9e3ce588c4fe2769f1d06e4",
+      "size_bytes": 11647,
+      "alpha_bbox": [
+        31,
+        12,
+        94,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 7,
+      "source_frame": 64,
+      "weight": 3,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_07.png",
+      "sha256": "ce29b1a73dc6f5be6800b7a40645309f32215c32472dc6a97a2a023774187eab",
+      "size_bytes": 11982,
+      "alpha_bbox": [
+        30,
+        14,
+        94,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 0,
+      "source_frame": 42,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_00.png",
+      "sha256": "b521ea0edfc8ff0316c2dfdd9c41116ff10c501e7e219df05241737ed5ddcdfa",
+      "size_bytes": 11152,
+      "alpha_bbox": [
+        42,
+        12,
+        103,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 1,
+      "source_frame": 45,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_01.png",
+      "sha256": "1d08cd19afd1ff27a4ba4bb7c8fcef9d87fcf3d7d644a78214f315cf5e99b35b",
+      "size_bytes": 11563,
+      "alpha_bbox": [
+        41,
+        11,
+        102,
+        117
+      ],
+      "max_opaque_y": 116,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 2,
+      "source_frame": 48,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_02.png",
+      "sha256": "0fa6e93bd792beb27ff7304ae312d4a7f32203377bcba26b70a50a035212e8a6",
+      "size_bytes": 11750,
+      "alpha_bbox": [
+        41,
+        12,
+        100,
+        117
+      ],
+      "max_opaque_y": 116,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 3,
+      "source_frame": 51,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_03.png",
+      "sha256": "ba12dd8a1aa21c1b0bcce3872323514ac2a5c1206e3cda48c6df8dd3afa9ab09",
+      "size_bytes": 11657,
+      "alpha_bbox": [
+        40,
+        13,
+        99,
+        120
+      ],
+      "max_opaque_y": 119,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 4,
+      "source_frame": 54,
+      "weight": 4,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_04.png",
+      "sha256": "b2ebe66b608156ff48e56109d9e16dcecb5d178b2036b9c75b3f4928d27259f5",
+      "size_bytes": 11671,
+      "alpha_bbox": [
+        41,
+        12,
+        101,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 5,
+      "source_frame": 58,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_05.png",
+      "sha256": "f0d3256ac8d331bb7420ab32c86ad74cabf99483b267c64dd258c2be8094ccfa",
+      "size_bytes": 11410,
+      "alpha_bbox": [
+        42,
+        11,
+        103,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 6,
+      "source_frame": 61,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_06.png",
+      "sha256": "3b0b4d28fd4b0b0d42c6985749114a51dfaba7dcd42063773702a7861d177c2f",
+      "size_bytes": 11107,
+      "alpha_bbox": [
+        43,
+        12,
+        104,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 7,
+      "source_frame": 64,
+      "weight": 3,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "path": "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_07.png",
+      "sha256": "4bc01a68f174262408107f824385b85c501823ee943e5d96966d183fe14c7636",
+      "size_bytes": 11200,
+      "alpha_bbox": [
+        43,
+        13,
+        104,
+        120
+      ],
+      "max_opaque_y": 119,
+      "pixels_extend_below_root": false
+    }
+  ],
+  "limitations": [
+    "Fixedregistration; no perframewarp/recenter, inventedframes, mirror, or graftedparts.",
+    "Weights should normalize over existing onegridonecycle movement; preserve unit speed.",
+    "In-game grounding/occlusion and acceptance untested."
+  ],
+  "dense_review": {
+    "dense_review_frames_inclusive": [
+      42,
+      68
+    ],
+    "directions": [
+      "front_left",
+      "front_right",
+      "back_left",
+      "back_right"
+    ],
+    "selected_cycle_confirmed": [
+      42,
+      45,
+      48,
+      51,
+      54,
+      58,
+      61,
+      64
+    ],
+    "endpoint": 67,
+    "decision": "retain selected cycle for user-authorized usable-frame trial; no frame replacements justified by dense review",
+    "minor_issues": [
+      "Small bow contour/hand-pose breathing; no bow disappearance or hand swap in reviewed segment.",
+      "Passing-phase feet overlap in rear views around60-63 and42-46; silhouettes are not consistently separated, but no clear extra limb.",
+      "Torso/cape slight silhouette change and nonzero seam; not exact loop identical."
+    ],
+    "exclusion_statement": "Frames0-41 and67-120 not included; no claim all excluded frames defective. Selected interior cycle avoids startup/end changes. Do not claim residual minorissues removed by extraction.",
+    "seam_diagnostics": {
+      "front_left": {
+        "endpoint42_vs67_mean_abs_rgb": 3.757019943019943,
+        "selected_loop64_to42_mean_abs_rgb": 8.069649572649572,
+        "source64_to67_mean_abs_rgb": 9.139051282051282
+      },
+      "front_right": {
+        "endpoint42_vs67_mean_abs_rgb": 2.2208233618233617,
+        "selected_loop64_to42_mean_abs_rgb": 11.11617094017094,
+        "source64_to67_mean_abs_rgb": 11.275119658119658
+      },
+      "back_left": {
+        "endpoint42_vs67_mean_abs_rgb": 2.8524472934472933,
+        "selected_loop64_to42_mean_abs_rgb": 3.440934472934473,
+        "source64_to67_mean_abs_rgb": 4.363490028490029
+      },
+      "back_right": {
+        "endpoint42_vs67_mean_abs_rgb": 2.687153846153846,
+        "selected_loop64_to42_mean_abs_rgb": 6.026632478632479,
+        "source64_to67_mean_abs_rgb": 6.450977207977208
+      }
+    },
+    "no_retime_interpolation_warp": true
+  }
+}
