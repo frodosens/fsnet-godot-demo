@@ -29,6 +29,7 @@ const ActionArc=preload("res://ui/action_arc.gd")
 var status_panel
 var status_shade
 var companion_panel
+var chapter_button
 var pause_button
 var turn_button
 var hint_label
@@ -55,6 +56,7 @@ func _ready():
     round_label=UI.label("",22);round_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;round_label.position=Vector2(530,20);round_label.size=Vector2(220,42);root.add_child(round_label)
     net_label=UI.label("",14);net_label.position=Vector2(28,97);root.add_child(net_label)
     pause_button=UI.menu_button("暂停 Esc",toggle_pause);pause_button.add_theme_font_size_override("font_size",18);pause_button.custom_minimum_size=Vector2(132,40);root.add_child(pause_button)
+    chapter_button=UI.menu_button("前往第二章",confirm_next_chapter);chapter_button.hide();chapter_button.z_index=20;root.add_child(chapter_button)
     # Soft local separation from busy foliage; no opaque rectangular software panel.
     status_shade=TextureRect.new();status_shade.mouse_filter=Control.MOUSE_FILTER_IGNORE
     var shade=GradientTexture2D.new();shade.width=256;shade.height=128;shade.fill=GradientTexture2D.FILL_RADIAL;shade.fill_from=Vector2(0.3,0.65);shade.fill_to=Vector2(1.0,0.65)
@@ -122,7 +124,7 @@ func objective_text(goal):
     match goal.kind:
         "defeat_all":return "目标 · 击退所有敌人"
         "all_allies":return "目标 · 所有友方失去战力"
-        "reach":return "目标 · %s到达 (%d,%d)"%[goal.unit,goal.x,goal.y]
+        "reach":return "目标 · 玛拉送信至门前 (8,1)" if game.battle.content.id=="white_elm_watchhouse" else "目标 · %s到达 (%d,%d)"%[goal.unit,goal.x,goal.y]
         "survive":return "目标 · 坚持到第 %d 回合"%goal.round
         "protect":return "条件 · %s失去战力"%goal.unit
         "all","any":
@@ -202,6 +204,7 @@ func refresh():
     companion_panel.position=Vector2(view.x*0.135-24,view.y*0.80-30);companion_panel.custom_minimum_size=Vector2(380,64);companion_panel.size.y=64
     hero_column.add_theme_constant_override("separation",maxi(0,int(view.x*0.04)-48))
     turn_button.position=Vector2(view.x-maxf(210,turn_button.size.x)-24,view.y-90);hint_label.position=Vector2(430,view.y-56);log_label.position=Vector2(430,view.y-90)
+    chapter_button.position=Vector2((view.x-250)*0.5,76);chapter_button.size=Vector2(250,48)
     story_panel.position=Vector2((view.x-1240)*0.5,view.y-242)
     for line in [hint_label,log_label]:
         line.clip_text=true;line.custom_minimum_size.x=0;line.size.x=maxf(100,view.x-690);line.tooltip_text=line.text
@@ -290,6 +293,7 @@ func refresh_story():
         dock.visible=not story_panel.visible and not is_instance_valid(modal)
         dock.refresh_dock()
         turn_button.disabled=not dock.visible or game.battle.outcome!="playing"
+    chapter_button.visible=not story_panel.visible and not is_instance_valid(modal) and App.next_chapter_ready()
     if line.is_empty():story_key="";return
     var key=line.id+":"+str(line.index)
     if key==story_key:return
@@ -313,6 +317,18 @@ func modal_page(title):
     modal=ColorRect.new();modal.color=Color(0.08,0.07,0.05,0.7);modal.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);modal.z_index=100;root.add_child(modal)
     var p=PanelContainer.new();p.position=Vector2((root.get_viewport_rect().size.x-600)*0.5,100);p.custom_minimum_size=Vector2(600,0);modal.add_child(p)
     var c=UI.column(p,12);c.add_child(UI.label(title,28));refresh_story();return c
+func confirm_next_chapter():
+    if not App.next_chapter_ready():return
+    var c=modal_page("前往第二章")
+    if game.session.online:
+        c.add_child(UI.paragraph("网络房间不能单方换图。请双方返回主菜单，在网络对局中选择第二章；同一关卡版本才能连接。",550))
+    else:
+        c.add_child(UI.paragraph("先将第一章结尾保存到自动存档，再开始次日的新委托。第二章使用预设队伍与装备，恢复生命、魔力和行动；不继承本场背包。已有手动存档保留。",550))
+        c.add_child(UI.button("保存结尾并进入第二章",func():
+            if App.enter_next_chapter():get_tree().call_deferred("change_scene_to_file","res://main.tscn")
+            else:
+                var failure=modal_page("未进入第二章");failure.add_child(UI.paragraph(App.last_error,550));failure.add_child(UI.button("返回",clear_modal))))
+    c.add_child(UI.button("返回",clear_modal))
 func toggle_pause():
     if is_instance_valid(modal):clear_modal();return
     var c=modal_page("旅程菜单")
@@ -325,7 +341,7 @@ func toggle_pause():
     c.add_child(UI.button("退出游戏",confirm_leave.bind(true)))
     var scene_button=UI.button("场景：固定背景 → 切回 3D" if game.scene_view.active else "场景：3D → 固定背景样板",toggle_scene_renderer)
     scene_button.disabled=not game.scene_view.active and not game.scene_view.available()
-    scene_button.tooltip_text="仅支持原始琥珀桥参考地图；需要匹配的背景素材。"
+    scene_button.tooltip_text="仅支持已标定的内置关卡；自定义地图保留3D兼容视图。"
     c.add_child(scene_button)
     var brightness=HBoxContainer.new();c.add_child(brightness)
     brightness.add_child(UI.label("角色补光",18))

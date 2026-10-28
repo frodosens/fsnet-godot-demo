@@ -113,8 +113,9 @@ func sample_reserve_idle(id,time,fallback):
 func consume(step,events,units=[],content={}):
     if step==last_seen_step:return
     finish();last_seen_step=step
-    var authored=preload("res://logic/content.gd").reference_content()
-    var compatible=not content.is_empty() and content.get("id")==authored.id and content.get("width")==authored.width and content.get("height")==authored.height and content.get("terrain")==authored.terrain
+    var authored=preload("res://view/authored_scene.gd").profile(content)
+    var compatible=not authored.is_empty() and ResourceLoader.exists(authored.battle)
+    if compatible:reference_background.texture=load(authored.battle)
     reference_background.visible=compatible
     for node in legacy_backdrop:node.visible=not compatible
     for item in preload("res://ui/combat_context.gd").annotate(events,units):

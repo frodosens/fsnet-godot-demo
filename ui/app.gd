@@ -83,6 +83,14 @@ func new_game(data={}):
     close_room();session=Session.new();session.offline(data)
     presentation={"seen":[],"active":"","line":0};saved_snapshot="";saved_presentation="";last_error=""
     return true
+func next_chapter_ready():
+    return session!=null and session.logic.content.id=="amber_bridge_reference" and session.logic.outcome=="victory" and next_story().is_empty()
+func enter_next_chapter():
+    if not next_chapter_ready():last_error="请先完成第一章胜利剧情。";return false
+    if session.online:last_error="网络房间内容固定。请双方退出后选择第二章创建/加入新房间。";return false
+    var error=save_slot("auto")
+    if not error.is_empty():last_error=error;return false
+    return new_game(Content.chapter_two_content())
 func start_room(host,port,secret,data={}):
     last_error=startup_error()
     if not last_error.is_empty():return false

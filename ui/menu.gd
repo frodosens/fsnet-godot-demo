@@ -81,6 +81,8 @@ func show_network():
             network_choices.append(loaded.data);content_picker.add_item(loaded.data.title+" · "+preload("res://logic/content.gd").hash_of(loaded.data).left(8))
         else:
             network_choices.append({});content_picker.add_item(file+" · 无效");content_picker.set_item_disabled(content_picker.item_count-1,true);content_picker.set_item_tooltip(content_picker.item_count-1,loaded.error)
+    network_choices.append(preload("res://logic/content.gd").chapter_two_content())
+    content_picker.add_item("第二章 · 旧值房的回信")
     page.add_child(content_picker)
     page.add_child(UI.paragraph("双方请选择同一 Mod 版本；内容哈希不一致会拒绝进入。",460))
     var row=HBoxContainer.new();page.add_child(row);row.add_child(UI.label("端口"))
