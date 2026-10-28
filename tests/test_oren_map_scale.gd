@@ -32,7 +32,7 @@ func run():
                     check(is_equal_approx(pixels,game.MAP_PIXEL_SIZE*global_scale*1.05),"same scale every direction and pose")
                     game.badges[3]._process(0)
                     var width=game.badges[3].FIXED_WIDTH*minf(float(root.size.x)/root.get_visible_rect().size.x,float(root.size.y)/root.get_visible_rect().size.y)
-                    check(game.badges[3].rendered_size.x<=width+.01,"meter stays within conservative body width")
+                    check(game.badges[3].rendered_size.x<=width+.01,"base width remains independent of Oren actor scale")
                     check(game.badges[3].position.is_equal_approx(game.badge_position(3)),"meter follows scaled head anchor")
             game.select_mode("move");game.update_move_preview(Vector2i(2,8))
             check(game.preview_ghost.visible,"legal destination preview")

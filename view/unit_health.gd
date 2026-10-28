@@ -11,8 +11,8 @@ var rendered_size=Vector2.ZERO
 var faction_ally=true
 var unit_index=-1
 var horizontal_offset=0.0
-# Logical viewport pixels; uniform across characters, poses and animation toggles.
-const FIXED_WIDTH=24.0
+# Base logical pixels before scene magnification; independent of actor art.
+const FIXED_WIDTH=50.0
 func _init():
     backing=make_sprite("",0)
     var texture=GradientTexture2D.new();texture.width=320;texture.height=24
@@ -42,13 +42,17 @@ func _process(delta):
     if not camera:return
     var physical=Vector2(get_tree().root.size);var logical=get_viewport().get_visible_rect().size
     var pixels_per_logical=minf(physical.x/logical.x,physical.y/logical.y)
-    var outer_width=FIXED_WIDTH*pixels_per_logical
+    var world_height=camera.size if camera.keep_aspect==Camera3D.KEEP_HEIGHT else camera.size*logical.y/logical.x
+    var game=get_parent()
+    # The adapter records the unzoomed camera before cover fitting. No texture reads.
+    var reference_height=game.scene_view.saved_size if game.scene_view else world_height
+    var magnification=reference_height/maxf(world_height,0.001)
+    var outer_width=FIXED_WIDTH*pixels_per_logical*magnification
     if outer_width<=0:return
     var outline=minf(1,outer_width*0.04)
     var width=outer_width-2*outline;var height=maxf(8,8*pixels_per_logical)
     if selected or damage_time>0:height+=1
     rendered_size=Vector2(outer_width,height+2)
-    var world_height=camera.size if camera.keep_aspect==Camera3D.KEEP_HEIGHT else camera.size*logical.y/logical.x
     var world_per_pixel=world_height/physical.y
     for sprite in [backing,fill,frame]:
         sprite.pixel_size=world_per_pixel*width/320.0;sprite.scale.y=(height/width)*(320.0/24.0)
@@ -60,7 +64,6 @@ func _process(delta):
     marker.position=camera.global_basis.y*(height*0.5+6)*world_per_pixel
 
     # Protect nearby faces without moving a meter multiple tiles away from its owner.
-    var game=get_parent()
     if unit_index>=0 and unit_index<game.figures.size():
         var base=game.badge_position(unit_index)
         var center=camera.unproject_position(base)*pixels_per_logical
