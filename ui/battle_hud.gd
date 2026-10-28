@@ -379,7 +379,7 @@ func show_feedback_settings():
     var tessa=CheckButton.new();tessa.text="泰莎视频移动（试验）";tessa.button_pressed=App.tessa_motion_preview;tessa.tooltip_text="仅移动；保留原待机。前向伸脚可能被3D地面裁切。";tessa.toggled.connect(App.set_tessa_motion_preview);options.add_child(tessa)
     var neri=CheckButton.new();neri.text="奈莉镜像移动（试验）";neri.button_pressed=App.neri_motion_preview;neri.tooltip_text="仅移动；右前方向复用左前镜像，法杖持手也反转。待机独立，关闭恢复旧移动。";neri.toggled.connect(App.set_neri_motion_preview);options.add_child(neri)
     for id in ["neri","adela","elsbet"]:
-        var option=CheckButton.new();option.text={"neri":"奈莉","adela":"阿黛拉","elsbet":"埃尔丝贝特"}[id]+"视频待机（暂用）";option.button_pressed=App.map_sequence_enabled(id);option.tooltip_text="只替换待机；移动仍使用原素材。关闭恢复原待机。";option.toggled.connect(App.set_idle_sequence_preview.bind(id));options.add_child(option)
+        var option=CheckButton.new();option.text={"neri":"奈莉","adela":"阿黛拉","elsbet":"埃尔丝贝特"}[id]+"视频待机（暂用）";option.button_pressed=App.map_sequence_enabled(id);option.tooltip_text="只替换待机；移动由独立的镜像移动选项控制。关闭恢复原待机。" if id=="neri" else "只替换待机；移动仍使用原素材。关闭恢复原待机。";option.toggled.connect(App.set_idle_sequence_preview.bind(id));options.add_child(option)
     var sound=CheckButton.new();sound.text="战斗音效";sound.button_pressed=App.sfx_enabled;sound.toggled.connect(func(on):App.sfx_enabled=on);c.add_child(sound)
     var volume=HSlider.new();volume.min_value=-30;volume.max_value=0;volume.step=1;volume.value=App.sfx_volume_db;volume.custom_minimum_size=Vector2(320,36);volume.tooltip_text="音效音量 dB";volume.value_changed.connect(func(value):App.sfx_volume_db=value);c.add_child(volume)
     c.add_child(UI.button("返回暂停菜单",func():clear_modal();toggle_pause()))
