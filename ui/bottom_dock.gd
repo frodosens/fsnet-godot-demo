@@ -65,7 +65,7 @@ func setup(owner):
     picture(status_group,"icons/icon_action_resource.png",Rect2(342,930,25,25));action_value=label(status_group,"",Rect2(375,927,100,30),24)
     picture(canvas,"panels/round-phase.png",r("phase"));phase=label(canvas,"",r("phase"),26);phase.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;phase.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
     notice=label(canvas,"",Rect2(545,779,1020,36),24)
-    targeting_legend=label(canvas,"蓝：距离参考 · 金框：可选目标 · 橙：效果范围 · 红：不可选",Rect2(545,779,1020,36),24)
+    targeting_legend=label(canvas,"色块：距离 · 白角：可选 · 金色：效果 · 红叉：不可选",Rect2(545,779,1020,36),24)
     targeting_legend.hide()
     actions=Control.new();actions.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(actions)
     picture(actions,"panels/action-dock.png",r("action_and_movement_dock"))
@@ -76,10 +76,12 @@ func setup(owner):
     for i in range(kinds.size()):
         var b=action_nodes[kinds[i]];b.focus_neighbor_right=b.get_path_to(action_nodes[kinds[(i+1)%5]]);b.focus_neighbor_left=b.get_path_to(action_nodes[kinds[(i+4)%5]])
     context=Control.new();context.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(context)
-    picture(context,"panels/action-dock.png",r("action_and_movement_dock"));picture(context,"icons/icon_move.png",Rect2(580,854,54,54))
-    proposal_title=label(context,"移动预览",Rect2(655,850,200,36),30);cost=label(context,"",Rect2(655,900,210,35),24)
-    var a=layout.action_rects.confirm;confirm=button(context,"confirm","确认",Rect2(a[0],a[1],182,a[3]),hud.game.confirm_proposal)
-    a=layout.action_rects.cancel;cancel=button(context,"cancel","取消",Rect2(1065,a[1],156,a[3]),hud.cancel_targeting)
+    var strip=Panel.new();strip.position=Vector2(545,710);strip.size=Vector2(1020,96);strip.mouse_filter=Control.MOUSE_FILTER_IGNORE
+    strip.add_theme_stylebox_override("panel",skin("buttons/normal.png"));context.add_child(strip)
+    proposal_title=label(context,"移动预览",Rect2(560,736,200,36),26);cost=label(context,"",Rect2(775,736,300,35),24)
+    cost.clip_text=true;cost.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+    confirm=button(context,"confirm","确认",Rect2(1100,716,190,84),hud.game.confirm_proposal)
+    cancel=button(context,"cancel","取消",Rect2(1300,716,170,84),hud.cancel_targeting)
     confirm.focus_neighbor_right=confirm.get_path_to(cancel);cancel.focus_neighbor_left=cancel.get_path_to(confirm)
     var end=Button.new();end.text="结束回合";end.position=r("end_turn").position;end.size=r("end_turn").size;end.add_theme_font_size_override("font_size",30)
     for state in ["normal","hover","focus","pressed","disabled"]:end.add_theme_stylebox_override(state,skin("panels/end-turn.png"))
@@ -115,22 +117,22 @@ func refresh_dock():
         action_nodes.wait.disabled=true;notice.text="请选择可以行动的队员"
     var moving=game.mode=="move" and not hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing"
     var picker_open=hud.modal is ContentPicker
-    actions.visible=(hud.action_menu_open and not hud.blocks_input() or picker_open) and logic.outcome=="playing"
+    actions.visible=(not hud.blocks_input() or picker_open) and logic.outcome=="playing"
     context.visible=moving or (game.mode!="move" and not hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing")
     proposal_title.text="移动预览" if game.mode=="move" else "目标预览"
     confirm.disabled=(game.pending_move.is_empty() and game.pending_target.is_empty()) or game.targeting_locked()
-    notice.position.y=779;targeting_legend.hide()
+    notice.position.y=666 if context.visible else 779;targeting_legend.position.y=674;targeting_legend.hide()
     cost.tooltip_text=""
     cost.text="请选择落点" if game.preview_path.is_empty() else "%d 格 · 移动 1 次"%[game.preview_path.size()-1]
     if game.mode!="move":
         cost.text="再点目标施放" if not game.pending_target.is_empty() else "先点目标预览"
         var preview=game.ground_overlay.targeting_state() if game.ground_overlay else {}
         if preview.get("active",false):
-            notice.position.y=743;targeting_legend.show()
+            notice.position.y=634;targeting_legend.show()
             notice.text=preview.summary
             if not preview.reason.is_empty():cost.text="再点目标施放" if preview.hover_legal else preview.reason
             else:cost.text="描边可选 · 再点施放"
-            cost.tooltip_text=preview.summary+"\n蓝色：距离参考（视线/阵营仍需校验）；金框：合法目标；橙色：效果区域；红色：不可选"
+            cost.tooltip_text=preview.summary+"\n橙红攻击／紫色技能／青绿辅助：距离参考；白角：合法目标；金色：效果区域；红叉：不可选"
         cost.clip_text=true;cost.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
     elif moving:
         cost.text="再点落点移动" if not game.pending_move.is_empty() else cost.text

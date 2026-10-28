@@ -22,7 +22,7 @@ static func describe(game):
     for i in range(battle.content.abilities.size()):
         if battle.content.abilities[i].id==id:ability=battle.content.abilities[i];slot=i;break
     if ability.is_empty():return out
-    out.active=true
+    out.active=true;out.friendly=ability.target in ["ally","self"]
     var reach=maxi(0,actor.reach+ability.reach_bonus);var radius=0
     for effect in ability.effects:radius=maxi(radius,effect.radius)
     out.cast_cells=[actor.pos] if ability.target=="self" else diamond(actor.pos,reach,battle.size)

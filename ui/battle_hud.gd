@@ -187,6 +187,8 @@ func focus_arc_choice(kind):
 func place_action_arc(_view):
     pass # Replaced by reference-measured bottom dock.
 func choose_action(kind):
+    if blocks_input() or not action_buttons.has(kind) or action_buttons[kind].disabled:return
+    game.clear_move_preview()
     action_menu_open=false
     if kind=="wait":action_menu_open=true;game.wait_selected()
     elif kind=="skill":show_abilities()
@@ -266,7 +268,7 @@ func refresh():
         for kind in ["move","attack","skill","item"]:action_buttons[kind].disabled=true
     action_buttons.end.disabled=logic.outcome!="playing"
     turn_button.text="空格 · 结束回合" if logic.outcome=="playing" else "战斗已结束"
-    action_panel.visible=active and action_menu_open and not blocks_input()
+    # Dock owns action visibility; hiding then showing each refresh cancels held GUI gestures.
     target_panel.visible=logic.outcome=="playing" and not game.target_preview.is_empty() and game.mode!="move" and not blocks_input()
     if target_panel.visible:
         var victim=logic.units[game.target_preview_index];var prediction=game.target_preview

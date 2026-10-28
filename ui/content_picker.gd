@@ -155,6 +155,9 @@ func down(point,id):
     pointer=id;start=point;last=point;dragged=false;scroll_start=active_scroll().scroll_vertical
     if description_open:pressed_index=-6 if description_close.get_global_rect().has_point(point) else -1
     else:pressed_index=-3 if back.get_global_rect().has_point(point) else (-5 if detail.get_global_rect().has_point(point) else at_point(point))
+    # Only a gesture that both starts and ends outside dismisses this layer.
+    if description_open and not description_panel.get_global_rect().has_point(point):pressed_index=-8
+    elif not description_open and not panel.get_global_rect().has_point(point):pressed_index=-7
     var bar=active_scroll().get_v_scroll_bar()
     if bar.visible and bar.get_global_rect().has_point(point):pressed_index=-4;drag(point)
 func drag(point):
@@ -172,8 +175,9 @@ func up(point,id,cancelled=false):
     cancel_pointer()
     if not tap:return
     if description_open:
-        if chosen==-6 and description_close.get_global_rect().has_point(point):close_description()
+        if (chosen==-6 and description_close.get_global_rect().has_point(point)) or (chosen==-8 and not description_panel.get_global_rect().has_point(point)):close_description()
         return
+    if chosen==-7 and not panel.get_global_rect().has_point(point):close();return
     if chosen==-5 and detail.get_global_rect().has_point(point):detail.grab_focus();open_description();return
     if chosen==-3 and back.get_global_rect().has_point(point):close();return
     if chosen>=0 and chosen==at_point(point):

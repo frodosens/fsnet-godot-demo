@@ -119,14 +119,35 @@ func fill_cell(cell,color):
     var points=[]
     for offset in [Vector2(-0.46,-0.46),Vector2(0.46,-0.46),Vector2(0.46,0.46),Vector2(-0.46,0.46)]:points.append(projected(Vector2(cell)+offset))
     triangle(points[0],points[1],points[2],color);triangle(points[0],points[2],points[3],color)
+func cell_outline(cell,color,width=2.0,corners_only=false):
+    var points=[]
+    for offset in [Vector2(-0.46,-0.46),Vector2(0.46,-0.46),Vector2(0.46,0.46),Vector2(-0.46,0.46)]:points.append(projected(Vector2(cell)+offset))
+    for i in range(4):
+        var a=points[i];var b=points[(i+1)%4]
+        if corners_only:
+            stroke(a,a.lerp(b,0.25),width,color);stroke(b,b.lerp(a,0.25),width,color)
+        else:stroke(a,b,width,color)
 func draw_targeting():
     if not targeting.get("active",false):return
-    # Dim cast-distance envelope is not a promise of LOS, faction or resource legality.
-    for cell in targeting.cast_cells:fill_cell(cell,Color(0.30,0.55,0.82,0.18))
-    for cell in targeting.area_cells:fill_cell(cell,Color(1.0,0.65,0.22,0.38))
-    for cell in targeting.legal_cells:tile_quad(cell,"target_cell_border_gold",HEIGHT+0.004)
+    # Distance is an envelope, not authority: only Lua-approved cells get white brackets.
+    var tint=Color(1.0,0.24,0.08,0.38) if game.mode=="attack" else Color(0.70,0.25,1.0,0.38)
+    if targeting.get("friendly",false):tint=Color(0.12,0.90,0.65,0.38)
+    for cell in targeting.cast_cells:
+        fill_cell(cell,tint)
+        cell_outline(cell,Color(0.06,0.04,0.09,0.75),3)
+        cell_outline(cell,Color(tint.r,tint.g,tint.b,0.9),1.4)
+    for cell in targeting.area_cells:
+        fill_cell(cell,Color(1.0,0.74,0.18,0.52))
+        cell_outline(cell,Color(1.0,0.88,0.48,0.95),2)
+    for cell in targeting.legal_cells:
+        cell_outline(cell,Color(0.04,0.04,0.08,1),6,true)
+        cell_outline(cell,Color(1,1,0.92,1),3,true)
     if targeting.hover.x>=0 and targeting.hover.y>=0 and not targeting.hover_legal and targeting.hover.x<game.battle.size.x and targeting.hover.y<game.battle.size.y:
-        fill_cell(targeting.hover,Color(0.9,0.22,0.22,0.35))
+        var cell=Vector2(targeting.hover)
+        fill_cell(cell,Color(0.9,0.12,0.12,0.40))
+        for sign_x in [-1,1]:
+            var a=projected(cell+Vector2(-0.24*sign_x,-0.24));var b=projected(cell+Vector2(0.24*sign_x,0.24))
+            stroke(a,b,6,Color(0.08,0.02,0.02,1));stroke(a,b,3,Color(1,0.40,0.32,1))
 func focus_marker():
     if game.hud.action_menu_open or game.targeting_locked():return {}
     if game.mode=="move":

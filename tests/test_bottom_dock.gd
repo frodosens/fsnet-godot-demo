@@ -29,7 +29,7 @@ func run():
             check(caption.position.x+text_width<=control.size.x-12,"horizontal caption fits painted frame padding")
             check(caption.size.x>=text_width,"Chinese caption not clipped")
     var initial=game.battle.snapshot()
-    await click(dock.action_nodes.move);check(dock.context.visible and not dock.actions.visible,"move replaces dock")
+    await click(dock.action_nodes.move);check(dock.context.visible and dock.actions.visible,"move retains directly switchable commands")
     check(dock.confirm.disabled,"no destination cannot confirm")
     game.stage_move(Vector2i(4,4));await frames();check(not dock.confirm.disabled and game.battle.snapshot()==initial,"selection only previews")
     await click(dock.cancel);check(game.battle.snapshot()==initial and dock.actions.visible,"cancel returns without cost")
