@@ -54,11 +54,13 @@ func open_battle():
     transitioning=true;busy=true;get_tree().call_deferred("change_scene_to_file","res://main.tscn")
 func show_load():
     clear_page("读取旅程")
-    for slot in App.SLOT_IDS:
+    var scroll=ScrollContainer.new();scroll.custom_minimum_size=Vector2(0,260);scroll.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;scroll.follow_focus=true;page.add_child(scroll)
+    var entries=VBoxContainer.new();entries.size_flags_horizontal=Control.SIZE_EXPAND_FILL;entries.add_theme_constant_override("separation",8);scroll.add_child(entries)
+    for slot in App.loadable_slots():
         var result=App.inspect_slot(slot)
-        var caption={"auto":"自动存档","slot1":"存档一","slot2":"存档二","slot3":"存档三"}[slot]
+        var caption={"auto":"自动存档","slot1":"存档一","slot2":"存档二","slot3":"存档三"}.get(slot,"第一章结尾检查点")
         var button=UI.button(caption+" · "+(result.error if not result.error.is_empty() else "第 %d 回合 · %s"%[result.round,result.saved_at]),load_selected.bind(slot))
-        button.disabled=not result.error.is_empty();button.tooltip_text=result.error;page.add_child(button)
+        button.disabled=not result.error.is_empty();button.tooltip_text=result.error;entries.add_child(button)
     feedback=UI.paragraph("旧规则或损坏存档不会覆盖当前文件。",460);page.add_child(feedback)
     page.add_child(UI.button("返回",show_home))
 func load_selected(slot):
@@ -81,6 +83,8 @@ func show_network():
             network_choices.append(loaded.data);content_picker.add_item(loaded.data.title+" · "+preload("res://logic/content.gd").hash_of(loaded.data).left(8))
         else:
             network_choices.append({});content_picker.add_item(file+" · 无效");content_picker.set_item_disabled(content_picker.item_count-1,true);content_picker.set_item_tooltip(content_picker.item_count-1,loaded.error)
+    network_choices.append(preload("res://logic/content.gd").chapter_two_content())
+    content_picker.add_item("第二章 · 旧值房的回信")
     page.add_child(content_picker)
     page.add_child(UI.paragraph("双方请选择同一 Mod 版本；内容哈希不一致会拒绝进入。",460))
     var row=HBoxContainer.new();page.add_child(row);row.add_child(UI.label("端口"))

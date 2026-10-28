@@ -1,5 +1,5 @@
 extends Node
-# Reversible presentation adapter for the single authored reference map.
+# Reversible presentation adapter for explicitly matched authored maps.
 const BACKGROUND="res://assets/backgrounds/amber_bridge/background.png"
 const FOREGROUND="res://assets/backgrounds/amber_bridge/foreground.png"
 var game
@@ -15,19 +15,20 @@ var saved_aspect=Camera3D.KEEP_HEIGHT
 var art_rect=Rect2()
 var original_character_scale=1.0
 var compatibility_message=""
+var authored={}
+var saved_camera_position=Vector3.ZERO
 func compatible():
-    var authored=preload("res://logic/content.gd").reference_content()
-    var current=game.battle.content
-    return current.id==authored.id and current.width==authored.width and current.height==authored.height and current.terrain==authored.terrain
+    return not preload("res://view/authored_scene.gd").profile(game.battle.content).is_empty()
 func available():
-    if not compatible() or not ResourceLoader.exists(BACKGROUND):return false
-    var texture=load(BACKGROUND)
-    return texture is Texture2D and texture.get_size()==Vector2(1280,800)
+    var spec=preload("res://view/authored_scene.gd").profile(game.battle.content)
+    if spec.is_empty() or not ResourceLoader.exists(spec.map):return false
+    var texture=load(spec.map)
+    return texture is Texture2D and texture.get_size()==spec.canvas
 func _ready():
     process_priority=100
-    saved_size=game.camera.size;saved_aspect=game.camera.keep_aspect
+    saved_size=game.camera.size;saved_aspect=game.camera.keep_aspect;saved_camera_position=game.camera.position
 func plate(texture,depth,transparent=false):
-    var mesh=MeshInstance3D.new();var quad=QuadMesh.new();quad.size=Vector2(saved_size*1.6,saved_size);mesh.mesh=quad
+    var mesh=MeshInstance3D.new();var quad=QuadMesh.new();quad.size=Vector2(saved_size*(float(texture.get_width())/texture.get_height() if texture.get_size()==Vector2(1586,992) else 1.6),saved_size);mesh.mesh=quad
     mesh.transform=game.camera.transform;mesh.position-=game.camera.global_basis.z*depth
     var shader=Shader.new()
     shader.code="shader_type spatial; render_mode unshaded, fog_disabled, cull_disabled; uniform sampler2D art: source_color, filter_nearest; void fragment(){ vec4 c=texture(art,UV); ALBEDO=c.rgb;"+("ALPHA=c.a;" if transparent else "")+"}"
@@ -43,6 +44,8 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
     if enabled and fixture_texture==null and not available():return false
     compatibility_message=""
     if enabled:
+        authored=preload("res://view/authored_scene.gd").profile(game.battle.content)
+        game.camera.position=saved_camera_position+game.camera.global_basis.x*authored.camera_offset.x+game.camera.global_basis.y*authored.camera_offset.y
         var keep=[game.ground_overlay,game.camera,game.route_mesh,game.route_arrows,game.selection_ring,game.preview_ghost]
         keep.append_array(game.figures);keep.append_array(game.badges)
         for tile in game.tiles.values():keep.append(tile.overlay)
@@ -51,12 +54,12 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
             if node is GeometryInstance3D or node.get_class()=="Node3D":
                 hidden.append([node,node.visible]);node.hide()
         original_character_scale=game.character_scale
-        var settings_path="res://assets/backgrounds/amber_bridge/presentation.json"
-        var scale_factor=1.0
+        var settings_path=authored.root+"presentation.json"
+        var scale_factor=1.25 if game.battle.content.id=="white_elm_watchhouse" else 1.0
         if FileAccess.file_exists(settings_path):scale_factor=float(JSON.parse_string(FileAccess.get_file_as_string(settings_path)).get("character_scale",1.0))
         game.set_character_scale(scale_factor)
-        backdrop=plate(fixture_texture if fixture_texture!=null else load(BACKGROUND),50)
-        if fixture_texture==null and ResourceLoader.exists(FOREGROUND):foreground=plate(load(FOREGROUND),2,true)
+        backdrop=plate(fixture_texture if fixture_texture!=null else load(authored.map),50)
+        if fixture_texture==null and ResourceLoader.exists(authored.root+"foreground.png"):foreground=plate(load(authored.root+"foreground.png"),2,true)
         var shader=Shader.new();shader.code="shader_type spatial; render_mode unshaded, fog_disabled, cull_disabled, depth_draw_never; void fragment(){float d=length((UV-vec2(0.5))*2.0);ALBEDO=vec3(0.06,0.08,0.07);ALPHA=(1.0-smoothstep(0.15,1.0,d))*0.32;}"
         var material=ShaderMaterial.new();material.shader=shader
         for unit in game.battle.units:
@@ -75,7 +78,7 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
             if is_instance_valid(node):node.queue_free()
         backdrop=null;foreground=null;shadows.clear();active=false
         game.set_character_scale(original_character_scale)
-        game.camera.size=saved_size;game.camera.keep_aspect=saved_aspect
+        game.camera.size=saved_size;game.camera.keep_aspect=saved_aspect;game.camera.position=saved_camera_position
     game.clear_move_preview()
     return true
 func fit():
@@ -97,7 +100,7 @@ func _process(_delta):
 func setup_lights():
     for node in game.get_children():
         if node is OmniLight3D:original_lights.append([node,node.visible]);node.hide()
-    var path="res://assets/backgrounds/amber_bridge/lights.json"
+    var path=authored.root+"lights.json"
     if not FileAccess.file_exists(path):return
     var data=JSON.parse_string(FileAccess.get_file_as_string(path))
     for spec in data.get("lights",[]):
