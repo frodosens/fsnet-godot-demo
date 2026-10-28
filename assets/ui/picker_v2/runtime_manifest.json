@@ -58,7 +58,9 @@
         128
       ],
       "mode": "RGBA",
-      "sha256": "5a87b4e80198bd8a3a8544308a4850db12c220b6e39a01b968ddbfe9d44a309c"
+      "sha256": "5a87b4e80198bd8a3a8544308a4850db12c220b6e39a01b968ddbfe9d44a309c",
+      "role": "live",
+      "reserve": false
     },
     {
       "id": "focus_bolt",
@@ -68,7 +70,9 @@
         128
       ],
       "mode": "RGBA",
-      "sha256": "86b79a2b49b53e3d3274c4be6aa06f650d5cbe9caaeec20608a67282016ca4e5"
+      "sha256": "86b79a2b49b53e3d3274c4be6aa06f650d5cbe9caaeec20608a67282016ca4e5",
+      "role": "live",
+      "reserve": false
     },
     {
       "id": "bandage",
@@ -78,7 +82,9 @@
         128
       ],
       "mode": "RGBA",
-      "sha256": "a51bc1c5a3bdd105b553c6e5bfdf320f02fd1b204d5670e15bdf752be8f613ec"
+      "sha256": "a51bc1c5a3bdd105b553c6e5bfdf320f02fd1b204d5670e15bdf752be8f613ec",
+      "role": "live",
+      "reserve": false
     },
     {
       "id": "rally",
@@ -88,7 +94,9 @@
         128
       ],
       "mode": "RGBA",
-      "sha256": "e63c236bd3c534a40d5678d78839546b414e585a4450d62166d975039bd0049c"
+      "sha256": "e63c236bd3c534a40d5678d78839546b414e585a4450d62166d975039bd0049c",
+      "role": "live",
+      "reserve": false
     },
     {
       "id": "strong_shot",
@@ -98,7 +106,141 @@
         128
       ],
       "mode": "RGBA",
-      "sha256": "6147dfecdd922ab1511f9104c1e807da260f9d037afaba9f6ac0c8670bd56cee"
+      "sha256": "6147dfecdd922ab1511f9104c1e807da260f9d037afaba9f6ac0c8670bd56cee",
+      "role": "live",
+      "reserve": false
+    },
+    {
+      "id": "shield",
+      "path": "icons/shield.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "ae3dfbc874675e12c24e2a7d3e037e26205599562019cf6147645240227b6cda",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "sword",
+      "path": "icons/sword.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "440273e7862d19191ef22281997c6fa485db1bbbdb49d0d029253df6b639fc27",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "boot",
+      "path": "icons/boot.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "8c1b33212f8675146d59859bc57fc47a99848ced7ba5f5e1870d905ac95593b9",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "red_potion",
+      "path": "icons/red_potion.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "124bd11bad6ed2125ab40dce1282d31d08f8a1e8151dd9ca1495ecda9a55623a",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "blue_potion",
+      "path": "icons/blue_potion.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "3c554a60fae0b4647f361124aa5d2c6c002e8ac6ec358a512b46e5364035da08",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "antidote",
+      "path": "icons/antidote.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "2341fae4c00eed72eba5d51cc06b350236e523828125b50d75d1350fecb8f201",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "scroll",
+      "path": "icons/scroll.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "d793731c0767bbf9b2540f7c907eb749e6d9fcda3fe31b8d88e37a7dfbce464c",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "herb",
+      "path": "icons/herb.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "67c56a27a76d6bce666c71fe3f589ceeb285e8b9ff7a2b6a647fea5ffa0f9d95",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "bomb",
+      "path": "icons/bomb.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "3b4340e9c1e2ecfa0fae8185377fcb28767944ba8c77041aed9f28408067a2cd",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "revive_feather",
+      "path": "icons/revive_feather.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "62ec2ca6ee97e9b5830c21a0d88d058ab16326199e10b2cc888c99b585c51748",
+      "role": "reserve",
+      "reserve": true
+    },
+    {
+      "id": "bag",
+      "path": "icons/bag.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "078221c710a1247dc61c8ba6d2c77286a25926fa446df89070be2bbb3764f5e1",
+      "role": "reserve",
+      "reserve": true
     }
   ],
   "item_icon_mapping": {
