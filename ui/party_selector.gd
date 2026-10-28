@@ -2,7 +2,7 @@ extends Control
 # Original portrait crops only. No rule state or command submission lives here.
 const UI=preload("res://ui/style.gd")
 const ART="res://assets/ui/party_eye_v2/"
-const EYES={"mara":Rect2(170,130,220,96),"finn":Rect2(180,128,230,100),"neri":Rect2(195,138,220,100),"tessa":Rect2(180,132,220,96),"oren":Rect2(180,120,230,96),"bram":Rect2(195,120,230,96),"adela":Rect2(180,130,220,96),"elsbet":Rect2(205,140,220,96)}
+const EYES={"rodd":Rect2(215,110,170,70),"mara":Rect2(170,130,220,96),"finn":Rect2(180,128,230,100),"neri":Rect2(195,138,220,100),"tessa":Rect2(180,132,220,96),"oren":Rect2(180,120,230,96),"bram":Rect2(195,120,230,96),"adela":Rect2(180,130,220,96),"elsbet":Rect2(205,140,220,96)}
 var hud
 var scroll:ScrollContainer
 var column:VBoxContainer

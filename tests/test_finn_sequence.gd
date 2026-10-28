@@ -31,12 +31,14 @@ func run():
     lib.configure(data)
     var app=root.get_node("App")
     app.presentation_preferences_path="user://finn-sequence-toggle-test.cfg"
+    app.load_presentation_preferences()
+    var other_before=app.map_sequence_enabled("oren")
     for mara in [false,true]:
         app.set_mara_sequence_preview(mara)
         for finn in [false,true]:
             app.set_finn_motion_preview(finn)
             app.load_presentation_preferences()
             check(app.map_sequence_enabled("mara")==mara and app.map_sequence_enabled("finn")==finn,"independent persistent settings")
-            check(not app.map_sequence_enabled("oren"),"other actors unchanged")
+            check(app.map_sequence_enabled("oren")==other_before,"other actors unchanged")
     app.set_mara_sequence_preview(false);app.set_finn_motion_preview(false)
     print("FINN_SEQUENCE checks=",checks," failures=",failures);quit(1 if failures else 0)

@@ -25,6 +25,7 @@ func run():
             var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed)
             game.motion.set_process(false);game.get_node("MapIdle").set_process(false)
             game.facing.bram=direction;game.selected=5;game.refresh()
+            var other_before=game.directional_idle_texture(1,direction)
             var old=game.base_directional_idle_texture(5,direction)
             app.set_bram_sequence_preview(true)
             var entry=Seq.matching("bram",direction,old)
@@ -46,7 +47,7 @@ func run():
             game.get_node("MapIdle").advance(.5)
             check(game.figures[5].texture==Seq.idle("bram",direction,.5,old),"natural idle time")
             check(game.battle.snapshot()==truth,"idle no rule effects")
-            check(game.directional_idle_texture(1,direction)==game.base_directional_idle_texture(1,direction),"other actor unchanged")
+            check(game.directional_idle_texture(1,direction)==other_before,"other actor unchanged")
             if not capture.is_empty():
                 var title=Label.new();title.text="布拉姆关键帧暂用试验 · "+direction+(" · 固定背景" if fixed else " · 3D")+"\n测试摆位 / 每格一循环 / 保留姿态与碎步限制"
                 title.position=Vector2(330,90);title.add_theme_font_size_override("font_size",19);title.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(title)

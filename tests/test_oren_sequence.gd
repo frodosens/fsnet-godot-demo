@@ -32,6 +32,8 @@ func run():
         var bad=data.duplicate(true);bad.profiles.oren.front_left.idle.cycle_ticks=value;lib.configure(bad)
         check(not lib.profiles.has("oren"),"bad idle cycle fallback")
     var app=root.get_node("App");app.presentation_preferences_path="user://oren-three-toggle-test.cfg"
+    app.load_presentation_preferences()
+    var other_before=app.map_sequence_enabled("bram")
     for mara in [false,true]:
         app.set_mara_sequence_preview(mara)
         for finn in [false,true]:
@@ -39,6 +41,6 @@ func run():
             for oren in [false,true]:
                 app.set_oren_sequence_preview(oren);app.load_presentation_preferences()
                 check(app.map_sequence_enabled("mara")==mara and app.map_sequence_enabled("finn")==finn and app.map_sequence_enabled("oren")==oren,"three independent persistent switches")
-                check(not app.map_sequence_enabled("bram"),"other actors unchanged")
+                check(app.map_sequence_enabled("bram")==other_before,"other actors unchanged")
     app.set_mara_sequence_preview(false);app.set_finn_motion_preview(false);app.set_oren_sequence_preview(false)
     print("OREN_SEQUENCE checks=",checks," failures=",failures);quit(1 if failures else 0)
