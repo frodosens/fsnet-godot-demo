@@ -32,8 +32,9 @@ var dragged=false
 var scroll_start=0
 var columns=4
 var row_height=72.0
-var layout_key=Vector3.ZERO
+var layout_key=Vector4.ZERO
 var closing=false
+var bottom_limit:Callable
 func skin(name,margin):
     var path=ART+"panels/"+name+".png"
     var box=StyleBoxTexture.new();box.texture=load(path)
@@ -88,7 +89,7 @@ func relayout():
     columns=clampi(floori((width-32)/maxf(152,hit*2.1)),1,4);grid.columns=columns
     row_height=maxf(72,hit+12)
     var header=maxf(hit,48);var footer=maxf(hit,font+16)
-    var dock_top=size.y*.81
+    var dock_top=bottom_limit.call() if bottom_limit.is_valid() else size.y*.81
     var rows=maxi(1,ceili(float(entries.size())/columns))
     var desired_height=(row_height+8)*minf(2.3,rows)-8
     var grid_height=minf(desired_height,maxf(hit,dock_top-header-footer-40))
@@ -110,7 +111,7 @@ func relayout():
     description_text.add_theme_font_size_override("font_size",font);description_text.custom_minimum_size.x=0
     if pointer!=-2:cancel_pointer()
 func _process(_delta):
-    var key=Vector3(size.x,size.y,get_window().size.x)
+    var key=Vector4(size.x,size.y,get_window().size.x,bottom_limit.call() if bottom_limit.is_valid() else 0.0)
     if key!=layout_key:layout_key=key;relayout()
 func select(index):
     if index<0 or index>=entries.size():return

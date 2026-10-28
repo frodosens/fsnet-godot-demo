@@ -13,6 +13,7 @@ var hp_value:Label
 var mp_value:Label
 var movement:Label
 var action_value:Label
+var phase_group:Control
 var phase:Label
 var cost:Label
 var proposal_title:Label
@@ -63,7 +64,8 @@ func setup(owner):
     hp_value=label(status_group,"",Rect2(450,862,70,28),24);mp_value=label(status_group,"",Rect2(450,890,70,28),24)
     picture(status_group,"icons/icon_move.png",Rect2(194,930,25,25));movement=label(status_group,"",Rect2(225,927,108,30),24)
     picture(status_group,"icons/icon_action_resource.png",Rect2(342,930,25,25));action_value=label(status_group,"",Rect2(375,927,100,30),24)
-    picture(canvas,"panels/round-phase.png",r("phase"));phase=label(canvas,"",r("phase"),26);phase.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;phase.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+    phase_group=Control.new();phase_group.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(phase_group)
+    picture(phase_group,"panels/round-phase.png",r("phase"));phase=label(phase_group,"",r("phase"),26);phase.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;phase.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
     notice=label(canvas,"",Rect2(545,779,1020,36),24)
     targeting_legend=label(canvas,"色块：距离 · 白角：可选 · 金色：效果 · 红叉：不可选",Rect2(545,779,1020,36),24)
     targeting_legend.hide()
@@ -89,7 +91,12 @@ func setup(owner):
 func select(kind):
     if not action_nodes[kind].disabled:selected=kind
 func refresh_dock():
-    var view=get_viewport_rect().size;var factor=minf(view.x/1586.0,view.y/992.0);canvas.scale=Vector2.ONE*factor;canvas.position=(hud.root.size-Vector2(1586,992)*factor)*0.5
+    var view=get_viewport_rect().size
+    var factor=maxf(.01,minf(hud.root.size.x/1586.0,hud.root.size.y/992.0))
+    canvas.scale=Vector2.ONE*factor
+    # Bottom controls and top phase have independent safe-area edge anchors.
+    canvas.position=Vector2((hud.root.size.x-1586*factor)*.5,hud.root.size.y-992*factor)
+    phase_group.position.y=-canvas.position.y/factor
     hud.hint_label.hide();hud.log_label.hide();hud.turn_button.text="结束回合" if hud.game.battle.outcome=="playing" else "战斗已结束"
     status_group.position.x=maxf(0.0,-canvas.position.x/factor)
     hud.turn_button.position=r("end_turn").position;hud.turn_button.size=r("end_turn").size
@@ -143,3 +150,6 @@ func refresh_dock():
         if picker_open:b.disabled=true
         b.text="";b.add_theme_stylebox_override("normal",skin("buttons/"+("selected" if selected==kind and not b.disabled else "normal")+".png"))
         b.get_meta("caption").modulate=Color("a4aaa4") if b.disabled else Color("eee2c6")
+
+func picker_bottom_limit():
+    return canvas.position.y+779*canvas.scale.y
