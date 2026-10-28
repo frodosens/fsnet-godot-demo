@@ -2,7 +2,7 @@
 
 This candidate replaces only Finn's existing opt-in motion profile source with
 `assets/sprites/iso4/finn_video_regen_20261028/`. The 32 PNGs are copied unchanged
-from reviewed staging commit `b07a7190f59c548981616271a88eaa62f2a794a1`; the source
+from provided staging commit `b07a7190f59c548981616271a88eaa62f2a794a1`; the source
 manifest preserves their hashes and extraction contract. No Neri art is included.
 
 Eight frames per direction use source indices 42,45,48,51,54,58,61,64, ending before
@@ -39,3 +39,8 @@ fixtures, the normal simulation speed and Godot's fixed-24-fps movie capture.
 It is Linux llvmpipe rendering, not Android device footage or a performance claim.
 Videos/stills remain outside Git; runtime art PNGs are the intentional exception
 for this source/art candidate. No APK or public release is authorized here.
+
+Final candidate retains picker main `3b271021`. Four focused suites passed 7,510
+assertions; the real front-right authority/client walk observed 31 Runtime
+replacements without restarting travel. Four-direction video was recorded before
+the picker-only rebase; Finn playback/art and the recorded view are unchanged.
