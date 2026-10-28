@@ -15,7 +15,8 @@ local function reachable(i)
     local p=q[cursor]; cursor=cursor+1; cells[#cells+1]=p
     if p.d<u.movement then for _,v in ipairs(directions) do
       local x,y=p.x+v[1],p.y+v[2]; local key=y*content.width+x
-      if walkable(x,y) and not seen[key] and not at(x,y) then
+      local occupant=at(x,y)
+      if walkable(x,y) and not seen[key] and (not occupant or state.units[occupant].faction==u.faction) then
         seen[key]=true; q[#q+1]={x=x,y=y,d=p.d+1,parent=cursor-1}
       end
     end end

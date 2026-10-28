@@ -171,7 +171,7 @@ func inspect_slot(slot):
     if not file or file.get_length()>262144:return {"error":"存档无法读取或大小异常。"}
     var data=Content.normalize(Content.parse_json(file.get_as_text()))
     if not data is Dictionary or data.get("format")!=2:return {"error":"存档损坏或版本不兼容。"}
-    if data.get("rules_hash")!=preload("res://logic/runtime.gd").rule_source().sha256_text():return {"error":"规则版本不兼容，请保留旧存档。"}
+    if not Runtime.accepts_saved_rules(data.get("rules_hash")):return {"error":"规则版本不兼容，请保留旧存档。"}
     var issue=Content.validate(data.get("content"))
     if not issue.is_empty() or Content.hash_of(data.content)!=data.get("content_hash"):return {"error":"内容版本校验失败："+issue}
     var candidate=Runtime.new(data.content)

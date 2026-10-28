@@ -15,7 +15,7 @@ func consume(step,events):
         if event.get("kind")!="move":continue
         for i in range(game.battle.units.size()):
             var u=game.battle.units[i]
-            if u.id!=event.actor or u.hp<=0:continue
+            if u.id!=event.actor:continue
             var path=event.get("path",[])
             if path is Array and path.size()>=2:
                 motions[u.id]={"index":i,"path":path,"elapsed":0.0,"role":u.role,"segment":0,"distance":0.0,"travelled":0.0}
@@ -30,7 +30,7 @@ func advance(delta):
     if motions.is_empty():return
     for id in motions.keys():
         var motion=motions[id];var i=motion.index
-        if i>=game.battle.units.size() or game.battle.units[i].hp<=0:
+        if i>=game.battle.units.size():
             motions.erase(id);continue
         var remaining=maxf(0,delta)*clampf(speed,0,8)
         motion.elapsed+=remaining
@@ -50,7 +50,8 @@ func advance(delta):
             if motion.distance>=0.999999:
                 motion.segment+=1;motion.distance=0.0
         if motion.segment>=motion.path.size()-1:
-            settle(id,i);motions.erase(id);continue
+            var end=motion.path[-1]
+            settle(id,i,Vector2i(end.x,end.y));motions.erase(id);continue
         game.badges[i].position=game.badge_position(i)
         if game.selected==i:game.selection_ring.position=Vector3(game.figures[i].position.x,0.04,game.figures[i].position.z)
 
@@ -58,11 +59,12 @@ func advance(delta):
 func reset_idle_phase(id):
     var idle=game.get_node_or_null("MapIdle")
     if idle:idle.clocks[id]=0.0
-func settle(id,index):
+func settle(id,index,point=null):
     reset_idle_phase(id)
     var u=game.battle.units[index]
-    if game.selected==index:game.selection_ring.position=Vector3(u.x,0.04,u.y)
-    game.figures[index].position=Vector3(u.x,game.figure_height(index),u.y);game.badges[index].position=game.badge_position(index)
+    var cell=Vector2i(u.x,u.y) if point==null else point
+    if game.selected==index:game.selection_ring.position=Vector3(cell.x,0.04,cell.y)
+    game.figures[index].position=Vector3(cell.x,game.figure_height(index),cell.y);game.badges[index].position=game.badge_position(index)
     game.figures[index].texture=game.directional_idle_texture(index,game.facing.get(id,"front"))
 func finish(notify=true):
     for id in motions:

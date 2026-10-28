@@ -43,7 +43,7 @@ local function run_ai_phase()
       if destination and distance(u,destination)>(destination.faction==u.faction and 1 or u.reach) then
         local best={x=u.x,y=u.y}
         for _,p in ipairs(reachable(i)) do
-          if within_policy(p) and distance(p,destination)<distance(best,destination) then best=p end
+          if not at(p.x,p.y) and within_policy(p) and distance(p,destination)<distance(best,destination) then best=p end
         end
         if best.x~=u.x or best.y~=u.y then
           assert(execute_action({kind='move',x=best.x,y=best.y},i),'AI produced illegal move')

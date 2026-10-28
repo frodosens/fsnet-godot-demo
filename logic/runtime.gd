@@ -26,6 +26,12 @@ func _init(data={}):
     assert(vm.load_rules(source),vm.last_error())
     reset()
 
+# Snapshot-only compatibility: this reviewed predecessor has identical v5 state layout.
+# Command replay and network handshakes continue requiring the current rule hash.
+const SNAPSHOT_COMPATIBLE_RULES=["ff0209fc228021e6c2a82a3a4858fe20e26996d3e0b75f3a16966125a7855ca5"]
+static func accepts_saved_rules(hash_value):
+    return hash_value==rule_source().sha256_text() or hash_value in SNAPSHOT_COMPATIBLE_RULES
+
 static func rule_source():
     var source = FileAccess.get_file_as_string("res://logic/battle.lua")
     # Fixed trusted modules only. Their complete source participates in peer/save compatibility.

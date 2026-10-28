@@ -48,10 +48,19 @@ function M.view()
   return state
 end
 function M.events() return effects end
-function M.reachable(args) return reachable((args.unit or -1)+1) end
+function M.reachable(args)
+  local index=(args.unit or -1)+1;local destinations={}
+  -- BFS keeps allied transit nodes for parent-chain reconstruction. The public
+  -- range exposes only legal landing cells (plus the origin for UI context).
+  for _,p in ipairs(reachable(index)) do
+    local occupant=at(p.x,p.y)
+    if not occupant or occupant==index then destinations[#destinations+1]=p end
+  end
+  return destinations
+end
 function M.path(args)
   local index=(args.unit or -1)+1;local u=state.units[index]
-  if not u or u.hp<=0 or u.controller~='player' or state.outcome~='playing' or u.moves_used>=u.move_actions then return {} end
+  if not u or u.hp<=0 or u.controller~='player' or state.outcome~='playing' or u.moves_used>=u.move_actions or at(args.x,args.y) then return {} end
   local cells=reachable(index)
   for j,p in ipairs(cells) do if p.x==args.x and p.y==args.y and p.d>0 then
     local result={};local cursor=j

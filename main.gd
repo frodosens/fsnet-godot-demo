@@ -5,6 +5,7 @@ const Architecture=preload("res://view/architecture.gd")
 const Hud=preload("res://ui/battle_hud.gd")
 var hud
 var cutin
+var event_sequence
 var heal_feedback
 var motion
 var battle
@@ -347,6 +348,7 @@ func build_hud():
     cutin=preload("res://ui/battle_cutin.gd").new();add_child(cutin)
     motion=preload("res://view/unit_motion.gd").new();motion.game=self;add_child(motion);motion.last_step=battle.step
     heal_feedback=preload("res://view/heal_feedback.gd").new();heal_feedback.game=self;add_child(heal_feedback);heal_feedback.last_step=battle.step
+    event_sequence=preload("res://view/event_sequence.gd").new();event_sequence.game=self;add_child(event_sequence);event_sequence.last_step=battle.step
 
 func select_mode(value):
     if presentation_active() or (hud and hud.blocks_input()):return
@@ -472,6 +474,7 @@ func restart():
     App.new_game(session.logic.content)
     session=App.session
     battle=session.logic
+    if event_sequence:event_sequence.finish();event_sequence.last_step=-1
     selected = 0
     mode = "move"
     refresh()
@@ -479,8 +482,7 @@ func restart():
 func refresh():
     if route_mesh:clear_move_preview()
     target_preview={};target_preview_index=-1
-    if cutin and battle.step!=cutin.last_seen_step:cutin.finish()
-    if motion:motion.consume(battle.step,battle.events)
+    if event_sequence:event_sequence.consume(battle.step,battle.events)
     if not battle.usable(selected):
         selected = -1
         for i in range(battle.units.size()):
@@ -510,8 +512,7 @@ func refresh():
         badges[i].position = badge_position(i)
         badges[i].update_health(u.hp,u.max_hp,u.ally,i==selected)
     if hud:hud.refresh()
-    if cutin and not motion.active():cutin.consume(battle.step,battle.events,battle.units,battle.content)
-    if heal_feedback:heal_feedback.consume(battle.step,battle.events)
+    if event_sequence:event_sequence.sync_visuals()
 
 func _unhandled_input(event):
     if event is InputEventKey and event.pressed and not event.echo:
@@ -622,11 +623,13 @@ func projected_facing(from_cell,to_cell,diagonal=false):
     if absf(delta.x)>absf(delta.y):return "right" if delta.x>0 else "left"
     return "front" if delta.y>0 else "back"
 
-func presentation_active():return (motion and motion.active()) or (cutin and cutin.active)
+func presentation_active():return (event_sequence and event_sequence.active()) or (motion and motion.active()) or (cutin and cutin.active)
 func motion_finished():
+    if event_sequence and event_sequence.active():event_sequence.motion_finished();return
     if hud:hud.action_menu_open=true
     if cutin:cutin.consume(battle.step,battle.events,battle.units,battle.content)
 func skip_presentation():
+    if event_sequence:event_sequence.finish();return
     if heal_feedback:heal_feedback.clear()
     if motion:motion.finish()
     if cutin:cutin.finish()
