@@ -481,7 +481,7 @@ func show_picker(kind):
     game.clear_move_preview();clear_modal()
     var u=game.battle.units[game.selected]
     picker_context={"session":game.session,"generation":game.session.connection_generation,"actor":game.selected,"id":u.id,"step":game.battle.step}
-    modal=ContentPicker.new();modal.category=kind;modal.title=u.name+" · 技能" if kind=="skill" else "共用行囊 · 道具";modal.entries=picker_entries(kind);modal.z_index=100
+    modal=ContentPicker.new();modal.bottom_limit=dock.picker_bottom_limit;modal.category=kind;modal.title=u.name+" · 技能" if kind=="skill" else "共用行囊 · 道具";modal.entries=picker_entries(kind);modal.z_index=100
     modal.activated.connect(activate_picker.bind(kind));modal.canceled.connect(clear_modal);root.add_child(modal);refresh_story()
 func activate_picker(id,kind):
     var allowed=picker_current() and game.battle.usable(game.selected)
