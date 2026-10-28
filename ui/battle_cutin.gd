@@ -38,6 +38,8 @@ var reserve_sets={}
 var contact_target=Vector2.ZERO
 var fx={}
 var projectile
+var actor_left=true
+const COMBAT_SPAN=1264.0
 var tick_seconds=1.0/12.0
 var release_tick=10
 func _ready():
@@ -110,7 +112,7 @@ func register_reserve_art():
 func sample_reserve_idle(id,time,fallback):
     if not reserve_sets.has(id):return fallback
     return reserve_sets[id].poses.idle_00 if App.reduced_motion or fposmod(time,0.9)<0.45 else reserve_sets[id].poses.idle_01
-func consume(step,events,units=[],content={}):
+func consume(step,events,units=[],content={},local_faction=""):
     if step==last_seen_step:return
     finish();last_seen_step=step
     var authored=preload("res://view/authored_scene.gd").profile(content)
@@ -123,6 +125,7 @@ func consume(step,events,units=[],content={}):
         if item.actor!="mara" and not actor_sets.has(item.actor):continue
         if item.actor=="neri" and item.get("ability") not in ["ember","focus_bolt"]:continue
         if reserve_sets.has(item.actor) and item.get("ability","attack")!="attack":continue # Only authored melee art; no invented spell animation.
+        item.actor_left=preload("res://ui/combat_sides.gd").actor_on_left(item,units,local_faction)
         pending_events.append(item.duplicate(true))
     play_next()
 func play_next():
@@ -133,15 +136,20 @@ func play_next():
     title.text=str(event.get("ability","attack")) if event.get("ability","attack")!="attack" else "普通攻击"
     title.text={"ember":"余烬","focus_bolt":"专注魔弹","strong_shot":"强力射击","rally":"鼓舞"}.get(title.text,title.text)
     feedback_strength=0.0 if App.reduced_motion else 1.0
+    actor_left=event.get("actor_left",true)
     combat_status.show_event(event)
     surface.show();draw_tick(0)
 func is_melee():return event.get("actor") in ["mara","oren","tessa","bram"] or reserve_sets.has(event.get("actor"))
 func hit_tick():return release_tick if is_melee() else release_tick+4
 func socket_point(values):return Vector2(values[0],values[1])
 func hurt_screen_point():return arena.position+defender.position+contact_target*2.0
-func weapon_screen_point():return arena.position+attacker.position+socket_point(contact_points[event.actor].weapon_tip)*2.0
-func projectile_screen_point():return arena.position+projectile.position+socket_point(contact_points[event.actor].projectile_tip)*2.0
+func weapon_screen_point():return arena.position+attacker.position+(Vector2(192-socket_point(contact_points[event.actor].weapon_tip).x,socket_point(contact_points[event.actor].weapon_tip).y) if attacker.flip_h else socket_point(contact_points[event.actor].weapon_tip))*2.0
+func projectile_screen_point():
+    var tip=socket_point(contact_points[event.actor].projectile_tip)*2.0
+    if projectile.flip_h:tip.x=projectile.size.x-tip.x
+    return arena.position+projectile.position+tip
 func draw_tick(frame):
+    attacker.flip_h=false;projectile.flip_h=false;impact.flip_h=false
     var tick=clampi(int(frame),0,23)
     var melee=is_melee();var critical=event.get("is_critical",false)
     if event.actor=="mara":attacker.texture=load("res://assets/battle/mara/"+MARA[TIMELINE[tick]]+".png")
@@ -215,6 +223,14 @@ func draw_tick(frame):
             projectile.position=origin.lerp(target,clampf((frame-release_tick)/4.0,0,1))-socket_point(contact_points[event.actor].projectile_tip)*2.0;projectile.show()
         if tick>=hit and after<0.22:
             impact.texture=fx.impact if after<0.12 else fx.dissipate;impact.position=target-impact.size*0.5;impact.modulate.a=(1-after/0.22)*feedback_strength;impact.show()
+    if not actor_left:
+        # Reflect authored attack/defence geometry as a unit. Never mirror UI text.
+        for node in [attacker,defender,projectile,impact]:
+            node.position.x=COMBAT_SPAN-node.position.x-node.size.x
+            node.flip_h=not node.flip_h
+        contact_target.x=192-contact_target.x
+        damage_label.position.x=COMBAT_SPAN-target.x-35+(8*t if feedback_strength>0 else 0)
+        arena.position.x=2*layout_origin.x-arena.position.x
 func _process(delta):
     if not active:return
     if hitstop_remaining>0:
