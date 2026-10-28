@@ -41,6 +41,8 @@ func show_event(event):
     for side in ["left","right"]:
         var actor=side=="left";var id=event.actor if actor else event.target
         var path=preload("res://view/reserve_art.gd").portrait_path(id)
+        # Screen-side presentation only; reset explicitly for every reused event.
+        portraits[side].flip_h=side=="right"
         portraits[side].texture=load(path) if ResourceLoader.exists(path) else null
         bars[side].texture_progress=load(ART+"hp_fill_"+("ally" if data.get("actor_ally" if actor else "target_ally",false) else "enemy")+".png")
         labels[side].text=data.get("actor_name" if actor else "target_name",id)
