@@ -1,0 +1,252 @@
+{
+  "version": 1,
+  "filter": "linear",
+  "portrait_source": "existing runtime portraits; eye-region crops only",
+  "text_baked": false,
+  "assets": {
+    "frame_normal": {
+      "file": "frame_normal.png",
+      "size_px": [
+        272,
+        120
+      ],
+      "suggested_display_px": [
+        160,
+        71
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        9,
+        10,
+        263,
+        112
+      ],
+      "sha256": "bb67016d4df38a90357b4b8435ffd60ca4b69f9bde3c306dc8b5e89e2139af38",
+      "portrait_rect_px": [
+        23,
+        25,
+        226,
+        70
+      ],
+      "nine_patch": false,
+      "common_geometry": true
+    },
+    "frame_selected": {
+      "file": "frame_selected.png",
+      "size_px": [
+        272,
+        120
+      ],
+      "suggested_display_px": [
+        160,
+        71
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        271,
+        120
+      ],
+      "sha256": "585ae996ebb455161ff408037c3251e80e140d2d57290fd1ef66f3d41dee517a",
+      "portrait_rect_px": [
+        23,
+        25,
+        226,
+        70
+      ],
+      "nine_patch": false,
+      "common_geometry": true
+    },
+    "frame_moved": {
+      "file": "frame_moved.png",
+      "size_px": [
+        272,
+        120
+      ],
+      "suggested_display_px": [
+        160,
+        71
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        8,
+        10,
+        259,
+        111
+      ],
+      "sha256": "5a99b6ca13856740bd8180ec13e5f7ac47095e0d673b9b6d42d8f1d4edd65d90",
+      "portrait_rect_px": [
+        23,
+        25,
+        226,
+        70
+      ],
+      "nine_patch": false,
+      "common_geometry": true
+    },
+    "selected_notch": {
+      "file": "selected_notch.png",
+      "size_px": [
+        32,
+        48
+      ],
+      "suggested_display_px": [
+        12,
+        18
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        5,
+        6,
+        26,
+        42
+      ],
+      "sha256": "4f183850387316d891650c8bbc95b6127f425624c4726e9f81c8de6a756ff5c5"
+    },
+    "actor_arrow_ally": {
+      "file": "actor_arrow_ally.png",
+      "size_px": [
+        80,
+        56
+      ],
+      "suggested_display_px": [
+        32,
+        22
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        6,
+        7,
+        75,
+        49
+      ],
+      "sha256": "78101e7523720a6cf01fdaf6a1ec74497ec2a184e810a8dfb44ed40a9da26a49"
+    },
+    "actor_arrow_enemy": {
+      "file": "actor_arrow_enemy.png",
+      "size_px": [
+        80,
+        56
+      ],
+      "suggested_display_px": [
+        32,
+        22
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        5,
+        7,
+        75,
+        49
+      ],
+      "sha256": "f5cc9cd7d1baefe8ff4861df3ffaa41de4e374552f0751d2402c53306effe39c"
+    },
+    "icon_action": {
+      "file": "icon_action.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "suggested_display_px": [
+        18,
+        18
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        5,
+        3,
+        43,
+        44
+      ],
+      "sha256": "0865cf16b7abd859950d37817ee5086b2cf9fbfdc5359a9e09e4ccd4504bfaee"
+    },
+    "icon_move": {
+      "file": "icon_move.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "suggested_display_px": [
+        18,
+        18
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        5,
+        4,
+        43,
+        43
+      ],
+      "sha256": "e93091e20f3bb12e3042959fff769fb82c90205911c45606388d1375ffc2e82b"
+    },
+    "icon_done": {
+      "file": "icon_done.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "suggested_display_px": [
+        18,
+        18
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        5,
+        7,
+        44,
+        41
+      ],
+      "sha256": "df90ee796e0a4e76e78975a5632acfb6c3157e665129c4b06e4a141eb757e194"
+    },
+    "ground_diamond": {
+      "file": "ground_diamond.png",
+      "size_px": [
+        192,
+        112
+      ],
+      "suggested_display_px": [
+        96,
+        56
+      ],
+      "anchor": [
+        0.5,
+        0.5
+      ],
+      "alpha_bbox": [
+        13,
+        8,
+        181,
+        103
+      ],
+      "sha256": "95cc27dd08518ff40661bbc4dc703596296cf9e07a799c5c318ee2eb12c417ab"
+    }
+  }
+}

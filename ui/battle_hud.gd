@@ -30,6 +30,7 @@ var arc_layout={}
 const ActionArc=preload("res://ui/action_arc.gd")
 var status_panel
 var status_shade
+var party_selector
 var companion_panel
 var chapter_button
 var pause_button
@@ -125,6 +126,7 @@ func _ready():
     action_panel=dock.actions
     old_actions.hide();old_actions.queue_free();old_turn.hide();old_turn.queue_free()
     for node in [status_shade,status_panel,companion_panel,round_label]:node.hide()
+    party_selector=preload("res://ui/party_selector.gd").new();party_selector.hud=self;root.add_child(party_selector)
     root.resized.connect(refresh)
     refresh()
 func objective_text(goal):
@@ -202,6 +204,7 @@ func refresh():
     if not root:return
     if modal is ContentPicker and not picker_current():clear_modal()
     var logic=game.battle
+    if party_selector:party_selector.refresh()
     round_label.text="第 %d 回合 · %s"%[logic.round_number,{"playing":"我方行动","victory":"胜利","defeat":"失败"}.get(logic.outcome,logic.outcome)]
     var safe=App.ui_safe_rect()
     if root.position!=safe.position:root.position=safe.position
@@ -274,7 +277,7 @@ func refresh():
     target_panel.visible=logic.outcome=="playing" and not game.target_preview.is_empty() and game.mode!="move" and not blocks_input()
     if target_panel.visible:
         var victim=logic.units[game.target_preview_index];var prediction=game.target_preview
-        target_panel.position=Vector2(view.x-304,90)
+        target_panel.position=Vector2(maxf(12,party_selector.position.x-target_panel.size.x-12) if party_selector else view.x-304,90)
         var image=preload("res://view/reserve_art.gd").portrait_path(victim.id);target_portrait.texture=load(image) if ResourceLoader.exists(image) else null
         target_detail.text="%s · HP %d/%d\n伤害 %d–%d"%[victim.name,victim.hp,victim.max_hp,prediction.low,prediction.high]
         if prediction.crit_chance>0:target_detail.text+="\n每段暴击 %d%% · %d–%d"%[prediction.crit_chance,prediction.critical_low,prediction.critical_high]

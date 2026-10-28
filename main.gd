@@ -55,6 +55,7 @@ var water_level=-1.15
 var preview_ghost
 var route_arrows
 var selection_ring
+var active_actor_marker
 var scene_view
 var ground_overlay
 const MAP_PIXEL_SIZE=0.010727272727 # 99px Mara -> 90 logical px in reference camera at 1.25 scale.
@@ -366,6 +367,7 @@ func build_hud():
     motion=preload("res://view/unit_motion.gd").new();motion.game=self;add_child(motion);motion.last_step=battle.step
     heal_feedback=preload("res://view/heal_feedback.gd").new();heal_feedback.game=self;add_child(heal_feedback);heal_feedback.last_step=battle.step
     event_sequence=preload("res://view/event_sequence.gd").new();event_sequence.game=self;add_child(event_sequence);event_sequence.last_step=battle.step
+    active_actor_marker=preload("res://view/active_actor_marker.gd").new();active_actor_marker.game=self;add_child(active_actor_marker)
 
 # Shared entry point for map taps and HUD roster selection. Presentation only.
 func select_actor(index):
