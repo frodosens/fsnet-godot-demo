@@ -143,7 +143,9 @@ func consume(step,events,units=[],content={},local_faction=""):
     for item in preload("res://ui/combat_context.gd").annotate(events,units):
         if item.get("kind")!="attack" or (item.get("target")!="oren" and not defender_sets.has(item.get("target"))):continue
         if item.actor!="mara" and not actor_sets.has(item.actor):continue
-        if item.actor=="neri" and item.get("ability") not in ["ember","focus_bolt"]:continue
+        # Basic attack shares Neri's existing staff-release presentation. Damage type,
+        # mana/cooldown and result still come exclusively from the authoritative event.
+        if item.actor=="neri" and item.get("ability") not in ["attack","ember","focus_bolt"]:continue
         if reserve_sets.has(item.actor) and item.get("ability","attack")!="attack":continue # Only authored melee art; no invented spell animation.
         item.actor_left=preload("res://ui/combat_sides.gd").actor_on_left(item,units,local_faction)
         pending_events.append(item.duplicate(true))

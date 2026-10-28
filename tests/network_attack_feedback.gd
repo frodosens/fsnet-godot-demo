@@ -27,12 +27,12 @@ func run():
  while g.battle.step<1:
   await process_frame
   if Time.get_ticks_msec()>deadline:quit(1);return
- check(g.presentation_active() and g.heal_feedback.numbers.size()==1 and g.selected==2,'network attack visibly gated')
+ check(g.presentation_active() and g.cutin.active and g.selected==2,'network attack visibly gated')
  var truth=g.battle.snapshot();var rid=g.battle.get_instance_id();var replacements=0;var last_age=0.0
  while g.presentation_active():
   if g.battle.get_instance_id()!=rid:rid=g.battle.get_instance_id();replacements+=1
-  if not g.heal_feedback.numbers.is_empty():
-   var age=g.heal_feedback.numbers[0].age;check(age>=last_age,'poll never restarts age');last_age=age
+  if g.cutin.active:
+   var age=g.cutin.elapsed;check(age>=last_age,'poll never restarts age');last_age=age
   check(g.battle.snapshot()==truth and g.selected==2,'poll cannot mutate result or change actor')
   check(not g.wait_selected(),'wait gated during attack')
   await process_frame

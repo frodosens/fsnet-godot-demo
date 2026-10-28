@@ -58,11 +58,6 @@ func play_next():
                 game.cutin.last_seen_step=-1
                 game.cutin.consume(current._visual_step,[current],visual_units(),content)
                 if game.cutin.active:return
-                # Unsupported attack art must not silently consume the event.
-                # Keep the same ordered presentation gate without inventing a cut-in.
-                game.heal_feedback.last_step=-1
-                game.heal_feedback.consume_attack(current._visual_step,current)
-                if not game.heal_feedback.numbers.is_empty():return
             'heal':
                 game.heal_feedback.last_step=-1
                 game.heal_feedback.consume(current._visual_step,[current])
@@ -84,7 +79,7 @@ func _process(_delta):
     var done=false
     match current.get('kind'):
         'move':done=not game.motion.active()
-        'attack':done=not game.cutin.active and game.heal_feedback.numbers.is_empty()
+        'attack':done=not game.cutin.active
         'heal':done=game.heal_feedback.numbers.is_empty()
     if done:apply_result();play_next()
 func sync_visuals():

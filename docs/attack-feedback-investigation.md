@@ -15,11 +15,11 @@ confirm), at 2400x1080. On the unchanged baseline:
 | Finn | 6 -> 3 | yes | attack, damage 3 | cut-in | Finn remains |
 | Neri | 6 -> 3 | yes | attack, damage 3 | none | Neri remains |
 
-`ui/battle_cutin.gd:consume` intentionally admits only Neri's ember/focus_bolt
-art, not her ordinary physical attack. `view/event_sequence.gd:play_next`
-previously applied unsupported attacks immediately when no cut-in started.
-This made a real spent action look like nothing happened except an HP change.
-Unsupported Mod identities had the same missing-feedback route.
+`ui/battle_cutin.gd:consume` filters Neri to ember/focus_bolt and omits
+ordinary attack's event ability `attack`. The eight existing Neri staff-release
+poses, projectile and sockets are present and load successfully; this is a
+presentation whitelist omission, not missing art or missing authoritative damage.
+`view/event_sequence.gd` immediately settles an event whose cut-in is rejected.
 
 No automatic actor change was reproduced. `Runtime.usable` does not exclude
 units merely because their action was spent. `main.gd:wait_selected` advances a
@@ -29,31 +29,41 @@ does not claim to explain every instance of the user's reported switch.
 
 ## Narrow candidate
 
-Attacks without an admitted authored cut-in show their event's actual damage
-(or critical result) in the existing map feedback layer for its normal 0.75s
-lifetime. The visual queue waits for that feedback, so repeated taps, Wait and
-reselection cannot overtake it. Authored melee/ranged/magic cut-ins are retained;
-ordinary physical attacks are not relabelled as spells. Skip clears feedback and
-settles to authority. Same-step Runtime replacement does not replay it.
+Add `attack` to Neri's cut-in whitelist. Reuse the existing staff release,
+projectile, impact and recovery at existing timing. No edits to Lua, native code,
+selection, input routing, event queue, shared hashes, or damage type: ordinary
+attack remains physical. No new map-number fallback is retained in this candidate.
+Existing mirroring, skip and same-step replacement behavior applies unchanged.
 
 The rule source cannot currently emit ordinary attack misses or zero damage:
 it clamps damage to at least one. High-armor and lethal attacks were exercised
-with real Lua commands; zero feedback is only a synthetic defensive display test,
-not a claim of a gameplay miss mechanic. Invalid/out-of-range/dead targets do not
+with real Lua commands; no gameplay miss or zero-damage mechanic is claimed. Invalid/out-of-range/dead targets do not
 spend an action or generate damage feedback.
 
-## Validation
+## Validation and reproduction
 
-- Focused regression: 59 checks, including mobile second-tap, move then attack,
-  explicit Wait, dead/invalid/range, lethal visibility, armor minimum damage,
-  pending poll vs command-busy, same-state replacement, skip and no duplicate.
-- Real authority/client test: 328 sampled checks, five Runtime replacements
-  during Neri feedback; canonical result equals offline, no replay/auto-next.
-- Existing sequence/input, Wait, targeting, sides, mobile, abilities and rules
-  checks remain applicable. Tests are in the normal test list.
-- Linux Godot 4.6.3 compatibility renderer / llvmpipe; actual viewport touch
-  injection and screenshots at 2400x1080 and 1280x800. This is not Android-device
-  testing. Verification screenshots remain outside Git.
+- `godot --headless --path . --script tests/test_attack_feedback.gd`: 66 checks.
+  Real viewport touch preview/confirm, repeat/orphan touch release, emulated mouse,
+  Wait/confirm hit rectangles, no auto-next, invalid/dead/range, minimum damage,
+  move/attack/Wait, pending poll, command busy, replacement and skip.
+- `python3 tests/run_attack_feedback_network.py`: real authority/client, 655
+  checks and 10 Runtime replacements while Neri cut-in runs; same offline result.
+- `godot --headless --path . --script tests/test_ranged_animation.gd`: 26 checks;
+  adds a legal Neri ordinary attack, opposite viewer side, mirrored impact socket
+  and authority preservation to existing ranged/magic release-impact tests.
+- Baseline reproduction: `tests/probe_attack_feedback.gd`.
+- Graphical repeat uses the same focused script, `ATTACK_SMALL=1` for 1280x800,
+  otherwise 2400x1080. `ATTACK_CAPTURE=/tmp/example.png` saves local evidence.
+  Linux Godot 4.6.3 / llvmpipe; not Android device testing. Media stays outside Git.
 
-The entire reported symptom is not declared solved: automatic switching still
-needs the particular actor/input sequence if it occurs independently of Wait.
+Only the no-animation defect is reproduced. Duplicate touch releases, touch
+emulated mouse, and a release at Wait without a paired press do not switch actor
+in the exercised path. Genuine explicit Wait still advances correctly. These
+checks do not establish the cause of every reported automatic switch.
+
+Local review candidate only; no external publication is authorized for this step.
+
+Final related regression: 3,501 checks across 12 existing sequence/input/Wait/targeting/
+combat-side/mobile/item/ability/logic groups, plus 26 ranged checks. Focused 66 checks
+passed headless and in actual 1280x800 and 2400x1080 windows. Full project suite
+was not rerun for this one-line production admission change.
