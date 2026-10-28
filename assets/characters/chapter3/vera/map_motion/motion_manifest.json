@@ -1,0 +1,338 @@
+{
+  "schema_version": 1,
+  "character_id": "vera",
+  "status": "local_trial_candidate_runtime_review_pending",
+  "motion_only": true,
+  "canvas": [
+    128,
+    128
+  ],
+  "root": [
+    64,
+    120
+  ],
+  "frame_count": 8,
+  "frame_weights": [
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5,
+    5
+  ],
+  "one_grid_one_cycle": true,
+  "preserve_movement_speed": true,
+  "direction_sources": {
+    "front_left": {
+      "source": "front_left",
+      "mirrorX": false
+    },
+    "front_right": {
+      "source": "front_left",
+      "mirrorX": true
+    },
+    "back_left": {
+      "source": "back_left",
+      "mirrorX": false
+    },
+    "back_right": {
+      "source": "back_left",
+      "mirrorX": true
+    }
+  },
+  "mirror_axis_x": 64,
+  "mirror_policy": "Reflect around texture center/root x64 without extra pixel translation.",
+  "fixed_registration": {
+    "source_panel": [
+      640,
+      720
+    ],
+    "source_panel_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      128,
+      0,
+      3,
+      168
+    ],
+    "resampling": "nearest",
+    "per_frame_recenter": false
+  },
+  "source_cycle": {
+    "zero_based_frame_indices": [
+      30,
+      35,
+      40,
+      45,
+      50,
+      55,
+      60,
+      65
+    ],
+    "endpoint_exclusive": 70,
+    "fps": 24,
+    "duration_seconds": 1.6666666666666667
+  },
+  "key": {
+    "alpha": "1-clip((g-max(r,b)-0.08)/0.32,0,1)",
+    "force_transparent": "g>0.45 and g>1.4*max(r,b)",
+    "partial_alpha_edge_despill": "G=min(G,max(R,B)+12), byte values",
+    "transparent_rgb_zero": true
+  },
+  "frames": [
+    {
+      "direction": "front_left",
+      "frame": 0,
+      "file": "front_left/front_left_walk_00.png",
+      "weight": 5,
+      "sha256": "c77409fc07627f8eed89032342a8c6aef319967018aa46a5c946304ea0f3715a",
+      "bytes": 8392,
+      "alpha_bbox_exclusive": [
+        41,
+        20,
+        88,
+        122
+      ],
+      "opaque_pixels_below_root": 5
+    },
+    {
+      "direction": "front_left",
+      "frame": 1,
+      "file": "front_left/front_left_walk_01.png",
+      "weight": 5,
+      "sha256": "02c03e3e5a35d7af759909749a5c522b91288695d67807599f2e386caad3a359",
+      "bytes": 8416,
+      "alpha_bbox_exclusive": [
+        44,
+        21,
+        87,
+        119
+      ],
+      "opaque_pixels_below_root": 0
+    },
+    {
+      "direction": "front_left",
+      "frame": 2,
+      "file": "front_left/front_left_walk_02.png",
+      "weight": 5,
+      "sha256": "88a29630cf9edc510cac7cb905dd80e3b2076dd2920a42833d7c650080179044",
+      "bytes": 7661,
+      "alpha_bbox_exclusive": [
+        42,
+        23,
+        89,
+        115
+      ],
+      "opaque_pixels_below_root": 0
+    },
+    {
+      "direction": "front_left",
+      "frame": 3,
+      "file": "front_left/front_left_walk_03.png",
+      "weight": 5,
+      "sha256": "9e1722da4040f54931b4d9b2bb4cc22bda279ab8ca72f7b47c75308c905c4fc0",
+      "bytes": 7402,
+      "alpha_bbox_exclusive": [
+        47,
+        21,
+        86,
+        114
+      ],
+      "opaque_pixels_below_root": 0
+    },
+    {
+      "direction": "front_left",
+      "frame": 4,
+      "file": "front_left/front_left_walk_04.png",
+      "weight": 5,
+      "sha256": "7b6105b293bdeb3ab0786d8a5a94b3f0bcb9ca883058e58a0212c9755899a0d0",
+      "bytes": 6897,
+      "alpha_bbox_exclusive": [
+        47,
+        19,
+        82,
+        118
+      ],
+      "opaque_pixels_below_root": 0
+    },
+    {
+      "direction": "front_left",
+      "frame": 5,
+      "file": "front_left/front_left_walk_05.png",
+      "weight": 5,
+      "sha256": "6b682ef88e6de1cd3bf6f48c63ec8a050235cb328286ce3ba6608abcda085b75",
+      "bytes": 7521,
+      "alpha_bbox_exclusive": [
+        47,
+        21,
+        83,
+        121
+      ],
+      "opaque_pixels_below_root": 0
+    },
+    {
+      "direction": "front_left",
+      "frame": 6,
+      "file": "front_left/front_left_walk_06.png",
+      "weight": 5,
+      "sha256": "ceab2eeb5aed6f1fe985ff3fb851ef9fa6f00930dd1990a9c28ac0133e48bef8",
+      "bytes": 7760,
+      "alpha_bbox_exclusive": [
+        46,
+        23,
+        85,
+        123
+      ],
+      "opaque_pixels_below_root": 16
+    },
+    {
+      "direction": "front_left",
+      "frame": 7,
+      "file": "front_left/front_left_walk_07.png",
+      "weight": 5,
+      "sha256": "5d3e69b71bc41de7874b7bf9598198dea4e8e2a15c1a31ffd0ca608bd3645035",
+      "bytes": 7978,
+      "alpha_bbox_exclusive": [
+        42,
+        21,
+        87,
+        123
+      ],
+      "opaque_pixels_below_root": 13
+    },
+    {
+      "direction": "back_left",
+      "frame": 0,
+      "file": "back_left/back_left_walk_00.png",
+      "weight": 5,
+      "sha256": "399059854d68ece61fb9dbd40f737d64248c409447d967e5d04bca33f42a1218",
+      "bytes": 8244,
+      "alpha_bbox_exclusive": [
+        40,
+        19,
+        87,
+        117
+      ],
+      "opaque_pixels_below_root": 0
+    },
+    {
+      "direction": "back_left",
+      "frame": 1,
+      "file": "back_left/back_left_walk_01.png",
+      "weight": 5,
+      "sha256": "88295ee353dc559efc6e4e2f613948be9909642e78240685f7c8acab4db5d27a",
+      "bytes": 8208,
+      "alpha_bbox_exclusive": [
+        40,
+        22,
+        87,
+        119
+      ],
+      "opaque_pixels_below_root": 0
+    },
+    {
+      "direction": "back_left",
+      "frame": 2,
+      "file": "back_left/back_left_walk_02.png",
+      "weight": 5,
+      "sha256": "c509bb2cd0b42554ad64ef97d3fa8e96fcc89b5785cd372495ff5ff4a17cf292",
+      "bytes": 8361,
+      "alpha_bbox_exclusive": [
+        39,
+        21,
+        86,
+        119
+      ],
+      "opaque_pixels_below_root": 0
+    },
+    {
+      "direction": "back_left",
+      "frame": 3,
+      "file": "back_left/back_left_walk_03.png",
+      "weight": 5,
+      "sha256": "3cfd242a1091049d2547dd8a8bb4589ac829df08b8ce859c19dbd78eb973b5fe",
+      "bytes": 8880,
+      "alpha_bbox_exclusive": [
+        37,
+        19,
+        82,
+        121
+      ],
+      "opaque_pixels_below_root": 0
+    },
+    {
+      "direction": "back_left",
+      "frame": 4,
+      "file": "back_left/back_left_walk_04.png",
+      "weight": 5,
+      "sha256": "3e0cfe7296c3e4ade6864e920360db0ffb7a85ca3fe271235f6da1909ba277b8",
+      "bytes": 8843,
+      "alpha_bbox_exclusive": [
+        36,
+        19,
+        86,
+        124
+      ],
+      "opaque_pixels_below_root": 30
+    },
+    {
+      "direction": "back_left",
+      "frame": 5,
+      "file": "back_left/back_left_walk_05.png",
+      "weight": 5,
+      "sha256": "0e41faa7a5a3adb179440afae94b0c5c560f5a6ae4079c8578db7f255e980bcb",
+      "bytes": 9111,
+      "alpha_bbox_exclusive": [
+        36,
+        23,
+        89,
+        125
+      ],
+      "opaque_pixels_below_root": 55
+    },
+    {
+      "direction": "back_left",
+      "frame": 6,
+      "file": "back_left/back_left_walk_06.png",
+      "weight": 5,
+      "sha256": "5eba8aa36c39d2db54cdae14c06d9460abe9fb4d8022ade53166d3a62b40ad75",
+      "bytes": 8900,
+      "alpha_bbox_exclusive": [
+        37,
+        21,
+        87,
+        123
+      ],
+      "opaque_pixels_below_root": 10
+    },
+    {
+      "direction": "back_left",
+      "frame": 7,
+      "file": "back_left/back_left_walk_07.png",
+      "weight": 5,
+      "sha256": "16b4070a47ae4f96b792652040f9c8afb37265820dfc0d7c271e9f67663a3e15",
+      "bytes": 8629,
+      "alpha_bbox_exclusive": [
+        39,
+        18,
+        85,
+        117
+      ],
+      "opaque_pixels_below_root": 0
+    }
+  ],
+  "limitations": [
+    "Candidate only: actual in-game grounding and transitions unverified.",
+    "Small facing yaw, bow flex and foot overlap remain.",
+    "Mirroring reverses bow hand and costume asymmetry.",
+    "Feet extend below root during stride; no per-frame shift or foot warp applied.",
+    "Idle is not included in this movement-only package."
+  ]
+}
