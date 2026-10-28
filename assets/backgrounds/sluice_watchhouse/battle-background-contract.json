@@ -1,0 +1,43 @@
+{
+  "schema": "battle_background_layout_v1",
+  "asset": "Chapter-3-sluice-battle-background.png",
+  "source_size": [
+    1586,
+    992
+  ],
+  "reference_canvas": [
+    1280,
+    800
+  ],
+  "feet_source_px": [
+    [
+      532,
+      642
+    ],
+    [
+      1052,
+      642
+    ]
+  ],
+  "feet_reference_px": [
+    [
+      429.36,
+      517.74
+    ],
+    [
+      849.05,
+      517.74
+    ]
+  ],
+  "clear_floor_reference_rect": [
+    150,
+    448,
+    1130,
+    528
+  ],
+  "hud_reference_y": 610,
+  "style": "restrained pixel-HD2D; blue-green dusk; amber wall lamps",
+  "generation": "built-in imagegen",
+  "qa_status": "visual_composition_candidate_pass; runtime compositing not tested",
+  "source_sha256": "091a1e34def573daa8f72eab6a647b50e83364c5e996cc66e31ba1653eb3bbd6"
+}

@@ -1,0 +1,63 @@
+{
+  "schema": "chapter_map_art_geometry_v1",
+  "asset": "Chapter-3-clean-map-candidate-v2.png",
+  "source_size": [
+    1586,
+    992
+  ],
+  "reference_canvas": [
+    1280,
+    800
+  ],
+  "origin": [
+    618.8,
+    120.3412800000001
+  ],
+  "basis_x": [
+    42.4,
+    29.981039999999997
+  ],
+  "basis_y": [
+    -42.4,
+    29.981039999999997
+  ],
+  "rows": [
+    "XXXXXXXXXX",
+    "XDDDDDDDDX",
+    "XDDDXXDDDX",
+    "XDDDXXDDDX",
+    "WWBBWWWBBW",
+    "GDDDDDDDDG",
+    "GDDGXXGDDG",
+    "GDDDDDDDDG",
+    "GGGGGGGGGG"
+  ],
+  "walkable_terrain": [
+    "D",
+    "G",
+    "B"
+  ],
+  "walkable_count": 62,
+  "goal": [
+    8,
+    1
+  ],
+  "goal_semantics": "clear office forecourt meeting point; not literal threshold",
+  "actor_height_reference_px": 90,
+  "qa_foot_envelope_reference_px": [
+    24,
+    12
+  ],
+  "qa_body_envelope_reference_px": [
+    34,
+    90
+  ],
+  "approximate_actual_door_threshold_reference_px": [
+    967,
+    334
+  ],
+  "background_mapping": "Use a single uniform cover mapping; bind grid to same mapped reference canvas. Verify aspect-ratio rounding in screenshots.",
+  "perimeter_semantics": "X border cells are non-playable map boundary; some depicted as grass, not physical walls",
+  "qa_status": "visual mask and clearance candidate pass; runtime actor/UI validation required",
+  "source_sha256": "b323f55cdf527f35ad4eb7a98d692e08a4f8705a14e88dcc478822f73d7884f2"
+}
