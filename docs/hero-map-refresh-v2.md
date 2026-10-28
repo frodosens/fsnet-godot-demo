@@ -3,7 +3,8 @@
 Scope: Mara, Finn and Neri map visuals only. No portrait, cut-in, story, roster,
 equipment, damage, movement-speed or networking-rule changes. The three independent
 `地图重制 V2（试验）` settings are appended to Pause → 音效与动态效果.
-They remain **off by default pending independent runtime review**. Each preserves
+After independent runtime review they are **on by default for fresh/missing keys**.
+Explicit OFF remains persistent rollback, without migration or overwriting choices. Each preserves
 and restores the corresponding legacy options; Neri's existing default-on mirror
 preference is not migrated or overwritten.
 
@@ -48,7 +49,10 @@ occlusion. These are simplified held-frame cycles, not perfect foot locking.
 
 Author recommendation: all three are suitable for independent acceptance of the
 requested refresh, with Finn the strongest; disclose the above seams and floor
-limit. Keep the three defaults off in this candidate until that review closes.
+limit. Independent review accepted all three for the requested default-on refresh.
+Its comparison measured worse sole/toe trimming than old art: up to 5/4/4 rendered
+pixels in 3D (Mara/Finn/Neri), and 3 pixels in fixed-background mode. This is a
+known limited shoe-edge loss, not missing feet or a changed stance.
 No automatic paid retry or further generation was performed.
 
 ## Verification
