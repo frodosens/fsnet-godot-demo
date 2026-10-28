@@ -18,6 +18,9 @@ func click(pos):
     await frames()
 func cell(pos):await click(game.camera.unproject_position(Vector3(pos.x,0,pos.y)))
 func tap(b):
+    # New-turn selection may already arm Move and hide its command button.
+    if b==game.hud.action_buttons.move and game.mode=="move" and not game.hud.action_menu_open:
+        check(not game.targeting_locked(),"Move already armed after selection");return
     for i in range(120):
         if b.is_visible_in_tree() and not b.disabled:break
         await frames()
