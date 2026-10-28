@@ -60,7 +60,7 @@ func show_load():
     var entries=VBoxContainer.new();entries.size_flags_horizontal=Control.SIZE_EXPAND_FILL;entries.add_theme_constant_override("separation",8);scroll.add_child(entries)
     for slot in App.loadable_slots():
         var result=App.inspect_slot(slot)
-        var caption={"auto":"自动存档","slot1":"存档一","slot2":"存档二","slot3":"存档三"}.get(slot,"第一章结尾检查点")
+        var caption={"auto":"自动存档","slot1":"存档一","slot2":"存档二","slot3":"存档三"}.get(slot,"第二章结尾检查点" if slot.begins_with("chapter2_end_") else "第一章结尾检查点")
         var button=UI.button(caption+" · "+(result.error if not result.error.is_empty() else "第 %d 回合 · %s"%[result.round,result.saved_at]),load_selected.bind(slot))
         button.disabled=not result.error.is_empty();button.tooltip_text=result.error;entries.add_child(button)
     feedback=UI.paragraph("旧规则或损坏存档不会覆盖当前文件。",460);page.add_child(feedback)
@@ -87,6 +87,8 @@ func show_network():
             network_choices.append({});content_picker.add_item(file+" · 无效");content_picker.set_item_disabled(content_picker.item_count-1,true);content_picker.set_item_tooltip(content_picker.item_count-1,loaded.error)
     network_choices.append(preload("res://logic/content.gd").chapter_two_content())
     content_picker.add_item("第二章 · 旧值房的回信")
+    network_choices.append(preload("res://logic/content.gd").chapter_three_content())
+    content_picker.add_item("第三章 · 水闸边的收据（美术待制作）")
     page.add_child(content_picker)
     page.add_child(UI.paragraph("双方请选择同一 Mod 版本；内容哈希不一致会拒绝进入。",460))
     var row=HBoxContainer.new();page.add_child(row);row.add_child(UI.label("端口"))

@@ -309,6 +309,7 @@ func refresh_story():
         dock.visible=not story_panel.visible and (not is_instance_valid(modal) or modal is ContentPicker)
         dock.refresh_dock()
         turn_button.disabled=not dock.visible or is_instance_valid(modal) or game.battle.outcome!="playing"
+    chapter_button.text="前往"+App.next_chapter_label()
     chapter_button.visible=not story_panel.visible and not is_instance_valid(modal) and App.next_chapter_ready()
     if line.is_empty():story_key="";return
     var key=line.id+":"+str(line.index)
@@ -337,15 +338,16 @@ func modal_page(title):
     var c=UI.column(p,12);c.add_child(UI.label(title,28));refresh_story();return c
 func confirm_next_chapter():
     if not App.next_chapter_ready():return
-    var c=modal_page("前往第二章")
+    var chapter=App.next_chapter_label()
+    var c=modal_page("前往"+chapter)
     if game.session.online:
-        c.add_child(UI.paragraph("网络房间不能单方换图。请双方返回主菜单，在网络对局中选择第二章；同一关卡版本才能连接。",550))
+        c.add_child(UI.paragraph("网络房间不能单方换图。请双方返回主菜单，在网络对局中选择对应的下一章；同一关卡版本才能连接。",550))
     else:
-        c.add_child(UI.paragraph("先建立独立的第一章结尾检查点，再开始次日的新委托。检查点可在读档界面恢复，不会被第二章自动存档覆盖。第二章使用预设队伍与装备，恢复生命、魔力和行动；不继承本场背包。已有手动存档保留。",550))
-        c.add_child(UI.button("保存结尾并进入第二章",func():
+        c.add_child(UI.paragraph("先建立独立的当前章节结尾检查点，再开始下一章。检查点可在读档界面恢复，不会被下一章自动存档覆盖。下一章使用预设队伍与装备，恢复生命、魔力和行动；不继承本场背包。已有手动存档保留。",550))
+        c.add_child(UI.button("保存结尾并进入"+chapter,func():
             if App.enter_next_chapter():get_tree().call_deferred("change_scene_to_file","res://main.tscn")
             else:
-                var failure=modal_page("未进入第二章");failure.add_child(UI.paragraph(App.last_error,550));failure.add_child(UI.button("返回",clear_modal))))
+                var failure=modal_page("未进入"+chapter);failure.add_child(UI.paragraph(App.last_error,550));failure.add_child(UI.button("返回",clear_modal))))
     c.add_child(UI.button("返回",clear_modal))
 func toggle_pause():
     if is_instance_valid(modal):clear_modal();return

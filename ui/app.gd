@@ -79,6 +79,7 @@ func set_health_bar_avoidance(on):
     if result!=OK:push_warning("Cannot save local health bar preference: "+str(result))
 const SLOT_IDS=["auto","slot1","slot2","slot3"]
 const CHECKPOINT_PREFIX="chapter1_end_"
+const CHAPTER_CHECKPOINTS={"amber_bridge_reference":"chapter1_end_","white_elm_watchhouse":"chapter2_end_"}
 func _ready():
     get_tree().auto_accept_quit=false
     load_presentation_preferences()
@@ -107,14 +108,19 @@ func new_game(data={}):
     close_room();session=Session.new();session.offline(data)
     presentation={"seen":[],"active":"","line":0};saved_snapshot="";saved_presentation="";last_error=""
     return true
+func next_chapter_number():
+    if session==null:return 0
+    return {"amber_bridge_reference":2,"white_elm_watchhouse":3}.get(session.logic.content.id,0)
+func next_chapter_label():return "第二章" if next_chapter_number()==2 else "第三章"
 func next_chapter_ready():
-    return session!=null and session.logic.content.id=="amber_bridge_reference" and session.logic.outcome=="victory" and next_story().is_empty()
+    return next_chapter_number()!=0 and session.logic.outcome=="victory" and next_story().is_empty()
 func enter_next_chapter():
-    if not next_chapter_ready():last_error="请先完成第一章胜利剧情。";return false
-    if session.online:last_error="网络房间内容固定。请双方退出后选择第二章创建/加入新房间。";return false
+    if not next_chapter_ready():last_error="请先完成当前章节胜利剧情。";return false
+    if session.online:last_error="网络房间内容固定。请双方退出后选择"+next_chapter_label()+"创建/加入新房间。";return false
+    var number=next_chapter_number()
     var error=save_chapter_checkpoint()
     if not error.is_empty():last_error=error;return false
-    return new_game(Content.chapter_two_content())
+    return new_game(Content.chapter_two_content() if number==2 else Content.chapter_three_content())
 func start_room(host,port,secret,data={}):
     last_error=startup_error()
     if not last_error.is_empty():return false
@@ -132,14 +138,21 @@ func dirty():
     return session and (session.logic.snapshot()!=saved_snapshot or JSON.stringify(presentation)!=saved_presentation)
 func save_path(slot):return save_root+"/"+slot+".json"
 func is_chapter_checkpoint(slot):
-    if not slot is String or not slot.begins_with(CHECKPOINT_PREFIX):return false
-    var digest=slot.trim_prefix(CHECKPOINT_PREFIX)
+    if not slot is String:return false
+    var prefix=""
+    for candidate in CHAPTER_CHECKPOINTS.values():
+        if slot.begins_with(candidate):prefix=candidate;break
+    if prefix.is_empty():return false
+    var digest=slot.trim_prefix(prefix)
     if digest.length()!=64:return false
     for c in digest:
         if c not in "0123456789abcdef":return false
     return true
-func checkpoint_id(rules_hash,content_hash,snapshot,local_story):
-    return CHECKPOINT_PREFIX+(rules_hash+content_hash+snapshot+JSON.stringify(local_story,"",true)).sha256_text()
+func checkpoint_id(rules_hash,content_hash,snapshot,local_story,content_id=""):
+    if content_id.is_empty() and session!=null:content_id=session.logic.content.id
+    var prefix=CHAPTER_CHECKPOINTS.get(content_id,"")
+    if prefix.is_empty():return ""
+    return prefix+(rules_hash+content_hash+snapshot+JSON.stringify(local_story,"",true)).sha256_text()
 func loadable_slots():
     var result=SLOT_IDS.duplicate()
     var checkpoints=[]
@@ -149,7 +162,7 @@ func loadable_slots():
     checkpoints.sort();result.append_array(checkpoints)
     return result
 func save_chapter_checkpoint():
-    if not next_chapter_ready() or session.online:return "仅离线第一章结尾可以建立章节检查点。"
+    if not next_chapter_ready() or session.online:return "仅离线已完成章节可以建立章节检查点。"
     var slot=checkpoint_id(session.logic.rules_hash,session.logic.content_hash,session.logic.snapshot(),presentation)
     if FileAccess.file_exists(save_path(slot)):
         var existing=inspect_slot(slot)
@@ -195,7 +208,7 @@ func inspect_slot(slot):
     if not data.get("snapshot") is String or not candidate.restore(data.snapshot) or candidate.state_hash()!=data.get("hash"):return {"error":"战斗快照损坏或校验不符。"}
     var p=data.get("presentation")
     if not valid_presentation(p,candidate):return {"error":"剧情阅读进度损坏。"}
-    if is_chapter_checkpoint(slot) and (data.content.id!="amber_bridge_reference" or candidate.outcome!="victory" or slot!=checkpoint_id(data.rules_hash,data.content_hash,data.snapshot,p)):
+    if is_chapter_checkpoint(slot) and (not CHAPTER_CHECKPOINTS.has(data.content.id) or candidate.outcome!="victory" or slot!=checkpoint_id(data.rules_hash,data.content_hash,data.snapshot,p,data.content.id)):
         return {"error":"章节检查点身份校验失败。"}
     return {"error":"","data":data,"round":candidate.round_number,"step":candidate.step,"title":data.content.title,"saved_at":data.get("saved_at","")}
 func valid_presentation(p,logic):

@@ -202,10 +202,14 @@ static func chapter_two_content():
     var result=from_file("res://content/white_elm_watchhouse.json")
     assert(result.error.is_empty(),result.error)
     return result.data
+static func chapter_three_content():
+    var result=from_file("res://content/mill_receipts.json")
+    assert(result.error.is_empty(),result.error)
+    return result.data
 static func write_mod(data,overwrite=false):
     var error=validate(data)
     if not error.is_empty():return error
-    if data.id in ["amber_bridge","amber_bridge_reference","white_elm_watchhouse"]:return "请为 Mod 使用新 ID，不能覆盖内置战役。"
+    if data.id in ["amber_bridge","amber_bridge_reference","white_elm_watchhouse","mill_receipts"]:return "请为 Mod 使用新 ID，不能覆盖内置战役。"
     DirAccess.make_dir_recursive_absolute("user://mods")
     var path="user://mods/"+data.id+".json"
     if FileAccess.file_exists(path) and not overwrite:return "同名 Mod 已存在，请确认覆盖。"
