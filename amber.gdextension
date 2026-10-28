@@ -8,5 +8,10 @@ linux.release.x86_64 = "res://bin/libamber.so"
 windows.debug.x86_64 = "res://bin/windows/x86_64/libamber.dll"
 windows.release.x86_64 = "res://bin/windows/x86_64/libamber.dll"
 
+android.debug.arm64 = "res://bin/android/arm64-v8a/libamber.so"
+android.release.arm64 = "res://bin/android/arm64-v8a/libamber.so"
+
 [dependencies]
 windows.x86_64 = { "res://bin/windows/x86_64/libfsnet.dll": "", "res://bin/windows/x86_64/libc++.dll": "", "res://bin/windows/x86_64/libunwind.dll": "" }
+
+android.arm64 = { "res://bin/android/arm64-v8a/libfsnet.so": "" }
