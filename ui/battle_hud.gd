@@ -320,7 +320,8 @@ func advance(skip):
 func clear_modal():
     gear_open=false
     if is_instance_valid(modal):
-        root.remove_child(modal);modal.queue_free();modal=null;action_menu_open=true
+        # Keep the pressed control in-tree until the touch/emulated-mouse dispatch finishes.
+        modal.hide();modal.queue_free();modal=null;action_menu_open=true
     refresh_story()
 func modal_page(title):
     game.clear_move_preview()

@@ -27,6 +27,7 @@ var elapsed=0.0
 var speed=1.0
 var event={}
 var surface
+var scene_surface
 var attacker
 var defender
 var damage_label
@@ -45,9 +46,10 @@ var release_tick=10
 func _ready():
     layer=30
     surface=Control.new();surface.theme=UI.make_theme();surface.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);add_child(surface)
-    shade=ColorRect.new();shade.color=Color(0.10,0.09,0.08,0.88);shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);surface.add_child(shade)
-    reference_background=TextureRect.new();reference_background.texture=load("res://assets/backgrounds/amber_bridge_battle/background.png");reference_background.position=Vector2.ZERO;reference_background.size=Vector2(1586,992);reference_background.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(reference_background)
-    arena=Control.new();arena.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(arena)
+    scene_surface=Control.new();scene_surface.size=Vector2(1586,992);scene_surface.mouse_filter=Control.MOUSE_FILTER_IGNORE;surface.add_child(scene_surface)
+    shade=ColorRect.new();shade.color=Color(0.10,0.09,0.08,0.88);shade.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);scene_surface.add_child(shade)
+    reference_background=TextureRect.new();reference_background.texture=load("res://assets/backgrounds/amber_bridge_battle/background.png");reference_background.position=Vector2.ZERO;reference_background.size=Vector2(1586,992);reference_background.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;reference_background.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED;reference_background.mouse_filter=Control.MOUSE_FILTER_IGNORE;scene_surface.add_child(reference_background)
+    arena=Control.new();arena.mouse_filter=Control.MOUSE_FILTER_IGNORE;scene_surface.add_child(arena)
     contact_points=JSON.parse_string(FileAccess.get_file_as_string("res://assets/battle/contact_points.json"))
     var stage=TextureRect.new();stage.position=Vector2(100,130);stage.size=Vector2(1080,480)
     var backdrop=GradientTexture2D.new();backdrop.width=128;backdrop.height=128;var gradient=Gradient.new();gradient.set_color(0,Color("182c2a"));gradient.set_color(1,Color("65704e"));backdrop.gradient=gradient;backdrop.fill_from=Vector2.ZERO;backdrop.fill_to=Vector2.DOWN;stage.texture=backdrop;arena.add_child(stage);legacy_backdrop.append(stage)
@@ -89,6 +91,15 @@ func layout_surface():
     var viewport=get_viewport().get_visible_rect().size
     surface.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT);surface.size=Vector2(1586,992)
     var factor=minf(viewport.x/1586.0,viewport.y/992.0);surface.scale=Vector2.ONE*factor;surface.position=(viewport-surface.size*factor)*0.5
+    scene_surface.scale=Vector2.ONE;scene_surface.position=Vector2.ZERO
+    if App.mobile_presentation:
+        var safe=App.ui_safe_rect()
+        # Interface keeps its design scale; only scenery and combat actors cover.
+        factor=minf(safe.size.x/1586.0,safe.size.y/992.0)
+        surface.scale=Vector2.ONE*factor;surface.position=safe.get_center()-surface.size*factor*0.5
+        var cover=maxf(viewport.x/1586.0,viewport.y/992.0)
+        scene_surface.scale=Vector2.ONE*(cover/factor)
+        scene_surface.position=((viewport-surface.size*cover)*0.5-surface.position)/factor
     layout_origin=Vector2(160,149);arena.position=layout_origin
 func if_not_enabled_stop():
     if not App.sfx_enabled:sound_player.stop()

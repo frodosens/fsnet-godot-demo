@@ -2,6 +2,9 @@ extends MeshInstance3D
 # Ground-space geometry, depth-tested against opaque/discard character pixels.
 # Pixel-sized strokes are unprojected back onto the same ground plane as the range.
 var game
+var targeting={}
+var targeting_signature=""
+const Targeting=preload("res://view/targeting_preview.gd")
 var art_route_enabled=true # Candidate can revert to the previous ribbon without changing rules.
 var route_art=preload("res://view/route_art.gd").new()
 var art_parts=[]
@@ -112,8 +115,26 @@ func draw_range():
             if not edges.has(key):edges[key]=[a,b,alpha.y]
             else:edges[key][2]=maxf(edges[key][2],alpha.y)
     for edge in edges.values():stroke(projected(edge[0]),projected(edge[1]),1.4,Color(0.40,0.88,0.89,edge[2]))
+func fill_cell(cell,color):
+    var points=[]
+    for offset in [Vector2(-0.46,-0.46),Vector2(0.46,-0.46),Vector2(0.46,0.46),Vector2(-0.46,0.46)]:points.append(projected(Vector2(cell)+offset))
+    triangle(points[0],points[1],points[2],color);triangle(points[0],points[2],points[3],color)
+func draw_targeting():
+    if not targeting.get("active",false):return
+    # Dim cast-distance envelope is not a promise of LOS, faction or resource legality.
+    for cell in targeting.cast_cells:fill_cell(cell,Color(0.30,0.55,0.82,0.18))
+    for cell in targeting.area_cells:fill_cell(cell,Color(1.0,0.65,0.22,0.38))
+    for cell in targeting.legal_cells:tile_quad(cell,"target_cell_border_gold",HEIGHT+0.004)
+    if targeting.hover.x>=0 and targeting.hover.y>=0 and not targeting.hover_legal and targeting.hover.x<game.battle.size.x and targeting.hover.y<game.battle.size.y:
+        fill_cell(targeting.hover,Color(0.9,0.22,0.22,0.35))
+func targeting_state():
+    var target_key=str([game.mode,game.selected,game.battle.get_instance_id(),game.battle.step,game.battle.content_hash,game.target_hover_cell,game.pending_target.get("cell",Vector2i(-1,-1)),game.hud.action_menu_open,game.targeting_locked()])
+    if target_key!=targeting_signature:
+        targeting_signature=target_key;targeting=Targeting.describe(game)
+    return targeting
 func _process(delta):
     clock+=delta
+    targeting_state()
     var path=game.preview_path if game.preview_path is Array and not game.presentation_active() else []
     if path!=last_path:
         var common=0
@@ -125,10 +146,11 @@ func _process(delta):
     reveal=route_length if App.reduced_motion else minf(route_length,reveal+delta*18.0)
     var animated=(route_length>0 or (game.mode=="move" and not game.preview_reachable.is_empty())) and not App.reduced_motion
     var tick=int(clock*30.0) if animated else 0
-    var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.hud.action_menu_open,game.camera.global_transform,game.camera.size,game.camera.keep_aspect,art_route_enabled,get_viewport().get_visible_rect(),tick])
+    var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.hud.action_menu_open,game.camera.global_transform,game.camera.size,game.camera.keep_aspect,targeting_signature,art_route_enabled,get_viewport().get_visible_rect(),tick])
     if state==signature:return
     signature=state;mesh.clear_surfaces();cells.mesh.clear_surfaces();building=false
     if game.presentation_active():return
+    draw_targeting()
     if game.mode=="move" and not game.hud.action_menu_open and game.selected>=0 and game.battle.usable(game.selected) and not game.battle.units[game.selected].moved:
         draw_range()
     if route.size()>=2 and art_route_enabled and route_art.ready:

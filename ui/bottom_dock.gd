@@ -24,6 +24,7 @@ var selected="move"
 var layout=JSON.parse_string(FileAccess.get_file_as_string(ART+"layout.json"))
 var portrait_id=""
 var notice:Label
+var targeting_legend:Label
 var skins={}
 func picture(parent,path,rect):
     var t=TextureRect.new();t.texture=load(ART+path);t.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;t.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;t.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR;t.mouse_filter=Control.MOUSE_FILTER_IGNORE;t.position=rect.position;t.size=rect.size;parent.add_child(t);return t
@@ -63,6 +64,8 @@ func setup(owner):
     picture(status_group,"icons/icon_action_resource.png",Rect2(342,930,25,25));action_value=label(status_group,"",Rect2(375,927,100,30),24)
     picture(canvas,"panels/round-phase.png",r("phase"));phase=label(canvas,"",r("phase"),26);phase.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;phase.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
     notice=label(canvas,"",Rect2(545,779,1020,36),24)
+    targeting_legend=label(canvas,"蓝：距离参考 · 金框：可选目标 · 橙：效果范围 · 红：不可选",Rect2(545,779,1020,36),24)
+    targeting_legend.hide()
     actions=Control.new();actions.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(actions)
     picture(actions,"panels/action-dock.png",r("action_and_movement_dock"))
     var kinds=["move","attack","skill","item","wait"];var names=["移动","攻击","技能","道具","待机"]
@@ -114,8 +117,22 @@ func refresh_dock():
     context.visible=moving or (game.mode!="move" and not hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing")
     proposal_title.text="移动预览" if game.mode=="move" else "目标预览"
     confirm.disabled=(game.pending_move.is_empty() and game.pending_target.is_empty()) or game.targeting_locked()
+    notice.position.y=779;targeting_legend.hide()
+    cost.tooltip_text=""
     cost.text="请选择落点" if game.preview_path.is_empty() else "%d 格 · 移动 1 次"%[game.preview_path.size()-1]
-    if game.mode!="move":cost.text="再点目标确认" if not game.pending_target.is_empty() else "请选择目标"
+    if game.mode!="move":
+        cost.text="再点目标施放" if not game.pending_target.is_empty() else "先点目标预览"
+        var preview=game.ground_overlay.targeting_state() if game.ground_overlay else {}
+        if preview.get("active",false):
+            notice.position.y=743;targeting_legend.show()
+            notice.text=preview.summary
+            if not preview.reason.is_empty():cost.text="再点目标施放" if preview.hover_legal else preview.reason
+            else:cost.text="描边可选 · 再点施放"
+            cost.tooltip_text=preview.summary+"\n蓝色：距离参考（视线/阵营仍需校验）；金框：合法目标；橙色：效果区域；红色：不可选"
+        cost.clip_text=true;cost.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+    elif moving:
+        cost.text="再点落点移动" if not game.pending_move.is_empty() else cost.text
+    confirm.tooltip_text="可再次点击同一目标直接确认，也可使用此按钮或 Enter"
     if not game.queued_confirmation.is_empty():cost.text="等待同步确认"
     for kind in action_nodes:
         var b=action_nodes[kind];b.text="";b.add_theme_stylebox_override("normal",skin("buttons/"+("selected" if selected==kind and not b.disabled else "normal")+".png"))

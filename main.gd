@@ -27,6 +27,7 @@ var direction_textures={}
 var iso_roles={}
 var target_preview={}
 var target_preview_index=-1
+var target_hover_cell=Vector2i(-1,-1)
 var preview_reason=""
 var preview_reachable={}
 var pending_move={}
@@ -481,7 +482,7 @@ func restart():
 
 func refresh():
     if route_mesh:clear_move_preview()
-    target_preview={};target_preview_index=-1
+    target_preview={};target_preview_index=-1;target_hover_cell=Vector2i(-1,-1)
     if event_sequence:event_sequence.consume(battle.step,battle.events)
     if not battle.usable(selected):
         selected = -1
@@ -642,7 +643,7 @@ func mouse_cell(screen):
     return Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
 func clear_move_preview():
     if not queued_confirmation.is_empty():session.defer_poll=false
-    pending_move={};pending_target={};queued_confirmation={};target_preview={};target_preview_index=-1
+    pending_move={};pending_target={};queued_confirmation={};target_preview={};target_preview_index=-1;target_hover_cell=Vector2i(-1,-1)
     preview_path=[];preview_reason="";preview_cell=Vector2i(-1,-1)
     if preview_ghost:preview_ghost.hide()
     route_mesh.mesh.clear_surfaces();route_arrows.mesh.clear_surfaces()
@@ -670,7 +671,7 @@ func update_move_preview(cell):
     line.surface_end();arrows.surface_end()
 
 func update_target_preview(cell):
-    target_preview={};target_preview_index=-1
+    target_preview={};target_preview_index=-1;target_hover_cell=cell
     if selected<0 or mode=="move" or presentation_active() or hud.blocks_input():return
     var target=battle.at(cell)
     if target<0:return
