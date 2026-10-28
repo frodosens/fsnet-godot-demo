@@ -4,6 +4,9 @@ const Runtime=preload("res://logic/runtime.gd")
 const Authority=preload("res://logic/authority.gd")
 const Content=preload("res://logic/content.gd")
 var session
+var mobile_presentation=OS.has_feature("android")
+var safe_area_override=Rect2i() # Test-only physical screen inset fixture; never saved.
+func ui_safe_rect():return preload("res://ui/mobile_layout.gd").safe_rect(get_viewport(),mobile_presentation,safe_area_override)
 var editor_draft={}
 var editor_raw_draft=""
 var editor_saved_hash=""

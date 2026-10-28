@@ -17,6 +17,9 @@ var original_character_scale=1.0
 var compatibility_message=""
 var authored={}
 var saved_camera_position=Vector3.ZERO
+var camera_origin=Vector3.ZERO
+var pan=Vector2.ZERO
+var pan_limit=Vector2.ZERO
 func compatible():
     return not preload("res://view/authored_scene.gd").profile(game.battle.content).is_empty()
 func available():
@@ -46,6 +49,7 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
     if enabled:
         authored=preload("res://view/authored_scene.gd").profile(game.battle.content)
         game.camera.position=saved_camera_position+game.camera.global_basis.x*authored.camera_offset.x+game.camera.global_basis.y*authored.camera_offset.y
+        camera_origin=game.camera.position;pan=Vector2.ZERO
         var keep=[game.ground_overlay,game.camera,game.route_mesh,game.route_arrows,game.selection_ring,game.preview_ghost]
         keep.append_array(game.figures);keep.append_array(game.badges)
         for tile in game.tiles.values():keep.append(tile.overlay)
@@ -83,10 +87,26 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
     return true
 func fit():
     var view=game.get_viewport().get_visible_rect().size
+    if App.mobile_presentation:
+        # Cover the viewport uniformly. Panning reveals the cropped dimension.
+        var aspect=view.x/maxf(1.0,view.y)
+        var map_aspect=authored.canvas.x/authored.canvas.y
+        var height=minf(saved_size,saved_size*map_aspect/aspect)
+        game.camera.keep_aspect=Camera3D.KEEP_HEIGHT;game.camera.size=height
+        pan_limit=Vector2(maxf(0.0,(saved_size*map_aspect-height*aspect)*0.5),maxf(0.0,(saved_size-height)*0.5))
+        pan=pan.clamp(-pan_limit,pan_limit)
+        game.camera.position=camera_origin+game.camera.global_basis.x*pan.x+game.camera.global_basis.y*pan.y
+        art_rect=Rect2(Vector2.ZERO,view)
+        return
     var scale_factor=minf(view.x/1280.0,view.y/800.0)
     var extent=Vector2(1280,800)*scale_factor;art_rect=Rect2((view-extent)*0.5,extent)
     if view.x/view.y>=1.6:game.camera.keep_aspect=Camera3D.KEEP_HEIGHT;game.camera.size=saved_size
     else:game.camera.keep_aspect=Camera3D.KEEP_WIDTH;game.camera.size=saved_size*1.6
+func pan_by(screen_delta):
+    if not active or not App.mobile_presentation:return
+    var units=game.camera.size/maxf(1.0,game.get_viewport().get_visible_rect().size.y)
+    pan+=Vector2(-screen_delta.x,screen_delta.y)*units
+    fit()
 func accepts_point(point):return not active or art_rect.has_point(point)
 func sync_shadows():
     for i in range(shadows.size()):

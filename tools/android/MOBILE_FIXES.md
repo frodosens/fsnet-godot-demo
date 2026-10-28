@@ -1,0 +1,11 @@
+# Android input and scene adaptation
+
+Android uses uniform scene-only cover framing with the authored map's actual aspect ratio. The camera, map, characters, grid picking, paths, shadows and scene lights remain in the same 3D world. Single-finger drags beyond 12 logical pixels pan the camera within the map bounds. A drag cancels a pending target and never submits on release. Touch taps commit on release, and the map ignores emulated mouse clicks. UI-origin gestures and secondary fingers cannot pan. There is no pinch zoom or camera rotation.
+
+The HUD retains its previous uniform design scale; camera zoom never scales it. Safe-area coordinates are transformed from physical display pixels to logical viewport coordinates. HUD and menu controls move inside these bounds; narrow layouts re-anchor the status and End Turn groups rather than shrinking the whole HUD.
+
+Wait still submits the normal Lua-authorized Wait command for an actor with capacity remaining. On an exhausted actor, it selects the next living controllable teammate in stable roster order whose Wait is admitted by the same Lua rules on a disposable state copy. A moved actor with an action remaining is eligible. If no teammate remains, it sends the existing End Turn command through the pending-poll command queue. Selection itself does not change simulation state. Pending commands, presentation locks and a short post-advance debounce protect against accidental duplicate input. Rules and save schemas are unchanged.
+
+The test suite includes actual Input.parse_input_event touchscreen events with mouse emulation enabled, viewport/safe-area cases, cancellation, diagonal drag, edge bounds, proposal invalidation, post-pan coordinate picking, duplicate touches, New Game through Wait/End Turn, dead-unit and pending-poll cases, save/load and chapter-two objective reachability. These are synthetic desktop checks, not Android hardware acceptance. The APK remains landscape-oriented.
+
+Export filters admit Lua/JSON only from runtime folders and explicitly exclude build trees. The APK verifier rejects developer directories, key files and local workspace paths. Keep test marker files under ignored build directories to demonstrate they are excluded from an actual export.

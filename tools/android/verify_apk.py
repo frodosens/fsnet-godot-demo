@@ -20,7 +20,15 @@ with zipfile.ZipFile(a.apk) as z, tempfile.TemporaryDirectory() as tmp:
   aligns=[int(line.split()[-1],16) for line in ph.splitlines() if line.strip().startswith('LOAD ')]
   assert aligns and min(aligns)>=16384,(n,aligns)
   report[n]={'sha256':hashlib.sha256(data).hexdigest(),'bytes':len(data),'needed':needed,'load_alignment':aligns}
- assert not any(n.startswith('assets/docs/') or n.endswith('.dll') or n.endswith('.keystore') for n in names)
+ forbidden={'build','source','sources','docs','tests','tools','native','CMakeFiles','.git','.deps'}
+ for name in names:
+  parts=pathlib.PurePosixPath(name).parts
+  assert not any(part in forbidden or part.startswith('build-') for part in parts),("development payload",name)
+  assert not name.endswith(('.dll','.keystore','.jks','.pem','.key')),("unexpected binary/key",name)
+  if name.startswith('assets/') and name.endswith(('.json','.lua')):
+   assert name.startswith(('assets/logic/','assets/content/','assets/assets/')),("nonruntime data",name)
+   payload=z.read(name)
+   assert b'/workspace/' not in payload and b'/home/agent/' not in payload,("local path leak",name)
  assert 'assets/content/white_elm_watchhouse.json' in names
  assert 'assets/logic/battle.lua' in names
  print(json.dumps({'apk_sha256':hashlib.file_digest(open(a.apk,'rb'),'sha256').hexdigest(),'libraries':report,'chapter_two_json':True,'shared_lua_rules':True},indent=2))

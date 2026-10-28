@@ -48,8 +48,13 @@ var action_summary
 var selected_portrait
 var previous=[]
 var log_lines=[]
+var action_notice=""
+func pointer_blocks_map(point):
+    for control in root.find_children("*","Control",true,false):
+        if control.is_visible_in_tree() and control.mouse_filter==Control.MOUSE_FILTER_STOP and control.get_global_rect().has_point(point):return true
+    return false
 func _ready():
-    root=Control.new();root.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);root.mouse_filter=Control.MOUSE_FILTER_IGNORE;root.theme=UI.make_theme();add_child(root)
+    root=Control.new();root.set_anchors_and_offsets_preset(Control.PRESET_TOP_LEFT);root.position=App.ui_safe_rect().position;root.size=App.ui_safe_rect().size;root.mouse_filter=Control.MOUSE_FILTER_IGNORE;root.theme=UI.make_theme();add_child(root)
     soft_panel(Vector2(20,18),Vector2(310,104))
     var heading=UI.label(game.battle.content.title,28);heading.position=Vector2(28,24);root.add_child(heading)
     var objective=UI.paragraph(objective_text(game.battle.content.victory),280);objective.position=Vector2(28,66);objective.add_theme_font_size_override("font_size",18);root.add_child(objective)
@@ -148,7 +153,7 @@ func panel(pos,size):
     var p=PanelContainer.new();p.position=pos;p.custom_minimum_size=size;root.add_child(p);return p
 func select_hero(index):
     if blocks_input():return
-    game.selected=index;action_menu_open=true;game.refresh()
+    game.selected=index;action_notice="";action_menu_open=true;game.refresh()
 func request_end_turn():
     if blocks_input():return
     var remaining=false
@@ -181,7 +186,7 @@ func place_action_arc(_view):
     pass # Replaced by reference-measured bottom dock.
 func choose_action(kind):
     action_menu_open=false
-    if kind=="wait":game.wait_selected()
+    if kind=="wait":action_menu_open=true;game.wait_selected()
     elif kind=="skill":show_abilities()
     elif kind=="item":show_items()
     else:game.select_mode(kind)
@@ -191,7 +196,10 @@ func refresh():
     if not root:return
     var logic=game.battle
     round_label.text="第 %d 回合 · %s"%[logic.round_number,{"playing":"我方行动","victory":"胜利","defeat":"失败"}.get(logic.outcome,logic.outcome)]
-    var view=root.get_viewport_rect().size
+    var safe=App.ui_safe_rect()
+    if root.position!=safe.position:root.position=safe.position
+    if root.size!=safe.size:root.size=safe.size
+    var view=root.size
     round_label.position.x=(view.x-220)*0.5;pause_button.position=Vector2(view.x-maxf(132,pause_button.size.x)-24,24)
     status_shade.position=Vector2(0,view.y*0.73);status_shade.size=Vector2(view.x*0.37,view.y*0.31)
     status_panel.position=Vector2(view.x*0.02,view.y*0.84);status_panel.size=Vector2(view.x*0.40,view.y*0.16)
@@ -205,7 +213,10 @@ func refresh():
     hero_column.add_theme_constant_override("separation",maxi(0,int(view.x*0.04)-48))
     turn_button.position=Vector2(view.x-maxf(210,turn_button.size.x)-24,view.y-90);hint_label.position=Vector2(430,view.y-56);log_label.position=Vector2(430,view.y-90)
     chapter_button.position=Vector2((view.x-250)*0.5,76);chapter_button.size=Vector2(250,48)
-    story_panel.position=Vector2((view.x-1240)*0.5,view.y-242)
+    var story_width=minf(1240,view.x-40)
+    story_text.custom_minimum_size.x=maxf(200,story_width-500)
+    story_panel.custom_minimum_size.x=story_width;story_panel.size.x=story_width
+    story_panel.position=Vector2((view.x-story_width)*0.5,view.y-242)
     for line in [hint_label,log_label]:
         line.clip_text=true;line.custom_minimum_size.x=0;line.size.x=maxf(100,view.x-690);line.tooltip_text=line.text
     net_label.text="离线旅程" if not game.session.online else ("已连接 · 合作小队" if game.session.status.begins_with("Online") else "连接中 / 正在重连")
@@ -315,7 +326,7 @@ func modal_page(title):
     game.clear_move_preview()
     clear_modal()
     modal=ColorRect.new();modal.color=Color(0.08,0.07,0.05,0.7);modal.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);modal.z_index=100;root.add_child(modal)
-    var p=PanelContainer.new();p.position=Vector2((root.get_viewport_rect().size.x-600)*0.5,100);p.custom_minimum_size=Vector2(600,0);modal.add_child(p)
+    var p=PanelContainer.new();p.position=Vector2((root.size.x-600)*0.5,100);p.custom_minimum_size=Vector2(600,0);modal.add_child(p)
     var c=UI.column(p,12);c.add_child(UI.label(title,28));refresh_story();return c
 func confirm_next_chapter():
     if not App.next_chapter_ready():return

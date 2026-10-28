@@ -1,6 +1,7 @@
 extends Control
 const ART="res://assets/ui/bottom_dock_reference/"
 var hud
+var status_group:Control
 var canvas:Control
 var actions:Control
 var context:Control
@@ -22,6 +23,7 @@ var action_nodes={}
 var selected="move"
 var layout=JSON.parse_string(FileAccess.get_file_as_string(ART+"layout.json"))
 var portrait_id=""
+var notice:Label
 var skins={}
 func picture(parent,path,rect):
     var t=TextureRect.new();t.texture=load(ART+path);t.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;t.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;t.texture_filter=CanvasItem.TEXTURE_FILTER_LINEAR;t.mouse_filter=Control.MOUSE_FILTER_IGNORE;t.position=rect.position;t.size=rect.size;parent.add_child(t);return t
@@ -46,19 +48,21 @@ func button(parent,kind,title,rect,callback):
 func setup(owner):
     hud=owner;mouse_filter=Control.MOUSE_FILTER_IGNORE;set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
     canvas=Control.new();canvas.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.size=Vector2(1586,992);add_child(canvas)
-    picture(canvas,"panels/character-status.png",r("character_panel"))
-    portrait=picture(canvas,"character/portrait-mara.png",r("portrait"))
-    name_label=label(canvas,"",Rect2(194,823,95,34),30);role_label=label(canvas,"",Rect2(300,829,140,28),23)
+    status_group=Control.new();status_group.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(status_group)
+    picture(status_group,"panels/character-status.png",r("character_panel"))
+    portrait=picture(status_group,"character/portrait-mara.png",r("portrait"))
+    name_label=label(status_group,"",Rect2(194,823,95,34),30);role_label=label(status_group,"",Rect2(300,829,140,28),23)
     for kind in ["hp","mp"]:
-        var rect=r(kind+"_shell");picture(canvas,"bars/"+kind+"-shell.png",rect)
-        var bar=TextureProgressBar.new();bar.texture_progress=load(ART+"bars/"+kind+"-fill.png");bar.nine_patch_stretch=true;bar.position=rect.position+Vector2(7,5);bar.size=Vector2(190,10);bar.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(bar)
+        var rect=r(kind+"_shell");picture(status_group,"bars/"+kind+"-shell.png",rect)
+        var bar=TextureProgressBar.new();bar.texture_progress=load(ART+"bars/"+kind+"-fill.png");bar.nine_patch_stretch=true;bar.position=rect.position+Vector2(7,5);bar.size=Vector2(190,10);bar.mouse_filter=Control.MOUSE_FILTER_IGNORE;status_group.add_child(bar)
         if kind=="hp":hp=bar
         else:mp=bar
-        label(canvas,kind.to_upper(),Rect2(194,rect.position.y-5,40,28),23)
-    hp_value=label(canvas,"",Rect2(450,862,70,28),24);mp_value=label(canvas,"",Rect2(450,890,70,28),24)
-    picture(canvas,"icons/icon_move.png",Rect2(194,930,25,25));movement=label(canvas,"",Rect2(225,927,108,30),24)
-    picture(canvas,"icons/icon_action_resource.png",Rect2(342,930,25,25));action_value=label(canvas,"",Rect2(375,927,100,30),24)
+        label(status_group,kind.to_upper(),Rect2(194,rect.position.y-5,40,28),23)
+    hp_value=label(status_group,"",Rect2(450,862,70,28),24);mp_value=label(status_group,"",Rect2(450,890,70,28),24)
+    picture(status_group,"icons/icon_move.png",Rect2(194,930,25,25));movement=label(status_group,"",Rect2(225,927,108,30),24)
+    picture(status_group,"icons/icon_action_resource.png",Rect2(342,930,25,25));action_value=label(status_group,"",Rect2(375,927,100,30),24)
     picture(canvas,"panels/round-phase.png",r("phase"));phase=label(canvas,"",r("phase"),26);phase.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;phase.vertical_alignment=VERTICAL_ALIGNMENT_CENTER
+    notice=label(canvas,"",Rect2(545,779,1020,36),24)
     actions=Control.new();actions.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(actions)
     picture(actions,"panels/action-dock.png",r("action_and_movement_dock"))
     var kinds=["move","attack","skill","item","wait"];var names=["移动","攻击","技能","道具","待机"]
@@ -79,9 +83,11 @@ func setup(owner):
 func select(kind):
     if not action_nodes[kind].disabled:selected=kind
 func refresh_dock():
-    var view=get_viewport_rect().size;var factor=minf(view.x/1586.0,view.y/992.0);canvas.scale=Vector2.ONE*factor;canvas.position=(view-Vector2(1586,992)*factor)*0.5
+    var view=get_viewport_rect().size;var factor=minf(view.x/1586.0,view.y/992.0);canvas.scale=Vector2.ONE*factor;canvas.position=(hud.root.size-Vector2(1586,992)*factor)*0.5
     hud.hint_label.hide();hud.log_label.hide();hud.turn_button.text="结束回合" if hud.game.battle.outcome=="playing" else "战斗已结束"
+    status_group.position.x=maxf(0.0,-canvas.position.x/factor)
     hud.turn_button.position=r("end_turn").position;hud.turn_button.size=r("end_turn").size
+    hud.turn_button.position.x=minf(hud.turn_button.position.x,(hud.root.size.x-canvas.position.x)/factor-hud.turn_button.size.x-12)
     var physical_ratio=minf(float(get_window().size.x)/view.x,float(get_window().size.y)/view.y)
     for text_node in canvas.find_children("*","Label",true,false):
         text_node.add_theme_font_size_override("font_size",maxi(text_node.get_meta("base_font",24),ceili(16.0/maxf(0.1,factor*physical_ratio))))
@@ -97,7 +103,12 @@ func refresh_dock():
         hp.max_value=u.max_hp;hp.value=u.hp;mp.max_value=maxi(1,u.max_mp);mp.value=u.mp
         hp_value.text="%d/%d"%[u.hp,u.max_hp];mp_value.text="%d/%d"%[u.mp,u.max_mp]
         movement.text="移动 %d"%maxi(0,u.move_actions-u.moves_used);action_value.text="行动 %d"%(0 if u.acted else 1)
-        action_nodes.wait.disabled=not logic.usable(i) or (u.acted and u.moves_used>=u.move_actions)
+        var spent=u.acted and u.moves_used>=u.move_actions
+        action_nodes.wait.disabled=not logic.usable(i) or game.targeting_locked()
+        action_nodes.wait.get_meta("caption").text="待机"
+        notice.text=(u.name+"行动已结束 · 点待机切换队员；全员完成则结束回合") if spent else (hud.action_notice if not hud.action_notice.is_empty() else "点击角色选择 · 拖动地图查看 · 待机仅结束当前角色行动")
+    else:
+        action_nodes.wait.disabled=true;notice.text="请选择可以行动的队员"
     var moving=game.mode=="move" and not hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing"
     actions.visible=hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing"
     context.visible=moving or (game.mode!="move" and not hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing")

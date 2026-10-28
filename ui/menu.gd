@@ -12,12 +12,14 @@ var exit_dialog
 var workshop_link
 var content_picker
 var network_choices=[]
+var title_label
+var subtitle_label
 var port_edit
 func _ready():
     theme=UI.make_theme()
     var bg=TextureRect.new();bg.texture=load("res://assets/ui/v2/menu_background.png");bg.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;bg.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED;bg.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;bg.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);bg.mouse_filter=Control.MOUSE_FILTER_IGNORE;add_child(bg)
-    var title=UI.label("琥珀桥来信",42);title.position=Vector2(54,144);add_child(title)
-    var subtitle=UI.label("AMBER BRIDGE",19,Color("adb3a6"));subtitle.position=Vector2(55,218);add_child(subtitle)
+    var title=UI.label("琥珀桥来信",42);title.position=Vector2(54,144);add_child(title);title_label=title
+    var subtitle=UI.label("AMBER BRIDGE",19,Color("adb3a6"));subtitle.position=Vector2(55,218);add_child(subtitle);subtitle_label=subtitle
     card=PanelContainer.new();add_child(card)
     workshop_link=UI.menu_button("关卡工坊",show_workshop);workshop_link.position=Vector2(48,696);workshop_link.add_theme_font_size_override("font_size",18);add_child(workshop_link)
     show_home()
@@ -108,7 +110,12 @@ func begin_room(host):
 func cancel_network():
     App.close_room();App.session=null;busy=false;show_home()
 func _process(_delta):
-    if is_instance_valid(card) and not workshop_link.visible:card.position.x=(get_viewport_rect().size.x-740)*0.5+180
+    var safe=App.ui_safe_rect()
+    title_label.position=safe.position+Vector2(54,144);subtitle_label.position=safe.position+Vector2(55,218)
+    workshop_link.position=safe.position+Vector2(48,minf(696,safe.size.y-workshop_link.size.y-24))
+    if is_instance_valid(card):
+        if workshop_link.visible:card.position=safe.position+Vector2(48,326)
+        else:card.position=safe.position+Vector2(clampf((safe.size.x-740)*0.5+180,0,maxf(0,safe.size.x-740)),100)
     if is_instance_valid(network_status) and App.session and App.session.online:
         if App.session.failed:
             network_status.text="无法进入：双方规则或 Mod 内容版本不一致。" if App.session.status.contains("mismatch") else "连接失败："+App.session.status

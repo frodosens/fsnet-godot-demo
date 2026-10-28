@@ -43,6 +43,12 @@ var scene_view
 var ground_overlay
 const MAP_PIXEL_SIZE=0.010727272727 # 99px Mara -> 90 logical px in reference camera at 1.25 scale.
 var character_scale=1.0
+var wait_advance_until=0
+var map_touch=-1
+var map_touch_start=Vector2.ZERO
+var map_touch_last=Vector2.ZERO
+var map_touch_dragged=false
+const MAP_DRAG_THRESHOLD=12.0
 # Map art only: never feed per-unit size into movement speed or combat art.
 const MAP_RENDER_FACTORS={"oren":1.05}
 func map_render_factor(unit_id):return MAP_RENDER_FACTORS.get(unit_id,1.0)
@@ -415,11 +421,42 @@ func confirm_proposal():
     if not valid:hud.refresh();return false
     return dispatch_confirmation(proposal,proposal.command)
 
+func wait_proposal():
+    return {"unit":selected,"mode":mode,"step":battle.step,"state":proposal_state(),"session_id":session.get_instance_id(),"connection":session.connection_generation}
+
+func next_wait_actor():
+    # Ask the same Lua command admission on a disposable VM, not UI counters.
+    var probe=preload("res://logic/runtime.gd").new(battle.content)
+    var snapshot=battle.snapshot()
+    for offset in range(1,battle.units.size()):
+        var index=(selected+offset)%battle.units.size()
+        var unit=battle.units[index]
+        if unit.controller!="player" or unit.hp<=0 or unit.faction!=battle.units[selected].faction:continue
+        if not probe.restore(snapshot):return -2 # Fail closed; never end a turn on an invalid preview.
+        if probe.apply_command({"kind":"wait","unit":index,"actor_id":unit.id,"step":battle.step+1}):return index
+    return -1
+
 func wait_selected():
-    if selected<0 or presentation_active() or hud.blocks_input():return false
+    battle=session.logic
+    if selected<0 or targeting_locked() or Time.get_ticks_msec()<wait_advance_until:return false
+    if not battle.usable(selected):return false
+    var actor=battle.units[selected]
     clear_move_preview()
-    var accepted=session.submit({"kind":"wait","unit":selected,"actor_id":battle.units[selected].id})
-    battle=session.logic;hud.action_menu_open=true;refresh();return accepted
+    if actor.acted and actor.moves_used>=actor.move_actions:
+        var next=next_wait_actor()
+        if next==-2:return false
+        if next>=0:
+            if session.pending:
+                hud.action_notice="等待同步完成后切换队员";hud.refresh();return false
+            selected=next;mode="move";hud.action_menu_open=true
+            hud.action_notice="已切换至"+battle.units[next].name
+            wait_advance_until=Time.get_ticks_msec()+350
+            refresh();return true
+        wait_advance_until=Time.get_ticks_msec()+350
+        hud.action_notice="全员行动完毕，结束回合"
+        return dispatch_confirmation(wait_proposal(),{"kind":"end_turn"})
+    hud.action_notice=(actor.name+"已待机，再点待机切换队员") if not session.online else "等待待机同步确认"
+    return dispatch_confirmation(wait_proposal(),{"kind":"wait","unit":selected,"actor_id":actor.id})
 
 func finish_turn():
     if presentation_active() or (hud and hud.blocks_input()):return
@@ -486,6 +523,7 @@ func _unhandled_input(event):
     if not queued_confirmation.is_empty() and event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_RIGHT:
         hud.cancel_targeting();return
     if targeting_locked():
+        map_touch=-1
         if queued_confirmation.is_empty():clear_move_preview()
         return
     if event is InputEventJoypadButton and event.pressed and event.button_index==JOY_BUTTON_A:
@@ -508,33 +546,52 @@ func _unhandled_input(event):
     if event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_RIGHT:
         hud.cancel_targeting();return
     if event is InputEventMouseMotion:
+        if map_touch_dragged and map_touch!=-1:return
         if mode=="move" and not hud.action_menu_open and pending_move.is_empty():update_move_preview(mouse_cell(event.position))
         elif pending_target.is_empty():update_target_preview(mouse_cell(event.position))
         return
-    # Touch targets are handled once here; its emulated mouse still serves GUI controls.
-    var pointer_tap=(event is InputEventScreenTouch and event.pressed and event.index==0) or (event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT and event.device!=-1)
-    if pointer_tap:
-        var cell=mouse_cell(event.position)
-        if cell.x<0:
-            clear_move_preview();hud.refresh();return
-        var target = battle.at(cell)
-        if target >= 0 and battle.units[target].controller=="player" and (mode=="move" or (mode=="attack" and selected>=0 and battle.units[target].faction==battle.units[selected].faction)):
-            selected = target
-            hud.action_menu_open=true
-            clear_move_preview()
-        elif mode == "move":
-            if hud.action_menu_open:return
-            if not pending_move.is_empty() and pending_move.cell==cell:confirm_move()
-            else:stage_move(cell)
-            hud.refresh();return
-        else:
-            if hud.action_menu_open:return
-            if not pending_target.is_empty() and pending_target.cell==cell:confirm_proposal()
-            else:stage_target(cell)
-            hud.refresh();return
-        battle=session.logic
-        refresh()
+    if event is InputEventScreenTouch:
+        if event.pressed:
+            if event.index!=0 or map_touch!=-1 or hud.pointer_blocks_map(event.position):return
+            map_touch=event.index;map_touch_start=event.position;map_touch_last=event.position;map_touch_dragged=false
+        elif event.index==map_touch:
+            var tap=not map_touch_dragged and not event.canceled and not hud.pointer_blocks_map(event.position)
+            map_touch=-1
+            if tap:tap_map(event.position)
+        return
+    if event is InputEventScreenDrag:
+        if event.index!=map_touch:return
+        if not map_touch_dragged and event.position.distance_to(map_touch_start)>=MAP_DRAG_THRESHOLD:
+            map_touch_dragged=true;clear_move_preview();hud.refresh()
+        if map_touch_dragged and scene_view:scene_view.pan_by(event.position-map_touch_last)
+        map_touch_last=event.position
+        return
+    # GUI consumes its emulated mouse. Map touches above are submitted only on release.
+    if event is InputEventMouseButton and event.pressed and event.button_index==MOUSE_BUTTON_LEFT and event.device!=-1:
+        tap_map(event.position)
 
+func tap_map(point):
+    var cell=mouse_cell(point)
+    if cell.x<0:
+        clear_move_preview();hud.refresh();return
+    var target = battle.at(cell)
+    if target >= 0 and battle.units[target].controller=="player" and (mode=="move" or (mode=="attack" and selected>=0 and battle.units[target].faction==battle.units[selected].faction)):
+        selected = target
+        hud.action_notice=""
+        hud.action_menu_open=true
+        clear_move_preview()
+    elif mode == "move":
+        if hud.action_menu_open:return
+        if not pending_move.is_empty() and pending_move.cell==cell:confirm_move()
+        else:stage_move(cell)
+        hud.refresh();return
+    else:
+        if hud.action_menu_open:return
+        if not pending_target.is_empty() and pending_target.cell==cell:confirm_proposal()
+        else:stage_target(cell)
+        hud.refresh();return
+    battle=session.logic
+    refresh()
 func _process(delta):
     battle=session.logic
     flush_confirmation()
