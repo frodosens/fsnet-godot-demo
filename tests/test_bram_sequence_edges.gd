@@ -11,9 +11,9 @@ func run():
     var app=root.get_node("App");app.presentation_preferences_path="user://bram-edges.cfg"
     app.save_root="user://compact-test-saves-"+str(Time.get_ticks_usec())
     DirAccess.remove_absolute(app.presentation_preferences_path);app.load_presentation_preferences()
-    check(not app.bram_sequence_preview,"fresh local default off")
+    check(app.bram_sequence_preview,"accepted fresh local default on")
     var config=ConfigFile.new();config.set_value("map","bram_sequence_preview","true");config.save(app.presentation_preferences_path)
-    app.load_presentation_preferences();check(not app.bram_sequence_preview,"nonboolean preference rejected")
+    app.load_presentation_preferences();check(app.bram_sequence_preview,"nonboolean preference rejected; use default on")
     for size in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=size
         for fixed in [true,false]:

@@ -11,7 +11,7 @@ func run():
     var app=root.get_node("App");app.sfx_enabled=false
     app.presentation_preferences_path="user://adela-mirror-test.cfg"
     if FileAccess.file_exists(app.presentation_preferences_path):DirAccess.remove_absolute(app.presentation_preferences_path)
-    app.load_presentation_preferences();check(not app.adela_motion_preview and app.neri_motion_preview,"Adela default off, Neri default on")
+    app.load_presentation_preferences();check(app.adela_motion_preview and app.neri_motion_preview,"accepted Adela and Neri default on")
     var raw=JSON.parse_string(FileAccess.get_file_as_string("res://assets/animations/adela_motion_trial.json"))
     var Library=load("res://view/map_sequence.gd")
     var library=Library.new("res://assets/animations/adela_motion_trial.json")
@@ -47,6 +47,8 @@ func run():
                 app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
                 while not app.next_story().is_empty():app.advance_story(true)
                 var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed);game.motion.set_process(false);game.get_node("MapIdle").set_process(false)
+                var other_flips=[]
+                for other in [1,2,3,4,5]:other_flips.append(game.figures[other].flip_h)
                 var index=0;game.selected=index;var figure=game.figures[index]
                 var neutral=game.directional_idle_texture(index,direction)
                 game.facing.adela=direction;game.refresh();check(not figure.flip_h,"idle unmirrored")
@@ -68,7 +70,7 @@ func run():
                 game.motion.speed=0;var tex=figure.texture;game.motion.advance(1);check(figure.texture==tex and figure.position==pos,"pause stable")
                 game.motion.speed=1;game.motion.finish();check(not figure.flip_h and figure.texture==neutral,"skip restores idle")
                 check(game.battle.snapshot()==truth,"visual only state")
-                for other in [1,2,3,4,5]:check(not game.figures[other].flip_h,"other actors unaffected")
+                for other in [1,2,3,4,5]:check(game.figures[other].flip_h==other_flips[other-1],"other actors unaffected")
                 game.preview_ghost.flip_h=true;game.refresh_map_sequence_art("adela");game.preview_ghost.hide()
                 # An ordinary legal new preview must explicitly clear any previous flip.
                 game.hud.action_menu_open=false;game.mode="move";game.clear_move_preview()

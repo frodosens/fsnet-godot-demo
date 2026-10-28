@@ -31,12 +31,14 @@ func run():
     lib.configure(data)
     var app=root.get_node("App")
     app.presentation_preferences_path="user://tessa-sequence-toggle-test.cfg"
+    app.load_presentation_preferences()
+    var other_before=app.map_sequence_enabled("oren")
     for mara in [false,true]:
         app.set_mara_sequence_preview(mara)
         for tessa in [false,true]:
             app.set_tessa_motion_preview(tessa)
             app.load_presentation_preferences()
             check(app.map_sequence_enabled("mara")==mara and app.map_sequence_enabled("tessa")==tessa,"independent persistent settings")
-            check(not app.map_sequence_enabled("oren"),"other actors unchanged")
+            check(app.map_sequence_enabled("oren")==other_before,"other actors unchanged")
     app.set_mara_sequence_preview(false);app.set_tessa_motion_preview(false)
     print("TESSA_SEQUENCE checks=",checks," failures=",failures);quit(1 if failures else 0)

@@ -28,11 +28,11 @@ var sfx_enabled=true
 var sfx_volume_db=-12.0
 var hero_map_refresh_previews={"mara":true,"finn":true,"neri":true} # Reviewed refresh defaults; explicit rollback preferences remain authoritative.
 var idle_sequence_previews={"neri":false,"adela":false,"elsbet":false}
-var bram_sequence_preview=false # User-accepted provisional gesture and shuffle.
-var oren_sequence_preview=false # Provisional idle/motion; old art remains available.
-var tessa_motion_preview=false
+var bram_sequence_preview=true # User-accepted provisional gesture and shuffle.
+var oren_sequence_preview=true # Provisional idle/motion; old art remains available.
+var tessa_motion_preview=true
 const NERI_MOTION_DEFAULT_VERSION=1
-var adela_motion_preview=false # Independent movement-only two-panel trial.
+var adela_motion_preview=true # Independent movement-only two-panel trial.
 var neri_motion_preview=true # User-approved default; independent of Neri idle.
 var finn_motion_preview=false # Motion-only trial; original Finn idle is retained.
 var mara_sequence_preview=false # Local opt-in for unapproved compact art candidate.
@@ -41,7 +41,7 @@ var presentation_preferences_path="user://presentation.cfg"
 func load_presentation_preferences():
     for id in hero_map_refresh_previews:hero_map_refresh_previews[id]=true
     for id in idle_sequence_previews:idle_sequence_previews[id]=false
-    adela_motion_preview=false;neri_motion_preview=true;tessa_motion_preview=false;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
+    adela_motion_preview=true;neri_motion_preview=true;tessa_motion_preview=true;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=true;bram_sequence_preview=true
     var config=ConfigFile.new()
     var loaded=config.load(presentation_preferences_path)
     if loaded==OK:
@@ -51,15 +51,15 @@ func load_presentation_preferences():
         if value is bool:mara_sequence_preview=value
         value=config.get_value("map","neri_motion_preview",true)
         if value is bool:neri_motion_preview=value
-        value=config.get_value("map","adela_motion_preview",false)
+        value=config.get_value("map","adela_motion_preview",true)
         if value is bool:adela_motion_preview=value
         value=config.get_value("map","finn_motion_preview",false)
         if value is bool:finn_motion_preview=value
-        value=config.get_value("map","oren_sequence_preview",false)
+        value=config.get_value("map","oren_sequence_preview",true)
         if value is bool:oren_sequence_preview=value
-        value=config.get_value("map","bram_sequence_preview",false)
+        value=config.get_value("map","bram_sequence_preview",true)
         if value is bool:bram_sequence_preview=value
-        value=config.get_value("map","tessa_motion_preview",false)
+        value=config.get_value("map","tessa_motion_preview",true)
         if value is bool:tessa_motion_preview=value
         for id in hero_map_refresh_previews:
             value=config.get_value("map","hero_refresh_v2_"+id,true)

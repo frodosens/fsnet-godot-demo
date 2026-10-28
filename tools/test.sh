@@ -101,3 +101,6 @@ for actor in mara finn neri; do
     AMBER_HERO_REFRESH=1 AMBER_WALK_ACTOR="$actor" AMBER_WALK_DIRECTION="$direction" python3 "$root/tests/run_walk_network.py"
   done
 done
+
+"$godot_bin" --headless --path "$root" --script res://tests/test_accepted_map_defaults.gd
+AMBER_DEFAULTS_RESTART=1 "$godot_bin" --headless --path "$root" --script res://tests/test_accepted_map_defaults.gd

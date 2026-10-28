@@ -25,6 +25,7 @@ func run():
             var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed)
             game.motion.set_process(false);game.get_node("MapIdle").set_process(false)
             game.facing.oren=direction;game.selected=3;game.refresh()
+            var other_before=game.directional_idle_texture(1,direction)
             var old=game.base_directional_idle_texture(3,direction)
             app.set_oren_sequence_preview(true)
             var entry=Seq.matching("oren",direction,old)
@@ -46,7 +47,7 @@ func run():
             game.get_node("MapIdle").advance(.5)
             check(game.figures[3].texture==Seq.idle("oren",direction,.5,old),"natural idle time")
             check(game.battle.snapshot()==truth,"idle no rule effects")
-            check(game.directional_idle_texture(1,direction)==game.base_directional_idle_texture(1,direction),"other actor unchanged")
+            check(game.directional_idle_texture(1,direction)==other_before,"other actor unchanged")
             if not capture.is_empty():
                 var title=Label.new();title.text="玛拉关键帧试验 · "+direction+(" · 固定背景" if fixed else " · 3D")+"\n测试摆位 / 每格一循环 / 单脚碎步尚未验收"
                 title.position=Vector2(330,90);title.add_theme_font_size_override("font_size",19);title.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(title)
