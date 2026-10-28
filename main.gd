@@ -29,6 +29,7 @@ var buttons = []
 var facing={}
 # Separate movement-only opt-in; does not replace Neri idle profile.
 var neri_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/neri_motion_trial.json")
+var adela_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/adela_motion_trial.json")
 var last_positions={}
 var direction_textures={}
 var iso_roles={}
@@ -828,12 +829,18 @@ func map_motion_neutral_texture(index,direction):
 func neri_motion_entry(index,direction):
     if battle.units[index].id!="neri" or not App.neri_motion_preview:return {}
     return neri_motion_library.matching("neri",direction,base_directional_idle_texture(index,direction))
+func adela_motion_entry(index,direction):
+    if battle.units[index].id!="adela" or not App.adela_motion_preview:return {}
+    return adela_motion_library.matching("adela",direction,base_directional_idle_texture(index,direction))
 func apply_map_motion_texture(index,direction,distance):
-    var entry=neri_motion_entry(index,direction)
+    var entry=adela_motion_entry(index,direction) if battle.units[index].id=="adela" else neri_motion_entry(index,direction)
     figures[index].flip_h=is_finite(distance) and distance>=0 and not entry.is_empty() and entry.motion.get("flip_h",false)
     figures[index].texture=map_motion_texture(index,direction,distance)
 func map_motion_texture(index,direction,distance):
     var unit=battle.units[index]
+    if not adela_motion_entry(index,direction).is_empty():
+        var trial=adela_motion_library.motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
+        if trial!=null:return trial
     if not neri_motion_entry(index,direction).is_empty():
         var trial=neri_motion_library.motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
         if trial!=null:return trial
