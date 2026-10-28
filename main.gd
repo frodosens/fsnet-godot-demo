@@ -12,6 +12,11 @@ var battle
 var last_step = -1
 var network_label: Label
 var selected = 0
+var selection_initialized=false
+var selection_seen_id=""
+var selection_seen_round=-1
+var selection_pending_move=false
+var selection_pending_focus=false
 var mode = "move"
 var camera: Camera3D
 var tiles = {}
@@ -351,8 +356,45 @@ func build_hud():
     heal_feedback=preload("res://view/heal_feedback.gd").new();heal_feedback.game=self;add_child(heal_feedback);heal_feedback.last_step=battle.step
     event_sequence=preload("res://view/event_sequence.gd").new();event_sequence.game=self;add_child(event_sequence);event_sequence.last_step=battle.step
 
+# Shared entry point for map taps and HUD roster selection. Presentation only.
+func select_actor(index):
+    battle=session.logic
+    if targeting_locked() or session.pending or not battle.usable(index):return false
+    selected=index;hud.action_notice="";clear_move_preview()
+    selection_pending_move=true
+    refresh()
+    return true
+func observe_selection():
+    var id=battle.units[selected].id if battle.usable(selected) else ""
+    if not selection_initialized:
+        selection_initialized=true;selection_seen_id=id;selection_seen_round=battle.round_number
+        return
+    if id!=selection_seen_id:
+        selection_seen_id=id;selection_pending_move=not id.is_empty();selection_pending_focus=not id.is_empty()
+        if scene_view:scene_view.cancel_focus()
+    if battle.round_number!=selection_seen_round:
+        selection_seen_round=battle.round_number
+        if not id.is_empty():selection_pending_move=true
+func apply_selection_presentation():
+    if not selection_pending_move and not selection_pending_focus:return
+    if targeting_locked() or session.pending:return
+    if not battle.usable(selected):selection_pending_move=false;selection_pending_focus=false;return
+    if selection_pending_focus and scene_view:
+        var center=Vector3(battle.units[selected].pos.x,figure_height(selected),battle.units[selected].pos.y)
+        center+=camera.global_basis.y*figures[selected].offset.y*figures[selected].pixel_size
+        scene_view.focus_actor(center)
+    selection_pending_focus=false
+    if selection_pending_move:
+        selection_pending_move=false;mode="move";clear_move_preview()
+        preview_reachable=battle.reachable(selected)
+        var can_move=false
+        for cell in preview_reachable:
+            if cell!=battle.units[selected].pos and not battle.path_to(selected,cell).is_empty():can_move=true;break
+        hud.action_menu_open=not can_move
+
 func select_mode(value):
     if presentation_active() or (hud and hud.blocks_input()):return
+    observe_selection();selection_pending_move=false
     mode = value
     if hud:hud.action_menu_open=false
     refresh()
@@ -452,7 +494,7 @@ func wait_selected():
         if next>=0:
             if session.pending:
                 hud.action_notice="等待同步完成后切换队员";hud.refresh();return false
-            selected=next;mode="move";hud.action_menu_open=true
+            selected=next;selection_pending_move=true
             hud.action_notice="已切换至"+battle.units[next].name
             wait_advance_until=Time.get_ticks_msec()+350
             refresh();return true
@@ -490,6 +532,8 @@ func refresh():
             if battle.usable(i):
                 selected = i
                 break
+    observe_selection()
+    apply_selection_presentation()
     var possible = battle.reachable(selected) if selected >= 0 else {}
     preview_reachable=possible
     selection_ring.visible=selected>=0
@@ -556,6 +600,7 @@ func _unhandled_input(event):
     if event is InputEventScreenTouch:
         if event.pressed:
             if event.index!=0 or map_touch!=-1 or hud.pointer_blocks_map(event.position):return
+            if scene_view:scene_view.cancel_focus()
             map_touch=event.index;map_touch_start=event.position;map_touch_last=event.position;map_touch_dragged=false
         elif event.index==map_touch:
             var tap=not map_touch_dragged and not event.canceled and not hud.pointer_blocks_map(event.position)
@@ -574,15 +619,15 @@ func _unhandled_input(event):
         tap_map(event.position)
 
 func tap_map(point):
+    if targeting_locked():return
+    if scene_view:scene_view.cancel_focus()
     var cell=mouse_cell(point)
     if cell.x<0:
         clear_move_preview();hud.refresh();return
     var target = battle.at(cell)
     if target >= 0 and battle.units[target].controller=="player" and (mode=="move" or (mode=="attack" and selected>=0 and battle.units[target].faction==battle.units[selected].faction)):
-        selected = target
-        hud.action_notice=""
-        hud.action_menu_open=true
-        clear_move_preview()
+        select_actor(target)
+        return
     elif mode == "move":
         if hud.action_menu_open:return
         if not pending_move.is_empty() and pending_move.cell==cell:confirm_move()
@@ -609,6 +654,8 @@ func _process(delta):
         if hud:hud.action_menu_open=true
         last_step=battle.step
         refresh()
+    observe_selection()
+    apply_selection_presentation()
     if hud:hud.refresh() # refresh() ends with refresh_story(); avoid duplicate dock work.
 
 func _exit_tree():

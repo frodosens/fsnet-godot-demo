@@ -20,6 +20,20 @@ var saved_camera_position=Vector3.ZERO
 var camera_origin=Vector3.ZERO
 var pan=Vector2.ZERO
 var pan_limit=Vector2.ZERO
+var focus_active=false
+var focus_point=Vector3.ZERO
+var focus_start=Vector2.ZERO
+var focus_elapsed=0.0
+const FOCUS_SECONDS=0.28
+func cancel_focus():focus_active=false
+func focus_actor(point):
+    if not active or not App.mobile_presentation:return
+    fit();focus_point=point;focus_start=pan;focus_elapsed=0.0
+    focus_active=not pan.is_equal_approx(focus_pan())
+    if App.reduced_motion:pan=focus_pan();focus_active=false;fit()
+func focus_pan():
+    var offset=focus_point-camera_origin
+    return Vector2(offset.dot(game.camera.global_basis.x),offset.dot(game.camera.global_basis.y)).clamp(-pan_limit,pan_limit)
 func compatible():
     return not preload("res://view/authored_scene.gd").profile(game.battle.content).is_empty()
 func available():
@@ -39,6 +53,7 @@ func plate(texture,depth,transparent=false):
     mesh.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;game.add_child(mesh);return mesh
 func set_fixed(enabled,fixture_texture:Texture2D=null):
     if enabled==active:return true
+    cancel_focus()
     if enabled and not compatible():
         var authored=preload("res://logic/content.gd").reference_content()
         if game.battle.content.id==authored.id and game.battle.content.revision<authored.revision:
@@ -104,6 +119,7 @@ func fit():
     else:game.camera.keep_aspect=Camera3D.KEEP_WIDTH;game.camera.size=saved_size*1.6
 func pan_by(screen_delta):
     if not active or not App.mobile_presentation:return
+    cancel_focus()
     var units=game.camera.size/maxf(1.0,game.get_viewport().get_visible_rect().size.y)
     pan+=Vector2(-screen_delta.x,screen_delta.y)*units
     fit()
@@ -114,8 +130,16 @@ func sync_shadows():
         var footprint=Vector2(0.56,0.38)*game.character_scale*game.map_render_factor(game.battle.units[i].id)
         if not shadows[i].mesh.size.is_equal_approx(footprint):shadows[i].mesh.size=footprint
         shadows[i].position=Vector3(p.x,0.008,p.z);shadows[i].visible=game.battle.units[i].hp>0
-func _process(_delta):
-    if active:fit();sync_shadows()
+func _process(delta):
+    if not active:return
+    fit()
+    if focus_active:
+        focus_elapsed=minf(FOCUS_SECONDS,focus_elapsed+delta)
+        var t=focus_elapsed/FOCUS_SECONDS;t=t*t*(3.0-2.0*t)
+        pan=focus_start.clamp(-pan_limit,pan_limit).lerp(focus_pan(),t)
+        if focus_elapsed>=FOCUS_SECONDS:focus_active=false
+        fit()
+    sync_shadows()
 
 func setup_lights():
     for node in game.get_children():

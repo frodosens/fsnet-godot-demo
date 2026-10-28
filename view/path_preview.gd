@@ -127,6 +127,33 @@ func draw_targeting():
     for cell in targeting.legal_cells:tile_quad(cell,"target_cell_border_gold",HEIGHT+0.004)
     if targeting.hover.x>=0 and targeting.hover.y>=0 and not targeting.hover_legal and targeting.hover.x<game.battle.size.x and targeting.hover.y<game.battle.size.y:
         fill_cell(targeting.hover,Color(0.9,0.22,0.22,0.35))
+func focus_marker():
+    if game.hud.action_menu_open or game.targeting_locked():return {}
+    if game.mode=="move":
+        var cell=game.pending_move.get("cell",game.preview_cell)
+        if cell.x>=0 and cell.y>=0 and cell.x<game.battle.size.x and cell.y<game.battle.size.y:
+            return {"cell":cell,"valid":not game.preview_path.is_empty()}
+    elif targeting.get("active",false):
+        var cell=targeting.hover
+        if cell.x>=0 and cell.y>=0 and cell.x<game.battle.size.x and cell.y<game.battle.size.y:
+            return {"cell":cell,"valid":targeting.hover_legal}
+    return {}
+func draw_focus_marker():
+    var marker=focus_marker()
+    if marker.is_empty():return
+    var pulse=1.0 if App.reduced_motion else 0.88+0.12*sin(clock*TAU/1.8)
+    var ink=Color(1.0,0.87,0.40,pulse) if marker.valid else Color(1.0,0.28,0.20,pulse)
+    var corners=[]
+    for offset in [Vector2(-0.48,-0.48),Vector2(0.48,-0.48),Vector2(0.48,0.48),Vector2(-0.48,0.48)]:corners.append(projected(Vector2(marker.cell)+offset))
+    for i in range(4):
+        var a=corners[i];var b=corners[(i+1)%4]
+        stroke(a,b,5,Color(0.08,0.10,0.12,0.95));stroke(a,b,2,ink)
+    for i in range(4):
+        var a=corners[i]
+        for neighbour in [(i+3)%4,(i+1)%4]:
+            var b=a.lerp(corners[neighbour],0.28)
+            stroke(a,b,9,Color(0.08,0.10,0.12,0.95));stroke(a,b,5,ink)
+
 func targeting_state():
     var target_key=str([game.mode,game.selected,game.battle.get_instance_id(),game.battle.step,game.battle.content_hash,game.target_hover_cell,game.pending_target.get("cell",Vector2i(-1,-1)),game.hud.action_menu_open,game.targeting_locked()])
     if target_key!=targeting_signature:
@@ -144,9 +171,9 @@ func _process(delta):
     var route=rounded_route(path);route_length=0.0
     for i in range(route.size()-1):route_length+=route[i].distance_to(route[i+1])
     reveal=route_length if App.reduced_motion else minf(route_length,reveal+delta*18.0)
-    var animated=(route_length>0 or (game.mode=="move" and not game.preview_reachable.is_empty())) and not App.reduced_motion
+    var animated=(not focus_marker().is_empty() or route_length>0 or (game.mode=="move" and not game.preview_reachable.is_empty())) and not App.reduced_motion
     var tick=int(clock*30.0) if animated else 0
-    var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.presentation_active(),game.hud.action_menu_open,game.camera.global_transform,game.camera.size,game.camera.keep_aspect,targeting_signature,art_route_enabled,get_viewport().get_visible_rect(),tick])
+    var state=str([game.mode,game.selected,game.battle.step,path,game.preview_reachable,game.preview_cell,game.preview_reason,game.presentation_active(),game.hud.action_menu_open,game.camera.global_transform,game.camera.size,game.camera.keep_aspect,targeting_signature,art_route_enabled,get_viewport().get_visible_rect(),tick])
     if state==signature:return
     signature=state;mesh.clear_surfaces();cells.mesh.clear_surfaces();building=false
     if game.presentation_active():return
@@ -178,4 +205,5 @@ func _process(delta):
                         if total>travel and total<travel+0.20:segment.append(projected(route[i+1]))
                     segment.append(projected(highlight[-1]));ribbon(segment,2,Color(1,0.93,0.73,0.7))
         tile_quad(route[-1],"target_cell_border_gold",HEIGHT+0.004)
+    draw_focus_marker()
     if building:mesh.surface_end()

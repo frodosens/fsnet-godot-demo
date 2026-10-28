@@ -38,14 +38,14 @@ func run():
                         game.get_node("MapIdle").clocks[unit.id]=phase;game.get_node("MapIdle").advance(0)
                         bar.update_health(1 if phase==.4 else unit.max_hp,unit.max_hp,unit.ally,phase==.8);bar._process(0)
                         var scale=minf(float(size.x)/root.get_visible_rect().size.x,float(size.y)/root.get_visible_rect().size.y)
-                        var figure=game.figures[i];var current_width=preload("res://tests/health_width_oracle.gd").body_width(figure.texture)*figure.pixel_size
-                        var projected=game.camera.unproject_position(figure.position+game.camera.global_basis.x*current_width).distance_to(game.camera.unproject_position(figure.position))*scale
-                        check(bar.rendered_size.x<=projected+.01,"outer frame bounded by visible body "+unit.id+direction)
+                        var logical=root.get_visible_rect().size
+                        var height=game.camera.size if game.camera.keep_aspect==Camera3D.KEEP_HEIGHT else game.camera.size*logical.y/logical.x
+                        check(is_equal_approx(bar.rendered_size.x,50.0*scale*game.scene_view.saved_size/height),"requested base 50 follows scene, never body-clamped "+unit.id+direction)
                         check(bar.horizontal_offset==0 and bar.position.is_equal_approx(game.badge_position(i)),"default follows anchor without avoidance")
                         if previous_width>=0:check(is_equal_approx(previous_width,bar.rendered_size.x),"directions/idle/damage never oscillate width")
                         previous_width=bar.rendered_size.x
                 bar._process(.1);bar._process(.1)
-                check(is_equal_approx(bar.rendered_size.x,Meter.FIXED_WIDTH*minf(float(size.x)/root.get_visible_rect().size.x,float(size.y)/root.get_visible_rect().size.y)),"fixed logical width independent of texture")
+                check(is_equal_approx(bar.rendered_size.x,Meter.FIXED_WIDTH*minf(float(size.x)/root.get_visible_rect().size.x,float(size.y)/root.get_visible_rect().size.y)*game.scene_view.saved_size/(game.camera.size if game.camera.keep_aspect==Camera3D.KEEP_HEIGHT else game.camera.size*root.get_visible_rect().size.y/root.get_visible_rect().size.x)),"fixed logical width independent of texture")
         # Deliberately overlap a nearby face with the meter; this is presentation-only QA.
         var bar=game.badges[0];var other=game.figures[1];var old_position=other.position
         other.position=game.badge_position(0)-game.camera.global_basis.y*85*other.pixel_size

@@ -63,6 +63,7 @@ func run():
         var point=cell(game.battle.units[0].pos)
         check(game.mouse_cell(point)==game.battle.units[0].pos,"inverse pick after zoom/pan")
         await tap(point);check(game.selected==0,"tap after pan selects actor")
+        await button(dock.cancel) # Selection now defaults to Move; return to commands for Wait.
         await button(dock.action_nodes.wait)
         check(game.battle.step==1 and game.battle.units[0].acted and game.battle.units[0].moves_used==game.battle.units[0].move_actions,"Wait commits exactly once")
         check(game.battle.round_number==1 and not game.battle.units[1].acted,"Wait ends selected unit, not entire turn")
@@ -86,6 +87,7 @@ func run():
     await tap(cell(game.battle.units[0].pos));check(game.selected==0,"touch select after New Game")
     for i in range(3):
         check(game.selected==i,"stable own-team advance order")
+        if not game.hud.action_menu_open:await button(game.hud.dock.cancel)
         await button(game.hud.dock.action_nodes.wait)
         check(game.battle.units[i].acted,"touch Wait spends selected actor")
         await button(game.hud.dock.action_nodes.wait)
