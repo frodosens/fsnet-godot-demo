@@ -153,7 +153,7 @@ func panel(pos,size):
     var p=PanelContainer.new();p.position=pos;p.custom_minimum_size=size;root.add_child(p);return p
 func select_hero(index):
     if blocks_input():return
-    game.selected=index;action_notice="";action_menu_open=true;game.refresh()
+    game.select_actor(index)
 func request_end_turn():
     if blocks_input():return
     var remaining=false
