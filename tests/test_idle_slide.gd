@@ -6,7 +6,8 @@ func check(ok,label):
     assert(ok,label)
 func _initialize():call_deferred("run")
 func run():
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content())
+    var app=root.get_node("App");app.neri_motion_preview=false # Explicit old-motion baseline; default-on trial has separate tests.
+    app.new_game(preload("res://logic/content.gd").reference_content())
     change_scene_to_file("res://main.tscn");await process_frame;await process_frame
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.motion.set_process(false)

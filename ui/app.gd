@@ -30,21 +30,23 @@ var idle_sequence_previews={"neri":false,"adela":false,"elsbet":false}
 var bram_sequence_preview=false # User-accepted provisional gesture and shuffle.
 var oren_sequence_preview=false # Provisional idle/motion; old art remains available.
 var tessa_motion_preview=false
-var neri_motion_preview=false # Movement-only mirror trial, independent of Neri idle.
+const NERI_MOTION_DEFAULT_VERSION=1
+var neri_motion_preview=true # User-approved default; independent of Neri idle.
 var finn_motion_preview=false # Motion-only trial; original Finn idle is retained.
 var mara_sequence_preview=false # Local opt-in for unapproved compact art candidate.
 var health_bar_avoidance=false
 var presentation_preferences_path="user://presentation.cfg"
 func load_presentation_preferences():
     for id in idle_sequence_previews:idle_sequence_previews[id]=false
-    neri_motion_preview=false;tessa_motion_preview=false;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
+    neri_motion_preview=true;tessa_motion_preview=false;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
     var config=ConfigFile.new()
-    if config.load(presentation_preferences_path)==OK:
+    var loaded=config.load(presentation_preferences_path)
+    if loaded==OK:
         var value=config.get_value("map","health_bar_avoidance",false)
         if value is bool:health_bar_avoidance=value
         value=config.get_value("map","mara_sequence_preview",false)
         if value is bool:mara_sequence_preview=value
-        value=config.get_value("map","neri_motion_preview",false)
+        value=config.get_value("map","neri_motion_preview",true)
         if value is bool:neri_motion_preview=value
         value=config.get_value("map","finn_motion_preview",false)
         if value is bool:finn_motion_preview=value
@@ -57,6 +59,18 @@ func load_presentation_preferences():
         for id in idle_sequence_previews:
             value=config.get_value("map",id+"_idle_preview",false)
             if value is bool:idle_sequence_previews[id]=value
+    # Old files recorded a boolean only, so implicit and explicit false cannot be distinguished.
+    # Migrate once; later manual OFF is stamped with this version and remains OFF.
+    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
+        if neri_motion_preference_version(config)<NERI_MOTION_DEFAULT_VERSION:
+            neri_motion_preview=true
+            config.set_value("map","neri_motion_preview",true)
+            config.set_value("map","neri_motion_default_version",NERI_MOTION_DEFAULT_VERSION)
+            if config.save(presentation_preferences_path)!=OK:push_warning("Cannot persist Neri motion default migration")
+    else:push_warning("Presentation preferences unreadable; preserving file and using defaults")
+func neri_motion_preference_version(config):
+    var version=config.get_value("map","neri_motion_default_version",0)
+    return version if version is int and version>=0 else 0
 func set_health_bar_avoidance(on):
     health_bar_avoidance=bool(on)
     var config=ConfigFile.new();config.load(presentation_preferences_path)
@@ -317,8 +331,12 @@ func set_tessa_motion_preview(on):
 
 func set_neri_motion_preview(on):
     neri_motion_preview=bool(on)
-    var config=ConfigFile.new();config.load(presentation_preferences_path)
-    config.set_value("map","neri_motion_preview",neri_motion_preview)
-    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Neri motion preference")
+    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
+    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
+        config.set_value("map","neri_motion_preview",neri_motion_preview)
+        if neri_motion_preference_version(config)<NERI_MOTION_DEFAULT_VERSION:
+            config.set_value("map","neri_motion_default_version",NERI_MOTION_DEFAULT_VERSION)
+        if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Neri motion preference")
+    else:push_warning("Cannot save Neri preference without overwriting unreadable settings")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("neri")

@@ -9,7 +9,8 @@ func frames(n=3):
     for j in range(n):await process_frame
 func run():
     var Meter=load("res://view/unit_health.gd")
-    var app=root.get_node("App");app.presentation_preferences_path="user://idle-only-scene.cfg";app.save_root="user://idle-only-save-"+str(Time.get_ticks_usec())
+    var app=root.get_node("App");app.neri_motion_preview=false # Explicit old-motion baseline; default-on trial has separate tests.
+    app.presentation_preferences_path="user://idle-only-scene.cfg";app.save_root="user://idle-only-save-"+str(Time.get_ticks_usec())
     var Seq=preload("res://view/map_sequence.gd").shared()
     var output=OS.get_environment("AMBER_IDLE_STILLS")
     for fixed in [true,false]:

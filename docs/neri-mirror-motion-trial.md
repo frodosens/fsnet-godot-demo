@@ -1,6 +1,6 @@
 # Neri movement mirror trial
 
-This opt-in map presentation trial is independent of Neri's existing video idle switch. Both default off. Enable “奈莉镜像移动（试验）” under Pause → sound/motion settings. Disabling it restores the existing three-pose front-right walk and static fallback in the other directions. It does not add a battle animation, change global direction mapping, or change game rules.
+This reversible map presentation trial is independent of Neri's existing video idle switch. Mirror movement now defaults ON at the user's request; video idle still defaults OFF. “奈莉镜像移动（试验）” under Pause → sound/motion settings can disable or enable movement. Disabling it restores the existing three-pose front-right walk and static fallback in the other directions. It does not add a battle animation, change global direction mapping, or change game rules.
 
 The 24 source PNGs are 128×128 with root (64,120). `assets/animations/neri_motion_trial.json` uses the existing weighted sequence decoder in a separate instance. Each direction retains its original canonical neutral guard. Front-right references the same eight front-left textures with `flip_h: true`; the other three directions use their own source unmirrored. No duplicate mirrored PNG, negative scale, frame recentering, one-pixel correction, or new generated art is involved. The staff hand reverses in front-right and returns to the original hand at idle; this is an acknowledged workaround, not anatomically independent art.
 
@@ -19,3 +19,7 @@ Validation commands:
 - Actual graphical tests use the same scripts without `--headless`; Linux Godot4.6.3 Compatibility/llvmpipe is the available environment, not Android/Windows device validation.
 
 `tests/record_neri_mirror.gd` records legal test placements, an old front-right comparison and the four new directions. Set `AMBER_NERI_CAPTURE` to an existing local directory; movie capture with `--fixed-fps 60 --write-movie /tmp/trial.avi` runs normal simulation speed offline, not a real-time FPS benchmark. Review screenshots and recordings stay outside Git.
+
+## Default migration (version 1)
+
+Prior configuration saved only `neri_motion_preview: bool`, with no record of whether false was an implicit default or an explicit choice. A one-time migration sets movement ON and records local `map/neri_motion_default_version=1`. This necessarily also changes an older explicit OFF once; it cannot be distinguished from the old default. After migration, manual OFF writes the version marker and remains OFF on reload/relaunch. New installs start ON. Neri idle, Finn and other settings are retained. Equal/newer version markers do not rewrite the file; unreadable existing configuration is preserved rather than overwritten. The marker is local presentation state, outside save snapshots and network hashes. No new art or APK is produced by this change.

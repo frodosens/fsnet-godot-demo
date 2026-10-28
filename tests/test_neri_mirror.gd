@@ -11,7 +11,7 @@ func run():
     var app=root.get_node("App");app.sfx_enabled=false
     app.presentation_preferences_path="user://neri-mirror-test.cfg"
     if FileAccess.file_exists(app.presentation_preferences_path):DirAccess.remove_absolute(app.presentation_preferences_path)
-    app.load_presentation_preferences();check(not app.neri_motion_preview,"default off")
+    app.load_presentation_preferences();check(app.neri_motion_preview,"approved default on")
     var raw=JSON.parse_string(FileAccess.get_file_as_string("res://assets/animations/neri_motion_trial.json"))
     var Library=load("res://view/map_sequence.gd")
     var library=Library.new("res://assets/animations/neri_motion_trial.json")
