@@ -42,7 +42,7 @@ func run():
                 key=key.duplicate();key.pressed=false;root.push_input(key,true);await frames()
                 check(not app.finn_motion_preview,"keyboard restores old art")
             game.hud.clear_modal();app.set_finn_motion_preview(true)
-            game.selected=1;game.mode="move"
+            game.select_actor(1);game.select_mode("move");await frames()
             var preview_texture=game.figures[1].texture
             game.update_move_preview(Vector2i(2,8));await frames()
             check(game.preview_ghost.visible and game.preview_ghost.texture==preview_texture,"preview current actor texture")

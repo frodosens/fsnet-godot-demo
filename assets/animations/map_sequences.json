@@ -213,21 +213,21 @@
         "neutral_guard": "assets/sprites/iso4/idle_candidate/finn/front_left_idle_00.png",
         "motion": {
           "frames": [
-            "assets/sprites/iso4/finn_video_compact/motion/front_left/front_left_walk_00.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_left/front_left_walk_01.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_left/front_left_walk_02.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_left/front_left_walk_03.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_left/front_left_walk_04.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_left/front_left_walk_05.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_left/front_left_walk_06.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_left/front_left_walk_07.png"
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_00.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_01.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_02.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_03.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_04.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_05.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_06.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_left/front_left_walk_07.png"
           ],
           "ticks": [
+            3,
+            3,
+            3,
+            3,
             4,
-            3,
-            3,
-            3,
-            3,
             3,
             3,
             3
@@ -243,21 +243,21 @@
         "neutral_guard": "assets/sprites/iso4/idle_candidate/finn/front_right_idle_00.png",
         "motion": {
           "frames": [
-            "assets/sprites/iso4/finn_video_compact/motion/front_right/front_right_walk_00.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_right/front_right_walk_01.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_right/front_right_walk_02.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_right/front_right_walk_03.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_right/front_right_walk_04.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_right/front_right_walk_05.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_right/front_right_walk_06.png",
-            "assets/sprites/iso4/finn_video_compact/motion/front_right/front_right_walk_07.png"
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_00.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_01.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_02.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_03.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_04.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_05.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_06.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/front_right/front_right_walk_07.png"
           ],
           "ticks": [
+            3,
+            3,
+            3,
+            3,
             4,
-            3,
-            3,
-            3,
-            3,
             3,
             3,
             3
@@ -273,21 +273,21 @@
         "neutral_guard": "assets/sprites/iso4/idle_candidate/finn/back_left_idle_00.png",
         "motion": {
           "frames": [
-            "assets/sprites/iso4/finn_video_compact/motion/back_left/back_left_walk_00.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_left/back_left_walk_01.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_left/back_left_walk_02.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_left/back_left_walk_03.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_left/back_left_walk_04.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_left/back_left_walk_05.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_left/back_left_walk_06.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_left/back_left_walk_07.png"
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_00.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_01.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_02.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_03.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_04.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_05.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_06.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_left/back_left_walk_07.png"
           ],
           "ticks": [
+            3,
+            3,
+            3,
+            3,
             4,
-            3,
-            3,
-            3,
-            3,
             3,
             3,
             3
@@ -303,21 +303,21 @@
         "neutral_guard": "assets/sprites/iso4/idle_candidate/finn/back_right_idle_00.png",
         "motion": {
           "frames": [
-            "assets/sprites/iso4/finn_video_compact/motion/back_right/back_right_walk_00.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_right/back_right_walk_01.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_right/back_right_walk_02.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_right/back_right_walk_03.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_right/back_right_walk_04.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_right/back_right_walk_05.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_right/back_right_walk_06.png",
-            "assets/sprites/iso4/finn_video_compact/motion/back_right/back_right_walk_07.png"
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_00.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_01.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_02.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_03.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_04.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_05.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_06.png",
+            "assets/sprites/iso4/finn_video_regen_20261028/motion/back_right/back_right_walk_07.png"
           ],
           "ticks": [
+            3,
+            3,
+            3,
+            3,
             4,
-            3,
-            3,
-            3,
-            3,
             3,
             3,
             3
