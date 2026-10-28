@@ -1,0 +1,1204 @@
+{
+  "original_video": "tessa_prompt_walk_experiment1.mp4",
+  "original_sha256": "a399aaed018c853e04e70beec69f83dd8ef238d2b1a25f105090cec9aab0d282",
+  "source_indices": [
+    48,
+    51,
+    54,
+    57,
+    60,
+    63,
+    66,
+    69
+  ],
+  "cycle_start": 48,
+  "cycle_end_exclusive": 72,
+  "source_fps": 24,
+  "cycle_duration_seconds": 1,
+  "frames": [
+    {
+      "direction": "front_left",
+      "source_frame": 48,
+      "source_time": 2.0,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        140,
+        93,
+        342,
+        414
+      ],
+      "sha256": "d9cecc7fc94de8688994eb5c87e5e1c3672ca77f02d72c1d58eed0a938ec9b1b"
+    },
+    {
+      "direction": "front_left",
+      "source_frame": 51,
+      "source_time": 2.125,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        148,
+        90,
+        340,
+        400
+      ],
+      "sha256": "ac180d6768a0fa57dddb4d258b423c45c7179be53179de4d0f7012aa9aa6ca6b"
+    },
+    {
+      "direction": "front_left",
+      "source_frame": 54,
+      "source_time": 2.25,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        154,
+        89,
+        336,
+        388
+      ],
+      "sha256": "6358c66365f61d1059c01e84557426902684790e5c5ffd3ae32a3c1eac4f3e24"
+    },
+    {
+      "direction": "front_left",
+      "source_frame": 57,
+      "source_time": 2.375,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        154,
+        90,
+        330,
+        400
+      ],
+      "sha256": "1f6d97701825d84fc39c26f5a0b1716dd59cb7588c56f85f247218a0854c0c66"
+    },
+    {
+      "direction": "front_left",
+      "source_frame": 60,
+      "source_time": 2.5,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        147,
+        94,
+        329,
+        420
+      ],
+      "sha256": "a9cf56c42021563ef2f5d34daffbcc561a069fa61cf1ce3bdf445e8afa8b807e"
+    },
+    {
+      "direction": "front_left",
+      "source_frame": 63,
+      "source_time": 2.625,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        138,
+        98,
+        330,
+        430
+      ],
+      "sha256": "fcf5a27a024bc84832c61438af1d2506f77fe5907967fbc198e98c4149167123"
+    },
+    {
+      "direction": "front_left",
+      "source_frame": 66,
+      "source_time": 2.75,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        132,
+        98,
+        334,
+        432
+      ],
+      "sha256": "329575ade90bfae83f3539b0811144cb13bb811f431c2e57f539c7eddd1b0213"
+    },
+    {
+      "direction": "front_left",
+      "source_frame": 69,
+      "source_time": 2.875,
+      "source_quadrant": [
+        0,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        133,
+        96,
+        340,
+        425
+      ],
+      "sha256": "66e921cba4e2cad3510705292c19cd83eee30e25af911877be7860d8f14501ac"
+    },
+    {
+      "direction": "front_right",
+      "source_frame": 48,
+      "source_time": 2.0,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        150,
+        94,
+        340,
+        414
+      ],
+      "sha256": "fd7536d408f6d8ee79ed7b3e3cc75945c694da902a1a2852ed12d164006e22dc"
+    },
+    {
+      "direction": "front_right",
+      "source_frame": 51,
+      "source_time": 2.125,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        154,
+        92,
+        332,
+        400
+      ],
+      "sha256": "93f3eb649dd6c78442f22a7e31c10654b555b05508107191e585f7580f102de9"
+    },
+    {
+      "direction": "front_right",
+      "source_frame": 54,
+      "source_time": 2.25,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        160,
+        91,
+        332,
+        394
+      ],
+      "sha256": "d6e4749231c470116676c985cd1d936118d862dd0a1dd9f4c2e57fe2d66ffb33"
+    },
+    {
+      "direction": "front_right",
+      "source_frame": 57,
+      "source_time": 2.375,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        164,
+        92,
+        343,
+        404
+      ],
+      "sha256": "4115eb64af308f359f1cf6d705dbec1758ada1636755e30857fd5b36744375b9"
+    },
+    {
+      "direction": "front_right",
+      "source_frame": 60,
+      "source_time": 2.5,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        160,
+        95,
+        358,
+        423
+      ],
+      "sha256": "05119cbe0c820b43deb252ea44d4fa2244bd9700366acdc597047ce2fb38a552"
+    },
+    {
+      "direction": "front_right",
+      "source_frame": 63,
+      "source_time": 2.625,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        146,
+        100,
+        364,
+        430
+      ],
+      "sha256": "7c3fb9256d9c21312ea1665338dfa516670787f7b04e19dcb5e8d79b44c08fa8"
+    },
+    {
+      "direction": "front_right",
+      "source_frame": 66,
+      "source_time": 2.75,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        139,
+        100,
+        360,
+        432
+      ],
+      "sha256": "4961aeb0b97431ab1d7eae8e2574cf02049f16c6e77480d5cf9ebbd4244a80b8"
+    },
+    {
+      "direction": "front_right",
+      "source_frame": 69,
+      "source_time": 2.875,
+      "source_quadrant": [
+        480,
+        0,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        140,
+        97,
+        349,
+        425
+      ],
+      "sha256": "5e9acac856f3aadbd2ea10dd1b76412ecc940258b0f7a581eacbe56bb2bd47c4"
+    },
+    {
+      "direction": "back_left",
+      "source_frame": 48,
+      "source_time": 2.0,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        142,
+        82,
+        356,
+        387
+      ],
+      "sha256": "1d530eec4806165953332a889fc6bbc5d50f0e856fb11840db8167409c8d6b5d"
+    },
+    {
+      "direction": "back_left",
+      "source_frame": 51,
+      "source_time": 2.125,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        152,
+        86,
+        348,
+        396
+      ],
+      "sha256": "65da1fa6cb62ecba01267fb02c3182634b2f6355fc98f301dc45fd323d032b3d"
+    },
+    {
+      "direction": "back_left",
+      "source_frame": 54,
+      "source_time": 2.25,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        140,
+        85,
+        338,
+        400
+      ],
+      "sha256": "0bba3c3eecf53d5c482ad0f1d0af548b9ab895e8e75e40a16302520f9d27f610"
+    },
+    {
+      "direction": "back_left",
+      "source_frame": 57,
+      "source_time": 2.375,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        138,
+        83,
+        327,
+        399
+      ],
+      "sha256": "ae1332ded9ff886402920ee2fe5a5509eb7db27a4ec0106ac1fecd8c2a2a3e34"
+    },
+    {
+      "direction": "back_left",
+      "source_frame": 60,
+      "source_time": 2.5,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        144,
+        86,
+        322,
+        396
+      ],
+      "sha256": "3ec2916135c20d4c5d9319c44f5d833df667ee0551d7bb2d5bde97bb74f61183"
+    },
+    {
+      "direction": "back_left",
+      "source_frame": 63,
+      "source_time": 2.625,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        140,
+        88,
+        329,
+        394
+      ],
+      "sha256": "39660f47989522c03e5b3b4bdc4fb036fd7c526a385b6a6ac1755172a604a310"
+    },
+    {
+      "direction": "back_left",
+      "source_frame": 66,
+      "source_time": 2.75,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        132,
+        85,
+        344,
+        397
+      ],
+      "sha256": "875da02b1d0d9047c0ed29306e42ef6ce7637beb7f208dc34fea6574a1ab3643"
+    },
+    {
+      "direction": "back_left",
+      "source_frame": 69,
+      "source_time": 2.875,
+      "source_quadrant": [
+        0,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        136,
+        80,
+        355,
+        392
+      ],
+      "sha256": "64d2167563d2188bae298e26406fa3d146d2b532673cf180eef6a6c2b3480a20"
+    },
+    {
+      "direction": "back_right",
+      "source_frame": 48,
+      "source_time": 2.0,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        150,
+        84,
+        360,
+        387
+      ],
+      "sha256": "67f547b03e1c0983830d3dca930776de685f725b4c5b05fda65369e749aca84b"
+    },
+    {
+      "direction": "back_right",
+      "source_frame": 51,
+      "source_time": 2.125,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        168,
+        86,
+        361,
+        396
+      ],
+      "sha256": "760154c2e45ceb68a7fc023386ce418ba38a4680ff1a14623128012d6de933a2"
+    },
+    {
+      "direction": "back_right",
+      "source_frame": 54,
+      "source_time": 2.25,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        160,
+        84,
+        368,
+        400
+      ],
+      "sha256": "d81a000f79705163d6affe1a707eed5fadc0489d3d730a10dc992bbb09c505ae"
+    },
+    {
+      "direction": "back_right",
+      "source_frame": 57,
+      "source_time": 2.375,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        148,
+        82,
+        366,
+        397
+      ],
+      "sha256": "12f92e569a046ba5e3793bba2d9fa406a15591e37c5da8ab59f8371360a4c18d"
+    },
+    {
+      "direction": "back_right",
+      "source_frame": 60,
+      "source_time": 2.5,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        136,
+        84,
+        358,
+        390
+      ],
+      "sha256": "17e5ca50282a0d2f82db8579fa4592f80258f69bfb6b75228acb31a5dfa6854b"
+    },
+    {
+      "direction": "back_right",
+      "source_frame": 63,
+      "source_time": 2.625,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        130,
+        86,
+        353,
+        396
+      ],
+      "sha256": "63a1a13ec037a538b884b954cf855bc8450b6d2569049acdc87525c6083333d8"
+    },
+    {
+      "direction": "back_right",
+      "source_frame": 66,
+      "source_time": 2.75,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        128,
+        84,
+        356,
+        398
+      ],
+      "sha256": "42903a1de6127174d81421c75b2206925bc3bb114a073c2ac61bd6af6bbe6fb9"
+    },
+    {
+      "direction": "back_right",
+      "source_frame": 69,
+      "source_time": 2.875,
+      "source_quadrant": [
+        480,
+        480,
+        480,
+        480
+      ],
+      "keyed_bbox": [
+        139,
+        82,
+        358,
+        393
+      ],
+      "sha256": "e3fc7180af7076822467d4a147325b20a766fba9ffe8ed6ca4d0fbb203f798a2"
+    }
+  ],
+  "operations": [
+    "green key plus edge despill only",
+    "no invented/mirrored/interpolated or warped frames"
+  ],
+  "normalization": {
+    "canvas": [
+      128,
+      136
+    ],
+    "root": [
+      64,
+      120
+    ],
+    "scale": 0.35555555555555557,
+    "source_quadrant_root": [
+      240,
+      397.5
+    ],
+    "fixed_offset": [
+      -21.333333333333332,
+      -21.333333333333332
+    ],
+    "inverse_affine": [
+      2.8125,
+      0,
+      60,
+      0,
+      2.8125,
+      60
+    ],
+    "resampling": "nearest",
+    "canvas_padding_only": true,
+    "frame_weights": [
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3,
+      3
+    ],
+    "motion_only": true,
+    "canonical_idle_remains_unchanged": true,
+    "color_key": {
+      "rgb_normalized": true,
+      "green_excess": "g-max(r,b)",
+      "alpha": "1-clip((excess-0.08)/0.32,0,1)",
+      "force_transparent": "g>0.45 and g>1.4*max(r,b)",
+      "edge_despill": "only0<alpha<1: g=min(g,max(r,b)+12/255)",
+      "transparent_rgb": 0
+    },
+    "status": "approved_for_game_trial_128x136"
+  },
+  "runtime_frames": [
+    {
+      "direction": "front_left",
+      "frame": 0,
+      "source_frame": 48,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_left/front_left_walk_00.png",
+      "sha256": "477082f69e910d2707750cf653b03e15ee58ef9f4115d803553f3c054442dfeb",
+      "size_bytes": 11690,
+      "alpha_bbox": [
+        28,
+        12,
+        100,
+        126
+      ],
+      "max_opaque_y": 125,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_left",
+      "frame": 1,
+      "source_frame": 51,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_left/front_left_walk_01.png",
+      "sha256": "b84f17bb86e0588e4bfdc4e2106f6a8d24531f7d7bc597fd7c7b1ba06df4cd15",
+      "size_bytes": 11771,
+      "alpha_bbox": [
+        31,
+        11,
+        100,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_left",
+      "frame": 2,
+      "source_frame": 54,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_left/front_left_walk_02.png",
+      "sha256": "4ec6cf205e6c092bf410ed418e245f004a5e5a6a9fbc17535e5532b66f32798f",
+      "size_bytes": 11440,
+      "alpha_bbox": [
+        33,
+        11,
+        98,
+        117
+      ],
+      "max_opaque_y": 116,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_left",
+      "frame": 3,
+      "source_frame": 57,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_left/front_left_walk_03.png",
+      "sha256": "69b2d82fd30900da687611af73a6f4a5ffdeaeb442899db295276fa4989193b6",
+      "size_bytes": 10825,
+      "alpha_bbox": [
+        33,
+        11,
+        96,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_left",
+      "frame": 4,
+      "source_frame": 60,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_left/front_left_walk_04.png",
+      "sha256": "2e8dc045cec181b2aaec48dd071aea6b79504aae070c7cb15986081365b5f818",
+      "size_bytes": 10515,
+      "alpha_bbox": [
+        31,
+        12,
+        96,
+        128
+      ],
+      "max_opaque_y": 127,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_left",
+      "frame": 5,
+      "source_frame": 63,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_left/front_left_walk_05.png",
+      "sha256": "2d3f4fcd6b22bf322513c8ecb617035617623b3d5a2369a2193751df2ea06dfd",
+      "size_bytes": 10592,
+      "alpha_bbox": [
+        28,
+        14,
+        96,
+        132
+      ],
+      "max_opaque_y": 131,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_left",
+      "frame": 6,
+      "source_frame": 66,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_left/front_left_walk_06.png",
+      "sha256": "5c0ed58335420bd4b1fe59ea8cdb9b2d2017a91deb5c3a08a757fa8668d4317f",
+      "size_bytes": 10793,
+      "alpha_bbox": [
+        26,
+        14,
+        97,
+        132
+      ],
+      "max_opaque_y": 131,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_left",
+      "frame": 7,
+      "source_frame": 69,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_left/front_left_walk_07.png",
+      "sha256": "4adc82e48a04d1dcf999d540ca77ea5ee5503695906f25ddd7cec2befdfc209e",
+      "size_bytes": 11380,
+      "alpha_bbox": [
+        26,
+        13,
+        100,
+        130
+      ],
+      "max_opaque_y": 129,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 0,
+      "source_frame": 48,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_right/front_right_walk_00.png",
+      "sha256": "ac02c4f4c13ff6de780dcd97b248b9b49fc18dc310d0ae067937e66479a9de6f",
+      "size_bytes": 12111,
+      "alpha_bbox": [
+        32,
+        12,
+        100,
+        126
+      ],
+      "max_opaque_y": 125,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 1,
+      "source_frame": 51,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_right/front_right_walk_01.png",
+      "sha256": "d1f73d952c6ca4f1f0d9940e2273356cff895e90624699b5537254fef09a493a",
+      "size_bytes": 11981,
+      "alpha_bbox": [
+        33,
+        11,
+        97,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_right",
+      "frame": 2,
+      "source_frame": 54,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_right/front_right_walk_02.png",
+      "sha256": "050ce6a965a583447add786a6a28b83530d23c194d1ef8c3a4851b9e522fdab9",
+      "size_bytes": 12063,
+      "alpha_bbox": [
+        36,
+        11,
+        97,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "front_right",
+      "frame": 3,
+      "source_frame": 57,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_right/front_right_walk_03.png",
+      "sha256": "4315668ebbe07ef6b45ad6cf46d07d14a5e4ddbaa949d1020a0dc2e1f0b1745f",
+      "size_bytes": 11937,
+      "alpha_bbox": [
+        37,
+        11,
+        101,
+        122
+      ],
+      "max_opaque_y": 121,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 4,
+      "source_frame": 60,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_right/front_right_walk_04.png",
+      "sha256": "ad01a4027ed20fe82133d8d9205c1d24ad9bbc3d2746682bff5ea271fccf395b",
+      "size_bytes": 11989,
+      "alpha_bbox": [
+        36,
+        13,
+        106,
+        129
+      ],
+      "max_opaque_y": 128,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 5,
+      "source_frame": 63,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_right/front_right_walk_05.png",
+      "sha256": "eac40b9adcaec0bf80205a9ab544ebad01bed1d3e3c2dcd4736bd9e690cd8a81",
+      "size_bytes": 11965,
+      "alpha_bbox": [
+        31,
+        14,
+        108,
+        132
+      ],
+      "max_opaque_y": 131,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 6,
+      "source_frame": 66,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_right/front_right_walk_06.png",
+      "sha256": "26e0cec71e63fd1b4e2459233686196b9cd00cee373131ddb5d483a4bea9781c",
+      "size_bytes": 11929,
+      "alpha_bbox": [
+        28,
+        14,
+        107,
+        132
+      ],
+      "max_opaque_y": 131,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "front_right",
+      "frame": 7,
+      "source_frame": 69,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/front_right/front_right_walk_07.png",
+      "sha256": "44f515d011948021fbc2facc0b9359e8d50e4ba0e8fe041bc5ec0fff5244948c",
+      "size_bytes": 12115,
+      "alpha_bbox": [
+        28,
+        13,
+        103,
+        130
+      ],
+      "max_opaque_y": 129,
+      "pixels_extend_below_root": true
+    },
+    {
+      "direction": "back_left",
+      "frame": 0,
+      "source_frame": 48,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_left/back_left_walk_00.png",
+      "sha256": "d4f690ac1e4c5b7c7ea0a2de6b13dfc3961520c99d32e1c346e53370c910c26c",
+      "size_bytes": 11423,
+      "alpha_bbox": [
+        30,
+        8,
+        105,
+        116
+      ],
+      "max_opaque_y": 115,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 1,
+      "source_frame": 51,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_left/back_left_walk_01.png",
+      "sha256": "0b46c06d6823a66297953835991f2e307c9e05485a8a9b8967a0e20287bf9e60",
+      "size_bytes": 11174,
+      "alpha_bbox": [
+        33,
+        9,
+        102,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 2,
+      "source_frame": 54,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_left/back_left_walk_02.png",
+      "sha256": "a3e07a50d731b626dd6eaf79d33afe5fe859b0cf3149a69d0317111a5a356884",
+      "size_bytes": 11097,
+      "alpha_bbox": [
+        28,
+        9,
+        99,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 3,
+      "source_frame": 57,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_left/back_left_walk_03.png",
+      "sha256": "0c63139954adc229d5a8df45fdbc58f835a1be94e53ef2425c50f9e1281215d9",
+      "size_bytes": 10663,
+      "alpha_bbox": [
+        28,
+        8,
+        95,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 4,
+      "source_frame": 60,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_left/back_left_walk_04.png",
+      "sha256": "e86f374eca901f70b6e6a097c8cf8930a1ba7c2fbfcb2ed7b6d5b3e06eb8cafd",
+      "size_bytes": 10009,
+      "alpha_bbox": [
+        30,
+        9,
+        93,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 5,
+      "source_frame": 63,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_left/back_left_walk_05.png",
+      "sha256": "6721dd5c3c0114798e69d2a365a45fe8d1f1a6405ea4231b291bc62f679ec404",
+      "size_bytes": 10010,
+      "alpha_bbox": [
+        28,
+        10,
+        96,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 6,
+      "source_frame": 66,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_left/back_left_walk_06.png",
+      "sha256": "512ebbdc7e62295d4e5b936a2c04e6996f837bf69225c04b7cd6f9556f9f72b0",
+      "size_bytes": 10604,
+      "alpha_bbox": [
+        26,
+        9,
+        101,
+        120
+      ],
+      "max_opaque_y": 119,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_left",
+      "frame": 7,
+      "source_frame": 69,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_left/back_left_walk_07.png",
+      "sha256": "e44dbcf4ad931c7813fb9ed977e8ec1c06050339c67abc5a034bdd22caba4f73",
+      "size_bytes": 11403,
+      "alpha_bbox": [
+        27,
+        7,
+        105,
+        118
+      ],
+      "max_opaque_y": 117,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 0,
+      "source_frame": 48,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_right/back_right_walk_00.png",
+      "sha256": "a7a4c4a4ba54646b104d4835b8b85309a76b282aab18df5148eb95ea14caeef1",
+      "size_bytes": 11162,
+      "alpha_bbox": [
+        32,
+        9,
+        107,
+        116
+      ],
+      "max_opaque_y": 115,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 1,
+      "source_frame": 51,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_right/back_right_walk_01.png",
+      "sha256": "45fa1bcb8d5e462eb68c781c5e85028f48cc3d8d9264f69e67e1667f4d507616",
+      "size_bytes": 11029,
+      "alpha_bbox": [
+        38,
+        10,
+        107,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 2,
+      "source_frame": 54,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_right/back_right_walk_02.png",
+      "sha256": "d5fe38335be17baf6c5c58129a8ebd8ec70db7e24ca28d3c457783a153120cf4",
+      "size_bytes": 11417,
+      "alpha_bbox": [
+        36,
+        9,
+        110,
+        121
+      ],
+      "max_opaque_y": 120,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 3,
+      "source_frame": 57,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_right/back_right_walk_03.png",
+      "sha256": "86515cd527ccfa8e4c8e66b83bbd382b4414b0d75a0c7d66229d8a74d19a3cd6",
+      "size_bytes": 11301,
+      "alpha_bbox": [
+        31,
+        8,
+        109,
+        120
+      ],
+      "max_opaque_y": 119,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 4,
+      "source_frame": 60,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_right/back_right_walk_04.png",
+      "sha256": "8b3b6d06d3e927f0bf8f98eed6614f402f3fdb8ac3d1601f8c340540cb95bd46",
+      "size_bytes": 11259,
+      "alpha_bbox": [
+        27,
+        9,
+        106,
+        117
+      ],
+      "max_opaque_y": 116,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 5,
+      "source_frame": 63,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_right/back_right_walk_05.png",
+      "sha256": "10abea35fea8185bfbd84fede90980fe0a6f05e755d77cfcebaa58cb1d34892c",
+      "size_bytes": 11165,
+      "alpha_bbox": [
+        25,
+        9,
+        104,
+        119
+      ],
+      "max_opaque_y": 118,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 6,
+      "source_frame": 66,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_right/back_right_walk_06.png",
+      "sha256": "f91921f3769fab4b51d9e4a29874cda17e4f30b237ad4802da7b21b4e3a79392",
+      "size_bytes": 11195,
+      "alpha_bbox": [
+        24,
+        9,
+        105,
+        120
+      ],
+      "max_opaque_y": 119,
+      "pixels_extend_below_root": false
+    },
+    {
+      "direction": "back_right",
+      "frame": 7,
+      "source_frame": 69,
+      "weight": 3,
+      "path": "assets/sprites/iso4/tessa_video_compact/motion/back_right/back_right_walk_07.png",
+      "sha256": "aadecdee05b7779dda850466dfb9980c46349c038130dfe9d0c3184f1815b445",
+      "size_bytes": 11473,
+      "alpha_bbox": [
+        28,
+        8,
+        106,
+        118
+      ],
+      "max_opaque_y": 117,
+      "pixels_extend_below_root": false
+    }
+  ],
+  "original_library_file_id": "libfile_8926420149188191a3c522c22a83cab4",
+  "status": "user_approved_in_game_trial_only_not_main",
+  "limitations": [
+    "Bottompadding preventsPNGclipping; doesnot prove correctfloorocclusion.",
+    "Fixedregistration preservesgeneratedmotion including frontfeet belowroot and restrainedarms.",
+    "No perframebodywarp, replacementparts, inventedframes, mirror, or scalechange.",
+    "Timingweights normalized by existing onegridonecycle movement, not movement-speed change."
+  ]
+}

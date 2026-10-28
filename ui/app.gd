@@ -29,13 +29,14 @@ var sfx_volume_db=-12.0
 var idle_sequence_previews={"neri":false,"adela":false,"elsbet":false}
 var bram_sequence_preview=false # User-accepted provisional gesture and shuffle.
 var oren_sequence_preview=false # Provisional idle/motion; old art remains available.
+var tessa_motion_preview=false
 var finn_motion_preview=false # Motion-only trial; original Finn idle is retained.
 var mara_sequence_preview=false # Local opt-in for unapproved compact art candidate.
 var health_bar_avoidance=false
 var presentation_preferences_path="user://presentation.cfg"
 func load_presentation_preferences():
     for id in idle_sequence_previews:idle_sequence_previews[id]=false
-    health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
+    tessa_motion_preview=false;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
     var config=ConfigFile.new()
     if config.load(presentation_preferences_path)==OK:
         var value=config.get_value("map","health_bar_avoidance",false)
@@ -48,6 +49,8 @@ func load_presentation_preferences():
         if value is bool:oren_sequence_preview=value
         value=config.get_value("map","bram_sequence_preview",false)
         if value is bool:bram_sequence_preview=value
+        value=config.get_value("map","tessa_motion_preview",false)
+        if value is bool:tessa_motion_preview=value
         for id in idle_sequence_previews:
             value=config.get_value("map",id+"_idle_preview",false)
             if value is bool:idle_sequence_previews[id]=value
@@ -263,6 +266,7 @@ func set_mara_sequence_preview(on):
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("mara")
 
 func map_sequence_enabled(id):
+    if id=="tessa":return tessa_motion_preview
     if idle_sequence_previews.has(id):return idle_sequence_previews[id]
     if id=="bram":return bram_sequence_preview
     if id=="oren":return oren_sequence_preview
@@ -299,3 +303,11 @@ func set_idle_sequence_preview(on,id):
     if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save idle sequence preference")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art(id)
+
+func set_tessa_motion_preview(on):
+    tessa_motion_preview=bool(on)
+    var config=ConfigFile.new();config.load(presentation_preferences_path)
+    config.set_value("map","tessa_motion_preview",tessa_motion_preview)
+    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Tessa motion preference")
+    var game=get_tree().current_scene
+    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("tessa")

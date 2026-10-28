@@ -37,7 +37,8 @@ func configure(data):
             if not (idle_width is int or idle_width is float) or not is_finite(idle_width) or (idle_width!=96 and idle_width!=128):valid=false;break
             var guard=texture_at(item.get("neutral_guard"),Vector2i(96,128))
             var idle={} if motion_only else decode(item.get("idle"),Vector2i(int(idle_width),128))
-            var motion={} if idle_only else decode(item.get("motion"),Vector2i(128,128))
+            var motion_canvas=Vector2i(128,136) if id=="tessa" else Vector2i(128,128)
+            var motion={} if idle_only else decode(item.get("motion"),motion_canvas)
             if guard==null or (not motion_only and idle.is_empty()) or (motion_only and item.has("idle")) or (not idle_only and motion.is_empty()) or (idle_only and item.has("motion")):valid=false;break
             decoded[direction]={"guard":guard,"idle":idle,"motion":motion}
         if valid:profiles[id]=decoded

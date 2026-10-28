@@ -36,7 +36,7 @@ func run():
         if t>=0.54 and t<0.78:expected=cutin.defender_sets.mara.hit
         elif t>=0.78:expected=cutin.defender_sets.mara.recover
         check(cutin.defender.texture==expected,"neutral/inhale/brace/hit/recover at "+str(t))
-        check(cutin.defender.flip_h,"Mara right source mirrored on defender")
+        check(not cutin.defender.flip_h and not cutin.actor_left,"Mara remains left facing the right-side enemy attacker")
     app.reduced_motion=true;cutin.draw_tick(6)
     check(cutin.defender.texture==neutral,"reduced motion holds neutral")
     app.reduced_motion=false

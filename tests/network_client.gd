@@ -51,6 +51,7 @@ func _process(delta):
         if done_at==0.0:done_at=elapsed+0.4
         if elapsed>=done_at:
             print("NETWORK_RESULT ",JSON.stringify({"role":role,"step":session.logic.step,"hash":session.logic.state_hash(),"reconnected":resumed}))
+            verify_combat_sides()
             session.transport.shutdown();quit(0)
     return false
 func _finalize():
@@ -82,4 +83,23 @@ func extended_step():
         if elapsed>=done_at:
             assert(session.logic.units[0].move_actions==2 and session.logic.units[2].mobile_cast and session.logic.supplies[0]==1)
             print("NETWORK_RESULT ",JSON.stringify({"role":role,"step":step,"hash":session.logic.state_hash(),"reconnected":resumed,"extended":true}))
+            verify_combat_sides()
             session.transport.shutdown();quit(0)
+
+func verify_combat_sides():
+    if OS.get_environment("AMBER_VERIFY_COMBAT_SIDES")!="1":return
+    var cutin=load("res://ui/battle_cutin.gd").new();root.add_child(cutin);cutin.set_process(false)
+    var before=session.logic.snapshot()
+    # Synthetic zero-damage presentation probes on the actual synchronized units;
+    # no command, attack, or faction ownership is fabricated in the authority.
+    for pair in [["mara","oren"],["oren","mara"]]:
+        var event={"kind":"attack","actor":pair[0],"target":pair[1],"damage":0,"hp":1}
+        cutin.consume(100 if pair[0]=="mara" else 101,[event],session.logic.units,session.logic.content)
+        assert(cutin.actor_left==(pair[0]=="mara"))
+        cutin.draw_tick(cutin.hit_tick())
+        assert(cutin.weapon_screen_point().distance_to(cutin.hurt_screen_point())<0.01)
+        assert(cutin.combat_status.labels.left.text==session.logic.units[0].name)
+        cutin.finish()
+    assert(session.logic.snapshot()==before)
+    print("NETWORK_COMBAT_SIDES_PASS role=",role," reconnected=",resumed)
+    cutin.queue_free()
