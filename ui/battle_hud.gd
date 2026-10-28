@@ -18,6 +18,8 @@ var portrait
 var portrait_initial
 var story_key=""
 var modal
+const ContentPicker=preload("res://ui/content_picker.gd")
+var picker_context={}
 var gear_open=false
 var last_step=-1
 var action_panel
@@ -194,6 +196,7 @@ func choose_action(kind):
 func blocks_input():return game.presentation_active() or is_instance_valid(modal) or (story_panel and story_panel.visible)
 func refresh():
     if not root:return
+    if modal is ContentPicker and not picker_current():clear_modal()
     var logic=game.battle
     round_label.text="第 %d 回合 · %s"%[logic.round_number,{"playing":"我方行动","victory":"胜利","defeat":"失败"}.get(logic.outcome,logic.outcome)]
     var safe=App.ui_safe_rect()
@@ -301,9 +304,9 @@ func refresh_story():
     # z_index only changes drawing: the later dock otherwise steals story clicks.
     # Synchronize here as dialogue/modal transitions need not call full refresh().
     if dock:
-        dock.visible=not story_panel.visible and not is_instance_valid(modal)
+        dock.visible=not story_panel.visible and (not is_instance_valid(modal) or modal is ContentPicker)
         dock.refresh_dock()
-        turn_button.disabled=not dock.visible or game.battle.outcome!="playing"
+        turn_button.disabled=not dock.visible or is_instance_valid(modal) or game.battle.outcome!="playing"
     chapter_button.visible=not story_panel.visible and not is_instance_valid(modal) and App.next_chapter_ready()
     if line.is_empty():story_key="";return
     var key=line.id+":"+str(line.index)
@@ -318,6 +321,7 @@ func refresh_story():
 func advance(skip):
     App.advance_story(skip);refresh_story()
 func clear_modal():
+    picker_context={}
     gear_open=false
     if is_instance_valid(modal):
         # Keep the pressed control in-tree until the touch/emulated-mouse dispatch finishes.
@@ -435,20 +439,57 @@ func ability_description(ability):
 func scroll_list(parent):
     var scroll=ScrollContainer.new();scroll.custom_minimum_size=Vector2(550,280);parent.add_child(scroll)
     var list=UI.column(scroll,8);list.size_flags_horizontal=Control.SIZE_EXPAND_FILL;return list
-func show_abilities():
-    if blocks_input() or game.selected<0:return
+func ability_reason(u,ability,index):
+    if u.acted:return "本回合行动已用尽"
+    if u.mp<ability.mp_cost:return "法力不足"
+    if u.cooldowns[index]>0:return "冷却剩余 %d 回合"%u.cooldowns[index]
+    if ability.charges>0 and u.charges[index]==0:return "使用次数已耗尽"
+    if ability.stationary and u.moves_used>0 and not u.get("mobile_cast",false):return "移动后不可施放"
+    return ""
+func picker_entries(kind):
+    var result=[]
+    if game.selected<0 or game.selected>=game.battle.units.size():return result
     var u=game.battle.units[game.selected]
-    var page=modal_page(u.name+" · 技能");var list=scroll_list(page)
-    for i in range(game.battle.content.abilities.size()):
-        var ability=game.battle.content.abilities[i]
-        if ability.id=="attack" or ability.id not in u.abilities:continue
-        var note="法力 %d · 冷却 %d 回合"%[ability.mp_cost,u.cooldowns[i]]
-        if ability.charges>0:note+=" · 余 %d 次"%u.charges[i]
-        if ability.stationary:note+=" · 移动后不可施放" if not u.get("mobile_cast",false) else " · 行走施法已生效"
-        var button=UI.button(ability.name+"　"+note,choose_ability.bind(ability.id))
-        button.disabled=u.acted or u.mp<ability.mp_cost or u.cooldowns[i]>0 or (ability.charges>0 and u.charges[i]==0) or (ability.stationary and u.moves_used>0 and not u.get("mobile_cast",false))
-        button.tooltip_text=ability_description(ability);UI.decorate_content(button,"skill",ability.id);list.add_child(button)
-    page.add_child(UI.button("返回",clear_modal))
+    var data=game.battle.content
+    if kind=="skill":
+        for i in range(data.abilities.size()):
+            var ability=data.abilities[i]
+            if ability.id=="attack" or ability.id not in u.abilities:continue
+            var summary="MP %d · 冷却 %d"%[ability.mp_cost,u.cooldowns[i]]
+            if ability.charges>0:summary+=" · 余%d"%u.charges[i]
+            result.append({"id":ability.id,"name":ability.name,"summary":summary,"compact":"MP%d · 冷%d"%[ability.mp_cost,u.cooldowns[i]],"description":ability_description(ability),"reason":ability_reason(u,ability,i)})
+    else:
+        for i in range(data.consumables.size()):
+            var item=data.consumables[i];var reason="没有库存" if game.battle.supplies[i]<=0 else ""
+            var description="技能定义不可用";var matched=false
+            for j in range(data.abilities.size()):
+                var ability=data.abilities[j]
+                if ability.id!=item.ability:continue
+                matched=true;description=ability_description(ability)
+                if reason.is_empty():reason=ability_reason(u,ability,j)
+                break
+            if not matched:reason="技能定义不可用"
+            result.append({"id":item.id,"name":item.name,"summary":"数量 ×%d"%game.battle.supplies[i],"description":description,"reason":reason})
+    return result
+func picker_current():
+    return not picker_context.is_empty() and game.session==picker_context.session and game.session.connection_generation==picker_context.generation and game.selected==picker_context.actor and game.selected>=0 and game.selected<game.battle.units.size() and game.battle.units[game.selected].id==picker_context.id and game.battle.step==picker_context.step and game.battle.outcome=="playing" and not game.presentation_active()
+func show_picker(kind):
+    if blocks_input() or game.selected<0:return
+    game.clear_move_preview();clear_modal()
+    var u=game.battle.units[game.selected]
+    picker_context={"session":game.session,"generation":game.session.connection_generation,"actor":game.selected,"id":u.id,"step":game.battle.step}
+    modal=ContentPicker.new();modal.category=kind;modal.title=u.name+" · 技能" if kind=="skill" else "共用行囊 · 道具";modal.entries=picker_entries(kind);modal.z_index=100
+    modal.activated.connect(activate_picker.bind(kind));modal.canceled.connect(clear_modal);root.add_child(modal);refresh_story()
+func activate_picker(id,kind):
+    var allowed=picker_current() and game.battle.usable(game.selected)
+    var entry_found=false
+    if allowed:
+        for entry in picker_entries(kind):
+            if entry.id==id:entry_found=entry.reason.is_empty();break
+    clear_modal()
+    if allowed and entry_found and not game.targeting_locked():
+        game.select_mode(("ability:" if kind=="skill" else "item:")+id)
+func show_abilities():show_picker("skill")
 func choose_ability(id):
     clear_modal();game.select_mode("ability:"+id)
 
@@ -505,21 +546,7 @@ func equip_item(uid):
     game.session.submit({"kind":"equip","unit":gear_unit,"slot":gear_slot,"item":uid})
     game.battle=game.session.logic;game.refresh();show_gear()
 
-func show_items():
-    if blocks_input() or game.selected<0:return
-    var page=modal_page("共用行囊 · 消耗品")
-    page.add_child(UI.paragraph("使用道具消耗本回合行动；目标与消耗遵循对应技能说明。",550))
-    var list=scroll_list(page);var u=game.battle.units[game.selected]
-    for i in range(game.battle.content.consumables.size()):
-        var item=game.battle.content.consumables[i]
-        var button=UI.button(item.name+" ×"+str(game.battle.supplies[i]),choose_item.bind(item.id));button.disabled=game.battle.supplies[i]<=0 or u.acted
-        for j in range(game.battle.content.abilities.size()):
-            var ability=game.battle.content.abilities[j]
-            if ability.id==item.ability:
-                button.tooltip_text=ability_description(ability)
-                button.disabled=button.disabled or u.mp<ability.mp_cost or u.cooldowns[j]>0 or (ability.charges>0 and u.charges[j]==0) or (ability.stationary and u.moves_used>0 and not u.mobile_cast)
-        UI.decorate_content(button,"item",item.id);list.add_child(button)
-    page.add_child(UI.button("返回",clear_modal))
+func show_items():show_picker("item")
 func choose_item(id):clear_modal();game.select_mode("item:"+id)
 
 func action_emblem(name):

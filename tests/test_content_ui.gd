@@ -36,7 +36,7 @@ func run():
     game.mode="move";game._unhandled_input(click)
     check(game.selected==15,"map selection follows controller independently of faction")
     game.hud.show_items();await frames()
-    check(game.hud.modal.get_child(0).get_rect().end.y<=800,"maximum consumable list stays within screen")
+    check(game.hud.modal.get_child(0).get_rect().end.y<=game.hud.root.size.y,"maximum consumable list stays within screen")
     game.hud.clear_modal();game.hud.gear_unit=0;game.hud.show_gear();await frames()
     check(game.hud.gear_unit==1,"gear picker chooses first actual player rather than hardcoded unit zero")
     print("CONTENT_UI_TESTS checks=",checks," failures=",failures)

@@ -1,4 +1,5 @@
 extends Control
+const ContentPicker=preload("res://ui/content_picker.gd")
 const ART="res://assets/ui/bottom_dock_reference/"
 var hud
 var status_group:Control
@@ -113,7 +114,8 @@ func refresh_dock():
     else:
         action_nodes.wait.disabled=true;notice.text="请选择可以行动的队员"
     var moving=game.mode=="move" and not hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing"
-    actions.visible=hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing"
+    var picker_open=hud.modal is ContentPicker
+    actions.visible=(hud.action_menu_open and not hud.blocks_input() or picker_open) and logic.outcome=="playing"
     context.visible=moving or (game.mode!="move" and not hud.action_menu_open and not hud.blocks_input() and logic.outcome=="playing")
     proposal_title.text="移动预览" if game.mode=="move" else "目标预览"
     confirm.disabled=(game.pending_move.is_empty() and game.pending_target.is_empty()) or game.targeting_locked()
@@ -135,5 +137,7 @@ func refresh_dock():
     confirm.tooltip_text="可再次点击同一目标直接确认，也可使用此按钮或 Enter"
     if not game.queued_confirmation.is_empty():cost.text="等待同步确认"
     for kind in action_nodes:
-        var b=action_nodes[kind];b.text="";b.add_theme_stylebox_override("normal",skin("buttons/"+("selected" if selected==kind and not b.disabled else "normal")+".png"))
+        var b=action_nodes[kind]
+        if picker_open:b.disabled=true
+        b.text="";b.add_theme_stylebox_override("normal",skin("buttons/"+("selected" if selected==kind and not b.disabled else "normal")+".png"))
         b.get_meta("caption").modulate=Color("a4aaa4") if b.disabled else Color("eee2c6")
