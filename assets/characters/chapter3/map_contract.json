@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "status": "static_asset_qa_passed_runtime_review_pending",
+  "map_canvas": [
+    128,
+    128
+  ],
+  "foot_anchor": [
+    64,
+    120
+  ],
+  "body_height_px": 100,
+  "filter": "nearest",
+  "portrait_canvas": [
+    512,
+    512
+  ],
+  "characters": {
+    "rodd": {
+      "name_zh": "罗德",
+      "rules_archetype": "knight",
+      "portrait": "rodd/portrait.png",
+      "map_static": {
+        "front_left": "rodd/map/front_left.png",
+        "back_left": "rodd/map/back_left.png",
+        "front_right": "rodd/map/front_right.png",
+        "back_right": "rodd/map/back_right.png"
+      }
+    },
+    "vera": {
+      "name_zh": "维拉",
+      "rules_archetype": "archer",
+      "portrait": "vera/portrait.png",
+      "map_static": {
+        "front_left": "vera/map/front_left.png",
+        "back_left": "vera/map/back_left.png",
+        "front_right": "vera/map/front_right.png",
+        "back_right": "vera/map/back_right.png"
+      }
+    }
+  },
+  "limits": [
+    "Static references only, no walk or idle animation claim.",
+    "Do not change global actor scale.",
+    "Runtime size and root registration need engine review."
+  ]
+}

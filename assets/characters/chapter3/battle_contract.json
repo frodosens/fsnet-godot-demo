@@ -1,0 +1,237 @@
+{
+  "schema_version": 1,
+  "status": "asset_qa_passed_runtime_review_pending",
+  "frame_size": [
+    192,
+    160
+  ],
+  "foot_anchor": [
+    96,
+    144
+  ],
+  "filter": "nearest",
+  "characters": {
+    "rodd": {
+      "facing": "right",
+      "unique_attack_keyframes": 4,
+      "frames": [
+        {
+          "state": "00_idle",
+          "path": "rodd/battle/00_idle.png",
+          "sha256": "e1aba8b2ce59cb91c16e52d9d433f2d97ce07e72555955a0f904550bc8743043"
+        },
+        {
+          "state": "01_windup",
+          "path": "rodd/battle/01_windup.png",
+          "sha256": "62fac9373caf26fba32cb0717af9a964019f1523c2d94f439b9b66d2d0d80637"
+        },
+        {
+          "state": "02_contact",
+          "path": "rodd/battle/02_contact.png",
+          "sha256": "6f2d27fdd4c70b21fcde5b4e568a8fec6d2bf186a0daac1ad60d01579e505987"
+        },
+        {
+          "state": "03_recover",
+          "path": "rodd/battle/03_recover.png",
+          "sha256": "a1601cdf335d77f69123c8f6906e41cc8d7ed258c98346b1e10fc526becd6900"
+        }
+      ],
+      "timeline": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "timeline_24ticks": [
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "tick_ms": 60,
+      "release_tick": 9,
+      "contact_tick": 9,
+      "idle": {
+        "path": "rodd/battle/00_idle.png",
+        "animated": false
+      },
+      "defender": {
+        "idle": "rodd/battle/00_idle.png",
+        "hit": "rodd/battle/04_hit.png",
+        "recover": "rodd/battle/03_recover.png"
+      },
+      "hit_sha256": "99f18da9de191fcfe4b1618073a7c4e336df42c859bccd2b60158990bd4118c1"
+    },
+    "vera": {
+      "facing": "right",
+      "unique_attack_keyframes": 4,
+      "frames": [
+        {
+          "state": "00_idle",
+          "path": "vera/battle/00_idle.png",
+          "sha256": "3fae5445558f0449584116dda8abbd118f62857a11cc03c6ebdd282fd933de20"
+        },
+        {
+          "state": "01_full_draw",
+          "path": "vera/battle/01_full_draw.png",
+          "sha256": "d089a92c21546b2f60d0fb0d0202157a364d2a9df5d13e75059c51fa3fb9c194"
+        },
+        {
+          "state": "02_release",
+          "path": "vera/battle/02_release.png",
+          "sha256": "d1d30ff452bfa1b04d68657fbb3a1d0ad98ff1181af0c54976c9e11d393c569e"
+        },
+        {
+          "state": "03_recover",
+          "path": "vera/battle/03_recover.png",
+          "sha256": "97ef25cdb89741e3b5e696ef29898deb32c33ce348d2d15b1428763d80bc221f"
+        }
+      ],
+      "timeline": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0
+      ],
+      "timeline_24ticks": [
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        2,
+        2,
+        2,
+        2,
+        2,
+        3,
+        3,
+        3,
+        3,
+        0,
+        0,
+        0
+      ],
+      "tick_ms": 60,
+      "release_tick": 12,
+      "contact_tick": 16,
+      "idle": {
+        "path": "vera/battle/00_idle.png",
+        "animated": false
+      },
+      "defender": {
+        "idle": "vera/battle/00_idle.png",
+        "hit": "vera/battle/04_hit.png",
+        "recover": "vera/battle/03_recover.png"
+      },
+      "hit_sha256": "e15b40551718d4fb124af141cfcb3ac9abee7f5d551dbccdd8fae4deba8cb171"
+    }
+  },
+  "effects": {
+    "arrow": "res://assets/battle/ranged_magic/runtime/vfx_arrow.png",
+    "impact": "res://assets/battle/ranged_magic/runtime/vfx_impact.png",
+    "dissipate": "res://assets/battle/ranged_magic/runtime/vfx_dissipate.png"
+  },
+  "contact_points": {
+    "rodd": {
+      "weapon_tip": [
+        178.5,
+        72.5
+      ],
+      "contact_tick": 9,
+      "hurt_point": [
+        102.5,
+        86.5
+      ],
+      "hurt_radius": 16
+    },
+    "vera": {
+      "release_point": [
+        141.5,
+        67.5
+      ],
+      "projectile_tip": [
+        46,
+        23
+      ],
+      "hurt_point": [
+        87.5,
+        87.5
+      ],
+      "hurt_radius": 16
+    }
+  },
+  "geometry_note": "weapon_tip/release_point on right-facing authored attack; hurt_point on horizontally mirrored left-facing defender; continuous pixel-center coordinates. Engine flips entire scene for opposite combat side.",
+  "limits": [
+    "Four held attack keyframes, not smooth dense animation.",
+    "Battle inhale candidates excluded due foot-shape drift; neutral static idle intentionally retained.",
+    "In-engine timing, both-side contact alignment and actor identity registration must pass before integration."
+  ]
+}
