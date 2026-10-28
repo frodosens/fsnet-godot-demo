@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "status": "runtime candidate for code integration",
+  "assets": [
+    {
+      "id": "picker_frame",
+      "path": "panels/picker_frame.png",
+      "dimensions": [
+        512,
+        256
+      ],
+      "mode": "RGBA",
+      "nine_patch_margins": [
+        16,
+        16,
+        16,
+        16
+      ],
+      "sha256": "3b869c5b9c1a21d695a8589bed187ecb45b75ab7e6b510c0944e182f49091a17"
+    },
+    {
+      "id": "cell_normal",
+      "path": "panels/cell_normal.png",
+      "dimensions": [
+        256,
+        96
+      ],
+      "mode": "RGBA",
+      "nine_patch_margins": [
+        16,
+        16,
+        16,
+        16
+      ],
+      "sha256": "a3f7fcb13e9c7395c199085691e9514b4991d2a0554b1c0de6b8da669f011d6c"
+    },
+    {
+      "id": "cell_selected",
+      "path": "panels/cell_selected.png",
+      "dimensions": [
+        256,
+        96
+      ],
+      "mode": "RGBA",
+      "nine_patch_margins": [
+        16,
+        16,
+        16,
+        16
+      ],
+      "sha256": "fa2d8e71e6f621bafb9dcffc33735bdd642aab4e71d6d20fe9bc337d27e241a8"
+    },
+    {
+      "id": "ember",
+      "path": "icons/ember.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "5a87b4e80198bd8a3a8544308a4850db12c220b6e39a01b968ddbfe9d44a309c"
+    },
+    {
+      "id": "focus_bolt",
+      "path": "icons/focus_bolt.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "86b79a2b49b53e3d3274c4be6aa06f650d5cbe9caaeec20608a67282016ca4e5"
+    },
+    {
+      "id": "bandage",
+      "path": "icons/bandage.png",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA",
+      "sha256": "a51bc1c5a3bdd105b553c6e5bfdf320f02fd1b204d5670e15bdf752be8f613ec"
+    }
+  ],
+  "item_icon_mapping": {
+    "healing_draught": "bandage"
+  },
+  "native_controls": "return reuses cell_normal; disabled native modulation; native scrollbar and selection diamond; all text dynamic",
+  "nine_patch_margin_order": "left,top,right,bottom"
+}
