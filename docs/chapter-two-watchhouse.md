@@ -12,7 +12,7 @@ The wall and door remain behind characters at the inspected door/approach placem
 
 ## Chapter entry and compatibility
 
-After the first chapter's victory dialogue, an explicit button opens confirmation. The previous chapter is saved to the existing automatic slot before transitioning; failure to save stops transition. Manual saves remain. The confirmation explicitly says chapter two starts a fresh configured party with restored HP/MP/actions and predefined equipment; it does not carry the previous battle inventory. There is no broader campaign progression schema in this candidate.
+After the first chapter's victory dialogue, an explicit button opens confirmation. The previous chapter is saved to a separate content-addressed chapter checkpoint before transitioning; failure to save stops transition. It is listed in the load UI. Chapter-two autosaves and normal save-slot calls cannot overwrite it; manual saves remain untouched. Repeating an identical transition reuses a verified checkpoint; a different state creates another checkpoint rather than replacing an earlier recovery point. The confirmation explicitly says chapter two starts a fresh configured party with restored HP/MP/actions and predefined equipment; it does not carry the previous battle inventory. There is no broader campaign progression schema in this candidate.
 
 Existing format-2 saves continue loading their embedded content and exact snapshot, including previous chapter-one revisions. Lua/native sources and rule hashes are unchanged. First-chapter content and runtime assets are unchanged.
 
@@ -22,9 +22,10 @@ An online room has immutable content. A client cannot invoke local-only chapter 
 
 ## Reproduction and limits
 
+- `tests/test_chapter_checkpoint.gd`: failed checkpoint write blocks transition; checkpoint bytes are immutable across autosaves, repeated entry and different ending histories; manual saves survive, corrupt checkpoints fail closed, and invalid slot names are rejected.
 - `tests/test_chapter_two.gd`: validated content, actual shared-Lua four-turn reach victory with both guards alive (Mara 7 HP, step 7), natural protect-Mara defeat, replay, save/load, ending gate, online transition refusal and fallback admission.
 - `tests/test_chapter_two_scene.gd`: real GUI clicks from a labeled chapter-one terminal fixture, chapter entry/dialogue/pause, 1280x800 and 960x600, projection/picking, reversible 3D/fixed camera, route preview/cancel and chapter-specific combat background/right mirrored portrait.
-- `tests/test_chapter_two_playthrough.gd`: GUI old-save loading, chapter entry, four confirmed moves, AI turns/cut-ins, reach victory, save, menu return and exact reload. The default test skips presentation waits; `AMBER_CH2_MOVIE=1` waits at normal simulation speed for actual motion/cut-ins and dialogue. Movie Maker `--fixed-fps 60 --write-movie /local/output.avi` is offline recording, not a performance measurement.
+- `tests/test_chapter_two_playthrough.gd`: GUI old-save loading, chapter entry, actual chapter-two Save and Leave, load-menu recovery of the exact chapter-one snapshot/inventory/reading state, repeated entry, four confirmed moves, AI turns/cut-ins, reach victory, save, menu return and exact reload. The default test skips presentation waits; `AMBER_CH2_MOVIE=1` waits at normal simulation speed for actual motion/cut-ins and dialogue. Movie Maker `--fixed-fps 60 --write-movie /local/output.avi` is offline recording, not a performance measurement.
 - `AMBER_MOD=.../content/white_elm_watchhouse.json AMBER_TEST_WAIT=1 python3 tests/run_network.py`: real authority plus two separate clients, reconnect and same state.
 
 Balance is introductory: a west-side route succeeds without attacking. This is not exhaustive strategy/balance testing. Linux Godot 4.6.3 Compatibility/llvmpipe tested; Windows visual execution is not claimed. Review images/video remain outside Git.

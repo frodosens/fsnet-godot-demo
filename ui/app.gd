@@ -55,6 +55,7 @@ func set_health_bar_avoidance(on):
     var result=config.save(presentation_preferences_path)
     if result!=OK:push_warning("Cannot save local health bar preference: "+str(result))
 const SLOT_IDS=["auto","slot1","slot2","slot3"]
+const CHECKPOINT_PREFIX="chapter1_end_"
 func _ready():
     get_tree().auto_accept_quit=false
     load_presentation_preferences()
@@ -88,7 +89,7 @@ func next_chapter_ready():
 func enter_next_chapter():
     if not next_chapter_ready():last_error="请先完成第一章胜利剧情。";return false
     if session.online:last_error="网络房间内容固定。请双方退出后选择第二章创建/加入新房间。";return false
-    var error=save_slot("auto")
+    var error=save_chapter_checkpoint()
     if not error.is_empty():last_error=error;return false
     return new_game(Content.chapter_two_content())
 func start_room(host,port,secret,data={}):
@@ -107,24 +108,58 @@ func start_room(host,port,secret,data={}):
 func dirty():
     return session and (session.logic.snapshot()!=saved_snapshot or JSON.stringify(presentation)!=saved_presentation)
 func save_path(slot):return save_root+"/"+slot+".json"
+func is_chapter_checkpoint(slot):
+    if not slot is String or not slot.begins_with(CHECKPOINT_PREFIX):return false
+    var digest=slot.trim_prefix(CHECKPOINT_PREFIX)
+    if digest.length()!=64:return false
+    for c in digest:
+        if c not in "0123456789abcdef":return false
+    return true
+func checkpoint_id(rules_hash,content_hash,snapshot,local_story):
+    return CHECKPOINT_PREFIX+(rules_hash+content_hash+snapshot+JSON.stringify(local_story,"",true)).sha256_text()
+func loadable_slots():
+    var result=SLOT_IDS.duplicate()
+    var checkpoints=[]
+    if DirAccess.dir_exists_absolute(save_root):
+        for file in DirAccess.get_files_at(save_root):
+            if file.ends_with(".json") and is_chapter_checkpoint(file.trim_suffix(".json")):checkpoints.append(file.trim_suffix(".json"))
+    checkpoints.sort();result.append_array(checkpoints)
+    return result
+func save_chapter_checkpoint():
+    if not next_chapter_ready() or session.online:return "仅离线第一章结尾可以建立章节检查点。"
+    var slot=checkpoint_id(session.logic.rules_hash,session.logic.content_hash,session.logic.snapshot(),presentation)
+    if FileAccess.file_exists(save_path(slot)):
+        var existing=inspect_slot(slot)
+        if not existing.error.is_empty():return "已有章节检查点校验失败，未覆盖文件："+existing.error
+        return ""
+    return _write_save(slot)
 func save_slot(slot):
     if slot not in SLOT_IDS:return "无效存档槽。"
+    return _write_save(slot)
+# Callers select either an ordinary user slot or a content-addressed chapter checkpoint.
+func _write_save(slot):
     if not session:return "当前没有战斗。"
     if session.online:return "本版网络对局不支持本地存档；房间状态由主机维护。"
+    if slot not in SLOT_IDS:
+        if not is_chapter_checkpoint(slot) or not next_chapter_ready() or slot!=checkpoint_id(session.logic.rules_hash,session.logic.content_hash,session.logic.snapshot(),presentation):return "无效章节检查点。"
+        if FileAccess.file_exists(save_path(slot)):return "章节检查点已存在，不允许覆盖。"
     var data={"format":2,"rules_hash":session.logic.rules_hash,"content_hash":session.logic.content_hash,
         "content":session.logic.content,"snapshot":session.logic.snapshot(),"hash":session.logic.state_hash(),
         "presentation":presentation.duplicate(true),"saved_at":Time.get_datetime_string_from_system(false,true)}
     DirAccess.make_dir_recursive_absolute(save_root)
     var path=save_path(slot);var file=FileAccess.open(path+".tmp",FileAccess.WRITE)
     if not file:return "无法写入存档，原存档未改变。"
-    file.store_string(JSON.stringify(data,"",true));file.flush();file.close()
+    file.store_string(JSON.stringify(data,"",true));file.flush();var write_error=file.get_error();file.close()
+    if write_error!=OK:
+        DirAccess.remove_absolute(path+".tmp")
+        return "存档写入未完成，原存档未改变。"
     if DirAccess.rename_absolute(path+".tmp",path)!=OK:return "无法完成存档替换，原存档未改变。"
     saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation)
     return ""
 func inspect_slot(slot):
     var issue_startup=startup_error()
     if not issue_startup.is_empty():return {"error":issue_startup}
-    if slot not in SLOT_IDS:return {"error":"无效存档槽。"}
+    if slot not in SLOT_IDS and not is_chapter_checkpoint(slot):return {"error":"无效存档槽。"}
     if not FileAccess.file_exists(save_path(slot)):return {"error":"无存档","empty":true}
     var file=FileAccess.open(save_path(slot),FileAccess.READ)
     if not file or file.get_length()>262144:return {"error":"存档无法读取或大小异常。"}
@@ -137,6 +172,8 @@ func inspect_slot(slot):
     if not data.get("snapshot") is String or not candidate.restore(data.snapshot) or candidate.state_hash()!=data.get("hash"):return {"error":"战斗快照损坏或校验不符。"}
     var p=data.get("presentation")
     if not valid_presentation(p,candidate):return {"error":"剧情阅读进度损坏。"}
+    if is_chapter_checkpoint(slot) and (data.content.id!="amber_bridge_reference" or candidate.outcome!="victory" or slot!=checkpoint_id(data.rules_hash,data.content_hash,data.snapshot,p)):
+        return {"error":"章节检查点身份校验失败。"}
     return {"error":"","data":data,"round":candidate.round_number,"step":candidate.step,"title":data.content.title,"saved_at":data.get("saved_at","")}
 func valid_presentation(p,logic):
     if not p is Dictionary or not p.get("seen") is Array or p.seen.size()>24 or not p.get("active") is String or not Content.integer(p.get("line"),0,32):return false

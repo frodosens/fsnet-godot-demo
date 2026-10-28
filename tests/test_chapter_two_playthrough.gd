@@ -40,7 +40,10 @@ func run():
  app.new_game(old)
  for pair in [[0,3],[1,4],[2,5]]:verify(app.session.submit({'kind':'attack','unit':pair[0],'target':pair[1]}),'chapter-one terminal fixture')
  while not app.next_story().is_empty():app.advance_story(true)
+ var chapter_one_snapshot=app.session.logic.snapshot();var chapter_one_hash=app.session.logic.state_hash()
+ var chapter_one_story=app.presentation.duplicate(true)
  verify(app.save_slot('slot3').is_empty(),'old inline-content save')
+ var manual_bytes=FileAccess.get_file_as_bytes(app.save_path('slot3'))
  change_scene_to_file('res://ui/menu.tscn');await frames(8)
  if movie:await frames(30)
  await press('读取存档');await press('存档三');await frames(8);game=current_scene;await settle()
@@ -48,6 +51,27 @@ func run():
  if movie:await frames(45)
  await press('保存结尾并进入第二章');await frames(8);game=current_scene
  verify(game.battle.content.id=='white_elm_watchhouse','actual chapter entry');await settle()
+ var checkpoints=app.loadable_slots().filter(func(slot):return app.is_chapter_checkpoint(slot))
+ verify(checkpoints.size()==1,'one independent chapter checkpoint')
+ var checkpoint_bytes=FileAccess.get_file_as_bytes(app.save_path(checkpoints[0]))
+ # Exercise the reported loss path with actual buttons, before playing chapter two.
+ await press('暂停');await press('返回主界面');await press('保存并离开');await frames(8)
+ verify(app.inspect_slot('auto').data.content.id=='white_elm_watchhouse','chapter two overwrites only ordinary auto')
+ verify(FileAccess.get_file_as_bytes(app.save_path(checkpoints[0]))==checkpoint_bytes,'chapter checkpoint untouched by save and leave')
+ verify(FileAccess.get_file_as_bytes(app.save_path('slot3'))==manual_bytes,'manual recovery slot untouched')
+ await press('读取存档')
+ var checkpoint_button=button('第一章结尾检查点');verify(checkpoint_button!=null,'checkpoint reachable through load UI')
+ if checkpoint_button:
+  checkpoint_button.get_parent().get_parent().ensure_control_visible(checkpoint_button);await frames()
+  if not OS.get_environment('AMBER_CHECKPOINT_CAPTURE').is_empty():
+   await RenderingServer.frame_post_draw
+   root.get_texture().get_image().save_png(OS.get_environment('AMBER_CHECKPOINT_CAPTURE'))
+ await press('第一章结尾检查点');await frames(8);game=current_scene
+ verify(game.battle.snapshot()==chapter_one_snapshot and game.battle.state_hash()==chapter_one_hash,'checkpoint restores identical inventory equipment RNG and entire chapter one snapshot')
+ verify(app.presentation==chapter_one_story,'checkpoint restores ending reading state')
+ await settle();await click(game.hud.chapter_button.get_global_rect().get_center());await press('保存结尾并进入第二章');await frames(8);game=current_scene;await settle()
+ verify(app.loadable_slots().filter(func(slot):return app.is_chapter_checkpoint(slot)).size()==1,'repeat same transition reuses verified checkpoint')
+ verify(FileAccess.get_file_as_bytes(app.save_path(checkpoints[0]))==checkpoint_bytes,'repeated entry never rewrites checkpoint')
  for point in [Vector2i(3,4),Vector2i(3,2),Vector2i(6,2),Vector2i(8,1)]:
   await click(game.hud.dock.action_nodes.move.get_global_rect().get_center())
   var pixel=game.camera.unproject_position(Vector3(point.x,0,point.y));var before=game.battle.step

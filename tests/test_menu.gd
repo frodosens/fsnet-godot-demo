@@ -14,7 +14,7 @@ func run():
     await frames()
     check(menu.page.get_child(1).has_focus(),"new game keyboard focus")
     menu.show_load()
-    check(menu.page.get_child(1).disabled,"empty save disabled")
+    check(menu.page.get_child(1).get_child(0).get_child(0).disabled,"empty save disabled")
     menu.show_network();menu.token_edit.text="short";menu.begin_room(false)
     check(not menu.busy and menu.network_status.text.contains("16"),"invalid room token feedback")
     menu.show_home();menu.request_exit();var dialog=menu.exit_dialog;menu.request_exit()

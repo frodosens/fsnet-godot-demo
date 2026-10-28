@@ -323,7 +323,7 @@ func confirm_next_chapter():
     if game.session.online:
         c.add_child(UI.paragraph("网络房间不能单方换图。请双方返回主菜单，在网络对局中选择第二章；同一关卡版本才能连接。",550))
     else:
-        c.add_child(UI.paragraph("先将第一章结尾保存到自动存档，再开始次日的新委托。第二章使用预设队伍与装备，恢复生命、魔力和行动；不继承本场背包。已有手动存档保留。",550))
+        c.add_child(UI.paragraph("先建立独立的第一章结尾检查点，再开始次日的新委托。检查点可在读档界面恢复，不会被第二章自动存档覆盖。第二章使用预设队伍与装备，恢复生命、魔力和行动；不继承本场背包。已有手动存档保留。",550))
         c.add_child(UI.button("保存结尾并进入第二章",func():
             if App.enter_next_chapter():get_tree().call_deferred("change_scene_to_file","res://main.tscn")
             else:

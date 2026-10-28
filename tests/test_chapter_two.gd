@@ -49,7 +49,8 @@ func run():
  app.session.online=true;var before=app.session.logic.snapshot();check(not app.enter_next_chapter() and app.session.logic.snapshot()==before,'no local-only online transition');app.session.online=false
  check(app.enter_next_chapter(),'offline transition after autosave')
  check(app.session.logic.content.id==d.id and app.session.logic.round_number==1,'new chapter fresh content')
- check(app.inspect_slot('auto').data.content.id=='amber_bridge_reference','autosave preserves previous chapter')
+ var checkpoint=app.loadable_slots().filter(func(slot):return app.is_chapter_checkpoint(slot))
+ check(not checkpoint.is_empty() and app.inspect_slot(checkpoint[-1]).data.content.id=='amber_bridge_reference','independent checkpoint preserves previous chapter')
  var custom=d.duplicate(true);custom.terrain[7]='XGGGGGGGGG'
  check(Profile.profile(custom).is_empty(),'altered layout cannot receive painted plate')
  check(not Profile.profile(d).is_empty() and not Profile.profile(C.reference_content()).is_empty(),'both authored backgrounds admitted')
