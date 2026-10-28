@@ -51,6 +51,8 @@ func texture_at(path,canvas):
 func decode(spec,canvas):
     if not spec is Dictionary:return {}
     var paths=spec.get("frames");var holds=spec.get("ticks");var root=spec.get("root")
+    var flip=spec.get("flip_h",false)
+    if not flip is bool:return {}
     if not paths is Array or paths.is_empty() or paths.size()>16 or not holds is Array or holds.size()!=paths.size():return {}
     if not root is Array or root.size()!=2:return {}
     for value in root:
@@ -66,7 +68,7 @@ func decode(spec,canvas):
         if texture==null:return {}
         total+=int(tick);textures.append(texture);ends.append(total)
     if total!=int(expected):return {}
-    return {"textures":textures,"ends":ends,"ticks":total,"root":Vector2(root[0],root[1])}
+    return {"textures":textures,"ends":ends,"ticks":total,"root":Vector2(root[0],root[1]),"flip_h":flip}
 func matching(id,direction,guard):
     var profile=profiles.get(id,{})
     var entry=profile.get(direction,{})

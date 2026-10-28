@@ -6,6 +6,8 @@ func _initialize():call_deferred("run")
 func run():
     var app=root.get_node("App")
     var compact=OS.get_environment("AMBER_COMPACT_SEQUENCE")=="1"
+    var neri_mirror=OS.get_environment("AMBER_NERI_MIRROR")=="1"
+    app.neri_motion_preview=neri_mirror
     app.mara_sequence_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="mara"
     app.tessa_motion_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="tessa"
     app.finn_motion_preview=compact and OS.get_environment("AMBER_WALK_ACTOR")=="finn"
@@ -43,18 +45,22 @@ func run():
         if runtime_id!=game.battle.get_instance_id():replacements+=1;runtime_id=game.battle.get_instance_id()
         var clip=game.motion.walk_library.clips.get(actor+":"+direction,{})
         if compact and not app.idle_sequence_previews.has(actor):clip=preload("res://view/map_sequence.gd").shared().matching(actor,direction,game.base_directional_idle_texture(index,direction)).motion
+        if neri_mirror:
+            clip=game.neri_motion_entry(index,direction).motion
+            check(game.figures[index].flip_h==(direction=="front_right"),"mirror survives Runtime replacement")
         poses[clip.textures.find(game.figures[index].texture)]=true
         check(game.battle.snapshot()==truth,"poll keeps authoritative state")
         await process_frame
         if Time.get_ticks_msec()>deadline:check(false,"motion timeout");break
     check(replacements>=2 and samples>20,"real runtime replacements observed during walk")
-    check(poses.size()==8 if compact and not app.idle_sequence_previews.has(actor) else (poses.has(1) and poses.has(3)),"real sync allows complete pose set")
+    check(poses.size()==8 if neri_mirror or (compact and not app.idle_sequence_previews.has(actor)) else (poses.has(1) and poses.has(3)),"real sync allows complete pose set")
     check(game.figures[index].position==Vector3(target.x,0,target.y),"network authoritative endpoint")
     var final_texture=game.directional_idle_texture(index,direction)
     game.get_node("MapIdle").set_process(false);game.figures[index].texture=final_texture
     var until=Time.get_ticks_msec()+500
     while Time.get_ticks_msec()<until:await process_frame
     check(not game.motion.active(),"post-completion polls don't replay")
+    if neri_mirror:check(not game.figures[index].flip_h,"network completion clears mirror")
     if compact and app.idle_sequence_previews.has(actor):
         var idle=game.get_node("MapIdle");idle.set_process(true);idle.clocks[actor]=0.0
         var elapsed=0.0;var idle_replacements=0;runtime_id=game.battle.get_instance_id();until=Time.get_ticks_msec()+1400

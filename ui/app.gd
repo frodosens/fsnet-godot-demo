@@ -30,19 +30,22 @@ var idle_sequence_previews={"neri":false,"adela":false,"elsbet":false}
 var bram_sequence_preview=false # User-accepted provisional gesture and shuffle.
 var oren_sequence_preview=false # Provisional idle/motion; old art remains available.
 var tessa_motion_preview=false
+var neri_motion_preview=false # Movement-only mirror trial, independent of Neri idle.
 var finn_motion_preview=false # Motion-only trial; original Finn idle is retained.
 var mara_sequence_preview=false # Local opt-in for unapproved compact art candidate.
 var health_bar_avoidance=false
 var presentation_preferences_path="user://presentation.cfg"
 func load_presentation_preferences():
     for id in idle_sequence_previews:idle_sequence_previews[id]=false
-    tessa_motion_preview=false;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
+    neri_motion_preview=false;tessa_motion_preview=false;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=false;bram_sequence_preview=false
     var config=ConfigFile.new()
     if config.load(presentation_preferences_path)==OK:
         var value=config.get_value("map","health_bar_avoidance",false)
         if value is bool:health_bar_avoidance=value
         value=config.get_value("map","mara_sequence_preview",false)
         if value is bool:mara_sequence_preview=value
+        value=config.get_value("map","neri_motion_preview",false)
+        if value is bool:neri_motion_preview=value
         value=config.get_value("map","finn_motion_preview",false)
         if value is bool:finn_motion_preview=value
         value=config.get_value("map","oren_sequence_preview",false)
@@ -311,3 +314,11 @@ func set_tessa_motion_preview(on):
     if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Tessa motion preference")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("tessa")
+
+func set_neri_motion_preview(on):
+    neri_motion_preview=bool(on)
+    var config=ConfigFile.new();config.load(presentation_preferences_path)
+    config.set_value("map","neri_motion_preview",neri_motion_preview)
+    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Neri motion preference")
+    var game=get_tree().current_scene
+    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("neri")

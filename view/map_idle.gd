@@ -24,4 +24,5 @@ func advance(delta):
             var entry=sequences.matching(id,direction,guard)
             if not entry.is_empty() and not entry.idle.is_empty():texture=sequences.idle(id,direction,time,guard,App.reduced_motion)
 
+        game.figures[i].flip_h=false
         game.figures[i].texture=texture

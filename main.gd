@@ -27,6 +27,8 @@ var detail: Label
 var message: Label
 var buttons = []
 var facing={}
+# Separate movement-only opt-in; does not replace Neri idle profile.
+var neri_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/neri_motion_trial.json")
 var last_positions={}
 var direction_textures={}
 var iso_roles={}
@@ -255,7 +257,8 @@ func build_world():
             for side in [-1,1]:
                 var frame=box(p+Vector3(edge*0.10,1,side*0.10),Vector3(0.025,0.32,0.025),"594633");frame.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
         var cap=box(p+Vector3(0,1.18,0),Vector3(0.26,0.05,0.26),"594633");cap.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF
-    preview_ghost=Sprite3D.new();preview_ghost.render_priority=2;preview_ghost.billboard=BaseMaterial3D.BILLBOARD_ENABLED;preview_ghost.offset=Vector2(0,56);preview_ghost.modulate=Color(1.0,0.78,0.42,0.35);preview_ghost.pixel_size=MAP_PIXEL_SIZE;preview_ghost.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST;preview_ghost.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;preview_ghost.hide();add_child(preview_ghost)
+    preview_ghost=Sprite3D.new();preview_ghost.render_priority=2;preview_ghost.billboard=BaseMaterial3D.BILLBOARD_ENABLED;preview_ghost.flip_h=false
+    preview_ghost.offset=Vector2(0,56);preview_ghost.modulate=Color(1.0,0.78,0.42,0.35);preview_ghost.pixel_size=MAP_PIXEL_SIZE;preview_ghost.texture_filter=BaseMaterial3D.TEXTURE_FILTER_NEAREST;preview_ghost.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;preview_ghost.hide();add_child(preview_ghost)
     selection_ring=MeshInstance3D.new();var ring=TorusMesh.new();ring.inner_radius=0.36;ring.outer_radius=0.42;selection_ring.mesh=ring
     var ring_material=StandardMaterial3D.new();ring_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;ring_material.albedo_color=Color("91aaa3");selection_ring.material_override=ring_material;selection_ring.cast_shadow=GeometryInstance3D.SHADOW_CASTING_SETTING_OFF;add_child(selection_ring)
     camera = Camera3D.new()
@@ -552,7 +555,9 @@ func refresh():
             if event.get("kind")=="attack" and event.get("actor")==u.id:
                 for target in battle.units:
                     if target.id==event.target:facing[u.id]=projected_facing(u.pos,target.pos,iso_roles.has(u.role))
-        if not motion.motions.has(u.id):figures[i].texture=directional_idle_texture(i,facing.get(u.id,"front"))
+        if not motion.motions.has(u.id):
+            figures[i].flip_h=false
+            figures[i].texture=directional_idle_texture(i,facing.get(u.id,"front"))
         if not motion.motions.has(u.id):figures[i].position = Vector3(u.pos.x,figure_height(i),u.pos.y)
         badges[i].position = badge_position(i)
         badges[i].update_health(u.hp,u.max_hp,u.ally,i==selected)
@@ -700,6 +705,7 @@ func update_move_preview(cell):
     if selected<0 or mode!="move" or presentation_active() or hud.blocks_input():return
     preview_path=battle.path_to(selected,cell)
     if preview_path.is_empty():preview_reason="此格不可达 · 选择范围内的空格";return
+    preview_ghost.flip_h=false
     preview_ghost.offset=Vector2(0,52 if battle.units[selected].id=="tessa" and figures[selected].texture.get_height()==136 else 56)
     preview_ghost.texture=figures[selected].texture;preview_ghost.pixel_size=figures[selected].pixel_size;preview_ghost.position=Vector3(cell.x,figures[selected].position.y,cell.y);preview_ghost.show()
     var line=route_mesh.mesh;var arrows=route_arrows.mesh
@@ -819,14 +825,25 @@ func map_motion_neutral_texture(index,direction):
         var entry=preload("res://view/map_sequence.gd").shared().matching(battle.units[index].id,direction,neutral)
         if not entry.is_empty() and entry.motion.is_empty():return neutral
     return directional_idle_texture(index,direction)
+func neri_motion_entry(index,direction):
+    if battle.units[index].id!="neri" or not App.neri_motion_preview:return {}
+    return neri_motion_library.matching("neri",direction,base_directional_idle_texture(index,direction))
+func apply_map_motion_texture(index,direction,distance):
+    var entry=neri_motion_entry(index,direction)
+    figures[index].flip_h=is_finite(distance) and distance>=0 and not entry.is_empty() and entry.motion.get("flip_h",false)
+    figures[index].texture=map_motion_texture(index,direction,distance)
 func map_motion_texture(index,direction,distance):
     var unit=battle.units[index]
+    if not neri_motion_entry(index,direction).is_empty():
+        var trial=neri_motion_library.motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
+        if trial!=null:return trial
     var sequence=null
     if App.map_sequence_enabled(unit.id):sequence=preload("res://view/map_sequence.gd").shared().motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
     return sequence if sequence!=null else motion.walk_library.sample(unit.id,direction,distance,map_motion_neutral_texture(index,direction))
 func figure_texture_pixel_position(index,pixel):
     # Public figure_pixel_position stays in the original 96px canonical coordinates.
     var texture=figures[index].texture
+    if figures[index].flip_h:pixel.x=texture.get_width()-pixel.x
     return figure_pixel_position(index,pixel-Vector2((texture.get_width()-96)*0.5,0))
 func refresh_map_sequence_art(actor_id=""):
     var idle=get_node_or_null("MapIdle")
@@ -835,7 +852,11 @@ func refresh_map_sequence_art(actor_id=""):
         if not actor_id.is_empty() and id!=actor_id:continue
         if idle:idle.clocks.erase(id)
         var direction=facing.get(id,"front")
-        figures[i].texture=map_motion_texture(i,direction,motion.motions[id].travelled) if motion.motions.has(id) else directional_idle_texture(i,direction)
+        if motion.motions.has(id):apply_map_motion_texture(i,direction,motion.motions[id].travelled)
+        else:
+            figures[i].flip_h=false
+            figures[i].texture=directional_idle_texture(i,direction)
     if preview_ghost.visible and selected>=0 and (actor_id.is_empty() or battle.units[selected].id==actor_id):
         preview_ghost.texture=directional_idle_texture(selected,facing.get(battle.units[selected].id,"front"))
+        preview_ghost.flip_h=false
         preview_ghost.offset=Vector2(0,56)

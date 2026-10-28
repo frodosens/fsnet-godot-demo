@@ -16,7 +16,7 @@ func run():
         var truth=g.battle.snapshot();var scroll=g.hud.modal.find_child("AnimationOptions",true,false)
         check(scroll!=null and scroll.clip_contents,"options clipped")
         check(root.get_visible_rect().encloses(scroll.get_global_rect()),"bounded scroll area")
-        var toggles=scroll.find_children("*","CheckButton",true,false);check(toggles.size()==8,"eight controls")
+        var toggles=scroll.find_children("*","CheckButton",true,false);check(toggles.size()==9,"nine independent controls")
         for toggle in toggles:
             scroll.ensure_control_visible(toggle);await frames()
             var pos=toggle.get_global_rect().get_center();check(scroll.get_global_rect().has_point(pos),"each toggle reachable")
