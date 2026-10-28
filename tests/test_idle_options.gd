@@ -16,7 +16,11 @@ func run():
         var truth=g.battle.snapshot();var scroll=g.hud.modal.find_child("AnimationOptions",true,false)
         check(scroll!=null and scroll.clip_contents,"options clipped")
         check(root.get_visible_rect().encloses(scroll.get_global_rect()),"bounded scroll area")
-        var toggles=scroll.find_children("*","CheckButton",true,false);check(toggles.size()==9,"nine independent controls")
+        var toggles=scroll.find_children("*","CheckButton",true,false);check(toggles.size()==10,"ten independent animation controls including Adela motion")
+        var expected=["玛拉视频关键帧（候选）","芬恩视频移动（候选）","奥伦视频关键帧（暂用）","布拉姆视频关键帧（暂用）","泰莎视频移动（试验）","奈莉镜像移动（试验）","阿黛拉双面板移动（试验）","奈莉视频待机（暂用）","阿黛拉视频待机（暂用）","埃尔丝贝特视频待机（暂用）"]
+        var actual=[]
+        for toggle in toggles:actual.append(toggle.text)
+        check(actual==expected,"exact animation control identities/order; no duplicates or missing options")
         for toggle in toggles:
             scroll.ensure_control_visible(toggle);await frames()
             var pos=toggle.get_global_rect().get_center();check(scroll.get_global_rect().has_point(pos),"each toggle reachable")
