@@ -39,7 +39,7 @@ func setup(cutin):
 func show_event(event):
     var data=event.get("presentation",{})
     for side in ["left","right"]:
-        var actor=side=="left";var id=event.actor if actor else event.target
+        var actor=(side=="left")==event.get("actor_left",true);var id=event.actor if actor else event.target
         var path=preload("res://view/reserve_art.gd").portrait_path(id)
         # Screen-side presentation only; reset explicitly for every reused event.
         portraits[side].flip_h=side=="right"
@@ -50,7 +50,7 @@ func show_event(event):
 func update_health(event,hit):
     var data=event.get("presentation",{})
     for side in ["left","right"]:
-        var actor=side=="left";var maximum=data.get("actor_max_hp" if actor else "target_max_hp",0)
+        var actor=(side=="left")==event.get("actor_left",true);var maximum=data.get("actor_max_hp" if actor else "target_max_hp",0)
         var value=data.get(("actor_after" if hit else "actor_hp") if actor else ("target_after" if hit else "target_before"),0)
         bars[side].max_value=maxi(1,maximum);bars[side].value=value
         labels[side+"_hp"].text="HP  %d / %d"%[value,maximum] if maximum>0 else "HP  —"
