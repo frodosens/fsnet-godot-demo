@@ -16,15 +16,15 @@ endpoint rules are unchanged. Natural protected-Mara defeat also tested.
 
 ## Missing art / release gate
 
-No chapter-three background is admitted by `view/authored_scene.gd`: this
-candidate uses the existing generic 3D fallback. No proposed design image is
+The initial content-only stage used generic 3D; the background integration
+status is recorded below. No proposed design image is
 silently fitted to a different logical grid. New guards have NO final portrait,
 map or sideview assets; current generic role fallbacks are diagnostic only.
 Do not merge/release as a finished chapter before these gaps are resolved.
 Each new identity needs a portrait, four facing map art (canonical FL/BL and
 approved mirrored FR/BR), separate idle and walk production, and sideview
-idle/attack/hurt with appropriate weapon contact anchors. No source PNG was
-added or changed here; no paid generation occurred.
+idle/attack/hurt with appropriate weapon contact anchors. Background PNGs were subsequently admitted unchanged; no guard PNGs or paid
+generation were produced by this implementation task.
 
 ## Chapter persistence / multiplayer
 
@@ -66,5 +66,34 @@ ratio is unchanged, but cell size differs from chapter two; this cannot be
 implemented as an origin-only shift. Chapter-specific camera size/admission
 and a single cover transform must be calibrated against the delivered clean
 map. Actor apparent height (~90 pixels) is a separate validation target, not
-a reason to double-apply cover or change authoritative movement speed. No
-projection implementation is included until actual production pixels arrive.
+a reason to double-apply cover or change authoritative movement speed. The production pixels have now arrived; the calibrated implementation and
+validation are recorded below.
+
+## Background integration candidate (not final guard-art acceptance)
+
+The four-file production background package is now present. Source SHA256s
+match both contracts. `authored_scene.gd` admits only the unchanged chapter-three
+terrain and validates the bundled projection contract; modified maps still use
+3D. Authored camera height is 13.3416386 world units. Base projected cell basis
+is (42.4,29.98104)/(-42.4,29.98104); maximum tested grid-center error is below
+0.4 logical pixels including wide-phone cover rounding. A render-only scale
+factor compensates the larger orthographic size, retaining Mara's ~90px body;
+`character_scale` stays 1.25 and movement velocity/cadence are unchanged.
+
+Ground marks outline playable-to-X/off-map interfaces (not invented walls),
+and the existing gold cell texture marks the office forecourt at (8,1). Four
+measured painted-lamp anchors illuminate actors only. The map image remains
+unchanged, with no new foreground masks or passage changes. Unknown guard art
+still uses diagnostic fallbacks; their genuine future poses need separate QA.
+The battle background shares the existing 642px floor anchors. Known-character
+cut-in fixtures test its composition and own-side-left layout, not guard attacks.
+
+`test_chapter_three_art.gd` covers 1280x800, 1024x768 and 2400x1080, all 62
+projected/picked cell centers and 96 topological adjacencies, view switching,
+scale, boundary/goal marks, actor lights, and cut-in composition. Actual Lua
+adjacency probes cover 95 legal single-step edges plus the one edge whose start
+is already the victory goal (correctly terminal). `capture_chapter_three_clearance.gd`
+uses explicitly labeled display-only Mara placements at all 62 cells with an
+unchanged snapshot; it is not a record of legal commands or full gameplay.
+The inspected contact sheet showed no conspicuous Mara foot clipping, but does
+not certify all future guard silhouettes or animated transition sweeps.

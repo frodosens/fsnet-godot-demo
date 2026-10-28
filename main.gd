@@ -53,6 +53,7 @@ var scene_view
 var ground_overlay
 const MAP_PIXEL_SIZE=0.010727272727 # 99px Mara -> 90 logical px in reference camera at 1.25 scale.
 var character_scale=1.0
+var scene_render_scale=1.0 # Projection calibration only; never movement velocity.
 var wait_advance_until=0
 var map_touch=-1
 var map_touch_start=Vector2.ZERO
@@ -61,7 +62,7 @@ var map_touch_dragged=false
 const MAP_DRAG_THRESHOLD=12.0
 # Map art only: never feed per-unit size into movement speed or combat art.
 const MAP_RENDER_FACTORS={"oren":1.05}
-func map_render_factor(unit_id):return MAP_RENDER_FACTORS.get(unit_id,1.0)
+func map_render_factor(unit_id):return MAP_RENDER_FACTORS.get(unit_id,1.0)*scene_render_scale
 
 func material(color):
     var m = StandardMaterial3D.new()

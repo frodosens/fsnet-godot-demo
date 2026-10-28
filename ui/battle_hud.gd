@@ -131,7 +131,9 @@ func objective_text(goal):
     match goal.kind:
         "defeat_all":return "目标 · 击退所有敌人"
         "all_allies":return "目标 · 所有友方失去战力"
-        "reach":return "目标 · 玛拉送信至门前 (8,1)" if game.battle.content.id=="white_elm_watchhouse" else "目标 · %s到达 (%d,%d)"%[goal.unit,goal.x,goal.y]
+        "reach":
+            if game.battle.content.id=="mill_receipts":return "目标 · 玛拉到办公室前接洽点 (8,1)"
+            return "目标 · 玛拉送信至门前 (8,1)" if game.battle.content.id=="white_elm_watchhouse" else "目标 · %s到达 (%d,%d)"%[goal.unit,goal.x,goal.y]
         "survive":return "目标 · 坚持到第 %d 回合"%goal.round
         "protect":return "条件 · %s失去战力"%goal.unit
         "all","any":

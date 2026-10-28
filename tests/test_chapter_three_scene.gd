@@ -37,7 +37,7 @@ func run():
   await click(button('保存结尾并进入第三章',current_scene.hud.modal));await frames(8)
   var game=current_scene
   check(game.battle.content.id=='mill_receipts','real click chapter3 entry')
-  check(not game.scene_view.active,'no unapproved painted background')
+  check(game.scene_view.active,'contract-specific painted background')
   check(game.hud.story_panel.visible and not game.hud.dock.visible,'intro modal')
   await click(button('下一句',game.hud.story_panel))
   await click(button('暂停 / 保存',game.hud.story_panel))

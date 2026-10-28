@@ -10,7 +10,21 @@ func _initialize():call_deferred('run')
 func run():
  var d=C.chapter_three_content();check(C.validate(d).is_empty(),'valid chapter three')
  check(d.width==10 and d.height==9 and d.units.size()==5,'approved grid and two guards')
- check(preload('res://view/authored_scene.gd').profile(d).is_empty(),'unapproved scene remains 3D fallback')
+ check(not preload('res://view/authored_scene.gd').profile(d).is_empty(),'contract-specific scene admitted')
+ var edges=0
+ for y in range(9):
+  for x in range(10):
+   if d.terrain[y][x] in ['W','X']:continue
+   for delta in [Vector2i.RIGHT,Vector2i.DOWN]:
+    var end=Vector2i(x,y)+delta
+    if end.x>=10 or end.y>=9 or d.terrain[end.y][end.x] in ['W','X']:continue
+    var fixture=d.duplicate(true);fixture.units=[fixture.units[0]];fixture.units[0].x=x;fixture.units[0].y=y
+    var probe=R.new(fixture)
+    var accepted=probe.apply_command({'kind':'move','unit':0,'x':end.x,'y':end.y,'step':1})
+    if Vector2i(x,y)==Vector2i(8,1):check(not accepted and probe.outcome=='victory','goal-start fixture already terminal')
+    else:check(accepted,'Lua adjacency '+str(Vector2i(x,y))+' -> '+str(end))
+    edges+=1
+ check(edges==96,'all96 adjacency fixtures')
  var r=R.new(d);var trace=[]
  check(r.path_to(0,Vector2i(4,7)).is_empty(),'ally destination forbidden')
  check(not r.path_to(0,Vector2i(5,7)).is_empty(),'ally traversal permitted')
