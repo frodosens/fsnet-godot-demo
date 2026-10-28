@@ -1,0 +1,245 @@
+{
+  "source_fps": 24,
+  "cycle_start": 63,
+  "cycle_end_exclusive": 92,
+  "source_indices": [
+    63,
+    67,
+    70,
+    74,
+    77,
+    81,
+    85,
+    88
+  ],
+  "frame_weights": [
+    4,
+    3,
+    4,
+    3,
+    4,
+    4,
+    3,
+    4
+  ],
+  "direction_sources": {
+    "front_left": {
+      "source": "front_left",
+      "mirrorX": false
+    },
+    "front_right": {
+      "source": "front_left",
+      "mirrorX": true
+    },
+    "back_left": {
+      "source": "back_left",
+      "mirrorX": false
+    },
+    "back_right": {
+      "source": "back_right",
+      "mirrorX": false
+    }
+  },
+  "canvas": [
+    128,
+    128
+  ],
+  "root": [
+    64,
+    120
+  ],
+  "runtime_frames": [
+    {
+      "direction": "front_left",
+      "frame": 0,
+      "source_frame": 63,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/front_left/front_left_walk_00.png",
+      "sha256": "842b4f607cc600ba2e9f90a12b8f01037c9ba85e873f413ad9fc69ae60964050"
+    },
+    {
+      "direction": "front_left",
+      "frame": 1,
+      "source_frame": 67,
+      "weight": 3,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/front_left/front_left_walk_01.png",
+      "sha256": "dd22c80493fc7500ace614d9bc56227f3b698b753e9a1d5b3299f66af053f832"
+    },
+    {
+      "direction": "front_left",
+      "frame": 2,
+      "source_frame": 70,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/front_left/front_left_walk_02.png",
+      "sha256": "219cd928a4e7cda6c81be1bf54acd5d7ab7ffe3890834ff0aa20f2341a508b34"
+    },
+    {
+      "direction": "front_left",
+      "frame": 3,
+      "source_frame": 74,
+      "weight": 3,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/front_left/front_left_walk_03.png",
+      "sha256": "595cb9fc37a886ec59c45ee4188566f2c2e4f1a4b9bc33c9b9ed74c24affc638"
+    },
+    {
+      "direction": "front_left",
+      "frame": 4,
+      "source_frame": 77,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/front_left/front_left_walk_04.png",
+      "sha256": "fed79cff5f658f6cc22dc1506fcb10ed3958cb5d387b557a31c4a8deb619ee37"
+    },
+    {
+      "direction": "front_left",
+      "frame": 5,
+      "source_frame": 81,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/front_left/front_left_walk_05.png",
+      "sha256": "64c07634e8628c4004aeb4dad69b0fbaf5677362cd60051eb85717ac8fcf83de"
+    },
+    {
+      "direction": "front_left",
+      "frame": 6,
+      "source_frame": 85,
+      "weight": 3,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/front_left/front_left_walk_06.png",
+      "sha256": "2a00ff668b7401b0135bbfee30892dc23468d627ca4de88d1c6b1ab54208fb28"
+    },
+    {
+      "direction": "front_left",
+      "frame": 7,
+      "source_frame": 88,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/front_left/front_left_walk_07.png",
+      "sha256": "9a35fd2df73ef0fbe8c283fc479fb059b176a2c9dc60c749dd1f332653a8175e"
+    },
+    {
+      "direction": "back_left",
+      "frame": 0,
+      "source_frame": 63,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_left/back_left_walk_00.png",
+      "sha256": "f749d4b5f91864645c6702aa46152d27b2b4c33144c57fa24768a302ab1e6a47"
+    },
+    {
+      "direction": "back_left",
+      "frame": 1,
+      "source_frame": 67,
+      "weight": 3,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_left/back_left_walk_01.png",
+      "sha256": "5e9d8f571fe11da0703a604e0e257276eef84669360ac786c68cdb7d43a3ff5a"
+    },
+    {
+      "direction": "back_left",
+      "frame": 2,
+      "source_frame": 70,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_left/back_left_walk_02.png",
+      "sha256": "757c2b1aa4783d7a1ddaf44e5e72864037758d8741ddde375ec62c1083944d6f"
+    },
+    {
+      "direction": "back_left",
+      "frame": 3,
+      "source_frame": 74,
+      "weight": 3,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_left/back_left_walk_03.png",
+      "sha256": "602a96ab86adcb67b0efa04045aac715834f61e7cd73c533c566fd7d31ef6c81"
+    },
+    {
+      "direction": "back_left",
+      "frame": 4,
+      "source_frame": 77,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_left/back_left_walk_04.png",
+      "sha256": "d4dee9eda5eeaebc6c962017bc52b926d786b6de334674f52e7f20900106b2d8"
+    },
+    {
+      "direction": "back_left",
+      "frame": 5,
+      "source_frame": 81,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_left/back_left_walk_05.png",
+      "sha256": "e86542b66e558f3828260f5ca30b3e0c0034b3166e061b10c81947fff9a86dd7"
+    },
+    {
+      "direction": "back_left",
+      "frame": 6,
+      "source_frame": 85,
+      "weight": 3,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_left/back_left_walk_06.png",
+      "sha256": "8bb8ddc4601f86e478991969a5f12dea144ba93e4b09409b69345cd031b57a40"
+    },
+    {
+      "direction": "back_left",
+      "frame": 7,
+      "source_frame": 88,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_left/back_left_walk_07.png",
+      "sha256": "4786589a610168d48eb50a66b7c23036f9eb59735c4a58d6a172d71c00ece827"
+    },
+    {
+      "direction": "back_right",
+      "frame": 0,
+      "source_frame": 63,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_right/back_right_walk_00.png",
+      "sha256": "a2ab58b7964ea04360b2c5b5f44290f272ffc2469cd9de3a306b1235988b46b3"
+    },
+    {
+      "direction": "back_right",
+      "frame": 1,
+      "source_frame": 67,
+      "weight": 3,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_right/back_right_walk_01.png",
+      "sha256": "85d187d48eb5abcac3d26be337a9ddaf6ca2daa56901f9d1d4917d4a7937fcfa"
+    },
+    {
+      "direction": "back_right",
+      "frame": 2,
+      "source_frame": 70,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_right/back_right_walk_02.png",
+      "sha256": "a7854df03b0c160754c7c2caed9ed1e96e6ab970086f0839841f4882cd774c56"
+    },
+    {
+      "direction": "back_right",
+      "frame": 3,
+      "source_frame": 74,
+      "weight": 3,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_right/back_right_walk_03.png",
+      "sha256": "9b1587f909780815a4eeb4ee7e5beda4ab32a7dfa17d47628c22005a98bf67d5"
+    },
+    {
+      "direction": "back_right",
+      "frame": 4,
+      "source_frame": 77,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_right/back_right_walk_04.png",
+      "sha256": "021e3867d190a0b42b45e82b4697ffa0455e698fd11a9f9dd3301e29d86daebe"
+    },
+    {
+      "direction": "back_right",
+      "frame": 5,
+      "source_frame": 81,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_right/back_right_walk_05.png",
+      "sha256": "ce76d0524ad7884e3c34f159564e035a249942e2e8f43333ec35b697a5641584"
+    },
+    {
+      "direction": "back_right",
+      "frame": 6,
+      "source_frame": 85,
+      "weight": 3,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_right/back_right_walk_06.png",
+      "sha256": "cac397e802c23c13d2561a8e1e8ab4a796b6a2ed0aaa3f2b23993968f3f50af8"
+    },
+    {
+      "direction": "back_right",
+      "frame": 7,
+      "source_frame": 88,
+      "weight": 4,
+      "path": "assets/sprites/iso4/neri_video_mirror_trial/motion/back_right/back_right_walk_07.png",
+      "sha256": "bb99a0eca0e39c53b3b999dfa2d9748de01ed75090aa018889a1852fa39794ff"
+    }
+  ]
+}
