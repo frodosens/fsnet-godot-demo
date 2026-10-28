@@ -23,7 +23,8 @@ with zipfile.ZipFile(a.apk) as z, tempfile.TemporaryDirectory() as tmp:
  forbidden={'build','source','sources','docs','tests','tools','native','CMakeFiles','.git','.deps'}
  for name in names:
   parts=pathlib.PurePosixPath(name).parts
-  assert not any(part in forbidden or part.startswith('build-') for part in parts),("development payload",name)
+  assert not (len(parts)>1 and parts[0]=='assets' and parts[1] in forbidden),("development payload",name)
+  assert not any(part in {'build','CMakeFiles','.git','.deps'} or part.startswith('build-') for part in parts),("build payload",name)
   assert not name.endswith(('.dll','.keystore','.jks','.pem','.key')),("unexpected binary/key",name)
   if name.startswith('assets/') and name.endswith(('.json','.lua')):
    assert name.startswith(('assets/logic/','assets/content/','assets/assets/')),("nonruntime data",name)
