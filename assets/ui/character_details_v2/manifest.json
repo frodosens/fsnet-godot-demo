@@ -1,0 +1,559 @@
+{
+  "version": 2,
+  "text_baked": false,
+  "filter": "linear",
+  "status": "art_candidate_requires_runtime_layout_QA",
+  "assets": {
+    "modal_panel": {
+      "file": "modal_panel.png",
+      "size_px": [
+        600,
+        220
+      ],
+      "alpha_bbox": [
+        3,
+        5,
+        596,
+        218
+      ],
+      "nine_patch": true,
+      "sha256": "d3a3ba6b54b013b573617dc8896fd43fc5dfceb63455aafb4a4e77299f128d34",
+      "cap_margins_ltrb_px": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "minimum_size_px": [
+        49,
+        49
+      ],
+      "content_padding_ltrb_px": [
+        24,
+        24,
+        24,
+        24
+      ]
+    },
+    "inset_panel": {
+      "file": "inset_panel.png",
+      "size_px": [
+        400,
+        240
+      ],
+      "alpha_bbox": [
+        5,
+        7,
+        397,
+        235
+      ],
+      "nine_patch": true,
+      "sha256": "b22ece1a63db9b10de0ac8d3de9f5fefe1d5d9b8f7fde3bb89195101f60dbc13",
+      "cap_margins_ltrb_px": [
+        16,
+        16,
+        16,
+        16
+      ],
+      "minimum_size_px": [
+        33,
+        33
+      ],
+      "content_padding_ltrb_px": [
+        16,
+        16,
+        16,
+        16
+      ]
+    },
+    "portrait_frame": {
+      "file": "portrait_frame.png",
+      "size_px": [
+        258,
+        324
+      ],
+      "alpha_bbox": [
+        8,
+        7,
+        250,
+        319
+      ],
+      "nine_patch": true,
+      "sha256": "76a95211395952f847c97e4bb4b724bb7f5f57ecdbbf5cfe82e55bcc58fb2e18",
+      "cap_margins_ltrb_px": [
+        26,
+        26,
+        26,
+        26
+      ],
+      "minimum_size_px": [
+        53,
+        53
+      ],
+      "content_padding_ltrb_px": [
+        26,
+        26,
+        26,
+        26
+      ],
+      "portrait_content_rect_px": [
+        30,
+        30,
+        198,
+        264
+      ],
+      "preserve_portrait_aspect": 0.7955665024630542,
+      "note": "Keep portrait image aspect independent of frame. Use aspect-cover clipping; do not stretch face."
+    },
+    "tab_normal": {
+      "file": "tab_normal.png",
+      "size_px": [
+        252,
+        68
+      ],
+      "alpha_bbox": [
+        2,
+        5,
+        249,
+        65
+      ],
+      "nine_patch": true,
+      "sha256": "3128ae6122a13be6dff1fd860fb9dca8749da64f1cf9b897c8c2900bbc90771f",
+      "cap_margins_ltrb_px": [
+        12,
+        12,
+        12,
+        12
+      ],
+      "minimum_size_px": [
+        120,
+        48
+      ],
+      "content_padding_ltrb_px": [
+        16,
+        8,
+        16,
+        8
+      ],
+      "preferred_height_px": 52,
+      "label_icon_area_px": [
+        16,
+        10,
+        220,
+        48
+      ],
+      "note": "Matched outer canvas. Explicit 12px caps, never default 24px; allocate actual rect before layout."
+    },
+    "tab_selected": {
+      "file": "tab_selected.png",
+      "size_px": [
+        252,
+        68
+      ],
+      "alpha_bbox": [
+        4,
+        7,
+        245,
+        60
+      ],
+      "nine_patch": true,
+      "sha256": "9e17fc631785840c2bf6df67270648280bcaf604c3d044822c2beb94eeda81dd",
+      "cap_margins_ltrb_px": [
+        12,
+        12,
+        12,
+        12
+      ],
+      "minimum_size_px": [
+        120,
+        48
+      ],
+      "content_padding_ltrb_px": [
+        16,
+        8,
+        16,
+        8
+      ],
+      "preferred_height_px": 52,
+      "label_icon_area_px": [
+        16,
+        10,
+        220,
+        48
+      ],
+      "note": "Matched outer canvas. Explicit 12px caps, never default 24px; allocate actual rect before layout."
+    },
+    "return_button": {
+      "file": "return_button.png",
+      "size_px": [
+        226,
+        64
+      ],
+      "alpha_bbox": [
+        5,
+        6,
+        222,
+        58
+      ],
+      "nine_patch": true,
+      "sha256": "d48c4503a261eb5c4b2458d6c4ce623068bebd38ae38effca0a4711ba3b69202",
+      "cap_margins_ltrb_px": [
+        16,
+        16,
+        16,
+        16
+      ],
+      "minimum_size_px": [
+        140,
+        48
+      ],
+      "content_padding_ltrb_px": [
+        20,
+        8,
+        20,
+        8
+      ]
+    },
+    "list_row": {
+      "file": "list_row.png",
+      "size_px": [
+        320,
+        72
+      ],
+      "alpha_bbox": [
+        6,
+        3,
+        316,
+        67
+      ],
+      "nine_patch": true,
+      "sha256": "5d6088021054c2c1fca2806b265db0750f4efea66070c87e45fb4dc9bbd61f8c",
+      "cap_margins_ltrb_px": [
+        12,
+        12,
+        12,
+        12
+      ],
+      "minimum_size_px": [
+        25,
+        25
+      ],
+      "content_padding_ltrb_px": [
+        12,
+        12,
+        12,
+        12
+      ]
+    },
+    "close_button": {
+      "file": "close_button.png",
+      "size_px": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        3,
+        4,
+        62,
+        61
+      ],
+      "nine_patch": false,
+      "sha256": "0e5a24c5547b8ff090c2ca722d0942314c1e6962ad10e379c182fba89989d1ae"
+    },
+    "xp_frame": {
+      "file": "xp_frame.png",
+      "size_px": [
+        240,
+        28
+      ],
+      "alpha_bbox": [
+        1,
+        2,
+        239,
+        26
+      ],
+      "nine_patch": true,
+      "sha256": "d4adc090f85ff5236756dededc148802e8a163911115cd4775ce6112a62ee218",
+      "cap_margins_ltrb_px": [
+        12,
+        6,
+        12,
+        6
+      ],
+      "minimum_size_px": [
+        25,
+        13
+      ],
+      "content_padding_ltrb_px": [
+        12,
+        6,
+        12,
+        6
+      ],
+      "fill_rect_px": [
+        12,
+        7,
+        216,
+        14
+      ]
+    },
+    "xp_fill": {
+      "file": "xp_fill.png",
+      "size_px": [
+        224,
+        16
+      ],
+      "alpha_bbox": [
+        4,
+        4,
+        220,
+        14
+      ],
+      "nine_patch": false,
+      "sha256": "b57ca4a5f74097e252aa2af7885d46ede109befc53e5de95033d26365016b60b"
+    },
+    "divider": {
+      "file": "divider.png",
+      "size_px": [
+        480,
+        24
+      ],
+      "alpha_bbox": [
+        4,
+        3,
+        474,
+        21
+      ],
+      "nine_patch": false,
+      "sha256": "f01ec46b5d76b66e94fbb594dab38665da074f077b770bbea110dc75ea70e42f"
+    },
+    "icon_helmet": {
+      "file": "icon_helmet.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        8,
+        8,
+        37,
+        38
+      ],
+      "nine_patch": false,
+      "sha256": "10116794fc0cd6e46207fcd526aa17c33047806a3861c0d0c354dbd36de1c3a8",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_sparkle": {
+      "file": "icon_sparkle.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        7,
+        9,
+        39,
+        38
+      ],
+      "nine_patch": false,
+      "sha256": "da5f4236da7fda5068f0ee4c516adb819518c2cbb05a76448c4f9ae576b36048",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_pouch": {
+      "file": "icon_pouch.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        8,
+        8,
+        34,
+        38
+      ],
+      "nine_patch": false,
+      "sha256": "ddd51dc4c670919175350ac54e7f08e6054a64db7201e21f520a9476b5eaaca0",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_armor": {
+      "file": "icon_armor.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        8,
+        9,
+        40,
+        38
+      ],
+      "nine_patch": false,
+      "sha256": "eed5b6cdc45e309ad0e43468586e01b7b6ae92a2b78157ead9115903645d0b00",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_heart": {
+      "file": "icon_heart.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        9,
+        10,
+        41,
+        36
+      ],
+      "nine_patch": false,
+      "sha256": "5ea037477fe64544db5803a02226c20fe267e17f7f2ae66a7479283f7bf0eb70",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_book": {
+      "file": "icon_book.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        9,
+        11,
+        44,
+        38
+      ],
+      "nine_patch": false,
+      "sha256": "7e342e8775ad93456ea9e908f8d649f0eeccea9795c007f4b79dca59c71a2414",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_sword": {
+      "file": "icon_sword.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        9,
+        9,
+        39,
+        38
+      ],
+      "nine_patch": false,
+      "sha256": "6da1c6e7b614e564020a181ef6a617b8bfb6dcf8989a3422466a510d704abc37",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_shield": {
+      "file": "icon_shield.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        11,
+        9,
+        38,
+        38
+      ],
+      "nine_patch": false,
+      "sha256": "6d8dfe00fd7e4815e76e2d12d7a016b52533298c24f5e279bc7bf797c591c3d8",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_resistance": {
+      "file": "icon_resistance.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        8,
+        8,
+        37,
+        38
+      ],
+      "nine_patch": false,
+      "sha256": "535e803b059fcc3e42cb6856451e30b2b8954d15c2ce1ab757d0aabdcc05f96c",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_crosshair": {
+      "file": "icon_crosshair.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        6,
+        8,
+        41,
+        39
+      ],
+      "nine_patch": false,
+      "sha256": "579a189178feebe48dde1448e847fc1e3b1e545f4617d9d521179da22be4a354",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_boot": {
+      "file": "icon_boot.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        9,
+        9,
+        38,
+        39
+      ],
+      "nine_patch": false,
+      "sha256": "22f716181891431bd560fd0d38e54bac588852127fde0931791ab5964484dc69",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    },
+    "icon_hourglass": {
+      "file": "icon_hourglass.png",
+      "size_px": [
+        48,
+        48
+      ],
+      "alpha_bbox": [
+        9,
+        8,
+        33,
+        38
+      ],
+      "nine_patch": false,
+      "sha256": "001d42f85db56837fd6db120440d6c53bf069fe53313948ca2bc08e49b689d41",
+      "preferred_display_px": [
+        24,
+        32
+      ]
+    }
+  }
+}

@@ -1,0 +1,267 @@
+{
+  "version": 2,
+  "reference_canvas_px": [
+    1672,
+    941
+  ],
+  "reference_rects_px": {
+    "modal": [
+      94,
+      57,
+      1484,
+      826
+    ],
+    "title": [
+      746,
+      78,
+      181,
+      44
+    ],
+    "close": [
+      1497,
+      74,
+      61,
+      61
+    ],
+    "identity_panel": [
+      127,
+      161,
+      347,
+      625
+    ],
+    "portrait": [
+      139,
+      174,
+      323,
+      406
+    ],
+    "name": [
+      220,
+      578,
+      170,
+      42
+    ],
+    "class": [
+      269,
+      629,
+      80,
+      27
+    ],
+    "level": [
+      269,
+      689,
+      81,
+      28
+    ],
+    "xp_group": [
+      147,
+      735,
+      305,
+      23
+    ],
+    "tabs": [
+      493,
+      161,
+      1046,
+      67
+    ],
+    "attributes": [
+      493,
+      244,
+      738,
+      376
+    ],
+    "traits": [
+      493,
+      633,
+      738,
+      151
+    ],
+    "equipment_summary": [
+      1244,
+      244,
+      295,
+      540
+    ],
+    "return": [
+      1318,
+      804,
+      226,
+      64
+    ],
+    "footer": [
+      666,
+      824,
+      347,
+      30
+    ]
+  },
+  "reference_rects_uv": {
+    "modal": [
+      0.05622,
+      0.060574,
+      0.88756,
+      0.87779
+    ],
+    "title": [
+      0.446172,
+      0.082891,
+      0.108254,
+      0.046759
+    ],
+    "close": [
+      0.895335,
+      0.07864,
+      0.036483,
+      0.064825
+    ],
+    "identity_panel": [
+      0.075957,
+      0.171095,
+      0.207536,
+      0.664187
+    ],
+    "portrait": [
+      0.083134,
+      0.18491,
+      0.193182,
+      0.431456
+    ],
+    "name": [
+      0.131579,
+      0.61424,
+      0.101675,
+      0.044633
+    ],
+    "class": [
+      0.160885,
+      0.668438,
+      0.047847,
+      0.028693
+    ],
+    "level": [
+      0.160885,
+      0.7322,
+      0.048445,
+      0.029756
+    ],
+    "xp_group": [
+      0.087919,
+      0.781084,
+      0.182416,
+      0.024442
+    ],
+    "tabs": [
+      0.294856,
+      0.171095,
+      0.625598,
+      0.071201
+    ],
+    "attributes": [
+      0.294856,
+      0.259299,
+      0.441388,
+      0.399575
+    ],
+    "traits": [
+      0.294856,
+      0.672689,
+      0.441388,
+      0.160468
+    ],
+    "equipment_summary": [
+      0.744019,
+      0.259299,
+      0.176435,
+      0.573858
+    ],
+    "return": [
+      0.788278,
+      0.85441,
+      0.135167,
+      0.068013
+    ],
+    "footer": [
+      0.398325,
+      0.875664,
+      0.207536,
+      0.031881
+    ]
+  },
+  "layout": {
+    "desktop": "Use reference normalized geometry within aspect-fit 1672:941 canvas, centered in safe rect. Keep exterior margins ~5.6% width and 6.1% height, not 16px fullscreen.",
+    "attribute_grid": {
+      "columns": 2,
+      "rows": 5,
+      "left": [
+        "health",
+        "mana",
+        "physical_attack",
+        "spell_bonus",
+        "move_distance"
+      ],
+      "right": [
+        "armor",
+        "magic_resistance",
+        "attack_range",
+        "move_count",
+        "action"
+      ],
+      "row_separator": true,
+      "label_alignment": "left",
+      "value_alignment": "right",
+      "icon_required": true
+    },
+    "tabs": [
+      "attributes",
+      "skills",
+      "party_items",
+      "equipment"
+    ],
+    "typography_reference_px": {
+      "title": 44,
+      "character_name": 38,
+      "section_heading": 30,
+      "tab": 29,
+      "body": 26,
+      "secondary": 23,
+      "footer": 21
+    },
+    "portrait": {
+      "aspect": 0.7955665024630542,
+      "fit": "cover",
+      "crop_allowed": true,
+      "nonuniform_scale_allowed": false
+    },
+    "short_landscape": {
+      "trigger_height_logical_px": 600,
+      "safe_margin_px": 12,
+      "header_height_px": 48,
+      "footer_height_px": 52,
+      "tabs_height_px": 48,
+      "body_scroll_only": true,
+      "minimum_touch_target_px": 44,
+      "identity_column_fraction": 0.25,
+      "identity_portrait_max_body_height_fraction": 0.53,
+      "identity_metadata_reserved_px": 112,
+      "minimum_body_text_px": 16,
+      "right_equipment_summary": "If content width <900, put equipment summary after traits in scroll body, not over attributes. Keep four navigation tabs.",
+      "xp": "Separate reserved row below level; never anchor into portrait or footer.",
+      "footer": "Return remains within safe rect; body excludes full footer height."
+    },
+    "portrait_phone": "Use dedicated responsive layout or landscape request; do not uniformly shrink desktop below readable touch targets.",
+    "overflow": "Only long item/skill/trait content scrolls; title, tabs, close and return remain fixed. Labels ellipsize or wrap in bounded rows; no invisible overflow.",
+    "asset_rule": "Respect each asset nine_patch and explicit caps; fixed icons use aspect-center and no nine-patch. Tab states share rect and reserved height."
+  },
+  "validation_required": [
+    "1280x800",
+    "1280x720",
+    "1600x720",
+    "960x540",
+    "notched safe-area landscape",
+    "long localized text",
+    "many skills/items",
+    "no overlap of tab/traits/XP/footer",
+    "portrait aspect invariant"
+  ]
+}
