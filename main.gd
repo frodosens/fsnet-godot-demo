@@ -29,9 +29,11 @@ var buttons = []
 var facing={}
 # Separate movement-only opt-in; does not replace Neri idle profile.
 var hero_refresh_libraries={
+    "rodd":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/rodd_seedance_mini_v1/runtime_manifest.json"),
     "mara":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/mara_seedance_mini_v2/runtime_manifest.json"),
     "finn":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/finn_seedance_mini_v2/runtime_manifest.json"),
     "neri":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/neri_seedance_mini_v2/runtime_manifest.json")}
+var elsbet_motion_library=preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/elsbet_seedance_mini_v2/runtime_manifest.json")
 var neri_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/neri_motion_trial.json")
 var vera_motion_enabled=true # Candidate may be disabled locally; missing art falls back to canonical static.
 var vera_motion_library=preload("res://view/map_sequence.gd").new("res://assets/animations/vera_chapter_motion.json")
@@ -394,7 +396,7 @@ func apply_selection_presentation():
     if not battle.usable(selected):selection_pending_move=false;selection_pending_focus=false;return
     if selection_pending_focus and scene_view:
         var center=Vector3(battle.units[selected].pos.x,figure_height(selected),battle.units[selected].pos.y)
-        center+=camera.global_basis.y*(56.0 if not hero_refresh_entry(selected,facing.get(battle.units[selected].id,"front")).is_empty() else figures[selected].offset.y)*figures[selected].pixel_size
+        center+=camera.global_basis.y*(56.0 if (not hero_refresh_entry(selected,facing.get(battle.units[selected].id,"front")).is_empty() or not elsbet_motion_entry(selected,facing.get(battle.units[selected].id,"front")).is_empty()) else figures[selected].offset.y)*figures[selected].pixel_size
         scene_view.focus_actor(center)
     selection_pending_focus=false
     if selection_pending_move:
@@ -826,9 +828,15 @@ func base_directional_idle_texture(index,direction):
 
 func hero_refresh_entry(index,direction):
     var id=battle.units[index].id
-    if not App.hero_map_refresh_previews.get(id,false) or not hero_refresh_libraries.has(id):return {}
+    var enabled=App.rodd_motion_preview if id=="rodd" else App.hero_map_refresh_previews.get(id,false)
+    if not enabled or not hero_refresh_libraries.has(id):return {}
     return hero_refresh_libraries[id].matching(id,direction,base_directional_idle_texture(index,direction))
 func apply_map_idle_texture(index,direction,legacy_texture=null):
+    # The motion start calls this helper with a neutral texture. Keep the padded
+    # Elsbet motion root on that first frame, without replacing stopped idle.
+    var id=battle.units[index].id
+    if legacy_texture!=null and id=="elsbet" and motion and motion.motions.has(id) and not elsbet_motion_entry(index,direction).is_empty():
+        apply_map_motion_texture(index,direction,motion.motions[id].get("travelled",0.0));return
     var entry=hero_refresh_entry(index,direction)
     var figure=figures[index]
     if not entry.is_empty():
@@ -861,7 +869,15 @@ func adela_motion_entry(index,direction):
 func vera_motion_entry(index,direction):
     if battle.units[index].id!="vera" or not vera_motion_enabled:return {}
     return vera_motion_library.matching("vera",direction,base_directional_idle_texture(index,direction))
+func elsbet_motion_entry(index,direction):
+    if battle.units[index].id!="elsbet" or not App.elsbet_motion_preview:return {}
+    return elsbet_motion_library.matching("elsbet",direction,base_directional_idle_texture(index,direction))
 func apply_map_motion_texture(index,direction,distance):
+    var elsbet=elsbet_motion_entry(index,direction)
+    if not elsbet.is_empty():
+        if not is_finite(distance) or distance<0:apply_map_idle_texture(index,direction);return
+        figures[index].texture=elsbet_motion_library.pick(elsbet.motion,distance)
+        figures[index].flip_h=elsbet.motion.flip_h;figures[index].offset=Vector2(0,64);return
     var refreshed=hero_refresh_entry(index,direction)
     if not refreshed.is_empty():
         if not is_finite(distance) or distance<0:apply_map_idle_texture(index,direction);return
@@ -872,6 +888,8 @@ func apply_map_motion_texture(index,direction,distance):
     figures[index].flip_h=is_finite(distance) and distance>=0 and not entry.is_empty() and entry.motion.get("flip_h",false)
     figures[index].texture=map_motion_texture(index,direction,distance)
 func map_motion_texture(index,direction,distance):
+    var elsbet=elsbet_motion_entry(index,direction)
+    if not elsbet.is_empty() and is_finite(distance) and distance>=0:return elsbet_motion_library.pick(elsbet.motion,distance)
     var refreshed=hero_refresh_entry(index,direction)
     if not refreshed.is_empty():
         return hero_refresh_libraries[battle.units[index].id].pick(refreshed.motion,distance) if is_finite(distance) and distance>=0 else refreshed.idle.textures[0]
@@ -906,3 +924,7 @@ func refresh_map_sequence_art(actor_id=""):
             apply_map_idle_texture(i,direction)
     if preview_ghost.visible and selected>=0 and (actor_id.is_empty() or battle.units[selected].id==actor_id):
         refresh_preview_ghost_art(selected)
+
+func refresh_elsbet_motion_art():
+    if not motion or not motion.motions.has("elsbet"):return
+    var moving=motion.motions.elsbet;apply_map_motion_texture(moving.index,facing.get("elsbet","front"),moving.travelled)

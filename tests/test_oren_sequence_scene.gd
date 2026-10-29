@@ -10,6 +10,7 @@ func frames(count=3):
 func run():
     var Meter=load("res://view/unit_health.gd")
     var app=root.get_node("App");var Seq=preload("res://view/map_sequence.gd").shared()
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
     app.presentation_preferences_path="user://oren-test.cfg"
     app.oren_sequence_preview=false
     var capture=OS.get_environment("AMBER_COMPACT_CAPTURE")
@@ -93,5 +94,6 @@ func run():
             check(game.battle.snapshot()==truth,"animation no shared state changes")
             app.set_oren_sequence_preview(false)
             check(game.figures[3].texture==old,"disable restores original neutral")
-            app.load_presentation_preferences();check(not app.oren_sequence_preview,"local preference persisted")
+            app.load_presentation_preferences();check(app.oren_sequence_preview,"latest resources restored on reload")
+            app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
     print("OREN_SEQUENCE_SCENE checks=",checks," failures=",failures);quit(1 if failures else 0)

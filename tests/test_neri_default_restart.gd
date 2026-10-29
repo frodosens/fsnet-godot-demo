@@ -10,7 +10,7 @@ func run():
         app.load_presentation_preferences();assert(app.neri_motion_preview and app.finn_motion_preview)
         app.set_neri_motion_preview(false)
     elif phase=="relaunch":
-        app.load_presentation_preferences();assert(not app.neri_motion_preview and app.finn_motion_preview)
+        app.load_presentation_preferences();assert(app.neri_motion_preview and app.finn_motion_preview)
     else:
         printerr("explicit migration phase required");quit(1);return
     app.new_game();var state=app.session.logic.snapshot();app.load_presentation_preferences();assert(app.session.logic.snapshot()==state)

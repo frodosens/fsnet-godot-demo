@@ -9,11 +9,14 @@ func frames(n=4):
     for i in range(n):await process_frame
 func run():
     var app=root.get_node("App");app.presentation_preferences_path="user://compact-edges.cfg"
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
     app.save_root="user://compact-test-saves-"+str(Time.get_ticks_usec())
     DirAccess.remove_absolute(app.presentation_preferences_path);app.load_presentation_preferences()
-    check(not app.mara_sequence_preview,"fresh local default off")
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
+    check(app.mara_sequence_preview,"latest default on")
     var config=ConfigFile.new();config.set_value("map","mara_sequence_preview","true");config.save(app.presentation_preferences_path)
-    app.load_presentation_preferences();check(not app.mara_sequence_preview,"nonboolean preference rejected")
+    app.load_presentation_preferences();check(app.mara_sequence_preview,"obsolete preference ignored")
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
     for size in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=size
         for fixed in [true,false]:
@@ -27,15 +30,8 @@ func run():
             var toggle
             for control in game.hud.modal.find_children("*","CheckButton",true,false):
                 if control.text.begins_with("玛拉视频"):toggle=control
-            check(toggle!=null,"settings entry")
-            if toggle:
-                check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(toggle.get_global_rect()),"toggle on screen")
-                var click=InputEventMouseButton.new();click.button_index=MOUSE_BUTTON_LEFT;click.position=toggle.get_global_rect().get_center();click.pressed=true;root.push_input(click,true);await process_frame
-                click=click.duplicate();click.pressed=false;root.push_input(click,true);await frames()
-                check(app.mara_sequence_preview,"actual mouse enables candidate")
-                toggle.grab_focus();var key=InputEventKey.new();key.keycode=KEY_SPACE;key.pressed=true;root.push_input(key,true);await process_frame
-                key=key.duplicate();key.pressed=false;root.push_input(key,true);await frames()
-                check(not app.mara_sequence_preview,"keyboard restores old art")
+            check(toggle==null,"obsolete animation version control removed")
+            check(game.hud.modal.find_child("AnimationOptions",true,false)==null,"no obsolete version list")
             game.hud.clear_modal();app.set_mara_sequence_preview(true)
             game.selected=0;game.mode="move"
             var preview_texture=game.figures[0].texture

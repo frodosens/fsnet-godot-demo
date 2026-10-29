@@ -1,0 +1,492 @@
+{
+  "schema_version": 1,
+  "character_id": "elsbet",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "canonical_reference_body_height_px": 100,
+  "alpha_bbox_threshold": 128,
+  "direction_sources": {
+    "front_left": "front_left",
+    "front_right": "front_left mirrored",
+    "back_left": "back_left",
+    "back_right": "back_left mirrored"
+  },
+  "source_cycles": {
+    "front_left": {
+      "indices": [
+        10,
+        12,
+        15,
+        17,
+        20,
+        22,
+        25,
+        27
+      ],
+      "endpoint": 30,
+      "weights": [
+        2,
+        3,
+        2,
+        3,
+        2,
+        3,
+        2,
+        3
+      ],
+      "source_fps": 24
+    },
+    "back_left": {
+      "indices": [
+        9,
+        13,
+        17,
+        20,
+        24,
+        28,
+        32,
+        35
+      ],
+      "endpoint": 39,
+      "weights": [
+        4,
+        4,
+        3,
+        4,
+        4,
+        4,
+        3,
+        4
+      ],
+      "source_fps": 24
+    }
+  },
+  "idle_selection": "Preserve canonical original idle; pad original 96x128px canvas by (32,24), no body resizing.",
+  "fixed_registration": {
+    "source_canvas": [
+      1280,
+      720
+    ],
+    "panel_canvas": [
+      640,
+      720
+    ],
+    "source_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resample": "nearest",
+    "per_frame_adjustment": false
+  },
+  "key": "green excess alpha; zero transparent RGB; green despill on partial-alpha edges",
+  "frames": [
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/front_left/front_left_walk_00.png",
+      "sha256": "86b3f0ef8d6aef309eab358879dc0a0c5e42b6d20e1896276ea39aaa5be91ba7",
+      "source_frame": 10,
+      "weight": 2,
+      "alpha_bbox_exclusive": [
+        45,
+        44,
+        107,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        44,
+        44,
+        107,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/front_left/front_left_walk_01.png",
+      "sha256": "2cb453bf8b981b5e524306570930766b169c1d3d764c9736c0a5a12e562532fd",
+      "source_frame": 12,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        44,
+        107,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        44,
+        108,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/front_left/front_left_walk_02.png",
+      "sha256": "9854a1860c42723e2c61b447a8ee0ffab497eb8f410bdd444c456da712dff06e",
+      "source_frame": 15,
+      "weight": 2,
+      "alpha_bbox_exclusive": [
+        46,
+        44,
+        109,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        44,
+        109,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/front_left/front_left_walk_03.png",
+      "sha256": "aaff06c5ebd593e49344be1b831af47a3a379a0176be4c74ccd1433d8a5ab309",
+      "source_frame": 17,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        46,
+        43,
+        107,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        43,
+        107,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/front_left/front_left_walk_04.png",
+      "sha256": "77b19516360af9bda71d96db096c108310201ebcd6d6d8003054295caec7c116",
+      "source_frame": 20,
+      "weight": 2,
+      "alpha_bbox_exclusive": [
+        46,
+        43,
+        107,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        43,
+        107,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/front_left/front_left_walk_05.png",
+      "sha256": "1ec7374ce5101d14a09820cc3b7eab35fe37cf704bcf772f6dc3ffc331843455",
+      "source_frame": 22,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        46,
+        43,
+        106,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        43,
+        106,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/front_left/front_left_walk_06.png",
+      "sha256": "869e869613919c46880d877df9318f2e6920a2dfdca00ed9c42b43fcd729647b",
+      "source_frame": 25,
+      "weight": 2,
+      "alpha_bbox_exclusive": [
+        47,
+        44,
+        105,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        47,
+        44,
+        105,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/front_left/front_left_walk_07.png",
+      "sha256": "a5673be6682c8e02bfb619a02c08aa452db0160ba0f814d0d8ebf13e7dff971a",
+      "source_frame": 27,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        47,
+        43,
+        105,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        47,
+        43,
+        105,
+        147
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/idle/front_left/front_left_idle_00.png",
+      "sha256": "5335baed9fb5da8437197d5e9364aa361ff3ea6ab06913743daaf7c9632509ec",
+      "source": "unchanged canonical sprite padded +32,+24"
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/back_left/back_left_walk_00.png",
+      "sha256": "0f1f2d93ec7abeeedb7693c1bd5d7fc8e62ec3f033d4ef76dd89e0c527507143",
+      "source_frame": 9,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        53,
+        45,
+        111,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        53,
+        44,
+        111,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/back_left/back_left_walk_01.png",
+      "sha256": "9a6d8a3d5f150248c0fffe20b8fe034597aaf2028fc8536bdec2258f89a11d6a",
+      "source_frame": 13,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        51,
+        45,
+        110,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        45,
+        110,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/back_left/back_left_walk_02.png",
+      "sha256": "53f8b4370c418d11fb3dbc17f2a99e1601a1b97b4737ebf69ed0988c634eeddb",
+      "source_frame": 17,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        51,
+        46,
+        111,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        46,
+        111,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/back_left/back_left_walk_03.png",
+      "sha256": "938dddd44a6a7a026aafc0e391a84e838395c8b4adcd79e77dcbea1cf67d9480",
+      "source_frame": 20,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        52,
+        45,
+        111,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        52,
+        45,
+        111,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/back_left/back_left_walk_04.png",
+      "sha256": "e632666cc14e5ecf87045cb8ead0ad5bd7ce45aba51bedd2d6b9f8d19b163e41",
+      "source_frame": 24,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        54,
+        44,
+        111,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        53,
+        44,
+        111,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/back_left/back_left_walk_05.png",
+      "sha256": "2a8e6024344ee448412bed7a2879f2d8eb844c9dc4a1e5a058b56cd2813dc7c1",
+      "source_frame": 28,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        57,
+        45,
+        110,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        57,
+        45,
+        110,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/back_left/back_left_walk_06.png",
+      "sha256": "bbbf1f9c7031825824402a85cc025fc92c5ca96221bd2e2eeb9a7c1278c9c0dc",
+      "source_frame": 32,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        58,
+        46,
+        110,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        58,
+        46,
+        110,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/motion/back_left/back_left_walk_07.png",
+      "sha256": "cf7198823d212246668beb45bcfdb4cd15e54d17af644bb553af5217f0140a53",
+      "source_frame": 35,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        57,
+        45,
+        110,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        56,
+        45,
+        110,
+        147
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/elsbet_seedance_mini_v2/idle/back_left/back_left_idle_00.png",
+      "sha256": "88da85e051b645708d8b3b9671218a37834c99e3e4f3a6174b47c8bbd80778d0",
+      "source": "unchanged canonical sprite padded +32,+24"
+    }
+  ],
+  "quality_caveats": [
+    "Candidate requires in-game directional review: back-left retains small left profile and leftward feet but is more rear-on than canonical reference.",
+    "Generated pixels simplify canonical face/costume texture slightly; original canonical static idle included as fallback; prefer existing accepted idle at integration.",
+    "Right views mirror equipment handedness, matching approved pipeline."
+  ],
+  "qa": {
+    "front_left": {
+      "adjacent_rgba_MAE": [
+        3.019,
+        4.232,
+        3.8,
+        5.435,
+        4.364,
+        3.901,
+        5.811,
+        6.325
+      ],
+      "loop_endpoint_MAE": 2.06,
+      "alpha_bottom_range": [
+        146,
+        149
+      ]
+    },
+    "back_left": {
+      "adjacent_rgba_MAE": [
+        5.052,
+        3.301,
+        3.409,
+        4.274,
+        5.552,
+        4.478,
+        3.907,
+        5.285
+      ],
+      "loop_endpoint_MAE": 2.35,
+      "alpha_bottom_range": [
+        146,
+        149
+      ]
+    }
+  }
+}

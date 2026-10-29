@@ -32,18 +32,10 @@ func run():
             var toggle
             for control in game.hud.modal.find_children("*","CheckButton",true,false):
                 if control.text.begins_with("泰莎视频"):toggle=control
-            check(toggle!=null,"settings entry")
-            if toggle:
-                game.hud.modal.find_child("AnimationOptions",true,false).ensure_control_visible(toggle);await frames()
-                check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(toggle.get_global_rect()),"toggle on screen")
-                var click=InputEventMouseButton.new();click.button_index=MOUSE_BUTTON_LEFT;click.position=toggle.get_global_rect().get_center();click.pressed=true;root.push_input(click,true);await process_frame
-                click=click.duplicate();click.pressed=false;root.push_input(click,true);await frames()
-                check(app.tessa_motion_preview,"actual mouse enables candidate")
-                check(game.get_node("MapIdle").clocks.mara==.73 and game.figures[0].texture==mara_texture,"Tessa setting does not reset Mara idle or image")
-                toggle.grab_focus();var key=InputEventKey.new();key.keycode=KEY_SPACE;key.pressed=true;root.push_input(key,true);await process_frame
-                key=key.duplicate();key.pressed=false;root.push_input(key,true);await frames()
-                check(not app.tessa_motion_preview,"keyboard restores old art")
+            check(toggle==null,"retired Tessa version control absent")
+            check(game.hud.modal.find_child("AnimationOptions",true,false)==null,"no obsolete version list")
             game.hud.clear_modal();app.set_tessa_motion_preview(true)
+            check(game.get_node("MapIdle").clocks.mara==.73 and game.figures[0].texture==mara_texture,"internal fallback refresh still preserves Mara phase/image")
             check(game.select_actor(4),"select Tessa through actual selection lifecycle");await frames()
             var preview_texture=game.figures[4].texture
             game.update_move_preview(Vector2i(2,8));await frames()

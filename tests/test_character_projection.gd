@@ -7,7 +7,7 @@ func _initialize():call_deferred("run")
 func frames():
     for i in range(3):await process_frame
 func run():
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
     var game=current_scene;var snapshot=game.battle.snapshot()
     for size in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=size;await frames()

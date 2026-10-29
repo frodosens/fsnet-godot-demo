@@ -14,23 +14,20 @@ func run():
         while not app.next_story().is_empty():app.advance_story(true)
         var g=current_scene;g.refresh();g.hud.show_feedback_settings();await frames()
         var truth=g.battle.snapshot();var scroll=g.hud.modal.find_child("AnimationOptions",true,false)
-        check(scroll!=null and scroll.clip_contents,"options clipped")
-        check(root.get_visible_rect().encloses(scroll.get_global_rect()),"bounded scroll area")
-        var toggles=scroll.find_children("*","CheckButton",true,false);check(toggles.size()==13,"thirteen independent animation controls including three hero V2 trials")
-        var expected=["玛拉视频关键帧（候选）","芬恩视频移动（候选）","奥伦视频关键帧（暂用）","布拉姆视频关键帧（暂用）","泰莎视频移动（试验）","奈莉镜像移动（试验）","阿黛拉双面板移动（试验）","奈莉视频待机（暂用）","阿黛拉视频待机（暂用）","埃尔丝贝特视频待机（暂用）","玛拉地图重制 V2（试验）","芬恩地图重制 V2（试验）","奈莉地图重制 V2（试验）"]
+        check(scroll==null,"obsolete animation options removed")
+        var toggles=g.hud.modal.find_children("*","CheckButton",true,false)
         var actual=[]
         for toggle in toggles:actual.append(toggle.text)
-        check(actual==expected,"exact animation control identities/order; no duplicates or missing options")
+        check(actual==["减弱震动与闪光","头顶血条自动避让","战斗音效"],"only unrelated accessible preferences remain")
         for toggle in toggles:
-            scroll.ensure_control_visible(toggle);await frames()
-            var pos=toggle.get_global_rect().get_center();check(scroll.get_global_rect().has_point(pos),"each toggle reachable")
+            var pos=toggle.get_global_rect().get_center();check(root.get_visible_rect().has_point(pos),"remaining control fits viewport")
             var before=toggle.button_pressed
             var click=InputEventMouseButton.new();click.position=pos;click.button_index=MOUSE_BUTTON_LEFT;click.pressed=true;root.push_input(click,true);await process_frame
             click=click.duplicate();click.pressed=false;root.push_input(click,true);await frames()
-            check(toggle.button_pressed!=before,"mouse operates actual scroll control")
+            check(toggle.button_pressed!=before,"mouse operates remaining control")
             toggle.grab_focus();var key=InputEventKey.new();key.keycode=KEY_SPACE;key.pressed=true;root.push_input(key,true);await process_frame
             key=key.duplicate();key.pressed=false;root.push_input(key,true);await frames()
-            check(toggle.button_pressed==before,"keyboard restores control")
+            check(toggle.button_pressed==before,"keyboard restores remaining control")
         var output=OS.get_environment("AMBER_IDLE_STILLS")
         if not output.is_empty():
             await RenderingServer.frame_post_draw
