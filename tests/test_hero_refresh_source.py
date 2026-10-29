@@ -18,9 +18,19 @@ for hero in ('mara','finn','neri'):
     for direction in ('front_left','front_right','back_left','back_right'):
         source=direction.replace('right','left');entry=profile[direction]
         for kind in ('idle','motion'):
-            clip=entry[kind];assert clip['flip_h']==direction.endswith('right')
+            clip=entry[kind]
+            actual_source=clip.get('source_facing',source)
+            assert actual_source in (direction.split('_')[0]+'_left',direction.split('_')[0]+'_right')
+            assert clip['flip_h']==(actual_source!=direction)
             assert clip['root']==[80,144] and sum(clip['ticks'])==clip['cycle_ticks']
             assert len(clip['frames'])==(1 if kind=='idle' else 8)
-            assert all('/'+source+'/' in p and (root/p).is_file() for p in clip['frames']);checks+=4
+            if hero=='mara' and kind=='motion' and direction.startswith('back'):
+                assert clip['frames']==[f'assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_{i:02d}.png' for i in range(8)]
+                assert clip['ticks']==[3,3,3,3,2,4,2,3] and actual_source=='back_right'
+            elif hero=='neri' and kind=='idle':
+                assert clip['frames']==[f'assets/sprites/iso4/neri_idle_standing_v1/{source}_idle_00.png']
+            else:
+                assert all('/'+source+'/' in p for p in clip['frames'])
+            assert all((root/p).is_file() for p in clip['frames']);checks+=4
     assert profile['front_left']['idle']['frames']==profile['front_right']['idle']['frames'];checks+=1
 print(f'HERO_REFRESH_SOURCE checks={checks} failures=0')

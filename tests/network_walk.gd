@@ -46,6 +46,7 @@ func run():
     change_scene_to_file("res://main.tscn");await process_frame;await process_frame
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.motion.speed=.5
+    if OS.get_environment("AMBER_WALK_BACKGROUND")=="3d":game.scene_view.set_fixed(false)
     while app.session.pending:await process_frame
     check(app.session.submit({"kind":"move","unit":index,"x":target.x,"y":target.y}),"network legal actor move")
     while game.battle.step<1:
@@ -73,7 +74,7 @@ func run():
             check(game.figures[index].flip_h==direction.ends_with("right") and game.figures[index].offset==Vector2(0,64),"Elsbet motion root/mirror persists")
         if hero_refresh:
             clip=game.hero_refresh_entry(index,direction).motion
-            check(game.figures[index].flip_h==direction.ends_with("right") and game.figures[index].offset==Vector2(0,64),"hero root/mirror survives Runtime replacement")
+            check(game.figures[index].flip_h==clip.flip_h and game.figures[index].offset==Vector2(0,64),"hero motion source mirror/root survives Runtime replacement")
         poses[clip.textures.find(game.figures[index].texture)]=true
         check(game.battle.snapshot()==truth,"poll keeps authoritative state")
         await process_frame

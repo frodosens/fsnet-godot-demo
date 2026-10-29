@@ -114,14 +114,14 @@
         },
         "motion": {
           "frames": [
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_00.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_01.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_02.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_03.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_04.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_05.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_06.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_07.png"
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_00.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_01.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_02.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_03.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_04.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_05.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_06.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_07.png"
           ],
           "ticks": [
             3,
@@ -129,8 +129,8 @@
             3,
             3,
             2,
-            3,
-            3,
+            4,
+            2,
             3
           ],
           "cycle_ticks": 23,
@@ -138,7 +138,8 @@
             80,
             144
           ],
-          "flip_h": false
+          "flip_h": true,
+          "source_facing": "back_right"
         }
       },
       "back_right": {
@@ -159,14 +160,14 @@
         },
         "motion": {
           "frames": [
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_00.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_01.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_02.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_03.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_04.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_05.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_06.png",
-            "assets/sprites/iso4/mara_seedance_mini_v2/motion/back_left/back_left_walk_07.png"
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_00.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_01.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_02.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_03.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_04.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_05.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_06.png",
+            "assets/sprites/iso4/mara_back_diagonal_v1/back_right_walk_07.png"
           ],
           "ticks": [
             3,
@@ -174,8 +175,8 @@
             3,
             3,
             2,
-            3,
-            3,
+            4,
+            2,
             3
           ],
           "cycle_ticks": 23,
@@ -183,7 +184,8 @@
             80,
             144
           ],
-          "flip_h": true
+          "flip_h": false,
+          "source_facing": "back_right"
         }
       }
     }

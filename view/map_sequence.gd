@@ -55,7 +55,13 @@ func configure(data):
             var motion_canvas=Vector2i(160,160) if hero_canvas else (Vector2i(128,136) if id=="tessa" else Vector2i(128,128))
             var motion={} if idle_only else decode(item.get("motion"),motion_canvas,144 if hero_canvas else 120)
             if guard==null or (not motion_only and idle.is_empty()) or (motion_only and item.has("idle")) or (not idle_only and motion.is_empty()) or (idle_only and item.has("motion")):valid=false;break
-            if hero_canvas and (idle.textures.size()!=1 or idle.flip_h!=motion.flip_h or idle.flip_h!=direction.ends_with("right")):valid=false;break
+            if hero_canvas:
+                # Idle sources remain left-facing. Motion may explicitly declare a
+                # right-facing source; its mirror is independent of the idle pose.
+                var pair="back" if direction.begins_with("back") else "front"
+                var source=item.motion.get("source_facing",pair+"_left")
+                if source not in [pair+"_left",pair+"_right"]:valid=false;break
+                if idle.textures.size()!=1 or idle.flip_h!=direction.ends_with("right") or motion.flip_h!=(source!=direction):valid=false;break
             decoded[direction]={"guard":guard,"idle":idle,"motion":motion}
         if valid:profiles[id]=decoded
         else:errors.append("invalid sequence profile: "+str(id)+"; old art retained")
