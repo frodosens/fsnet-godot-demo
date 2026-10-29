@@ -10,7 +10,7 @@ func _initialize():call_deferred('run')
 func run():
  var app=root.get_node('App')
  for size in [Vector2i(1280,800),Vector2i(2400,1080)]:
-  root.size=size;check(app.new_game(preload('res://story/library.gd').content(1)),'real chapter')
+  root.size=size;app.mobile_presentation=size.x>2000;check(app.new_game(preload('res://story/library.gd').content(1)),'real chapter')
   change_scene_to_file('res://main.tscn');await process_frame;await process_frame
   var g=current_scene;g.refresh()
   for i in range(2,5):
