@@ -19,7 +19,7 @@ func run():
             var game=current_scene;game.refresh();game.selected=index;game.facing[hero]=direction
             app.set_hero_map_refresh_preview(on,hero);game.refresh()
             var title={"mara":"玛拉","finn":"芬恩","neri":"奈莉"}[hero]+" · "+str(spec[0])+ (" · 新静态待机 / 移动" if on else " · 旧素材对照")
-            var label=preload("res://ui/style.gd").label(title+"\n合法测试摆位 · 正常模拟速度 · 右侧待机/移动均镜像",18);label.position=Vector2(300,90);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
+            var label=Style.label(title+"\n合法测试摆位 · 正常模拟速度 · 右侧待机/移动均镜像",18);label.position=Vector2(300,90);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
             await frames(12)
             if on and direction=="front_left":
                 await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(output+"/"+hero+"-idle.png")

@@ -1,7 +1,6 @@
 extends RefCounted
 # Read-only presentation adapter. Equipment previews execute authoritative Lua
 # against a separate snapshot; the live session is never mutated here.
-const Runtime=preload("res://logic/runtime.gd")
 const SLOTS=["main_hand","off_hand","head","body","hands","feet","neck","ring","ring"]
 const SLOT_NAMES=["主手","副手","头部","身体","双手","双脚","项链","戒指一","戒指二"]
 const STAT_NAMES={"hp":"当前生命","max_hp":"生命上限","mp":"当前法力","max_mp":"法力上限","damage":"物理攻击","spell_bonus":"法术加成","armor":"护甲","resist":"抗性","movement":"移动距离","reach":"攻击距离","move_actions":"每回合移动次数","mobile_cast":"移动施法"}

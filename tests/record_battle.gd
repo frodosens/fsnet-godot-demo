@@ -1,5 +1,4 @@
 extends SceneTree
-const Content=preload("res://logic/content.gd")
 func _initialize():call_deferred("run")
 func run():
     assert(DisplayServer.get_name()!="headless")

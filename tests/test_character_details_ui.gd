@@ -1,4 +1,4 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 class ListFixture:
     extends RefCounted
     var game
@@ -6,11 +6,6 @@ class ListFixture:
     var entries=[]
     func picker_entries(_kind):return entries
     func item_text(item):return actual.item_text(item)
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame

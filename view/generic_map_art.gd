@@ -5,7 +5,7 @@ const Sequence=preload("res://view/map_sequence.gd")
 static var cache={}
 const NAMES={"generic_soldier_01":"通用士兵","generic_knight_01":"通用重甲兵","generic_beast_01":"通用石兽","generic_caster_01":"通用施法者","generic_archer_01":"通用弓手","generic_bandit_01":"通用山贼"}
 static func canonical_id(id):
-    var profile=preload("res://logic/presentation_profiles.gd").resolve({"id":id})
+    var profile=PresentationProfiles.resolve({"id":id})
     return profile if profile in Sequence.CATALOG_IDS else ""
 static func declared(id):return not canonical_id(id).is_empty()
 # Data-only editor/chapter query: no role, balance, faction or spawn assignment.

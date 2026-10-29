@@ -1,9 +1,4 @@
-extends SceneTree
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame
@@ -27,9 +22,9 @@ func run():
     check(not current_scene.scene_view.active,"deliberate 3D choice respected")
     app.load_slot("slot1");change_scene_to_file("res://main.tscn");await frames()
     check(not current_scene.scene_view.active,"load does not overwrite explicit session preference")
-    app.scene_renderer="auto";var data=preload("res://logic/content.gd").reference_content();data.terrain[0]="G"+data.terrain[0].substr(1)
+    app.scene_renderer="auto";var data=Content.reference_content();data.terrain[0]="G"+data.terrain[0].substr(1)
     app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
     check(not current_scene.scene_view.active,"modified terrain falls back to 3D")
-    app.new_game(preload("res://logic/content.gd").default_content());change_scene_to_file("res://main.tscn");await frames()
+    app.new_game(Content.default_content());change_scene_to_file("res://main.tscn");await frames()
     check(not current_scene.scene_view.active,"legacy incompatible map stays 3D")
     print("DEFAULT_RENDERER checks=",checks," failures=",failures);quit(1 if failures else 0)

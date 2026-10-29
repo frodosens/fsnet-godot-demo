@@ -3,7 +3,7 @@ func run():
     app=root.get_node("App");app.sfx_enabled=false;app.mobile_presentation=true;Input.emulate_mouse_from_touch=true
     root.size=Vector2i(1280,800)
     for actor in [0,2]:
-        var data=preload("res://logic/content.gd").reference_content()
+        var data=Content.reference_content()
         for y in range(data.height):data.terrain[y]="G".repeat(data.width)
         data.units[0].x=1;data.units[0].y=6;data.units[1].x=2;data.units[1].y=7;data.units[2].x=3;data.units[2].y=6
         data.units[3].x=data.units[actor].x;data.units[3].y=5

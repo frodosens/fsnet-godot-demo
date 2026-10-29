@@ -1,13 +1,6 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const Art=preload("res://view/reserve_art.gd")
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
 const Fixture=preload("res://tests/reserve_art_fixture.gd")
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():call_deferred("run")
 func frames():
     for i in range(3):await process_frame

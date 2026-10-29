@@ -1,12 +1,7 @@
-extends SceneTree
-var checks=0
-var failures=0
-func check(ok,label):
- checks+=1
- if not ok:failures+=1;printerr('FAIL: ',label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred('run')
 func run():
- var app=root.get_node('App');app.sfx_enabled=false;var fixture=preload('res://logic/content.gd').default_content()
+ var app=root.get_node('App');app.sfx_enabled=false;var fixture=Content.default_content()
  for y in range(fixture.height):fixture.terrain[y]='G'.repeat(fixture.width)
  fixture.units[3].x=3;fixture.units[3].y=3;fixture.units[4].x=5;fixture.units[4].y=3;fixture.units[5].x=6;fixture.units[5].y=4
  app.new_game(fixture)
@@ -30,7 +25,7 @@ func run():
  check(g.figures.map(func(n):return n.position)==pos and g.event_sequence.current==first,'speed zero freezes queue')
  g.motion.speed=1
  var source=app.session.logic
- var replacement=preload('res://logic/runtime.gd').new(source.content);check(replacement.restore(truth),'ordinary sync fixture')
+ var replacement=Runtime.new(source.content);check(replacement.restore(truth),'ordinary sync fixture')
  app.session.logic=replacement;g.battle=replacement;g.refresh()
  check(g.event_sequence.current==first and g.figures.map(func(n):return n.position)==pos,'same-step Runtime preserves visual progress')
  var count=0

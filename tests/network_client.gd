@@ -1,6 +1,4 @@
 extends SceneTree
-const Session=preload("res://logic/session.gd")
-const Runtime=preload("res://logic/runtime.gd")
 var session
 var role="driver"
 var elapsed=0.0
@@ -18,7 +16,7 @@ func _initialize():
     extended="--extended" in OS.get_cmdline_user_args()
     var mod_path=OS.get_environment("AMBER_MOD")
     if not mod_path.is_empty():
-        var loaded=Runtime.Content.from_file(mod_path)
+        var loaded=Content.from_file(mod_path)
         assert(loaded.error.is_empty());content=loaded.data
     session=Session.new();session.logic=Runtime.new(content)
     if not session.connect_local(port,OS.get_environment("AMBER_TOKEN")):quit(1)

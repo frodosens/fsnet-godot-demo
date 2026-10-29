@@ -26,7 +26,7 @@ func configure(data):
     if data.profiles.size()>16:errors.append("too many sequence profiles");return
     for id in data.profiles:
         var spec=data.profiles[id]
-        if not preload("res://logic/content.gd").identifier(id) or not spec is Dictionary:
+        if not Content.identifier(id) or not spec is Dictionary:
             errors.append("invalid sequence profile ID/spec");continue
         var motion_only=spec.get("motion_only",false)
         var idle_only=spec.get("idle_only",false)

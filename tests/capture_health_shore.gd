@@ -8,7 +8,7 @@ func shot(name):
     assert(root.get_texture().get_image().save_png("res://docs/"+name+".png")==OK)
 func run():
     assert(DisplayServer.get_name()!="headless")
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();assert(game.scene_view.set_fixed(true))
     await shot("health-shore-fixed-%dx%d"%[root.size.x,root.size.y])
@@ -16,7 +16,7 @@ func run():
         var cases=[Vector2i(6,2),Vector2i(7,2),Vector2i(8,2),Vector2i(9,2),Vector2i(0,6),Vector2i(1,6),Vector2i(4,3),Vector2i(5,3),Vector2i(4,4),Vector2i(5,4),Vector2i(4,5),Vector2i(5,5)]
         for target in cases:
             # Explicit test fixture: same terrain and rules, isolated start positions for one legal step.
-            var content=preload("res://logic/content.gd").reference_content().duplicate(true)
+            var content=Content.reference_content().duplicate(true)
             var start=target+Vector2i(0,-1) if target.y<=5 else target+Vector2i(0,1)
             content.units[0].x=start.x;content.units[0].y=start.y
             content.units[3].x=6;content.units[3].y=0;content.units[4].x=7;content.units[4].y=0;content.units[5].x=8;content.units[5].y=0

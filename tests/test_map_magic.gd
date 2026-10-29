@@ -1,14 +1,9 @@
-extends SceneTree
-var checks=0
-var failures=0
+extends "res://tests/support/test_case.gd"
 var g
 var app
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr('FAIL: ',label)
 func _initialize():call_deferred('run')
 func setup(kind='default'):
-    var data=preload('res://logic/content.gd').reference_content() if kind=='reference' else preload('res://logic/content.gd').default_content()
+    var data=Content.reference_content() if kind=='reference' else Content.default_content()
     if kind!='reference':
         for y in range(data.height):data.terrain[y]='G'.repeat(data.width)
     data.units[2].x=5;data.units[2].y=6
@@ -114,7 +109,7 @@ func run():
     check(g.map_magic.active,'queued heal starts after actual damage presentation')
     dock_hp(injury,'visible dock uses injury HP at start of queued healing')
     tick(0.40)
-    var replacement=preload('res://logic/runtime.gd').new(g.battle.content)
+    var replacement=Runtime.new(g.battle.content)
     check(replacement.restore(truth),'same-step reconnect snapshot')
     app.session.logic=replacement;g.battle=replacement;g.refresh()
     dock_hp(injury,'same-step replacement preserves in-flight dock HP')

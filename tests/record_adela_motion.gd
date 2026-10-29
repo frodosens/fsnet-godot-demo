@@ -17,7 +17,7 @@ func run():
         var game=current_scene;game.refresh();game.facing.adela=direction;game.selected=0
         app.set_idle_sequence_preview(false,"adela");app.set_adela_motion_preview(on);game.refresh()
         var title="阿黛拉双面板移动试验 · "+("转弯与停步" if turning else direction)+(" · 新素材" if on else " · 旧移动对照")
-        var label=preload("res://ui/style.gd").label(title+"\n合法测试摆位 / 正常模拟速度 / 每格一循环"+("\n右侧镜像反转持械手，停止切回旧待机" if direction.ends_with("right") and on else ""),18)
+        var label=Style.label(title+"\n合法测试摆位 / 正常模拟速度 / 每格一循环"+("\n右侧镜像反转持械手，停止切回旧待机" if direction.ends_with("right") and on else ""),18)
         label.position=Vector2(300,90);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
         await frames(25)
         assert(app.session.submit({"kind":"move","unit":0,"x":target.x,"y":target.y}))

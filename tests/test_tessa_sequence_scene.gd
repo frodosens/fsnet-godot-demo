@@ -1,10 +1,5 @@
-extends SceneTree
-var checks=0
-var failures=0
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func frames(count=3):
     for i in range(count):await process_frame
 func run():
@@ -20,7 +15,7 @@ func run():
             var data=preload("res://tests/walk_rear_fixture.gd").content("tessa",direction)
             var target=preload("res://tests/walk_rear_fixture.gd").target(direction)
             if direction=="front_left":data.units[4].y=5;target=Vector2i(4,8)
-            check(preload("res://logic/content.gd").validate(data)=="","fixture valid")
+            check(Content.validate(data)=="","fixture valid")
             app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
             while not app.next_story().is_empty():app.advance_story(true)
             var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed)

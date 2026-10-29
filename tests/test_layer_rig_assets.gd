@@ -4,7 +4,7 @@ func frames():
     for i in range(4):await process_frame
 func run():
     root.size=Vector2i(1280,800)
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     var game=current_scene;var rig=game.layer_rig;assert(rig.available)
     var truth=game.battle.snapshot();var maximum=0.0;var clamped=0;var worst_drift=0.0;var planted={}
     var delta=Vector2(5.625,-5.625)

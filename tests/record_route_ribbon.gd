@@ -8,7 +8,7 @@ func hover(game,cell):
     game.update_move_preview(cell)
 func run():
     assert(DisplayServer.get_name()!="headless")
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames(8)
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames(8)
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();assert(game.scene_view.set_fixed(true));await frames(8)
     var truth=game.battle.snapshot()

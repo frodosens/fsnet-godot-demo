@@ -1,6 +1,5 @@
+class_name Session
 extends RefCounted
-const Runtime = preload("res://logic/runtime.gd")
-const Authority = preload("res://logic/authority.gd")
 var logic = Runtime.new()
 var authority
 var transport
@@ -95,7 +94,7 @@ func tick(delta):
             transport.shutdown()
             transport.start(false,port,token)
             retry_clock=0.5
-        else: synchronize(Runtime.Content.parse_json(event.payload))
+        else: synchronize(Content.parse_json(event.payload))
     retry_clock-=delta
     if not pending and not defer_poll and retry_clock<=0.0:
         pending=transport.send(JSON.stringify(envelope()))

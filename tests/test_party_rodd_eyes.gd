@@ -1,7 +1,7 @@
 extends "res://tests/test_mobile_touch_camera.gd"
 func run():
     app=root.get_node("App");app.mobile_presentation=true;app.sfx_enabled=false
-    var data=preload("res://logic/content.gd").reference_content()
+    var data=Content.reference_content()
     data.units[0].id="rodd";data.units[0].name="罗德";data.story.events=[]
     for physical in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=physical;await frames();await fresh(data)

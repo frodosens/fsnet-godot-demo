@@ -24,7 +24,7 @@ func run():
                 var entry=game.hero_refresh_entry(index,direction);var clip=entry.motion;var tick=0 if sample==0 else clip.ends[sample-1]
                 assert(app.session.submit({"kind":"move","unit":index,"x":4,"y":2 if bridge else 8}));game.battle=app.session.logic;game.refresh()
                 game.motion.advance((tick+0.5)/clip.ticks/game.motion.WORLD_SPEED/game.character_scale)
-                var label=preload("res://ui/style.gd").label(hero+" V2 · "+("固定背景" if fixed else "3D")+" · 最低脚部采样相位\nroot=(80,144) · 不改变地面深度/身体比例",18);label.position=Vector2(300,90);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
+                var label=Style.label(hero+" V2 · "+("固定背景" if fixed else "3D")+" · 最低脚部采样相位\nroot=(80,144) · 不改变地面深度/身体比例",18);label.position=Vector2(300,90);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
                 await frames();await RenderingServer.frame_post_draw
                 var file=out+"/"+hero+("-bridge" if bridge else "")+("-fixed-" if fixed else "-3d-")+str(physical.x)+".png"
                 root.get_texture().get_image().save_png(file);print("HERO_CAPTURE ",file," opaque_bottom_exclusive=",bottom," sample=",sample)

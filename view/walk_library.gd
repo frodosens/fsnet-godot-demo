@@ -29,7 +29,7 @@ func configure(data):
 func valid_key(key):
     if not key is String:return false
     var parts=key.split(":",true)
-    return parts.size()==2 and preload("res://logic/content.gd").identifier(parts[0]) and parts[1] in DIRECTIONS
+    return parts.size()==2 and Content.identifier(parts[0]) and parts[1] in DIRECTIONS
 func decode(spec):
     if not spec is Dictionary:return {}
     var distance=spec.get("cycle_distance")

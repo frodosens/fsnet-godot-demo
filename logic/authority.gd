@@ -1,6 +1,6 @@
+class_name Authority
 extends RefCounted
 # Same authoritative sequencer used by offline play and headless server.
-const Runtime = preload("res://logic/runtime.gd")
 var logic
 var checkpoint = ""
 var history = []

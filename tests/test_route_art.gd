@@ -1,10 +1,5 @@
-extends SceneTree
-var checks=0
-var failures=0
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func frames(n=4):
     for i in range(n):await process_frame
 func run():
@@ -26,7 +21,7 @@ func run():
                     for pos in positions:
                         if absf(p.x-pos.x)<=.50001 and absf(p.y-pos.y)<=.50001:inside=true
                     check(inside,"entire module bounded by authorized cells")
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var g=current_scene;g.refresh();g.hud.choose_action("move");var overlay=g.ground_overlay;var truth=g.battle.snapshot()
     var out=OS.get_environment("AMBER_ROUTE_CAPTURE")

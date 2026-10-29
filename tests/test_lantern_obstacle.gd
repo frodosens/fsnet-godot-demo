@@ -1,15 +1,6 @@
-extends SceneTree
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
-const Authority=preload("res://logic/authority.gd")
-const Session=preload("res://logic/session.gd")
-var checks=0
-var failures=0
+extends "res://tests/support/test_case.gd"
 var app
 var capture_dir=OS.get_environment("AMBER_LANTERN_CAPTURE")
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():call_deferred("run")
 func frames():
     for i in range(3):await process_frame

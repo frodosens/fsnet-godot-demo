@@ -1,9 +1,4 @@
-extends SceneTree
-var failures=0
-var checks=0
-func check(value,label):
-    checks+=1
-    if not value:failures+=1;printerr("FAIL ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():
     var vm=AmberLogic.new()
     check(vm.load_rules("return {echo=function(a) return a end, fail=function() error('expected failure') end, spin=function() while true do end end, memory=function() return string.rep('x',16000000) end}"),"load rules")

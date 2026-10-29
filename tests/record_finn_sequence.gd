@@ -15,7 +15,7 @@ func run():
         while not app.next_story().is_empty():app.advance_story(true)
         var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed);game.facing.finn=direction;game.selected=1
         app.set_finn_motion_preview(true);game.refresh()
-        var label=preload("res://ui/style.gd").label("芬恩移动关键帧试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 保留原待机 / 移动候选",18)
+        var label=Style.label("芬恩移动关键帧试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 保留原待机 / 移动候选",18)
         label.position=Vector2(320,96);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
         await frames(100)
         await RenderingServer.frame_post_draw

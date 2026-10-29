@@ -15,7 +15,7 @@ func run():
         while not app.next_story().is_empty():app.advance_story(true)
         var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed);game.facing.tessa=direction;game.selected=4
         app.set_tessa_motion_preview(true);game.refresh()
-        var label=preload("res://ui/style.gd").label("泰莎移动关键帧试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 保留原待机 / 移动候选",18)
+        var label=Style.label("泰莎移动关键帧试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 保留原待机 / 移动候选",18)
         label.position=Vector2(320,96);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
         await frames(24)
         await RenderingServer.frame_post_draw
@@ -33,7 +33,7 @@ func run():
     app.new_game(data);change_scene_to_file("res://main.tscn");await frames(4)
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed);game.selected=4;app.set_tessa_motion_preview(true)
-    var label=preload("res://ui/style.gd").label("泰莎移动试验 · 合法转弯 / 原待机衔接",18);label.position=Vector2(320,96);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
+    var label=Style.label("泰莎移动试验 · 合法转弯 / 原待机衔接",18);label.position=Vector2(320,96);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
     await frames(24)
     assert(app.session.submit({"kind":"move","unit":4,"x":2,"y":7}))
     game.battle=app.session.logic;game.refresh()

@@ -1,11 +1,5 @@
 # ARCHIVED: historical walk-frame diagnostic, not current idle-slide runtime.
-extends SceneTree
-const Content=preload("res://logic/content.gd")
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func run():
     var app=root.get_node("App");var data=Content.default_content();data.units[0].x=2;app.new_game(data)

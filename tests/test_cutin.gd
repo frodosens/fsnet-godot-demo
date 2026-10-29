@@ -1,11 +1,4 @@
-extends SceneTree
-const Runtime=preload("res://logic/runtime.gd")
-const Content=preload("res://logic/content.gd")
-var failures=0
-var checks=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func run():
     var data=Content.default_content();data.units[3].x=3;data.units[3].y=5

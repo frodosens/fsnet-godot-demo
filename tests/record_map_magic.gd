@@ -9,7 +9,7 @@ func capture(name):
     await RenderingServer.frame_post_draw
     root.get_texture().get_image().save_png('/tmp/map-magic-'+name+'.png')
 func prepare(healing=false):
-    var data=preload('res://logic/content.gd').reference_content()
+    var data=Content.reference_content()
     data.units[2].x=5;data.units[2].y=6
     data.units[3].x=5;data.units[3].y=5
     data.units[4].x=4;data.units[4].y=5

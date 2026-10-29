@@ -1,10 +1,5 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const Rig=preload("res://view/mara_layer_rig.gd")
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():
     var hip=Vector2(48,80);var knee=Vector2(40,98);var ankle=Vector2(49,113);var sole=Vector2(51,120)
     var upper=hip.distance_to(knee);var lower=knee.distance_to(ankle)

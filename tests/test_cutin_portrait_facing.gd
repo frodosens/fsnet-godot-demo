@@ -1,16 +1,11 @@
-extends SceneTree
-var checks=0
-var failures=0
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func frames():
     for i in range(3):await process_frame
 func run():
-    var data=preload("res://logic/content.gd").reference_content()
+    var data=Content.reference_content()
     data.units[3].x=data.units[0].x+1;data.units[3].y=data.units[0].y
-    var logic=preload("res://logic/runtime.gd").new(data)
+    var logic=Runtime.new(data)
     check(logic.apply_command({"kind":"attack","unit":0,"target":3,"step":1}),"real Lua attack")
     var truth=logic.snapshot()
     var cutin=load("res://ui/battle_cutin.gd").new();root.add_child(cutin);cutin.set_process(false)
@@ -20,7 +15,7 @@ func run():
     for pass_index in range(2):
         for pair in [["mara","oren"],["oren","mara"],["finn","neri"],["bram","tessa"],["adela","elsbet"],["elsbet","adela"],["unknown_mod","unknown_target"]]:
             var sample=event.duplicate(true);sample.actor=pair[0];sample.target=pair[1]
-            sample.actor_profile=preload("res://logic/presentation_profiles.gd").resolve({"id":pair[0]});sample.target_profile=preload("res://logic/presentation_profiles.gd").resolve({"id":pair[1]})
+            sample.actor_profile=PresentationProfiles.resolve({"id":pair[0]});sample.target_profile=PresentationProfiles.resolve({"id":pair[1]})
             status.show_event(sample)
             check(not status.portraits.left.flip_h and status.portraits.right.flip_h,"screen side independent of ID and reuse")
             for side in ["left","right"]:
@@ -34,7 +29,7 @@ func run():
         root.size=size;cutin.layout_surface();await frames()
         for pair in [["oren","mara"],["adela","elsbet"],["elsbet","adela"]]:
             var sample=event.duplicate(true);sample.actor=pair[0];sample.target=pair[1]
-            sample.actor_profile=preload("res://logic/presentation_profiles.gd").resolve({"id":pair[0]});sample.target_profile=preload("res://logic/presentation_profiles.gd").resolve({"id":pair[1]})
+            sample.actor_profile=PresentationProfiles.resolve({"id":pair[0]});sample.target_profile=PresentationProfiles.resolve({"id":pair[1]})
             cutin.pending_events=[sample];cutin.play_next();cutin.draw_tick(0);await frames()
             check(status.portraits.right.flip_h and not status.portraits.left.flip_h,"rendered reverse/reserve roles retain side facing")
         cutin.pending_events=[event.duplicate(true)];cutin.play_next();cutin.draw_tick(0);await frames()

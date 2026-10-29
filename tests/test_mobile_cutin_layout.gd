@@ -1,9 +1,4 @@
-extends SceneTree
-var checks=0
-func check(ok,label):
-    checks+=1
-    if not ok:printerr("FAIL: ",label);quit(1)
-    assert(ok,label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame
@@ -15,15 +10,15 @@ func run():
         var view=root.get_visible_rect();var safe=app.ui_safe_rect()
         var transform=cutin.scene_surface.get_global_transform()
         var scene=transform*Rect2(Vector2.ZERO,Vector2(1586,992))
-        check(scene.grow(0.01).encloses(view),"battle scene uniformly covers "+str(physical))
-        check(is_equal_approx(transform.get_scale().x,transform.get_scale().y),"scene never distorted")
-        check(is_equal_approx(cutin.surface.scale.x,minf(safe.size.x/1586.0,safe.size.y/992.0)),"interface fit is independent of scene cover")
+        require(scene.grow(0.01).encloses(view),"battle scene uniformly covers "+str(physical))
+        require(is_equal_approx(transform.get_scale().x,transform.get_scale().y),"scene never distorted")
+        require(is_equal_approx(cutin.surface.scale.x,minf(safe.size.x/1586.0,safe.size.y/992.0)),"interface fit is independent of scene cover")
         for control in cutin.combat_status.get_children():
-            if control is Button:check(safe.grow(0.01).encloses(control.get_global_rect()),"battle controls within safe area")
-        check(cutin.arena.get_parent()==cutin.scene_surface and cutin.reference_background.get_parent()==cutin.scene_surface,"actors and background share coherent scene transform")
-        check(cutin.combat_status.get_parent()==cutin.surface,"HUD independent of scene cover")
-        check(cutin.reference_background.stretch_mode==TextureRect.STRETCH_KEEP_ASPECT_COVERED,"texture aspect preserved")
+            if control is Button:require(safe.grow(0.01).encloses(control.get_global_rect()),"battle controls within safe area")
+        require(cutin.arena.get_parent()==cutin.scene_surface and cutin.reference_background.get_parent()==cutin.scene_surface,"actors and background share coherent scene transform")
+        require(cutin.combat_status.get_parent()==cutin.surface,"HUD independent of scene cover")
+        require(cutin.reference_background.stretch_mode==TextureRect.STRETCH_KEEP_ASPECT_COVERED,"texture aspect preserved")
     app.mobile_presentation=false;cutin.layout_surface()
-    check(cutin.scene_surface.scale==Vector2.ONE and cutin.scene_surface.position==Vector2.ZERO,"desktop retains layout")
-    cutin.finish();check(not cutin.surface.visible,"finish hides both scene and HUD")
+    require(cutin.scene_surface.scale==Vector2.ONE and cutin.scene_surface.position==Vector2.ZERO,"desktop retains layout")
+    cutin.finish();require(not cutin.surface.visible,"finish hides both scene and HUD")
     print("MOBILE_CUTIN_LAYOUT checks=",checks," failures=0");quit()

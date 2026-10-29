@@ -1,11 +1,4 @@
-extends SceneTree
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
-var checks=0
-var failures=0
-func check(ok,message):
-    checks+=1
-    if not ok:failures+=1;push_error(message);quit(1);assert(ok,message)
+extends "res://tests/support/test_case.gd"
 func source():
     var d=Content.reference_content().duplicate(true);d.version=2;d.unit_definitions=[]
     var records=[]
@@ -21,16 +14,16 @@ func source():
     d.units=records;return d
 func _initialize():
     var original=Content.reference_content();var authored=source()
-    check(Content.validate(authored)=="","valid definitions")
+    require(Content.validate(authored)=="","valid definitions")
     var expanded=Content.expand(authored)
-    check(expanded.error=="" and expanded.data.version==1,"canonical expanded content")
+    require(expanded.error=="" and expanded.data.version==1,"canonical expanded content")
     var a=Runtime.new(original);var b=Runtime.new(authored)
-    check(b.content.units.is_read_only() and b.content.units[0].is_read_only() and b.content.units[0].abilities.is_read_only(),"deep immutable runtime definitions")
-    check(a.snapshot()==b.snapshot(),"expansion preserves snapshot")
-    check(b.content_hash==Content.hash_of(authored),"canonical content hash")
+    require(b.content.units.is_read_only() and b.content.units[0].is_read_only() and b.content.units[0].abilities.is_read_only(),"deep immutable runtime definitions")
+    require(a.snapshot()==b.snapshot(),"expansion preserves snapshot")
+    require(b.content_hash==Content.hash_of(authored),"canonical content hash")
     var saved=b.content.duplicate(true);authored.unit_definitions[0].hp+=5
-    check(Runtime.new(saved).snapshot()==b.snapshot(),"saved definitions remain frozen")
-    check(Content.hash_of(authored)!=b.content_hash,"template edit changes hash")
+    require(Runtime.new(saved).snapshot()==b.snapshot(),"saved definitions remain frozen")
+    require(Content.hash_of(authored)!=b.content_hash,"template edit changes hash")
     for mutation in ["duplicate","unknown","path","override","overflow"]:
         var bad=source()
         match mutation:
@@ -39,18 +32,18 @@ func _initialize():
             "path":bad.unit_definitions[0].presentation_ref="res://evil.gd"
             "override":bad.units[0].damage=40
             "overflow":while bad.units.size()<17:bad.units.append(bad.units[0].duplicate(true))
-        check(not Content.validate(bad).is_empty(),"reject "+mutation)
+        require(not Content.validate(bad).is_empty(),"reject "+mutation)
     var reordered=saved.duplicate(true);reordered.units.reverse()
-    check(Content.hash_of(saved)!=Content.hash_of(reordered),"order participates in hash")
+    require(Content.hash_of(saved)!=Content.hash_of(reordered),"order participates in hash")
     # Frozen pre-refactor source is read only from the external QA fixture.
     var path=OS.get_environment("UNIT_BASELINE_LUA")
     if not path.is_empty():
-        var old=ClassDB.instantiate("AmberLogic");check(old.load_rules(FileAccess.get_file_as_string(path)),"baseline load")
+        var old=ClassDB.instantiate("AmberLogic");require(old.load_rules(FileAccess.get_file_as_string(path)),"baseline load")
         old.invoke("reset",{"seed":12345,"content":original})
         var current=Runtime.new(original)
         for step in range(1,9):
             var command={"kind":"end_turn","step":step}
-            check(old.invoke("apply",command)==current.apply_command(command),"acceptance parity")
-            check(old.invoke("snapshot",{})==current.snapshot(),"snapshot parity "+str(step))
-            check(old.invoke("events",{})==current.events,"events parity "+str(step))
+            require(old.invoke("apply",command)==current.apply_command(command),"acceptance parity")
+            require(old.invoke("snapshot",{})==current.snapshot(),"snapshot parity "+str(step))
+            require(old.invoke("events",{})==current.events,"events parity "+str(step))
     print("UNIT_DEFINITIONS checks=",checks," failures=",failures);quit(1 if failures else 0)

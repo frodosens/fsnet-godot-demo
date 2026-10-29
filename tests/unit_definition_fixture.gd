@@ -6,7 +6,7 @@ static func pack(data):
         var definition=u.duplicate(true)
         for key in ["x","y","ally","controller","faction","policy","leash","escort"]:definition.erase(key)
         definition.id="def_"+u.id
-        definition.presentation_ref=u.get("presentation_ref",preload("res://logic/presentation_profiles.gd").resolve(u))
+        definition.presentation_ref=u.get("presentation_ref",PresentationProfiles.resolve(u))
         result.unit_definitions.append(definition)
         var instance={"id":u.id,"template_ref":definition.id,"x":u.x,"y":u.y,"ally":u.ally}
         for key in ["controller","faction","policy","leash","escort"]:

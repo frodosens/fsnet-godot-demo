@@ -1,10 +1,5 @@
-extends SceneTree
-var checks=0
-var failures=0
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func frames():
     for i in range(3):await process_frame
 func run():
@@ -17,7 +12,7 @@ func run():
         if not Walk.clips.has(actor+":"+direction):continue
         for fixed in [true,false]:
             var data=Fixture.content(actor,direction);var target=Fixture.target(direction)
-            check(preload("res://logic/content.gd").validate(data)=="","legal fixture")
+            check(Content.validate(data)=="","legal fixture")
             app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
             while not app.next_story().is_empty():app.advance_story(true)
             var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed);game.motion.set_process(false);game.get_node("MapIdle").set_process(false)

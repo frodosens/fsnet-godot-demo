@@ -1,3 +1,4 @@
+class_name PresentationProfiles
 extends RefCounted
 # Stable, data-only admission. These are asset profiles, never unit instance IDs.
 const HEROES=["mara","finn","neri","oren","tessa","bram","adela","elsbet","rodd","vera"]

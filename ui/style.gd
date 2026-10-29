@@ -1,3 +1,4 @@
+class_name Style
 extends RefCounted
 static var font
 const INK=Color("e4dcc5")

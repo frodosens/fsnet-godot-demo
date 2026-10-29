@@ -1,10 +1,5 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const UI=preload("res://ui/style.gd")
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame
@@ -16,7 +11,7 @@ func run():
         var parts=key.split(":");check(UI.content_icon(parts[0],parts[1]) is Texture2D,"known mapping "+key)
     check(UI.content_icon("skill","attack") is Texture2D,"ordinary attack reuses existing sword")
     check(UI.content_icon("item","unknown_mod_id")==null,"unknown Mod retains text fallback")
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();check(game.scene_view.active,"ordinary scene uses authored default")
     for size in [Vector2i(1280,800),Vector2i(960,600)]:

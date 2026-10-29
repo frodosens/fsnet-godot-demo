@@ -1,14 +1,9 @@
-extends SceneTree
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func frames():
     for i in range(3):await process_frame
 func run():
-    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);var data=preload("res://logic/content.gd").reference_content()
+    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);var data=Content.reference_content()
     data.units[3].ally=true;data.units[3].x=1;data.units[3].y=8
     app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)

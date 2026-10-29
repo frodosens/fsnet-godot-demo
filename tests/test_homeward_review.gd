@@ -1,11 +1,6 @@
-extends SceneTree
-const C=preload('res://logic/content.gd')
+extends "res://tests/support/test_case.gd"
+const C=preload("res://logic/content.gd")
 const L=preload('res://story/library.gd')
-var checks=0
-var failures=0
-func check(ok,label):
- checks+=1
- if not ok:failures+=1;printerr('FAIL ',label)
 func _initialize():call_deferred('run')
 func run():
  var app=root.get_node('App')
@@ -27,7 +22,7 @@ func run():
   # A directory at the exact temporary file path makes FileAccess fail quietly.
   # This exercises the real write-failure branch without mkdir engine errors.
   app.save_root=writable+'/blocked_'+str(num)
-  var probe=preload('res://logic/runtime.gd').new(app.session.logic.content)
+  var probe=Runtime.new(app.session.logic.content)
   check(probe.restore(app.session.logic.snapshot()),'prepare failure fixture')
   var event_id='homeward_04_finish' if num==3 else 'homeward_01_finish'
   check(probe.apply_command({'kind':'finish_story','event_id':event_id,'step':probe.step+1}),'predict completed snapshot')

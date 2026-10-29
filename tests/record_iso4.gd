@@ -1,5 +1,4 @@
 extends SceneTree
-const Content=preload("res://logic/content.gd")
 func _initialize():call_deferred("run")
 func wait_frames(count):
     for frame in range(count):await process_frame

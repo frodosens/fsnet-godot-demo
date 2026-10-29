@@ -6,7 +6,7 @@ func run():
     assert(DisplayServer.get_name()!="headless")
     var app=root.get_node("App")
     for enabled in [false,true]:
-        app.mara_layer_preview=enabled;app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames(8)
+        app.mara_layer_preview=enabled;app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames(8)
         while not app.next_story().is_empty():app.advance_story(true)
         var game=current_scene;game.refresh();assert(game.scene_view.set_fixed(true));assert(game.layer_rig.available)
         game.motion.speed=1.0 if enabled else game.layer_rig.stride/0.5 # Same world speed in both clips; only pose method changes.

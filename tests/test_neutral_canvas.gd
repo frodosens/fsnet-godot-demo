@@ -1,9 +1,4 @@
-extends SceneTree
-var count=0
-var failures=0
-func check(ok,label):
- count+=1
- if not ok:failures+=1;printerr('FAIL ',label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred('run')
 func run():
  var L=load('res://view/map_sequence.gd');var lib=L.new('res://missing.json')
@@ -28,5 +23,5 @@ func run():
  var missing=data.duplicate(true);missing.profiles.fixture.front_left.erase('neutral_root');lib.configure(missing);check(not lib.profiles.has('fixture'),'128 requires explicitroot')
  var mismatch=data.duplicate(true);mismatch.profiles.fixture.front_left.neutral_canvas_width=96;mismatch.profiles.fixture.front_left.neutral_root=[48,120];lib.configure(mismatch);check(not lib.profiles.has('fixture'),'declared actualsize mismatch rejected')
  var old=JSON.parse_string(FileAccess.get_file_as_string(L.PATH));lib.configure(old);check(lib.errors.is_empty() and lib.profiles.size()==8,'legacy96 unchanged')
- print('NEUTRAL_CANVAS checks=',count,' failures=',failures)
+ print('NEUTRAL_CANVAS checks=',checks,' failures=',failures)
  quit(1 if failures else 0)

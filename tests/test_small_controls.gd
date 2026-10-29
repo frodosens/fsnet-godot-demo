@@ -1,9 +1,4 @@
-extends SceneTree
-var failures=0
-var checks=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame
@@ -11,7 +6,7 @@ func key(code):
     for down in [true,false]:
         var e=InputEventKey.new();e.keycode=code;e.pressed=down;root.push_input(e,true);await process_frame
 func run():
-    var page=Control.new();page.theme=preload("res://ui/style.gd").make_theme();root.add_child(page)
+    var page=Control.new();page.theme=Style.make_theme();root.add_child(page)
     var box=CheckBox.new();box.text="复选状态";box.position=Vector2(100,100);box.custom_minimum_size=Vector2(220,44);page.add_child(box)
     var slider=HSlider.new();slider.position=Vector2(100,180);slider.size=Vector2(320,44);slider.value=50;page.add_child(slider)
     var scroll=ScrollContainer.new();scroll.position=Vector2(100,250);scroll.size=Vector2(350,180);page.add_child(scroll)

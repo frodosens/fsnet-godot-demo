@@ -3,7 +3,7 @@ func _initialize():call_deferred('run')
 func frames(n):
  for i in range(n):await process_frame
 func caption(game,text):
- var label=preload('res://ui/style.gd').label(text+'\n合法测试摆位／正常模拟速度；维拉步态仍为候选',18)
+ var label=Style.label(text+'\n合法测试摆位／正常模拟速度；维拉步态仍为候选',18)
  label.position=Vector2(300,100);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
 func open_game(data):
  var app=root.get_node('App');app.new_game(data)

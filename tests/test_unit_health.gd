@@ -1,15 +1,10 @@
-extends SceneTree
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame
 func run():
     root.size=Vector2i(1280,800)
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();var truth=game.battle.snapshot();var measurements=[]
     for size in [Vector2i(960,600),Vector2i(1280,800),Vector2i(1920,1080)]:
@@ -39,6 +34,10 @@ func run():
     bar.update_health(0,10,true);check(not bar.visible and not bar.fill.visible,"dead meter hidden")
     bar.update_health(10,10,true);check(bar.visible and bar.fill.region_rect.size.x==312,"full-health meter retained")
     check(game.battle.snapshot()==truth,"presentation does not mutate rules")
-    var file=FileAccess.open("res://docs/unit-health-pixel-results.json",FileAccess.WRITE);file.store_string(JSON.stringify(measurements,"  "))
+    # Measurements are diagnostic output, not an assertion: keep the checkout clean
+    # and only refresh the tracked report when explicitly asked for.
+    var report="res://docs/unit-health-pixel-results.json" if OS.get_environment("AMBER_RECORD_FIXTURES")=="1" else "user://unit-health-pixel-results.json"
+    var file=FileAccess.open(report,FileAccess.WRITE)
+    if file:file.store_string(JSON.stringify(measurements,"  "))
     print("UNIT_HEALTH checks=",checks," failures=",failures," physical_minimum=8px")
     quit(1 if failures else 0)

@@ -1,10 +1,5 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 var Meter
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame
@@ -23,7 +18,7 @@ func run():
     image.fill_rect(Rect2i(10,10,8,16),Color.WHITE);image.set_pixel(0,0,Color.WHITE);image.set_pixel(29,29,Color(1,1,1,.1))
     check(preload("res://tests/health_width_oracle.gd").body_width(ImageTexture.create_from_image(image))==8,"opaque isolated speck and faint margins excluded")
     if "--3d" in OS.get_cmdline_user_args():app.scene_renderer="3d"
-    for data in [preload("res://logic/content.gd").reference_content(),preload("res://tests/reserve_art_fixture.gd").content()]:
+    for data in [Content.reference_content(),preload("res://tests/reserve_art_fixture.gd").content()]:
         app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
         while not app.next_story().is_empty():app.advance_story(true)
         var game=current_scene;game.refresh();game.get_node("MapIdle").set_process(false)

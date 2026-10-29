@@ -1,15 +1,10 @@
-extends SceneTree
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func frames():
     await process_frame;await process_frame;await process_frame
 func run():
     root.size=Vector2i(1280,800)
-    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;var adapter=game.scene_view;var truth=game.battle.snapshot()
     var image=Image.create(2,2,false,Image.FORMAT_RGB8);image.fill(Color("81765c"))
@@ -46,7 +41,7 @@ func run():
     check(adapter.set_fixed(false) and game.tiles[Vector2i(4,7)].node.visible,"restore original 3D visibility")
     check(is_equal_approx(game.character_scale,1.0),"3D original scale restored")
     check(game.battle.snapshot()==after and game.camera.keep_aspect==adapter.saved_aspect,"renderer toggle preserves rules and restores camera")
-    app.new_game(preload("res://logic/content.gd").default_content());change_scene_to_file("res://main.tscn");await frames()
+    app.new_game(Content.default_content());change_scene_to_file("res://main.tscn");await frames()
     check(not current_scene.scene_view.set_fixed(true,fixture),"legacy/other map cannot use mismatched painting")
     print("FIXED_BACKGROUND checks=",checks," failures=",failures," synthetic_fixture=true artistic_acceptance=false")
     quit(1 if failures else 0)

@@ -8,7 +8,7 @@ func capture(name):
 func run():
     assert(DisplayServer.get_name()!="headless")
     var app=root.get_node("App");app.scene_renderer="three_d";app.character_emission=0.35
-    app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();Input.warp_mouse(game.camera.unproject_position(Vector3(4,0,4)));await frames();game.update_move_preview(Vector2i(4,4))
     await capture("ground-layer-3d-runtime")

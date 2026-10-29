@@ -51,7 +51,7 @@ func run():
     check(pool.style=='heal' and pool.slots[0].trail.direction==Vector2.UP and pool.slots[0].trail.gravity.y<0,'healing uses ascending engine light motes')
     check(pool.slots[0].trail.emitting,'healing particles actually emit')
     var original=g.map_magic.elapsed
-    var replacement=preload('res://logic/runtime.gd').new(g.battle.content);check(replacement.restore(truth),'particle replay fixture')
+    var replacement=Runtime.new(g.battle.content);check(replacement.restore(truth),'particle replay fixture')
     app.session.logic=replacement;g.battle=replacement;g.refresh()
     check(g.map_magic.elapsed==original and pool.running,'same-step VM replacement preserves particle lifecycle')
     g.event_sequence.consume(g.event_sequence.last_step+3,[]);clean_pool('reconnect gap clears all particles')

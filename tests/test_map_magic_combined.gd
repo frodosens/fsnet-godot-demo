@@ -1,6 +1,6 @@
 extends 'res://tests/test_map_magic.gd'
 func combined_setup(generic_target=false,generic_actor=false):
-    var data=preload('res://logic/content.gd').default_content();data.story.events=[]
+    var data=Content.default_content();data.story.events=[]
     for y in range(data.height):data.terrain[y]='G'.repeat(data.width)
     data.units[0].x=4;data.units[0].y=5
     data.units[2].x=5;data.units[2].y=6

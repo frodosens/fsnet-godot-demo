@@ -1,14 +1,9 @@
-extends SceneTree
-var checks=0
-var failures=0
-func check(value):
-    checks+=1
-    if not value:failures+=1;printerr("FAIL: ribbon check ",checks)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func frames():
     for i in range(3):await process_frame
 func run():
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.hud.choose_action("move");var ribbon=game.ground_overlay;var truth=game.battle.snapshot()
     for sample in range(321):

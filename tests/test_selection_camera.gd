@@ -40,12 +40,12 @@ func run():
         check(game.wait_selected(),"exhausted Wait advances");await settle_focus()
         check(game.selected==1 and not game.hud.action_menu_open,"Wait auto-next arms movement")
         # Replacement runtime with unchanged state must not restart the camera.
-        var replacement=preload("res://logic/runtime.gd").new(game.battle.content)
+        var replacement=Runtime.new(game.battle.content)
         check(replacement.restore(game.battle.snapshot()),"poll replacement fixture")
         game.session.logic=replacement;await frames()
         check(not game.scene_view.focus_active,"identical runtime replacement does not recenter")
     # Real rule-driven death and next-turn fallback, followed by save restore.
-    var data=preload("res://logic/content.gd").reference_content()
+    var data=Content.reference_content()
     data.units[0].hp=1;data.units[3].x=4;data.units[3].y=6;data.units[3].damage=30
     await fresh(data)
     check(game.session.submit({"kind":"end_turn"}),"validated next turn")
@@ -54,7 +54,7 @@ func run():
     await settle_focus()
     check(game.battle.units[0].hp==0 and game.selected!=0 and game.battle.usable(game.selected),"dead actor fallback selects living player")
     check(not game.hud.action_menu_open and game.mode=="move","next turn arms legal movement after presentation")
-    var saved=game.battle.snapshot();var replacement=preload("res://logic/runtime.gd").new(game.battle.content)
+    var saved=game.battle.snapshot();var replacement=Runtime.new(game.battle.content)
     check(replacement.restore(saved),"checkpoint state restores")
     game.session.logic=replacement;game.refresh();await frames()
     check(game.battle.snapshot()==saved and not game.scene_view.focus_active,"checkpoint refresh no new command or camera restart")

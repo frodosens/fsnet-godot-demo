@@ -6,7 +6,7 @@ func run():
   game.selected=2;game.select_mode('ability:ember');await frames()
   await tap(cell(Vector2i(5,7)))
   check(not game.pending_target.is_empty() and Targeting.describe(game).hover_legal,'skill preview staged before remote event')
-  var source=game.battle;var copy=preload('res://logic/runtime.gd').new(source.content);check(copy.restore(source.snapshot()),'same-step sync fixture')
+  var source=game.battle;var copy=Runtime.new(source.content);check(copy.restore(source.snapshot()),'same-step sync fixture')
   app.session.logic=copy;game.battle=copy;await frames()
   check(not game.pending_target.is_empty() and Targeting.describe(game).hover_legal,'same-state Runtime preserves target preview')
   # Actual authority advances while a proposal is open, as another client can do.

@@ -1,9 +1,9 @@
 extends SceneTree
-var session=preload("res://logic/session.gd").new()
+var session=Session.new()
 var sent=false
 var folder=OS.get_environment("AMBER_CONFIRM_CONTROL")
 func _initialize():
-    session.offline(preload("res://logic/content.gd").reference_content())
+    session.offline(Content.reference_content())
     assert(session.connect_local(int(OS.get_environment("AMBER_TEST_PORT")),OS.get_environment("AMBER_TOKEN")))
 func _process(delta):
     session.tick(delta)

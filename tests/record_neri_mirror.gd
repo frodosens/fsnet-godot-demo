@@ -16,7 +16,7 @@ func run():
         var game=current_scene;game.refresh();game.facing.neri=direction;game.selected=2
         app.set_idle_sequence_preview(false,"neri");app.set_neri_motion_preview(on);game.refresh()
         var title="奈莉移动镜像试验 · "+direction+(" · 新素材" if on else " · 旧三姿态移动对照")
-        var label=preload("res://ui/style.gd").label(title+"\n合法测试摆位 / 正常模拟速度 / 每格一循环"+(" / 右前镜像会反转持杖手" if direction=="front_right" and on else ""),18)
+        var label=Style.label(title+"\n合法测试摆位 / 正常模拟速度 / 每格一循环"+(" / 右前镜像会反转持杖手" if direction=="front_right" and on else ""),18)
         label.position=Vector2(300,90);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
         await frames(25)
         assert(app.session.submit({"kind":"move","unit":2,"x":target.x,"y":target.y}))
