@@ -217,7 +217,7 @@ func active_panel():return detail_layer if description_open else panel
 func controls():return [detail_back] if description_open else tabs+[back,full,equip]+([] if tab==0 else rows)
 func hit(point):
     for node in controls():
-        if not node.visible or node.disabled:continue
+        if not node.is_visible_in_tree() or node.disabled:continue
         if node in rows and not list.get_global_rect().has_point(point):continue
         if node.get_global_rect().has_point(point):return node
     return null
@@ -225,7 +225,7 @@ func down(point,id):
     if pointer!=-2:dragged=true;pressed=null;return
     pointer=id;start=point;dragged=false;pressed=hit(point);outside=not active_panel().get_global_rect().has_point(point)
     for scroll in ([detail_scroll] if description_open else [list,description,equipment_scroll]):
-        if scroll.get_global_rect().has_point(point):drag_scroll=scroll;scroll_start=scroll.scroll_vertical;break
+        if scroll.is_visible_in_tree() and scroll.get_global_rect().has_point(point):drag_scroll=scroll;scroll_start=scroll.scroll_vertical;break
 func drag(point):
     if pointer==-2:return
     if point.distance_to(start)>=10:dragged=true
@@ -251,7 +251,7 @@ func _input(event):
             elif event.pressed and event.button_index==MOUSE_BUTTON_RIGHT:close()
             elif event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
                 for scroll in ([detail_scroll] if description_open else [list,description,equipment_scroll]):
-                    if scroll.get_global_rect().has_point(event.position):scroll.scroll_vertical+=64*(1 if event.button_index==MOUSE_BUTTON_WHEEL_DOWN else -1)
+                    if scroll.is_visible_in_tree() and scroll.get_global_rect().has_point(event.position):scroll.scroll_vertical+=64*(1 if event.button_index==MOUSE_BUTTON_WHEEL_DOWN else -1)
     elif event is InputEventMouseMotion:
         if pointer==-1:drag(event.position)
     elif event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
@@ -260,10 +260,10 @@ func _input(event):
             var focused=get_viewport().gui_get_focus_owner()
             if focused in controls() and not focused.disabled:focused.pressed.emit()
         elif event.is_action_pressed("ui_down") or event.is_action_pressed("ui_up"):
-            var scroll=detail_scroll if description_open else list
+            var scroll=detail_scroll if description_open else (description if tab==0 else list)
             scroll.scroll_vertical+=64*(1 if event.is_action_pressed("ui_down") else -1)
         elif event.is_action_pressed("ui_focus_next") or event.is_action_pressed("ui_focus_prev"):
-            var available=controls().filter(func(n):return n.visible and not n.disabled);var at=available.find(get_viewport().gui_get_focus_owner());available[posmod(at+(1 if event.is_action_pressed("ui_focus_next") else -1),available.size())].grab_focus()
+            var available=controls().filter(func(n):return n.is_visible_in_tree() and not n.disabled);var at=available.find(get_viewport().gui_get_focus_owner());available[posmod(at+(1 if event.is_action_pressed("ui_focus_next") else -1),available.size())].grab_focus()
     else:return
     if event is InputEventScreenTouch and not event.pressed:return
     get_viewport().set_input_as_handled()
