@@ -1,9 +1,4 @@
-extends SceneTree
-var checks=0
-func check(ok,label):
-    checks+=1
-    if not ok:printerr("FAIL: ",label);quit(1)
-    assert(ok,label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func frames(n=3):
     for i in range(n):await process_frame
@@ -22,33 +17,33 @@ func run():
     var idle_before=game.directional_idle_texture(2,"front_right")
     for on in [true,false,true]:
         app.set_neri_motion_preview(on)
-        check(game.directional_idle_texture(2,"front_right")==idle_before,"new switch cannot replace idle")
-        check(app.mara_sequence_preview and app.finn_motion_preview and app.oren_sequence_preview and app.bram_sequence_preview and app.tessa_motion_preview,"five other trial options untouched")
-        check(app.idle_sequence_previews=={"neri":true,"adela":true,"elsbet":true},"three idle switches untouched")
-    check(app.session.submit({"kind":"move","unit":2,"x":2,"y":7}),"legal two segment corner")
+        require(game.directional_idle_texture(2,"front_right")==idle_before,"new switch cannot replace idle")
+        require(app.mara_sequence_preview and app.finn_motion_preview and app.oren_sequence_preview and app.bram_sequence_preview and app.tessa_motion_preview,"five other trial options untouched")
+        require(app.idle_sequence_previews=={"neri":true,"adela":true,"elsbet":true},"three idle switches untouched")
+    require(app.session.submit({"kind":"move","unit":2,"x":2,"y":7}),"legal two segment corner")
     game.battle=app.session.logic;game.refresh();var path=game.motion.motions.neri.path
-    check(path.size()==3,"real path has corner")
+    require(path.size()==3,"real path has corner")
     game.motion.advance(.4/game.character_scale)
-    check(game.figures[2].flip_h,"first segment front right mirrored")
+    require(game.figures[2].flip_h,"first segment front right mirrored")
     game.motion.advance(.8/game.character_scale)
-    check(game.facing.neri=="back_right" and not game.figures[2].flip_h,"turn clears mirror on next segment")
+    require(game.facing.neri=="back_right" and not game.figures[2].flip_h,"turn clears mirror on next segment")
     var pos=game.figures[2].position;var travel=game.motion.motions.neri.travelled
-    game.refresh();check(game.figures[2].position==pos and game.motion.motions.neri.travelled==travel,"same step refresh preserves phase")
-    game.motion.advance(100);check(not game.motion.active() and not game.figures[2].flip_h,"large delta settles unmirrored")
+    game.refresh();require(game.figures[2].position==pos and game.motion.motions.neri.travelled==travel,"same step refresh preserves phase")
+    game.motion.advance(100);require(not game.motion.active() and not game.figures[2].flip_h,"large delta settles unmirrored")
     game.motion.last_step=-1;game.motion.consume(game.battle.step,game.battle.events);game.motion.advance(.4/game.character_scale)
-    check(game.figures[2].flip_h,"replay applies mirror only while moving")
-    game.skip_presentation();check(not game.figures[2].flip_h,"skip restores idle")
+    require(game.figures[2].flip_h,"replay applies mirror only while moving")
+    game.skip_presentation();require(not game.figures[2].flip_h,"skip restores idle")
     var snapshot=game.battle.snapshot();var replacement=preload("res://logic/runtime.gd").new(game.battle.content)
-    check(replacement.restore(snapshot),"snapshot restore")
-    game.session.logic=replacement;game.refresh();check(not game.motion.active() and not game.figures[2].flip_h and game.battle.snapshot()==snapshot,"restored state never replays mirror")
+    require(replacement.restore(snapshot),"snapshot restore")
+    game.session.logic=replacement;game.refresh();require(not game.motion.active() and not game.figures[2].flip_h and game.battle.snapshot()==snapshot,"restored state never replays mirror")
     game.neri_motion_library.configure({})
     game.apply_map_motion_texture(2,"front_right",.3)
-    check(not game.figures[2].flip_h and game.figures[2].texture==game.motion.walk_library.sample("neri","front_right",.3,game.map_motion_neutral_texture(2,"front_right")),"bad profile fallback no mirror")
+    require(not game.figures[2].flip_h and game.figures[2].texture==game.motion.walk_library.sample("neri","front_right",.3,game.map_motion_neutral_texture(2,"front_right")),"bad profile fallback no mirror")
     for size in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=size;await frames();game.hud.show_feedback_settings();await frames()
         var scroll=game.hud.modal.find_child("AnimationOptions",true,false)
-        check(scroll==null,"legacy animation controls removed")
+        require(scroll==null,"legacy animation controls removed")
         for option in game.hud.modal.find_children("*","CheckButton",true,false):
-            check(not option.text.contains("移动") and not option.text.contains("待机"),"no replacement version checkbox")
+            require(not option.text.contains("移动") and not option.text.contains("待机"),"no replacement version checkbox")
         game.hud.clear_modal()
     print("NERI_MIRROR_EDGES checks=",checks," failures=0");quit()

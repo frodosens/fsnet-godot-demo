@@ -1,11 +1,6 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const C=preload('res://logic/content.gd')
 const R=preload('res://logic/runtime.gd')
-var checks=0
-var failures=0
-func check(ok,label):
- checks+=1
- if not ok:failures+=1;printerr('FAIL ',label)
 func _initialize():call_deferred('run')
 func run():
  var d=C.chapter_three_content();check(C.validate(d).is_empty(),'valid chapter three')

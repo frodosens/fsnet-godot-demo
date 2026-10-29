@@ -1,11 +1,6 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const Runtime=preload("res://logic/runtime.gd")
 const Model=preload("res://ui/character_details_model.gd")
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame

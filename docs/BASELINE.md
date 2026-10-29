@@ -7,10 +7,12 @@ step must keep green; it replaces "I ran the tests once" with a reproducible
 ## How to run
 
 ```powershell
-pwsh tools/test-headless.ps1 `
+powershell -NoProfile -ExecutionPolicy Bypass -File tools/test-headless.ps1 `
   -Godot  'G:\Godot_v4.6.1-stable_win64\Godot_v4.6.1-stable_win64_console.exe' `
   -Python 'C:\Users\frodo\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe'
 ```
+
+The script targets Windows PowerShell 5.1 as well as PowerShell 7.
 
 Useful switches: `-Filter 'test_bridge*'` for a subset, `-SkipImport` to reuse an
 existing import (only safe when the import cache is intact), `-KeepLogs` to keep
@@ -31,6 +33,24 @@ The script:
    marker or a non-zero `failures=` count, mirroring `tools/run_checked.py`;
 5. restores importer-rewritten `*.import` metadata and removes generated
    `*.uid`/`*.import` files so the checkout stays clean.
+
+## Test harness
+
+Every SceneTree test extends `res://tests/support/test_case.gd` instead of
+copying its own `check()` (143 copies were removed):
+
+```gdscript
+extends "res://tests/support/test_case.gd"
+func _initialize():
+    check(value == expected, "label")   # records a failure, keeps running
+    require(value == expected, "label") # records a failure and asserts
+    print("SUITE checks=", checks, " failures=", failures)
+    quit(0 if failures else 1)
+```
+
+Use `require` only where the test cannot meaningfully continue (the old
+`quit(1)`+`assert` copies); it is accepted because the checked runner turns the
+assertion into a failure even when Godot exits zero.
 
 ## Environment
 

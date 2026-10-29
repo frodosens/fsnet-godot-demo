@@ -1,11 +1,6 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const C=preload('res://logic/content.gd')
 const R=preload('res://logic/runtime.gd')
-var checks=0
-var failures=0
-func check(ok,label):
- checks+=1
- if not ok:failures+=1;printerr('FAIL: ',label)
 func _initialize():call_deferred('run')
 func corridor():
  var d=C.default_content();d.width=8;d.height=10;d.terrain=[]

@@ -1,4 +1,4 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 # Golden regression for the shared rules contract.
 #
 # The refactor must not change the Lua rules, the canonical snapshot layout or the
@@ -17,12 +17,7 @@ const HASH_AFTER_SKILL="91cba9d385749d799968730b8a55be319b6cab19b0aacea102028c42
 const HASH_AFTER_TURN="cbd87450c7bd84c36e22978231819df4c9796b9349419d47c22cea017671322b"
 const SNAPSHOT_AFTER_TURN="6,3,12345,2,0,3,0,6,3,5,12,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,4,6,8,0,0,1,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,6,8,0,0,1,6,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,3,2,6,0,0,1,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,4,5,0,0,1,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,3,8,0,0,1,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,2,5,0,4,1,1,0,12345,0,2,7,1,12345,1,6,0,3,2,1,12345,1,7,0,4,8,0,12345,0,0,3,4,102,105,110,110,0,4,109,97,114,97,0,4,110,101,114,105,0,0"
 
-var checks=0
-var failures=0
 
-func check(value,label):
-    checks+=1
-    if not value: failures+=1;printerr("FAIL: ",label)
 
 func _initialize():
     var runtime=Runtime.new()

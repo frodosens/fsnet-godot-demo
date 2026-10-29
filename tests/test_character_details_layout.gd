@@ -1,9 +1,4 @@
-extends SceneTree
-var failures=0
-var checks=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func frames():
     for i in range(8):await process_frame

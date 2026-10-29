@@ -1,14 +1,9 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const Content=preload("res://logic/content.gd")
 const Runtime=preload("res://logic/runtime.gd")
 const Authority=preload("res://logic/authority.gd")
 const Session=preload("res://logic/session.gd")
-var checks=0
-var failures=0
 var request_id=0
-func check(value,label):
-    checks+=1
-    if not value:failures+=1;printerr("FAIL: ",label)
 func _initialize():call_deferred("run")
 func distance(a,b):return absi(a.x-b.x)+absi(a.y-b.y)
 func nearest(logic,index):

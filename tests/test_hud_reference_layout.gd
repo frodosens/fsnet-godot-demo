@@ -1,10 +1,5 @@
-extends SceneTree
-var checks=0
-var failures=0
+extends "res://tests/support/test_case.gd"
 var measurements={}
-func check(value,label):
-    checks+=1
-    if not value:failures+=1;printerr("FAIL: ",label)
 func frames(count=4):
     for i in range(count):await process_frame
 func _initialize():call_deferred("run")

@@ -1,10 +1,5 @@
-extends SceneTree
-var checks=0
-var failures=0
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func run():
     var Lib=preload("res://view/map_sequence.gd");var lib=Lib.new()
     var data=JSON.parse_string(FileAccess.get_file_as_string(Lib.PATH))

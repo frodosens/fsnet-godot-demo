@@ -1,11 +1,6 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const C=preload('res://logic/content.gd')
 const R=preload('res://logic/runtime.gd')
-var checks=0
-var failures=0
-func check(ok,label):
- checks+=1
- if not ok:failures+=1;printerr('FAIL: ',label)
 func _initialize():
  var data=C.default_content();data.id="z".repeat(40);data.width=16;data.height=16;data.terrain=[]
  for i in range(16):data.terrain.append('GGGGGGGGGGGGGGGG')

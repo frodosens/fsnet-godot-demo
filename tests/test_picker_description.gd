@@ -1,11 +1,6 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const Picker=preload("res://ui/content_picker.gd")
-var checks=0
-var failures=0
 var activations=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():call_deferred("run")
 func frames():
     for i in range(5):await process_frame

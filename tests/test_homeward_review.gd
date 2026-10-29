@@ -1,11 +1,6 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const C=preload('res://logic/content.gd')
 const L=preload('res://story/library.gd')
-var checks=0
-var failures=0
-func check(ok,label):
- checks+=1
- if not ok:failures+=1;printerr('FAIL ',label)
 func _initialize():call_deferred('run')
 func run():
  var app=root.get_node('App')

@@ -1,11 +1,6 @@
-extends SceneTree
-var checks=0
-var failures=0
+extends "res://tests/support/test_case.gd"
 var g
 var app
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr('FAIL: ',label)
 func _initialize():call_deferred('run')
 func setup(kind='default'):
     var data=preload('res://logic/content.gd').reference_content() if kind=='reference' else preload('res://logic/content.gd').default_content()

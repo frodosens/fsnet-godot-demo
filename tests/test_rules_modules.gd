@@ -1,12 +1,7 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const Runtime=preload("res://logic/runtime.gd")
 const Content=preload("res://logic/content.gd")
 const Authority=preload("res://logic/authority.gd")
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():
     var data=Content.default_content()
     data.units[0].controller="ai";data.units[0].faction="crew"

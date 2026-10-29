@@ -1,7 +1,4 @@
-extends SceneTree
-var failures=0
-func check(ok,label):
- if not ok:failures+=1;printerr('FAIL: ',label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred('run')
 func run():
  var app=root.get_node('App')

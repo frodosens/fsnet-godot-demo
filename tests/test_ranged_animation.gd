@@ -1,11 +1,6 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const Content=preload("res://logic/content.gd")
 const Runtime=preload("res://logic/runtime.gd")
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():call_deferred("run")
 func run():
     var cutin=load("res://ui/battle_cutin.gd").new();root.add_child(cutin);cutin.set_process(false)

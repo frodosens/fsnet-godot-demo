@@ -1,12 +1,7 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const Runtime=preload("res://logic/runtime.gd")
 const Authority=preload("res://logic/authority.gd")
 const Session=preload("res://logic/session.gd")
-var checks=0
-var failures=0
-func check(value,label):
-    checks+=1
-    if not value: failures+=1;printerr("FAIL: ",label)
 
 func _initialize():
     var a=Runtime.new()

@@ -1,11 +1,6 @@
-extends SceneTree
+extends "res://tests/support/test_case.gd"
 const Runtime=preload("res://logic/runtime.gd")
 const Model=preload("res://ui/character_details_model.gd")
-var checks=0
-var failures=0
-func check(ok,label):
-    checks+=1
-    if not ok:failures+=1;printerr("FAIL: ",label)
 func _initialize():
     var logic=Runtime.new();var model=Model.new();var original=logic.snapshot()
     check(model.SLOTS.size()==9 and model.SLOT_NAMES.size()==9,"nine real slots")

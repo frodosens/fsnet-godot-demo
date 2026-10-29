@@ -1,9 +1,4 @@
-extends SceneTree
-var checks=0
-var failures=0
-func check(value,label):
-    checks+=1
-    if not value:failures+=1;printerr("FAIL: ",label)
+extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func click(game,cell,button=MOUSE_BUTTON_LEFT):
     var event=InputEventMouseButton.new();event.button_index=button;event.pressed=true;event.position=game.camera.unproject_position(Vector3(cell.x,0,cell.y));game._unhandled_input(event)
