@@ -65,6 +65,9 @@ func update_frames():
         sprite.animation=stage;sprite.frame=index
 func position_sprite(sprite,point,span):
     sprite.position=point
+    # Measured source alignment: focus charge/travel mass is ~8px low.
+    sprite.offset=Vector2(0,-8) if authored.get(style,false) and style=='focus_bolt' and phase<2 else Vector2.ZERO
+    if authored.get(style,false) and style=='heal':span*=1.3
     var texture=sprite.sprite_frames.get_frame_texture(sprite.animation,sprite.frame)
     var camera=effect.game.camera
     var pixels=camera.unproject_position(camera.global_basis.x).distance_to(camera.unproject_position(Vector3.ZERO))
@@ -92,7 +95,7 @@ func stop():
     running=false;entries.clear()
     for sprite in [caster]+targets:
         if is_instance_valid(sprite):
-            sprite.stop();sprite.hide();sprite.modulate=Color.WHITE;sprite.rotation=0;sprite.scale=Vector2.ONE;sprite.position=Vector2.ZERO
+            sprite.stop();sprite.hide();sprite.modulate=Color.WHITE;sprite.rotation=0;sprite.scale=Vector2.ONE;sprite.position=Vector2.ZERO;sprite.offset=Vector2.ZERO
             if sprite.sprite_frames and sprite.sprite_frames.has_animation('cast'):sprite.animation='cast';sprite.frame=0
 func diagnostics():
     var counts={}
