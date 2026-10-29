@@ -37,14 +37,15 @@ func run():
     var event=g.event_sequence.current.duplicate(true);var truth=g.battle.snapshot()
     check(event.ability=='focus_bolt' and g.map_magic.impact_count==0,'network ability metadata and no early impact')
     g.map_magic._process(.4)
+    var travel_age=g.map_magic.elapsed
     check(g.event_sequence.health[event.target]==event.hp+event.damage,'before-impact HP preserved')
     var instance=app.session.logic.get_instance_id()
     await hold(.5)
-    check(app.session.logic.get_instance_id()!=instance and g.map_magic.elapsed==.4,'ordinary network VM replacement preserves timeline')
+    check(app.session.logic.get_instance_id()!=instance and g.map_magic.elapsed==travel_age,'ordinary network VM replacement preserves timeline')
     if role=='driver':
         check(app.session.connect_local(port,token),'actual reconnect during spell')
         await ready();await hold(.1)
-        check(g.map_magic.active and g.map_magic.elapsed==.4,'same-step reconnect does not replay spell')
+        check(g.map_magic.active and g.map_magic.elapsed==travel_age,'same-step reconnect does not replay spell')
     g.map_magic._process(.23)
     check(g.event_sequence.health[event.target]==event.hp and g.map_magic.impact_count==1,'one network spell impact')
     g.map_magic._process(.8);await process_frame;await process_frame

@@ -11,11 +11,13 @@ var items=[]
 var points={}
 var labels=[]
 var original_colors={}
-var textures={}
 var saved_pan=Vector2.ZERO
 var focus_pan=Vector2.ZERO
 var owns_camera=false
 var impact_count=0
+var particles
+var core
+var timeline:AnimationPlayer
 static func accepts(event,content):
     if event.get('kind')=='heal':return true
     if event.get('kind')!='attack' or event.get('actor')!='neri' or event.get('ability') not in ['ember','focus_bolt']:return false
@@ -24,8 +26,21 @@ static func accepts(event,content):
     return false
 func _ready():
     process_priority=105
-    for state in ['gather','charge','bolt','impact','dissipate']:
-        textures[state]=load('res://assets/battle/ranged_magic/runtime/vfx_'+state+'.png')
+    particles=preload('res://view/map_spell_particles.gd').new();particles.name='MapSpellParticles';particles.effect=self;add_child(particles)
+    core=preload('res://view/map_spell_core.gd').new();core.name='Core';core.effect=self;add_child(core)
+    build_timeline()
+func build_timeline():
+    timeline=AnimationPlayer.new();timeline.name='SpellTimeline';timeline.callback_mode_process=AnimationMixer.ANIMATION_CALLBACK_MODE_PROCESS_MANUAL;add_child(timeline)
+    var animation=Animation.new();animation.length=DURATION
+    value_track(animation,NodePath('.:elapsed'),[[0.0,0.0],[DURATION,DURATION]])
+    value_track(animation,NodePath('Core:phase'),[[0.0,0],[0.30,1],[IMPACT_TIME,2]],true)
+    value_track(animation,NodePath('Core:frame_progress'),[[0.0,0.0],[0.29999,0.9999],[0.30,0.0],[IMPACT_TIME-0.00001,0.9999],[IMPACT_TIME,0.0],[DURATION,0.9999]])
+    value_track(animation,NodePath('Core:travel_progress'),[[0.0,0.0],[0.30,0.0],[IMPACT_TIME,1.0],[DURATION,1.0]])
+    var library=AnimationLibrary.new();library.add_animation('spell',animation);timeline.add_animation_library('',library)
+func value_track(animation,path,keys,discrete=false):
+    var index=animation.add_track(Animation.TYPE_VALUE);animation.track_set_path(index,path)
+    animation.value_track_set_update_mode(index,Animation.UPDATE_DISCRETE if discrete else Animation.UPDATE_CONTINUOUS)
+    for key in keys:animation.track_insert_key(index,key[0],key[1])
 func start(events,positions):
     finish();items=events.duplicate(true);elapsed=0;impacted=false;active=true
     for id in positions:
@@ -39,11 +54,13 @@ func start(events,positions):
         var offset=center-scene.camera_origin
         focus_pan=Vector2(offset.dot(game.camera.global_basis.x),offset.dot(game.camera.global_basis.y)).clamp(-scene.pan_limit,scene.pan_limit)
         owns_camera=true
+    core.start(items);particles.start(items)
+    timeline.play('spell');timeline.advance(0)
     game.cutin.play_sound('magic')
     queue_redraw()
 func _process(delta):
     if not active:return
-    elapsed+=maxf(0,delta)
+    timeline.advance(maxf(0,delta))
     if owns_camera and App.reduced_motion:
         game.scene_view.pan=saved_pan;game.scene_view.fit();owns_camera=false
     if owns_camera:
@@ -53,6 +70,7 @@ func _process(delta):
         if not App.reduced_motion and elapsed>=IMPACT_TIME and elapsed<IMPACT_TIME+0.16:
             shake.x=sin((elapsed-IMPACT_TIME)*90.0)*0.025*(1.0-(elapsed-IMPACT_TIME)/0.16)
         scene.pan=(saved_pan.lerp(focus_pan,weight)+shake).clamp(-scene.pan_limit,scene.pan_limit);scene.fit()
+    core.update_projection();particles.advance(elapsed)
     if not impacted and elapsed>=IMPACT_TIME:
         impacted=true;impact_count+=items.size()
         game.event_sequence.map_impact()
@@ -73,9 +91,6 @@ func _process(delta):
     if elapsed>=DURATION:finish()
     queue_redraw()
 func screen(id,height=0.0):return game.camera.unproject_position(points.get(id,Vector3.ZERO)+Vector3.UP*height)
-func stamp(state,point,size,tint):
-    # Authored effects occupy the central half of their padded 64x48 canvas.
-    draw_texture_rect_region(textures[state],Rect2(point-size*0.5,size),Rect2(16,12,32,24),tint)
 func rune(id,color):
     var ring=PackedVector2Array()
     for n in range(33):
@@ -87,25 +102,20 @@ func rune(id,color):
 func _draw():
     if not active or items.is_empty():return
     var healing=items[0].kind=='heal'
-    var tint=Color('b6e0b4') if healing else Color('b8e6ff')
+    var tint=Color('b6e0b4') if healing else (Color('ffac55') if items[0].get('ability')=='ember' else Color('b8e6ff'))
     var actor=items[0].actor
-    var scale_factor=clampf(get_viewport_rect().size.y/800.0,0.6,2.0)
-    if elapsed<IMPACT_TIME:
-        rune(actor,tint)
-        stamp('gather' if elapsed<0.25 else 'charge',screen(actor,0.55),Vector2(64,48)*scale_factor,tint)
-        if elapsed>=0.30 and not App.reduced_motion:
-            var progress=clampf((elapsed-0.30)/(IMPACT_TIME-0.30),0,1)
-            for e in items:stamp('bolt',screen(actor,0.55).lerp(screen(e.target,0.5),progress),Vector2(48,36)*scale_factor,tint)
+    if elapsed<IMPACT_TIME:rune(actor,tint)
     else:
         tint.a=clampf((DURATION-elapsed)/0.35,0,1)
-        for e in items:
-            rune(e.target,tint)
-            stamp('impact' if elapsed<IMPACT_TIME+0.22 else 'dissipate',screen(e.target,0.45),Vector2(90,68)*scale_factor,tint)
+        for e in items:rune(e.target,tint)
 func restore_colors():
     for i in original_colors:
         if i<game.figures.size():game.figures[i].modulate=original_colors[i]
     original_colors.clear()
 func finish():
+    if timeline:timeline.stop()
+    if core:core.stop()
+    if particles:particles.stop()
     restore_colors()
     if owns_camera and game.scene_view:
         game.scene_view.cancel_focus();game.scene_view.pan=saved_pan;game.scene_view.fit()
