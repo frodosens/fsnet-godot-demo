@@ -34,6 +34,15 @@ bin/*
 # Documentation image imports are not runtime assets
 docs/*.import
 
+# Importer-generated metadata. The engine recreates these on every open/import,
+# and all of the generated ones use default settings, so versioning them only
+# adds churn when the engine version changes the import format.
+# The .import files that ARE tracked carry non-default settings (mipmaps on
+# environment textures, loop flags on audio); keep them tracked and add a new
+# customised one explicitly with `git add -f`.
+*.import
+*.uid
+
 # Local test reports and captured logs (tools/test-headless.ps1)
 artifacts/
 

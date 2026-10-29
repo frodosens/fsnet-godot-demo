@@ -35,8 +35,10 @@ The script:
    certificate query on Windows, VSync on the dummy renderer, and the renderer
    shutdown diagnostics Godot 4.6.3 prints for `--headless` ("were leaked at
    exit", "PagedAllocator");
-5. restores importer-rewritten `*.import` metadata and removes generated
-   `*.uid`/`*.import` files so the checkout stays clean.
+5. restores the tracked `*.import` files the importer rewrote. Generated
+   metadata for the ~900 assets that have no committed `.import` stays on disk
+   (deleting it makes the project unable to load its textures until the next
+   import) and is `.gitignore`d, so the checkout still reports clean.
 
 ## Test harness
 
@@ -111,16 +113,19 @@ gate (`-IncludeNetwork` opts in). Tracked separately.
 
 ## Engine-version side effects
 
-The checkout is imported with 4.6.1 while the project declares 4.6.3. Running
-either engine rewrites import metadata: in one full run we observed 361 tracked
-`.import` files touched (content identical after normalisation), 915 untracked
-`.import` files and 242 untracked `.uid` files. The runner cleans all of that;
-if you run tests by hand, finish with:
+The gate imports with the engine the project declares. Opening the project in a
+different engine version rewrites import metadata: in one run we observed 361
+tracked `.import` files touched (content identical after normalisation), 915
+generated `.import` files and 242 generated `.uid` files. The tracked ones are
+restored by the runner and by
 
 ```powershell
 git checkout -- ':(glob)**/*.import'
-git clean -f -q -- '*.import' '*.uid'
 ```
+
+when you run tests by hand. The generated ones are `.gitignore`d: they must stay
+on disk for the project to load its textures, and they are recreated on the next
+import anyway.
 
 Installing 4.6.3 and re-recording this baseline is recommended before the
 structural work that touches rendering (`main.gd` extraction).
