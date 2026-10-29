@@ -85,7 +85,7 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
                 hidden.append([node,node.visible]);node.hide()
         original_character_scale=game.character_scale
         var settings_path=authored.root+"presentation.json"
-        var scale_factor=1.25 if game.battle.content.id in ["white_elm_watchhouse","mill_receipts"] else 1.0
+        var scale_factor=1.25 if game.battle.content.id in ["white_elm_watchhouse","mill_receipts","homeward_02","homeward_03"] else 1.0
         if FileAccess.file_exists(settings_path):scale_factor=float(JSON.parse_string(FileAccess.get_file_as_string(settings_path)).get("character_scale",1.0))
         game.set_character_scale(scale_factor)
         backdrop=plate(fixture_texture if fixture_texture!=null else load(authored.map),50)

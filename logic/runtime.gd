@@ -29,7 +29,7 @@ func _init(data={},campaign={}):
 
 # Snapshot-only compatibility: this reviewed predecessor has identical v5 state layout.
 # Command replay and network handshakes continue requiring the current rule hash.
-const SNAPSHOT_COMPATIBLE_RULES=["ff0209fc228021e6c2a82a3a4858fe20e26996d3e0b75f3a16966125a7855ca5"]
+const SNAPSHOT_COMPATIBLE_RULES=["830d97787829f942d8d2734d5b3d1a20ab9ee9153780220aa5be396ca163ec73","ff0209fc228021e6c2a82a3a4858fe20e26996d3e0b75f3a16966125a7855ca5"]
 static func accepts_saved_rules(hash_value):
     return hash_value==rule_source().sha256_text() or hash_value==LEGACY_V5_HASH or hash_value in SNAPSHOT_COMPATIBLE_RULES
 

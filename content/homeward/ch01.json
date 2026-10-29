@@ -1,0 +1,703 @@
+{
+  "version": 1,
+  "id": "homeward_01",
+  "revision": 1,
+  "title": "桥外的路",
+  "width": 10,
+  "height": 9,
+  "terrain": [
+    "XXXXGGGGGG",
+    "XXGGDDGGGG",
+    "XGGGDDGGGG",
+    "WWWWBBWWWW",
+    "WWWWBBWWWW",
+    "WWWWBBWWWW",
+    "GGGGDDGGGX",
+    "XDDDDDGGGX",
+    "GGGGGGGXXX"
+  ],
+  "units": [
+    {
+      "id": "mara",
+      "name": "玛拉",
+      "role": "knight",
+      "ally": true,
+      "x": 4,
+      "y": 7,
+      "hp": 12,
+      "movement": 3,
+      "reach": 1,
+      "damage": 3,
+      "armor": 0,
+      "resist": 0,
+      "mp": 0,
+      "abilities": [
+        "attack",
+        "rally"
+      ],
+      "skill_id": "rally"
+    },
+    {
+      "id": "neri",
+      "name": "奈莉",
+      "role": "mage",
+      "ally": true,
+      "x": 5,
+      "y": 8,
+      "hp": 8,
+      "movement": 3,
+      "reach": 2,
+      "damage": 2,
+      "armor": 0,
+      "resist": 0,
+      "mp": 6,
+      "abilities": [
+        "attack",
+        "ember",
+        "focus_bolt"
+      ],
+      "skill_id": "ember"
+    },
+    {
+      "id": "ch01_guard_1",
+      "name": "拦路散兵1",
+      "role": "raider",
+      "ally": false,
+      "x": 5,
+      "y": 0,
+      "hp": 6,
+      "movement": 2,
+      "reach": 1,
+      "damage": 2,
+      "armor": 0,
+      "resist": 0,
+      "mp": 0,
+      "abilities": [
+        "attack"
+      ],
+      "skill_id": "attack"
+    },
+    {
+      "id": "ch01_guard_2",
+      "name": "拦路散兵2",
+      "role": "scout",
+      "ally": false,
+      "x": 7,
+      "y": 1,
+      "hp": 5,
+      "movement": 3,
+      "reach": 1,
+      "damage": 2,
+      "armor": 0,
+      "resist": 0,
+      "mp": 0,
+      "abilities": [
+        "attack"
+      ],
+      "skill_id": "attack"
+    },
+    {
+      "id": "ch01_guard_3",
+      "name": "拦路散兵3",
+      "role": "brute",
+      "ally": false,
+      "x": 7,
+      "y": 2,
+      "hp": 8,
+      "movement": 2,
+      "reach": 1,
+      "damage": 2,
+      "armor": 0,
+      "resist": 0,
+      "mp": 0,
+      "abilities": [
+        "attack"
+      ],
+      "skill_id": "attack"
+    }
+  ],
+  "victory": {
+    "kind": "reach",
+    "unit": "mara",
+    "x": 5,
+    "y": 0
+  },
+  "defeat": {
+    "kind": "any",
+    "children": [
+      {
+        "kind": "protect",
+        "unit": "mara"
+      },
+      {
+        "kind": "protect",
+        "unit": "neri"
+      }
+    ]
+  },
+  "story": {
+    "schemaVersion": 1,
+    "storyId": "homeward_v1",
+    "chapterId": "homeward_01",
+    "chapterTitle": "桥外的路",
+    "characters": [
+      {
+        "id": "neri",
+        "name": "奈莉"
+      },
+      {
+        "id": "mara",
+        "name": "玛拉"
+      },
+      {
+        "id": "finn",
+        "name": "芬恩"
+      },
+      {
+        "id": "oren",
+        "name": "奥伦"
+      },
+      {
+        "id": "road_guard",
+        "name": "拦路散兵"
+      },
+      {
+        "id": "watch_guard",
+        "name": "值房守卫"
+      },
+      {
+        "id": "physician",
+        "name": "医师"
+      }
+    ],
+    "events": [
+      {
+        "id": "ch01_before_bridge",
+        "trigger": "chapter_enter_before_first_player_action",
+        "lines": [
+          {
+            "speaker": "neri",
+            "text": "过了桥，再往北走就是值房。"
+          },
+          {
+            "speaker": "mara",
+            "text": "你说的是去程吧？"
+          },
+          {
+            "speaker": "neri",
+            "text": "嗯。回来还要接几个人。有人走不快。"
+          },
+          {
+            "speaker": "mara",
+            "text": "这个你出门前没说。"
+          },
+          {
+            "speaker": "neri",
+            "text": "……现在说，还来得及吗？"
+          },
+          {
+            "speaker": "mara",
+            "text": "先看看路。"
+          },
+          {
+            "speaker": "road_guard",
+            "text": "停下。今天不让过。"
+          },
+          {
+            "speaker": "mara",
+            "text": "谁的命令？"
+          },
+          {
+            "speaker": "road_guard",
+            "text": "我的。把包留下，人可以走。"
+          },
+          {
+            "speaker": "neri",
+            "text": "里面是药。"
+          },
+          {
+            "speaker": "road_guard",
+            "text": "那正好。"
+          },
+          {
+            "speaker": "mara",
+            "text": "退后一点。"
+          },
+          {
+            "speaker": "neri",
+            "text": "我在这里就行。你别挡着我。"
+          }
+        ]
+      },
+      {
+        "id": "ch01_after_bridge",
+        "trigger": "battle_terminal_victory",
+        "lines": [
+          {
+            "speaker": "mara",
+            "text": "手怎么了？"
+          },
+          {
+            "speaker": "neri",
+            "text": "蹭了一下。没事。"
+          },
+          {
+            "speaker": "mara",
+            "text": "你先给自己包上。"
+          },
+          {
+            "speaker": "neri",
+            "text": "刚才谢了。"
+          },
+          {
+            "speaker": "mara",
+            "text": "回程有几个人？"
+          },
+          {
+            "speaker": "neri",
+            "text": "原来说六个。值房会把能走的先送出来。"
+          },
+          {
+            "speaker": "mara",
+            "text": "那得找辆车。"
+          },
+          {
+            "speaker": "neri",
+            "text": "我想到了。不过……还没借到。"
+          },
+          {
+            "speaker": "mara",
+            "text": "到了再问。先赶路。"
+          }
+        ]
+      },
+      {
+        "id": "ch01_defeat",
+        "trigger": "battle_terminal_defeat",
+        "lines": [
+          {
+            "speaker": "mara",
+            "text": "先退回去。我们换条路。"
+          }
+        ]
+      },
+      {
+        "id": "homeward_01_finish",
+        "trigger": "campaign_finish",
+        "lines": []
+      }
+    ]
+  },
+  "equipment": {
+    "bases": [
+      {
+        "id": "sword",
+        "name": "护送者短剑",
+        "slot": "main_hand",
+        "stats": {
+          "physical": 1
+        },
+        "affix_pool": [
+          "keen",
+          "vital"
+        ],
+        "set_id": "",
+        "unique_name": "护送者短剑·旧日誓言",
+        "unique_affixes": [
+          "keen",
+          "vital"
+        ]
+      },
+      {
+        "id": "wand",
+        "name": "黄铜短杖",
+        "slot": "main_hand",
+        "stats": {
+          "spell": 1
+        },
+        "affix_pool": [
+          "ember",
+          "flow"
+        ],
+        "set_id": "",
+        "unique_name": "黄铜短杖·旧日誓言",
+        "unique_affixes": [
+          "ember",
+          "flow"
+        ]
+      },
+      {
+        "id": "shield",
+        "name": "旧桥圆盾",
+        "slot": "off_hand",
+        "stats": {
+          "armor": 1
+        },
+        "affix_pool": [
+          "stout",
+          "ward"
+        ],
+        "set_id": "",
+        "unique_name": "旧桥圆盾·旧日誓言",
+        "unique_affixes": [
+          "stout",
+          "ward"
+        ]
+      },
+      {
+        "id": "helm",
+        "name": "皮护帽",
+        "slot": "head",
+        "stats": {
+          "hp": 1
+        },
+        "affix_pool": [
+          "vital",
+          "stout"
+        ],
+        "set_id": "",
+        "unique_name": "皮护帽·旧日誓言",
+        "unique_affixes": [
+          "vital",
+          "stout"
+        ]
+      },
+      {
+        "id": "coat",
+        "name": "行旅外衣",
+        "slot": "body",
+        "stats": {
+          "armor": 1
+        },
+        "affix_pool": [
+          "vital",
+          "ward"
+        ],
+        "set_id": "",
+        "unique_name": "行旅外衣·旧日誓言",
+        "unique_affixes": [
+          "vital",
+          "ward"
+        ]
+      },
+      {
+        "id": "gloves",
+        "name": "护手",
+        "slot": "hands",
+        "stats": {
+          "physical": 1
+        },
+        "affix_pool": [
+          "keen",
+          "vital"
+        ],
+        "set_id": "",
+        "unique_name": "护手·旧日誓言",
+        "unique_affixes": [
+          "keen",
+          "vital"
+        ]
+      },
+      {
+        "id": "boots",
+        "name": "旅人短靴",
+        "slot": "feet",
+        "stats": {},
+        "affix_pool": [
+          "trail",
+          "flow"
+        ],
+        "set_id": "wayfarer",
+        "unique_name": "旧路的回声",
+        "unique_affixes": [
+          "trail",
+          "flow"
+        ]
+      },
+      {
+        "id": "charm",
+        "name": "旅人铜坠",
+        "slot": "neck",
+        "stats": {},
+        "affix_pool": [
+          "vital",
+          "ward"
+        ],
+        "set_id": "wayfarer",
+        "unique_name": "旅人铜坠·旧日誓言",
+        "unique_affixes": [
+          "vital",
+          "ward"
+        ]
+      },
+      {
+        "id": "ring",
+        "name": "琥珀戒指",
+        "slot": "ring",
+        "stats": {},
+        "affix_pool": [
+          "ember",
+          "keen",
+          "ward"
+        ],
+        "set_id": "",
+        "unique_name": "琥珀戒指·旧日誓言",
+        "unique_affixes": [
+          "ember",
+          "keen"
+        ]
+      }
+    ],
+    "affixes": [
+      {
+        "id": "keen",
+        "name": "锋利",
+        "stat": "physical",
+        "minimum": 1,
+        "maximum": 2,
+        "effect": "none"
+      },
+      {
+        "id": "ember",
+        "name": "余烬",
+        "stat": "spell",
+        "minimum": 1,
+        "maximum": 2,
+        "effect": "none"
+      },
+      {
+        "id": "stout",
+        "name": "坚实",
+        "stat": "armor",
+        "minimum": 1,
+        "maximum": 2,
+        "effect": "none"
+      },
+      {
+        "id": "vital",
+        "name": "生机",
+        "stat": "hp",
+        "minimum": 1,
+        "maximum": 3,
+        "effect": "none"
+      },
+      {
+        "id": "ward",
+        "name": "护符",
+        "stat": "resist",
+        "minimum": 1,
+        "maximum": 2,
+        "effect": "none"
+      },
+      {
+        "id": "trail",
+        "name": "疾行",
+        "stat": "none",
+        "minimum": 0,
+        "maximum": 0,
+        "effect": "move_action_plus1"
+      },
+      {
+        "id": "flow",
+        "name": "行咒",
+        "stat": "none",
+        "minimum": 0,
+        "maximum": 0,
+        "effect": "mobile_cast"
+      }
+    ],
+    "sets": [
+      {
+        "id": "wayfarer",
+        "name": "归途旅人",
+        "pieces": 2,
+        "stats": {
+          "hp": 2,
+          "physical": 1
+        }
+      }
+    ],
+    "starting": [
+      {
+        "base": "sword",
+        "quality": 0,
+        "affixes": []
+      },
+      {
+        "base": "boots",
+        "quality": 1,
+        "affixes": [
+          "trail"
+        ]
+      },
+      {
+        "base": "wand",
+        "quality": 1,
+        "affixes": [
+          "flow"
+        ]
+      },
+      {
+        "base": "charm",
+        "quality": 0,
+        "affixes": []
+      }
+    ],
+    "drops": {
+      "chance": 100,
+      "quality_weights": [
+        55,
+        30,
+        12,
+        3
+      ],
+      "base_pool": [
+        "sword",
+        "wand",
+        "shield",
+        "helm",
+        "coat",
+        "gloves",
+        "boots",
+        "charm",
+        "ring"
+      ]
+    }
+  },
+  "abilities": [
+    {
+      "id": "attack",
+      "name": "普通攻击",
+      "target": "enemy",
+      "reach_bonus": 0,
+      "mp_cost": 0,
+      "cooldown": 0,
+      "charges": 0,
+      "stationary": false,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 0,
+          "radius": 0
+        }
+      ],
+      "los": true,
+      "damage_type": "physical",
+      "crit_chance": 10,
+      "crit_multiplier": 150
+    },
+    {
+      "id": "rally",
+      "name": "重整",
+      "target": "self",
+      "reach_bonus": 0,
+      "mp_cost": 0,
+      "cooldown": 0,
+      "charges": 1,
+      "stationary": false,
+      "effects": [
+        {
+          "op": "heal",
+          "value": 3,
+          "radius": 0
+        }
+      ],
+      "los": false,
+      "damage_type": "physical",
+      "crit_chance": 0,
+      "crit_multiplier": 150
+    },
+    {
+      "id": "strong_shot",
+      "name": "强射",
+      "target": "enemy",
+      "reach_bonus": 1,
+      "mp_cost": 0,
+      "cooldown": 0,
+      "charges": 1,
+      "stationary": false,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 1,
+          "radius": 0
+        }
+      ],
+      "los": true,
+      "damage_type": "physical",
+      "crit_chance": 0,
+      "crit_multiplier": 150
+    },
+    {
+      "id": "ember",
+      "name": "余烬",
+      "target": "enemy",
+      "reach_bonus": 1,
+      "mp_cost": 0,
+      "cooldown": 0,
+      "charges": 1,
+      "stationary": false,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 1,
+          "radius": 1
+        }
+      ],
+      "los": true,
+      "damage_type": "magic",
+      "crit_chance": 0,
+      "crit_multiplier": 150
+    },
+    {
+      "id": "focus_bolt",
+      "name": "凝神光矢",
+      "target": "enemy",
+      "reach_bonus": 1,
+      "mp_cost": 2,
+      "cooldown": 2,
+      "charges": 0,
+      "stationary": true,
+      "effects": [
+        {
+          "op": "damage",
+          "value": 2,
+          "radius": 0
+        }
+      ],
+      "los": true,
+      "damage_type": "magic",
+      "crit_chance": 10,
+      "crit_multiplier": 150
+    },
+    {
+      "id": "healing_draught",
+      "name": "药房绷带",
+      "target": "ally",
+      "reach_bonus": 1,
+      "mp_cost": 0,
+      "cooldown": 0,
+      "charges": 0,
+      "stationary": false,
+      "effects": [
+        {
+          "op": "heal",
+          "value": 5,
+          "radius": 0
+        }
+      ],
+      "los": false,
+      "damage_type": "physical",
+      "crit_chance": 0,
+      "crit_multiplier": 150
+    }
+  ],
+  "consumables": [
+    {
+      "id": "bandage",
+      "name": "药房绷带",
+      "ability": "healing_draught",
+      "count": 2
+    }
+  ]
+}

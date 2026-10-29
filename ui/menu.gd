@@ -38,6 +38,7 @@ func show_home():
     card.position=Vector2(48,326);card.custom_minimum_size=Vector2(330,0);card.size=Vector2(330,0);card.add_theme_stylebox_override("panel",StyleBoxEmpty.new())
     page.get_child(0).hide();page.add_theme_constant_override("separation",20);workshop_link.show()
     page.add_child(UI.menu_button("开始新游戏",start_new))
+    page.add_child(UI.menu_button("归乡之前 · 开发切片",start_homeward))
     page.add_child(UI.menu_button("读取存档",show_load))
     page.add_child(UI.menu_button("网络对局",show_network))
     page.add_child(UI.menu_button("退出游戏",request_exit))
@@ -61,6 +62,7 @@ func show_load():
     for slot in App.loadable_slots():
         var result=App.inspect_slot(slot)
         var caption={"auto":"自动存档","slot1":"存档一","slot2":"存档二","slot3":"存档三"}.get(slot,"第二章结尾检查点" if slot.begins_with("chapter2_end_") else "第一章结尾检查点")
+        if slot.begins_with("homeward"):caption="归乡之前 · 第"+slot.substr(8,1)+"章检查点"
         var button=UI.button(caption+" · "+(result.error if not result.error.is_empty() else "第 %d 回合 · %s"%[result.round,result.saved_at]),load_selected.bind(slot))
         button.disabled=not result.error.is_empty();button.tooltip_text=result.error;entries.add_child(button)
     feedback=UI.paragraph("旧规则或损坏存档不会覆盖当前文件。",460);page.add_child(feedback)
@@ -149,3 +151,8 @@ func capture_if_requested():
             await RenderingServer.frame_post_draw
             var code=get_viewport().get_texture().get_image().save_png(arg.trim_prefix("--capture-menu="))
             get_tree().quit(0 if code==OK else 1)
+
+func start_homeward():
+    if busy:return
+    if not App.new_game(preload("res://story/library.gd").content(1)):show_startup_error();return
+    busy=true;open_battle()

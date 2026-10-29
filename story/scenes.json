@@ -1,0 +1,679 @@
+{
+  "ch01_before_bridge": {
+    "id": "ch01_before_bridge",
+    "cues": [
+      {
+        "id": "ch01_before_bridge_000",
+        "op": "say",
+        "speaker": "neri",
+        "text": "过了桥，再往北走就是值房。"
+      },
+      {
+        "id": "ch01_before_bridge_001",
+        "op": "say",
+        "speaker": "mara",
+        "text": "你说的是去程吧？"
+      },
+      {
+        "id": "ch01_before_bridge_002",
+        "op": "say",
+        "speaker": "neri",
+        "text": "嗯。回来还要接几个人。有人走不快。"
+      },
+      {
+        "id": "ch01_before_bridge_003",
+        "op": "say",
+        "speaker": "mara",
+        "text": "这个你出门前没说。"
+      },
+      {
+        "id": "ch01_before_bridge_004",
+        "op": "beat",
+        "ms": 350
+      },
+      {
+        "id": "ch01_before_bridge_005",
+        "op": "say",
+        "speaker": "neri",
+        "text": "……现在说，还来得及吗？"
+      },
+      {
+        "id": "ch01_before_bridge_006",
+        "op": "say",
+        "speaker": "mara",
+        "text": "先看看路。"
+      },
+      {
+        "id": "ch01_before_bridge_007",
+        "op": "say",
+        "speaker": "road_guard",
+        "text": "停下。今天不让过。"
+      },
+      {
+        "id": "ch01_before_bridge_008",
+        "op": "say",
+        "speaker": "mara",
+        "text": "谁的命令？"
+      },
+      {
+        "id": "ch01_before_bridge_009",
+        "op": "say",
+        "speaker": "road_guard",
+        "text": "我的。把包留下，人可以走。"
+      },
+      {
+        "id": "ch01_before_bridge_010",
+        "op": "bubble",
+        "actor": "neri",
+        "emotion": "anger"
+      },
+      {
+        "id": "ch01_before_bridge_011",
+        "op": "say",
+        "speaker": "neri",
+        "text": "里面是药。"
+      },
+      {
+        "id": "ch01_before_bridge_012",
+        "op": "say",
+        "speaker": "road_guard",
+        "text": "那正好。"
+      },
+      {
+        "id": "ch01_before_bridge_013",
+        "op": "beat",
+        "ms": 250
+      },
+      {
+        "id": "ch01_before_bridge_014",
+        "op": "say",
+        "speaker": "mara",
+        "text": "退后一点。"
+      },
+      {
+        "id": "ch01_before_bridge_015",
+        "op": "say",
+        "speaker": "neri",
+        "text": "我在这里就行。你别挡着我。"
+      }
+    ]
+  },
+  "ch01_after_bridge": {
+    "id": "ch01_after_bridge",
+    "cues": [
+      {
+        "id": "ch01_after_bridge_000",
+        "op": "say",
+        "speaker": "mara",
+        "text": "手怎么了？"
+      },
+      {
+        "id": "ch01_after_bridge_001",
+        "op": "say",
+        "speaker": "neri",
+        "text": "蹭了一下。没事。"
+      },
+      {
+        "id": "ch01_after_bridge_002",
+        "op": "say",
+        "speaker": "mara",
+        "text": "你先给自己包上。"
+      },
+      {
+        "id": "ch01_after_bridge_003",
+        "op": "beat",
+        "ms": 400
+      },
+      {
+        "id": "ch01_after_bridge_004",
+        "op": "say",
+        "speaker": "neri",
+        "text": "刚才谢了。"
+      },
+      {
+        "id": "ch01_after_bridge_005",
+        "op": "say",
+        "speaker": "mara",
+        "text": "回程有几个人？"
+      },
+      {
+        "id": "ch01_after_bridge_006",
+        "op": "say",
+        "speaker": "neri",
+        "text": "原来说六个。值房会把能走的先送出来。"
+      },
+      {
+        "id": "ch01_after_bridge_007",
+        "op": "say",
+        "speaker": "mara",
+        "text": "那得找辆车。"
+      },
+      {
+        "id": "ch01_after_bridge_008",
+        "op": "say",
+        "speaker": "neri",
+        "text": "我想到了。不过……还没借到。"
+      },
+      {
+        "id": "ch01_after_bridge_009",
+        "op": "bubble",
+        "actor": "mara",
+        "emotion": "ellipsis"
+      },
+      {
+        "id": "ch01_after_bridge_010",
+        "op": "say",
+        "speaker": "mara",
+        "text": "到了再问。先赶路。"
+      }
+    ]
+  },
+  "ch02_before_watchhouse": {
+    "id": "ch02_before_watchhouse",
+    "cues": [
+      {
+        "id": "ch02_before_watchhouse_000",
+        "op": "say",
+        "speaker": "neri",
+        "text": "奥伦？你能站起来吗？"
+      },
+      {
+        "id": "ch02_before_watchhouse_001",
+        "op": "say",
+        "speaker": "oren",
+        "text": "能。坐久了，腿有点麻。"
+      },
+      {
+        "id": "ch02_before_watchhouse_002",
+        "op": "say",
+        "speaker": "neri",
+        "text": "先别急。其他人呢？"
+      },
+      {
+        "id": "ch02_before_watchhouse_003",
+        "op": "say",
+        "speaker": "oren",
+        "text": "车边两个。"
+      },
+      {
+        "id": "ch02_before_watchhouse_004",
+        "op": "beat",
+        "ms": 350
+      },
+      {
+        "id": "ch02_before_watchhouse_005",
+        "op": "say",
+        "speaker": "neri",
+        "text": "还有三个。昨天不是说一起走？"
+      },
+      {
+        "id": "ch02_before_watchhouse_006",
+        "op": "say",
+        "speaker": "watch_guard",
+        "text": "那三个不走。转走了。"
+      },
+      {
+        "id": "ch02_before_watchhouse_007",
+        "op": "say",
+        "speaker": "neri",
+        "text": "转去哪儿？有一个伤口还在发热。"
+      },
+      {
+        "id": "ch02_before_watchhouse_008",
+        "op": "say",
+        "speaker": "watch_guard",
+        "text": "我不知道。上头改的。"
+      },
+      {
+        "id": "ch02_before_watchhouse_009",
+        "op": "say",
+        "speaker": "mara",
+        "text": "我们只接人。已经放出来的，现在能带走吧？"
+      },
+      {
+        "id": "ch02_before_watchhouse_010",
+        "op": "beat",
+        "ms": 300
+      },
+      {
+        "id": "ch02_before_watchhouse_011",
+        "op": "say",
+        "speaker": "watch_guard",
+        "text": "……先别走。带队的要问话。"
+      },
+      {
+        "id": "ch02_before_watchhouse_012",
+        "op": "say",
+        "speaker": "oren",
+        "text": "他刚才还说我能走。"
+      },
+      {
+        "id": "ch02_before_watchhouse_013",
+        "op": "say",
+        "speaker": "watch_guard",
+        "text": "把他们拦住。"
+      },
+      {
+        "id": "ch02_before_watchhouse_014",
+        "op": "bubble",
+        "actor": "neri",
+        "emotion": "exclamation"
+      },
+      {
+        "id": "ch02_before_watchhouse_015",
+        "op": "say",
+        "speaker": "mara",
+        "text": "奈莉，往外走。别往门里去。"
+      }
+    ]
+  },
+  "ch02_after_watchhouse": {
+    "id": "ch02_after_watchhouse",
+    "cues": [
+      {
+        "id": "ch02_after_watchhouse_000",
+        "op": "say",
+        "speaker": "mara",
+        "text": "另外两个人住下了。掌柜要我们明早就走。"
+      },
+      {
+        "id": "ch02_after_watchhouse_001",
+        "op": "say",
+        "speaker": "neri",
+        "text": "我再出去一趟。"
+      },
+      {
+        "id": "ch02_after_watchhouse_002",
+        "op": "say",
+        "speaker": "mara",
+        "text": "去哪儿？"
+      },
+      {
+        "id": "ch02_after_watchhouse_003",
+        "op": "say",
+        "speaker": "neri",
+        "text": "水闸。之前照看他们的医师住那边。他可能知道人被送去哪了。"
+      },
+      {
+        "id": "ch02_after_watchhouse_004",
+        "op": "say",
+        "speaker": "mara",
+        "text": "你打算自己去？"
+      },
+      {
+        "id": "ch02_after_watchhouse_005",
+        "op": "beat",
+        "ms": 350
+      },
+      {
+        "id": "ch02_after_watchhouse_006",
+        "op": "say",
+        "speaker": "neri",
+        "text": "你的委托到这里就算完了。"
+      },
+      {
+        "id": "ch02_after_watchhouse_007",
+        "op": "say",
+        "speaker": "mara",
+        "text": "我问的不是这个。你认识路吗？"
+      },
+      {
+        "id": "ch02_after_watchhouse_008",
+        "op": "say",
+        "speaker": "neri",
+        "text": "……大概认识。"
+      },
+      {
+        "id": "ch02_after_watchhouse_009",
+        "op": "bubble",
+        "actor": "mara",
+        "emotion": "ellipsis"
+      },
+      {
+        "id": "ch02_after_watchhouse_010",
+        "op": "say",
+        "speaker": "mara",
+        "text": "先吃点东西。找个认路的，再走。"
+      },
+      {
+        "id": "ch02_after_watchhouse_011",
+        "op": "say",
+        "speaker": "oren",
+        "text": "那三个人……以前跟着我。"
+      },
+      {
+        "id": "ch02_after_watchhouse_012",
+        "op": "say",
+        "speaker": "neri",
+        "text": "你知道为什么不放他们？"
+      },
+      {
+        "id": "ch02_after_watchhouse_013",
+        "op": "say",
+        "speaker": "oren",
+        "text": "我得想想，怎么说。"
+      },
+      {
+        "id": "ch02_after_watchhouse_014",
+        "op": "say",
+        "speaker": "mara",
+        "text": "别想太久。"
+      }
+    ]
+  },
+  "ch03_before_sluice": {
+    "id": "ch03_before_sluice",
+    "cues": [
+      {
+        "id": "ch03_before_sluice_000",
+        "op": "say",
+        "speaker": "neri",
+        "text": "请问，去医师家的路是这边吗？"
+      },
+      {
+        "id": "ch03_before_sluice_001",
+        "op": "say",
+        "speaker": "finn",
+        "text": "原来是。桥头刚设了岗。"
+      },
+      {
+        "id": "ch03_before_sluice_002",
+        "op": "say",
+        "speaker": "mara",
+        "text": "还有别的路？"
+      },
+      {
+        "id": "ch03_before_sluice_003",
+        "op": "say",
+        "speaker": "finn",
+        "text": "有，不过得绕。你们找他干什么？"
+      },
+      {
+        "id": "ch03_before_sluice_004",
+        "op": "say",
+        "speaker": "neri",
+        "text": "问几个伤员的下落。值房送来的。"
+      },
+      {
+        "id": "ch03_before_sluice_005",
+        "op": "beat",
+        "ms": 250
+      },
+      {
+        "id": "ch03_before_sluice_006",
+        "op": "say",
+        "speaker": "finn",
+        "text": "那你们得快点。我刚看见他们把医师也叫过去了。"
+      },
+      {
+        "id": "ch03_before_sluice_007",
+        "op": "say",
+        "speaker": "mara",
+        "text": "你能带路吗？"
+      },
+      {
+        "id": "ch03_before_sluice_008",
+        "op": "say",
+        "speaker": "finn",
+        "text": "能。我叫芬恩。"
+      },
+      {
+        "id": "ch03_before_sluice_009",
+        "op": "say",
+        "speaker": "neri",
+        "text": "奈莉。这是玛拉。"
+      },
+      {
+        "id": "ch03_before_sluice_010",
+        "op": "bubble",
+        "actor": "finn",
+        "emotion": "exclamation"
+      },
+      {
+        "id": "ch03_before_sluice_011",
+        "op": "say",
+        "speaker": "finn",
+        "text": "有人过来了。别走正桥，从下面绕。"
+      },
+      {
+        "id": "ch03_before_sluice_012",
+        "op": "say",
+        "speaker": "mara",
+        "text": "你走过？"
+      },
+      {
+        "id": "ch03_before_sluice_013",
+        "op": "say",
+        "speaker": "finn",
+        "text": "昨天还走过。跟我来。"
+      }
+    ]
+  },
+  "ch03_after_sluice": {
+    "id": "ch03_after_sluice",
+    "cues": [
+      {
+        "id": "ch03_after_sluice_000",
+        "op": "beat",
+        "ms": 450
+      },
+      {
+        "id": "ch03_after_sluice_001",
+        "op": "say",
+        "speaker": "neri",
+        "text": "人呢？那三个伤员。"
+      },
+      {
+        "id": "ch03_after_sluice_002",
+        "op": "say",
+        "speaker": "physician",
+        "text": "送去旧采石场了。天亮以后处置。"
+      },
+      {
+        "id": "ch03_after_sluice_003",
+        "op": "say",
+        "speaker": "neri",
+        "text": "明天？"
+      },
+      {
+        "id": "ch03_after_sluice_004",
+        "op": "say",
+        "speaker": "physician",
+        "text": "嗯。我想再给他们换次药，没让进去。"
+      },
+      {
+        "id": "ch03_after_sluice_005",
+        "op": "beat",
+        "ms": 400
+      },
+      {
+        "id": "ch03_after_sluice_006",
+        "op": "say",
+        "speaker": "mara",
+        "text": "采石场有几条路？"
+      },
+      {
+        "id": "ch03_after_sluice_007",
+        "op": "say",
+        "speaker": "finn",
+        "text": "两条。拉石头的大路，还有山坡那条小路。"
+      },
+      {
+        "id": "ch03_after_sluice_008",
+        "op": "say",
+        "speaker": "mara",
+        "text": "你已经把我们带到了。接下来不用跟着。"
+      },
+      {
+        "id": "ch03_after_sluice_009",
+        "op": "say",
+        "speaker": "finn",
+        "text": "他们刚才也看见我了。我现在回去，照样要被问。"
+      },
+      {
+        "id": "ch03_after_sluice_010",
+        "op": "say",
+        "speaker": "neri",
+        "text": "你家里呢？"
+      },
+      {
+        "id": "ch03_after_sluice_011",
+        "op": "say",
+        "speaker": "finn",
+        "text": "我托人带句话。先把这事弄完。"
+      },
+      {
+        "id": "ch03_after_sluice_012",
+        "op": "say",
+        "speaker": "mara",
+        "text": "那就一起。入夜前回来，我们得商量一下。"
+      }
+    ]
+  },
+  "ch04_night_at_posthouse": {
+    "id": "ch04_night_at_posthouse",
+    "cues": [
+      {
+        "id": "ch04_night_at_posthouse_000",
+        "op": "say",
+        "speaker": "mara",
+        "text": "奥伦。现在说吧。"
+      },
+      {
+        "id": "ch04_look_oren",
+        "op": "look",
+        "actor": "oren",
+        "direction": "front_left"
+      },
+      {
+        "id": "ch04_night_at_posthouse_001",
+        "op": "say",
+        "speaker": "oren",
+        "text": "他们说的逃兵，是我们。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_002",
+        "op": "beat",
+        "ms": 500
+      },
+      {
+        "id": "ch04_night_at_posthouse_003",
+        "op": "say",
+        "speaker": "finn",
+        "text": "不是已经停战了吗？"
+      },
+      {
+        "id": "ch04_night_at_posthouse_004",
+        "op": "say",
+        "speaker": "oren",
+        "text": "是。可我们是在停战前走的。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_005",
+        "op": "say",
+        "speaker": "neri",
+        "text": "谁下的令？"
+      },
+      {
+        "id": "ch04_night_at_posthouse_006",
+        "op": "say",
+        "speaker": "oren",
+        "text": "我。"
+      },
+      {
+        "id": "ch04_look_finn",
+        "op": "look",
+        "actor": "finn",
+        "direction": "front_left"
+      },
+      {
+        "id": "ch04_night_at_posthouse_007",
+        "op": "say",
+        "speaker": "oren",
+        "text": "当时守着一段坡道。吃的没了，援兵也没来。我带能动的人撤了。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_008",
+        "op": "say",
+        "speaker": "mara",
+        "text": "另一边的人呢？"
+      },
+      {
+        "id": "ch04_night_at_posthouse_009",
+        "op": "say",
+        "speaker": "oren",
+        "text": "没能一起出来。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_010",
+        "op": "beat",
+        "ms": 500
+      },
+      {
+        "id": "ch04_night_at_posthouse_011",
+        "op": "say",
+        "speaker": "oren",
+        "text": "我派人去叫过。但……没等到回信，我就走了。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_012",
+        "op": "say",
+        "speaker": "finn",
+        "text": "那三个人也下不了这个命令吧？"
+      },
+      {
+        "id": "ch04_night_at_posthouse_013",
+        "op": "say",
+        "speaker": "oren",
+        "text": "下不了。是我让他们跟上的。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_014",
+        "op": "say",
+        "speaker": "neri",
+        "text": "这些，你跟守备官说过吗？"
+      },
+      {
+        "id": "ch04_night_at_posthouse_015",
+        "op": "say",
+        "speaker": "oren",
+        "text": "说过。他觉得我丢下了自己的人。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_016",
+        "op": "say",
+        "speaker": "mara",
+        "text": "那明天你得再说一次。当着他们的面。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_017",
+        "op": "say",
+        "speaker": "oren",
+        "text": "我去。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_018",
+        "op": "beat",
+        "ms": 350
+      },
+      {
+        "id": "ch04_night_at_posthouse_019",
+        "op": "say",
+        "speaker": "neri",
+        "text": "先把腿伸过来。绷带都湿了。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_020",
+        "op": "say",
+        "speaker": "finn",
+        "text": "山坡那条路窄，车过不去。"
+      },
+      {
+        "id": "ch04_night_at_posthouse_021",
+        "op": "say",
+        "speaker": "mara",
+        "text": "备副担架。天亮前出发。"
+      }
+    ]
+  }
+}

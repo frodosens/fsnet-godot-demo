@@ -306,6 +306,8 @@ func refresh():
     log_label.text=log_lines[-1] if not log_lines.is_empty() else ""
     refresh_story()
 func refresh_story():
+    if not root.has_node("HomewardBubbles"):
+        var bubbles=preload("res://story/head_bubbles.gd").new();bubbles.name="HomewardBubbles";bubbles.game=game;root.add_child(bubbles)
     var line=App.next_story()
     story_panel.visible=not line.is_empty() and not is_instance_valid(modal) and not game.presentation_active()
     # z_index only changes drawing: the later dock otherwise steals story clicks.
