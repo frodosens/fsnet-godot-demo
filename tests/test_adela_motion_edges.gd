@@ -51,18 +51,8 @@ func run():
     for size in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=size;await frames();game.hud.show_feedback_settings();await frames()
         var scroll=game.hud.modal.find_child("AnimationOptions",true,false)
-        check(scroll!=null and scroll.get_global_rect().end.y<=root.get_visible_rect().size.y,"options remain bounded")
-        var count=0
-        for option in scroll.get_child(0).get_children():
-            if option.text.contains("阿黛拉双面板移动"):
-                count+=1;check(option.button_pressed,"new separate checkbox")
-                scroll.ensure_control_visible(option);await frames()
-                check(scroll.get_global_rect().encloses(option.get_global_rect()),"toggle reachable through bounded scrolling")
-                var point=option.get_global_rect().get_center()
-                await touch(point,true);await touch(point,false)
-                check(not app.adela_motion_preview and not option.button_pressed,"actual touch toggles off")
-                await touch(point,true);await touch(point,false)
-                check(app.adela_motion_preview and option.button_pressed,"actual touch toggles back on")
-        check(count==1,"one movement option")
+        check(scroll==null,"legacy animation controls removed")
+        for option in game.hud.modal.find_children("*","CheckButton",true,false):
+            check(not option.text.contains("移动") and not option.text.contains("待机"),"no replacement version checkbox")
         game.hud.clear_modal()
     print("ADELA_MOTION_EDGES checks=",checks," failures=0");quit()

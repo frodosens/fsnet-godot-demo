@@ -9,6 +9,8 @@ func frames(n=3):
     for i in range(n):await process_frame
 func run():
     var app=root.get_node("App");app.sfx_enabled=false;app.presentation_preferences_path="user://neri-edge.cfg"
+    # Isolate the retained legacy fallback from the latest hero override.
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false}
     app.mara_sequence_preview=true;app.set_finn_motion_preview(true);app.set_oren_sequence_preview(true);app.set_bram_sequence_preview(true);app.set_tessa_motion_preview(true)
     app.set_idle_sequence_preview(true,"neri");app.set_idle_sequence_preview(true,"adela");app.set_idle_sequence_preview(true,"elsbet")
     var data=preload("res://tests/walk_rear_fixture.gd").content("neri","front_right")
@@ -45,10 +47,8 @@ func run():
     for size in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=size;await frames();game.hud.show_feedback_settings();await frames()
         var scroll=game.hud.modal.find_child("AnimationOptions",true,false)
-        check(scroll!=null and scroll.get_global_rect().end.y<=root.get_visible_rect().size.y,"options remain bounded")
-        var count=0
-        for option in scroll.get_child(0).get_children():
-            if option.text.contains("奈莉镜像移动"):count+=1;check(option.button_pressed,"new separate checkbox")
-        check(count==1,"one movement option")
+        check(scroll==null,"legacy animation controls removed")
+        for option in game.hud.modal.find_children("*","CheckButton",true,false):
+            check(not option.text.contains("移动") and not option.text.contains("待机"),"no replacement version checkbox")
         game.hud.clear_modal()
     print("NERI_MIRROR_EDGES checks=",checks," failures=0");quit()

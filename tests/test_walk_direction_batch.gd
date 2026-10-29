@@ -8,7 +8,7 @@ func check(ok,label):
 func frames():
     for i in range(3):await process_frame
 func run():
-    var app=root.get_node("App");app.neri_motion_preview=false # Explicit old-motion baseline; default-on trial has separate tests.
+    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);app.neri_motion_preview=false # Explicit old-motion baseline; default-on trial has separate tests.
     var Fixture=preload("res://tests/walk_rear_fixture.gd")
     var Walk=preload("res://view/walk_library.gd").shared();var Meter=load("res://view/unit_health.gd")
     for entry in [["finn","back_right"],["oren","back_left"],["oren","back_right"],["mara","front_right"],["bram","front_right"],["neri","front_right"],["tessa","front_right"],["adela","front_right"],["elsbet","front_right"],["mara","back_left"],["mara","back_right"],["bram","back_left"],["bram","back_right"]]:

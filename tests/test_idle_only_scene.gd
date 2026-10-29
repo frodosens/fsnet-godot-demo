@@ -10,6 +10,8 @@ func frames(n=3):
 func run():
     var Meter=load("res://view/unit_health.gd")
     var app=root.get_node("App");app.neri_motion_preview=false # Explicit old-motion baseline; default-on trial has separate tests.
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Retained idle-only fallback fixture.
+    app.adela_motion_preview=false;app.elsbet_motion_preview=false
     app.presentation_preferences_path="user://idle-only-scene.cfg";app.save_root="user://idle-only-save-"+str(Time.get_ticks_usec())
     var Seq=preload("res://view/map_sequence.gd").shared()
     var output=OS.get_environment("AMBER_IDLE_STILLS")

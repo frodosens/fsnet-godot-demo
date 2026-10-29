@@ -40,7 +40,7 @@ func run():
             app.set_finn_motion_preview(finn)
             for oren in [false,true]:
                 app.set_oren_sequence_preview(oren);app.load_presentation_preferences()
-                check(app.map_sequence_enabled("mara")==mara and app.map_sequence_enabled("finn")==finn and app.map_sequence_enabled("oren")==oren,"three independent persistent switches")
+                check(app.map_sequence_enabled("mara") and app.map_sequence_enabled("finn") and app.map_sequence_enabled("oren"),"latest selection overrides obsolete switch combination")
                 check(app.map_sequence_enabled("bram")==other_before,"other actors unchanged")
     app.set_mara_sequence_preview(false);app.set_finn_motion_preview(false);app.set_oren_sequence_preview(false)
     print("OREN_SEQUENCE checks=",checks," failures=",failures);quit(1 if failures else 0)

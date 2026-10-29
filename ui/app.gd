@@ -26,60 +26,34 @@ var cutins_enabled=true
 var reduced_motion=false
 var sfx_enabled=true
 var sfx_volume_db=-12.0
-var hero_map_refresh_previews={"mara":true,"finn":true,"neri":true} # Reviewed refresh defaults; explicit rollback preferences remain authoritative.
-var idle_sequence_previews={"neri":false,"adela":false,"elsbet":false}
+var hero_map_refresh_previews={"mara":true,"finn":true,"neri":true} # Latest accepted hero profiles; obsolete saved toggles are ignored.
+var idle_sequence_previews={"neri":true,"adela":true,"elsbet":true}
 var bram_sequence_preview=true # User-accepted provisional gesture and shuffle.
 var oren_sequence_preview=true # Provisional idle/motion; old art remains available.
 var tessa_motion_preview=true
 const NERI_MOTION_DEFAULT_VERSION=1
-var rodd_motion_preview=false # Review-pending map-only trial, independent rollback.
+var elsbet_motion_preview=true # Latest shipped map resources.
+var rodd_motion_preview=true # Latest shipped map resources.
 var adela_motion_preview=true # Independent movement-only two-panel trial.
 var neri_motion_preview=true # User-approved default; independent of Neri idle.
-var finn_motion_preview=false # Motion-only trial; original Finn idle is retained.
-var mara_sequence_preview=false # Local opt-in for unapproved compact art candidate.
+var finn_motion_preview=true # Latest shipped map resources.
+var mara_sequence_preview=true # Latest shipped map resources.
 var health_bar_avoidance=false
 var presentation_preferences_path="user://presentation.cfg"
+# Animation selection is a shipped resource policy, not a saved user preference.
+# Obsolete animation keys are ignored without rewriting unrelated settings.
 func load_presentation_preferences():
     for id in hero_map_refresh_previews:hero_map_refresh_previews[id]=true
-    for id in idle_sequence_previews:idle_sequence_previews[id]=false
-    rodd_motion_preview=false
-    adela_motion_preview=true;neri_motion_preview=true;tessa_motion_preview=true;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=true;bram_sequence_preview=true
-    var config=ConfigFile.new()
-    var loaded=config.load(presentation_preferences_path)
+    for id in idle_sequence_previews:idle_sequence_previews[id]=true
+    rodd_motion_preview=true;elsbet_motion_preview=true
+    adela_motion_preview=true;neri_motion_preview=true;tessa_motion_preview=true
+    mara_sequence_preview=true;finn_motion_preview=true;oren_sequence_preview=true;bram_sequence_preview=true
+    health_bar_avoidance=false
+    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
     if loaded==OK:
-        var rodd_value=config.get_value("map","rodd_motion_preview",false)
-        if rodd_value is bool:rodd_motion_preview=rodd_value
         var value=config.get_value("map","health_bar_avoidance",false)
         if value is bool:health_bar_avoidance=value
-        value=config.get_value("map","mara_sequence_preview",false)
-        if value is bool:mara_sequence_preview=value
-        value=config.get_value("map","neri_motion_preview",true)
-        if value is bool:neri_motion_preview=value
-        value=config.get_value("map","adela_motion_preview",true)
-        if value is bool:adela_motion_preview=value
-        value=config.get_value("map","finn_motion_preview",false)
-        if value is bool:finn_motion_preview=value
-        value=config.get_value("map","oren_sequence_preview",true)
-        if value is bool:oren_sequence_preview=value
-        value=config.get_value("map","bram_sequence_preview",true)
-        if value is bool:bram_sequence_preview=value
-        value=config.get_value("map","tessa_motion_preview",true)
-        if value is bool:tessa_motion_preview=value
-        for id in hero_map_refresh_previews:
-            value=config.get_value("map","hero_refresh_v2_"+id,true)
-            if value is bool:hero_map_refresh_previews[id]=value
-        for id in idle_sequence_previews:
-            value=config.get_value("map",id+"_idle_preview",false)
-            if value is bool:idle_sequence_previews[id]=value
-    # Old files recorded a boolean only, so implicit and explicit false cannot be distinguished.
-    # Migrate once; later manual OFF is stamped with this version and remains OFF.
-    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
-        if neri_motion_preference_version(config)<NERI_MOTION_DEFAULT_VERSION:
-            neri_motion_preview=true
-            config.set_value("map","neri_motion_preview",true)
-            config.set_value("map","neri_motion_default_version",NERI_MOTION_DEFAULT_VERSION)
-            if config.save(presentation_preferences_path)!=OK:push_warning("Cannot persist Neri motion default migration")
-    else:push_warning("Presentation preferences unreadable; preserving file and using defaults")
+    elif loaded!=ERR_FILE_NOT_FOUND:push_warning("Presentation preferences unreadable; preserving file and using defaults")
 func neri_motion_preference_version(config):
     var version=config.get_value("map","neri_motion_default_version",0)
     return version if version is int and version>=0 else 0
@@ -299,11 +273,9 @@ func _notification(what):
         else:get_tree().quit()
 func _exit_tree():close_room()
 
+# In-memory hooks used by fallback/asset QA; no settings UI or persistence.
 func set_mara_sequence_preview(on):
     mara_sequence_preview=bool(on)
-    var config=ConfigFile.new();config.load(presentation_preferences_path)
-    config.set_value("map","mara_sequence_preview",mara_sequence_preview)
-    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save map sequence preference")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("mara")
 
@@ -315,84 +287,52 @@ func map_sequence_enabled(id):
     return mara_sequence_preview if id=="mara" else (finn_motion_preview if id=="finn" else false)
 func set_finn_motion_preview(on):
     finn_motion_preview=bool(on)
-    var config=ConfigFile.new();config.load(presentation_preferences_path)
-    config.set_value("map","finn_motion_preview",finn_motion_preview)
-    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Finn motion preference")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("finn")
 
 func set_oren_sequence_preview(on):
     oren_sequence_preview=bool(on)
-    var config=ConfigFile.new();config.load(presentation_preferences_path)
-    config.set_value("map","oren_sequence_preview",oren_sequence_preview)
-    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Oren sequence preference")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("oren")
 
 func set_bram_sequence_preview(on):
     bram_sequence_preview=bool(on)
-    var config=ConfigFile.new();config.load(presentation_preferences_path)
-    config.set_value("map","bram_sequence_preview",bram_sequence_preview)
-    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Bram sequence preference")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("bram")
 
 func set_idle_sequence_preview(on,id):
     if not idle_sequence_previews.has(id):return
     idle_sequence_previews[id]=bool(on)
-    var config=ConfigFile.new();config.load(presentation_preferences_path)
-    config.set_value("map",id+"_idle_preview",bool(on))
-    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save idle sequence preference")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art(id)
 
 func set_tessa_motion_preview(on):
     tessa_motion_preview=bool(on)
-    var config=ConfigFile.new();config.load(presentation_preferences_path)
-    config.set_value("map","tessa_motion_preview",tessa_motion_preview)
-    if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Tessa motion preference")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("tessa")
 
 func set_neri_motion_preview(on):
     neri_motion_preview=bool(on)
-    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
-    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
-        config.set_value("map","neri_motion_preview",neri_motion_preview)
-        if neri_motion_preference_version(config)<NERI_MOTION_DEFAULT_VERSION:
-            config.set_value("map","neri_motion_default_version",NERI_MOTION_DEFAULT_VERSION)
-        if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Neri motion preference")
-    else:push_warning("Cannot save Neri preference without overwriting unreadable settings")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("neri")
 
 func set_adela_motion_preview(on):
     adela_motion_preview=bool(on)
-    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
-    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
-        config.set_value("map","adela_motion_preview",adela_motion_preview)
-        if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Adela motion preference")
-    else:push_warning("Cannot save Adela preference without overwriting unreadable settings")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("adela")
 
 func set_hero_map_refresh_preview(on,id):
     if not hero_map_refresh_previews.has(id):return
     hero_map_refresh_previews[id]=bool(on)
-    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
-    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
-        config.set_value("map","hero_refresh_v2_"+id,hero_map_refresh_previews[id])
-        if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save hero refresh preference")
-    else:push_warning("Cannot save hero refresh preference without overwriting unreadable settings")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art(id)
 
 func set_rodd_motion_preview(on):
     rodd_motion_preview=bool(on)
-    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
-    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
-        config.set_value("map","rodd_motion_preview",rodd_motion_preview)
-        if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Rodd motion preference")
-    else:push_warning("Cannot save Rodd preference without overwriting unreadable settings")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("rodd")
+
+func set_elsbet_motion_preview(on):
+    elsbet_motion_preview=bool(on)
+    var game=get_tree().current_scene
+    if game and game.has_method("refresh_elsbet_motion_art"):game.refresh_elsbet_motion_art()

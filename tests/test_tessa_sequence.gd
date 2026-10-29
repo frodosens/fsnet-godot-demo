@@ -38,7 +38,7 @@ func run():
         for tessa in [false,true]:
             app.set_tessa_motion_preview(tessa)
             app.load_presentation_preferences()
-            check(app.map_sequence_enabled("mara")==mara and app.map_sequence_enabled("tessa")==tessa,"independent persistent settings")
+            check(app.map_sequence_enabled("mara") and app.map_sequence_enabled("tessa"),"latest selection restored after QA override")
             check(app.map_sequence_enabled("oren")==other_before,"other actors unchanged")
     app.set_mara_sequence_preview(false);app.set_tessa_motion_preview(false)
     print("TESSA_SEQUENCE checks=",checks," failures=",failures);quit(1 if failures else 0)

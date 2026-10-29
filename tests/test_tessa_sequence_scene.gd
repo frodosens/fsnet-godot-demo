@@ -95,5 +95,5 @@ func run():
             check(game.battle.snapshot()==truth,"animation no shared state changes")
             app.set_tessa_motion_preview(false)
             check(game.figures[4].texture==old,"disable restores original neutral")
-            app.load_presentation_preferences();check(not app.tessa_motion_preview,"local preference persisted")
+            app.load_presentation_preferences();check(app.tessa_motion_preview,"latest resources restored on reload")
     print("TESSA_SEQUENCE_SCENE checks=",checks," failures=",failures);quit(1 if failures else 0)

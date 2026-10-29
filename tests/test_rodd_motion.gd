@@ -5,13 +5,14 @@ func check(ok,label):
     checks+=1
     if not ok:printerr("FAIL: ",label);quit(1)
     assert(ok,label)
-func _initialize():
+func _initialize():call_deferred("run")
+func run():
     var app=root.get_node("App");app.presentation_preferences_path="user://rodd-prefs-test.cfg"
     if OS.get_environment("RODD_RESTART")=="1":
-        app.load_presentation_preferences();check(not app.rodd_motion_preview,"explicit OFF survives fresh process");print("RODD_RESTART checks=",checks," failures=0");quit();return
-    DirAccess.remove_absolute(app.presentation_preferences_path);app.load_presentation_preferences();check(not app.rodd_motion_preview,"review pending default OFF")
+        app.load_presentation_preferences();check(app.rodd_motion_preview,"latest profile restored in fresh process");print("RODD_RESTART checks=",checks," failures=0");quit();return
+    DirAccess.remove_absolute(app.presentation_preferences_path);app.load_presentation_preferences();check(app.rodd_motion_preview,"latest profile enabled")
     var heroes=app.hero_map_refresh_previews.duplicate();app.set_rodd_motion_preview(true);app.load_presentation_preferences();check(app.rodd_motion_preview and app.hero_map_refresh_previews==heroes,"independent persisted ON")
-    app.set_rodd_motion_preview(false);app.load_presentation_preferences();check(not app.rodd_motion_preview and app.hero_map_refresh_previews==heroes,"explicit rollback preserves heroes")
+    app.set_rodd_motion_preview(false);app.load_presentation_preferences();check(app.rodd_motion_preview and app.hero_map_refresh_previews==heroes,"temporary QA override cannot persist across reload")
     var path="res://assets/sprites/iso4/rodd_seedance_mini_v1/runtime_manifest.json";var lib=Library.new(path)
     check(lib.errors.is_empty() and lib.profiles.keys()==["rodd"],"Rodd-only validated profile")
     var data=JSON.parse_string(FileAccess.get_file_as_string(path))

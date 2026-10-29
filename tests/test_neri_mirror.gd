@@ -12,6 +12,8 @@ func run():
     app.presentation_preferences_path="user://neri-mirror-test.cfg"
     if FileAccess.file_exists(app.presentation_preferences_path):DirAccess.remove_absolute(app.presentation_preferences_path)
     app.load_presentation_preferences();check(app.neri_motion_preview,"approved default on")
+    # This test targets the retained legacy mirror fallback, not the Mini V2 profile.
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false}
     var raw=JSON.parse_string(FileAccess.get_file_as_string("res://assets/animations/neri_motion_trial.json"))
     var Library=load("res://view/map_sequence.gd")
     var library=Library.new("res://assets/animations/neri_motion_trial.json")
@@ -37,7 +39,8 @@ func run():
     library.configure(malformed);check(library.profiles.is_empty(),"missing texture no partial profile")
     app.finn_motion_preview=true;app.idle_sequence_previews.neri=true
     app.set_neri_motion_preview(true);app.load_presentation_preferences()
-    check(app.neri_motion_preview,"local setting restores")
+    check(app.neri_motion_preview,"latest selection restored")
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false}
     for fixed in [true,false]:
         for physical in [Vector2i(1280,800),Vector2i(960,600)]:
             root.size=physical

@@ -10,7 +10,7 @@ func run():
     var config=ConfigFile.new()
     if FileAccess.file_exists(app.presentation_preferences_path):DirAccess.remove_absolute(app.presentation_preferences_path)
     app.load_presentation_preferences();check(app.neri_motion_preview,"new install ON")
-    config.load(app.presentation_preferences_path);check(config.get_value("map","neri_motion_default_version",0)==1,"new install migration stamped")
+    config.load(app.presentation_preferences_path);check(not FileAccess.file_exists(app.presentation_preferences_path),"new install does not write obsolete migration keys")
     for old in [null,false,true]:
         config=ConfigFile.new()
         if old!=null:config.set_value("map","neri_motion_preview",old)
@@ -24,13 +24,13 @@ func run():
         var bytes=FileAccess.get_file_as_bytes(app.presentation_preferences_path)
         app.load_presentation_preferences();check(bytes==FileAccess.get_file_as_bytes(app.presentation_preferences_path),"relaunch without user action never rewrites")
         app.set_neri_motion_preview(false);app.load_presentation_preferences()
-        check(not app.neri_motion_preview,"manual OFF survives reload")
+        check(app.neri_motion_preview,"temporary QA OFF is ignored on reload")
         check(app.finn_motion_preview and app.idle_sequence_previews.neri,"manual OFF isolated")
-        config.load(app.presentation_preferences_path);check(config.get_value("map","neri_motion_default_version")==1,"manual OFF keeps marker")
+        config.load(app.presentation_preferences_path);check(not config.has_section_key("map","neri_motion_default_version"),"no obsolete migration stamp written")
     for version in [1,2]:
         config=ConfigFile.new();config.set_value("map","neri_motion_default_version",version);config.set_value("map","neri_motion_preview",false);config.save(app.presentation_preferences_path)
         var bytes=FileAccess.get_file_as_bytes(app.presentation_preferences_path);app.load_presentation_preferences()
-        check(not app.neri_motion_preview and bytes==FileAccess.get_file_as_bytes(app.presentation_preferences_path),"versioned OFF respected including future revision")
+        check(app.neri_motion_preview and bytes==FileAccess.get_file_as_bytes(app.presentation_preferences_path),"versioned OFF ignored without rewriting including future revision")
         app.set_neri_motion_preview(true);config.load(app.presentation_preferences_path)
         check(config.get_value("map","neri_motion_default_version")==version,"setter never downgrades version")
     for bad in ["1",false,-1]:

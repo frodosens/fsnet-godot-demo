@@ -1,3 +1,5 @@
+> Superseded rollout policy: see [latest-map-animations.md](latest-map-animations.md). The latest user instruction enables Rodd and removes animation toggles despite the disclosed shoe clipping; the earlier OFF/rollback description below records the admission trial.
+
 # Rodd map motion trial
 
 Independent local `罗德地图动作（试验）` option under Pause → 音效与动态效果. Default OFF pending independent runtime/visual review. Explicit OFF persists; no other animation preference, portrait, battle pose, chapter roster or gameplay rule is changed.

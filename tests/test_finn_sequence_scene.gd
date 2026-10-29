@@ -10,6 +10,7 @@ func frames(count=3):
 func run():
     var Meter=load("res://view/unit_health.gd")
     var app=root.get_node("App");var Seq=preload("res://view/map_sequence.gd").shared()
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
     app.presentation_preferences_path="user://finn-compact-test.cfg"
     app.finn_motion_preview=false
     app.mara_sequence_preview=true
@@ -27,6 +28,7 @@ func run():
             game.motion.set_process(false);game.get_node("MapIdle").set_process(false)
             game.facing.finn=direction;game.selected=1;game.refresh()
             var old=game.base_directional_idle_texture(1,direction)
+            var other_idle_before=game.directional_idle_texture(2,direction)
             app.set_finn_motion_preview(true)
             var entry=Seq.matching("finn",direction,old)
             check(not entry.is_empty(),"active exact binding")
@@ -45,7 +47,7 @@ func run():
             game.get_node("MapIdle").advance(.5)
             check(game.figures[1].texture==game.get_node("MapIdle").library.sample("map",game.battle.units[1].role+":"+direction,.5,game.direction_textures["finn:"+direction],false,"finn"),"natural idle time")
             check(game.battle.snapshot()==truth,"idle no rule effects")
-            check(game.directional_idle_texture(2,direction)==game.base_directional_idle_texture(2,direction),"other actor unchanged")
+            check(game.directional_idle_texture(2,direction)==other_idle_before,"other actor unchanged")
             if not capture.is_empty():
                 var title=Label.new();title.text="玛拉关键帧试验 · "+direction+(" · 固定背景" if fixed else " · 3D")+"\n测试摆位 / 每格一循环 / 单脚碎步尚未验收"
                 title.position=Vector2(330,90);title.add_theme_font_size_override("font_size",19);title.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(title)
@@ -90,5 +92,6 @@ func run():
             check(game.battle.snapshot()==truth,"animation no shared state changes")
             app.set_finn_motion_preview(false)
             check(game.figures[1].texture==old,"disable restores original neutral")
-            app.load_presentation_preferences();check(not app.finn_motion_preview,"local preference persisted")
+            app.load_presentation_preferences();check(app.finn_motion_preview,"latest resources restored on reload")
+            app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
     print("FINN_SEQUENCE_SCENE checks=",checks," failures=",failures);quit(1 if failures else 0)

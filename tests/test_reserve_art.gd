@@ -39,7 +39,7 @@ func malformed_manifests():
     check(Art.profile(id)==cached,"valid profile cache remains intact after malformed inputs")
 func run():
     root.size=Vector2i(960,600) if OS.get_environment("AMBER_RESERVE_SMALL")=="1" else Vector2i(1280,800)
-    var app=root.get_node("App");app.sfx_enabled=false;app.save_root="user://reserve_art_"+str(Time.get_ticks_usec())
+    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);app.sfx_enabled=false;app.save_root="user://reserve_art_"+str(Time.get_ticks_usec())
     malformed_manifests()
     var original=Content.reference_content();var original_hash=Content.hash_of(original)
     for id in Art.IDS:

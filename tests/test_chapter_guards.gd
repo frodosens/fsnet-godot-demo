@@ -23,7 +23,7 @@ func run():
   root.size=size;app.mobile_presentation=size.x>1280;app.new_game(C.chapter_three_content());app.scene_renderer=config[1]
   while not app.next_story().is_empty():app.advance_story(true)
   change_scene_to_file('res://main.tscn');await frames(8);var g=current_scene;var snapshot=g.battle.snapshot()
-  check(g.figures[3].texture.resource_path.contains('/rodd/') and g.figures[4].texture.resource_path.contains('/vera/'),'no legacy figure impersonation')
+  check(g.figures[3].texture.resource_path.contains('/rodd_seedance_mini_v1/') and g.figures[4].texture.resource_path.contains('/vera/'),'no legacy figure impersonation')
   for dir in art.DIRECTIONS:
    g.facing.vera=dir
    var neutral=g.base_directional_idle_texture(4,dir);check(neutral.get_size()==Vector2(128,128),'neutral128')
@@ -34,7 +34,7 @@ func run():
     var foot=g.figure_texture_pixel_position(4,Vector2(64,120));check(foot.distance_to(g.figures[4].position)<0.0001,'root stable')
    g.apply_map_motion_texture(4,dir,1.0);check(g.figures[4].texture.resource_path.ends_with('00.png'),'grid cycle')
    g.motion.settle('vera',4);check(not g.figures[4].flip_h and g.figures[4].texture==neutral,'idle resets flip')
-   g.apply_map_motion_texture(3,dir,.5);check(g.figures[3].texture==g.base_directional_idle_texture(3,dir) and not g.figures[3].flip_h,'Rodd static')
+   g.apply_map_motion_texture(3,dir,.5);check(g.figures[3].texture==g.hero_refresh_libraries.rodd.pick(g.hero_refresh_entry(3,dir).motion,.5) and g.figures[3].flip_h==dir.ends_with('right'),'Rodd latest weighted movement')
   g.vera_motion_enabled=false;g.apply_map_motion_texture(4,'front_right',.3);check(not g.figures[4].flip_h and g.figures[4].texture==g.base_directional_idle_texture(4,'front_right'),'disabled canonical fallback');g.vera_motion_enabled=true
   var cut=g.cutin
   for pair in [['mara','rodd'],['rodd','mara'],['finn','vera'],['vera','finn'],['neri','rodd'],['rodd','neri'],['elsbet','vera']]:

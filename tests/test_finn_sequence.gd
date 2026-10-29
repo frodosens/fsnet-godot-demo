@@ -38,7 +38,7 @@ func run():
         for finn in [false,true]:
             app.set_finn_motion_preview(finn)
             app.load_presentation_preferences()
-            check(app.map_sequence_enabled("mara")==mara and app.map_sequence_enabled("finn")==finn,"independent persistent settings")
+            check(app.map_sequence_enabled("mara") and app.map_sequence_enabled("finn"),"latest selection restored after QA override")
             check(app.map_sequence_enabled("oren")==other_before,"other actors unchanged")
     app.set_mara_sequence_preview(false);app.set_finn_motion_preview(false)
     print("FINN_SEQUENCE checks=",checks," failures=",failures);quit(1 if failures else 0)

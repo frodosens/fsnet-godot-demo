@@ -30,7 +30,7 @@ func run():
     check(lib.sample("finn","back_right",.25,neutral)==neutral,"unregistered direction fallback")
     check(lib.sample("finn","front_right",.25,clip.textures[1])==clip.textures[1],"changed neutral rejects stale binding")
     check(lib.sample("finn","front_right",NAN,neutral)==neutral,"nonfinite travel safe")
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content())
+    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);app.new_game(preload("res://logic/content.gd").reference_content())
     change_scene_to_file("res://main.tscn");await process_frame;await process_frame
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.motion.set_process(false);game.get_node("MapIdle").set_process(false)

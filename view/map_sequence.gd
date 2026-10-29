@@ -30,7 +30,7 @@ func configure(data):
         if not idle_only is bool or not motion_only is bool:errors.append("invalid sequence mode flag: "+str(id));continue
         if idle_only and motion_only:errors.append("conflicting sequence modes: "+str(id));continue
         var hero_canvas=version==2
-        if hero_canvas and (id not in ["mara","finn","neri","rodd"] or not valid_hero_canvas(spec.get("canvas")) or motion_only or idle_only):
+        if hero_canvas and (id not in ["mara","finn","neri","rodd","elsbet"] or not valid_hero_canvas(spec.get("canvas")) or motion_only or idle_only):
             errors.append("invalid hero refresh profile: "+str(id));continue
         var decoded={};var valid=true
         for direction in DIRECTIONS:

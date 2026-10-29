@@ -35,10 +35,10 @@ func run():
         lib.configure(data)
     var app=root.get_node("App");app.presentation_preferences_path="user://seven-toggle-test.cfg"
     DirAccess.remove_absolute(app.presentation_preferences_path);app.load_presentation_preferences()
-    for id in ["mara","finn","oren","bram","neri","adela","elsbet"]:check(not app.map_sequence_enabled(id),"default off")
+    for id in ["mara","finn","oren","bram","neri","adela","elsbet"]:check(app.map_sequence_enabled(id),"latest default on")
     for mask in range(128):
         app.set_mara_sequence_preview(bool(mask&1));app.set_finn_motion_preview(bool(mask&2));app.set_oren_sequence_preview(bool(mask&4));app.set_bram_sequence_preview(bool(mask&8))
         for j in range(3):app.set_idle_sequence_preview(bool(mask&(16<<j)),["neri","adela","elsbet"][j])
         app.load_presentation_preferences()
-        for j in range(7):check(app.map_sequence_enabled(["mara","finn","oren","bram","neri","adela","elsbet"][j])==bool(mask&(1<<j)),"seven independent persisted options")
+        for j in range(7):check(app.map_sequence_enabled(["mara","finn","oren","bram","neri","adela","elsbet"][j]),"latest selection overrides all seven legacy option combinations")
     print("IDLE_ONLY checks=",checks," failures=",failures);quit(1 if failures else 0)

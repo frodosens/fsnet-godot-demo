@@ -9,11 +9,14 @@ func frames(n=4):
     for i in range(n):await process_frame
 func run():
     var app=root.get_node("App");app.presentation_preferences_path="user://finn-edges.cfg"
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
     app.save_root="user://compact-test-saves-"+str(Time.get_ticks_usec())
     DirAccess.remove_absolute(app.presentation_preferences_path);app.load_presentation_preferences()
-    check(not app.finn_motion_preview,"fresh local default off")
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
+    check(app.finn_motion_preview,"latest default on")
     var config=ConfigFile.new();config.set_value("map","finn_motion_preview","true");config.save(app.presentation_preferences_path)
-    app.load_presentation_preferences();check(not app.finn_motion_preview,"nonboolean preference rejected")
+    app.load_presentation_preferences();check(app.finn_motion_preview,"obsolete preference ignored")
+    app.hero_map_refresh_previews={"mara":false,"finn":false,"neri":false} # Legacy compact fallback fixture.
     for size in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=size
         for fixed in [true,false]:
@@ -31,17 +34,10 @@ func run():
             var toggle
             for control in game.hud.modal.find_children("*","CheckButton",true,false):
                 if control.text.begins_with("芬恩视频"):toggle=control
-            check(toggle!=null,"settings entry")
-            if toggle:
-                check(Rect2(Vector2.ZERO,root.get_visible_rect().size).encloses(toggle.get_global_rect()),"toggle on screen")
-                var click=InputEventMouseButton.new();click.button_index=MOUSE_BUTTON_LEFT;click.position=toggle.get_global_rect().get_center();click.pressed=true;root.push_input(click,true);await process_frame
-                click=click.duplicate();click.pressed=false;root.push_input(click,true);await frames()
-                check(app.finn_motion_preview,"actual mouse enables candidate")
-                check(game.get_node("MapIdle").clocks.mara==.73 and game.figures[0].texture==mara_texture,"Finn setting does not reset Mara idle or image")
-                toggle.grab_focus();var key=InputEventKey.new();key.keycode=KEY_SPACE;key.pressed=true;root.push_input(key,true);await process_frame
-                key=key.duplicate();key.pressed=false;root.push_input(key,true);await frames()
-                check(not app.finn_motion_preview,"keyboard restores old art")
+            check(toggle==null,"obsolete animation version control removed")
+            check(game.hud.modal.find_child("AnimationOptions",true,false)==null,"no obsolete version list")
             game.hud.clear_modal();app.set_finn_motion_preview(true)
+            check(game.get_node("MapIdle").clocks.mara==.73 and game.figures[0].texture==mara_texture,"Finn setting does not reset Mara idle or image")
             game.select_actor(1);game.select_mode("move");await frames()
             var preview_texture=game.figures[1].texture
             game.update_move_preview(Vector2i(2,8));await frames()
