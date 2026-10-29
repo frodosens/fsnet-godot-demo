@@ -124,8 +124,8 @@ func refresh_dock():
             var portrait_path=ART+"character/portrait-mara.png" if u.id=="mara" else preload("res://view/reserve_art.gd").portrait_path(u.id)
             portrait.texture=load(portrait_path) if ResourceLoader.exists(portrait_path) else null
         name_label.text=u.name;role_label.text={"knight":"骑士","archer":"弓手","mage":"法师"}.get(u.role,u.role)
-        hp.max_value=u.max_hp;hp.value=u.hp;mp.max_value=maxi(1,u.max_mp);mp.value=u.mp
-        hp_value.text="%d/%d"%[u.hp,u.max_hp];mp_value.text="%d/%d"%[u.mp,u.max_mp]
+        sync_presented_health();mp.max_value=maxi(1,u.max_mp);mp.value=u.mp
+        mp_value.text="%d/%d"%[u.mp,u.max_mp]
         movement.text="移动 %d"%maxi(0,u.move_actions-u.moves_used);action_value.text="行动 %d"%(0 if u.acted else 1)
         var spent=u.acted and u.moves_used>=u.move_actions
         action_nodes.wait.disabled=not logic.usable(i) or game.targeting_locked()
@@ -192,3 +192,11 @@ func _input(event):
         details_pointer=-2;details_pressed=null
         if activate:button.grab_focus();hud.show_character_details()
         if not event is InputEventScreenTouch:get_viewport().set_input_as_handled()
+
+# The visible dock shares the queue's read-only HP projection with map meters.
+func sync_presented_health():
+    var game=hud.game
+    if game.selected<0 or game.selected>=game.battle.units.size():return
+    var unit=game.battle.units[game.selected]
+    hp.max_value=unit.max_hp;hp.value=hud.presented_hp(unit)
+    hp_value.text="%d/%d"%[hud.presented_hp(unit),unit.max_hp]

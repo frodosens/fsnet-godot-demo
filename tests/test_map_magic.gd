@@ -30,6 +30,9 @@ func drain():
     var n=0
     while g.presentation_active() and n<300:tick(0.05);n+=1
     check(n<300,'bounded queue completion')
+func dock_hp(expected,label):
+    var unit=g.battle.units[g.selected]
+    check(g.hud.dock.hp.value==expected and g.hud.dock.hp_value.text=="%d/%d"%[expected,unit.max_hp],label)
 func run():
     app=root.get_node('App');app.sfx_enabled=false
     await setup()
@@ -65,7 +68,10 @@ func run():
     var wounded=g.battle.units[0].hp
     submit({'kind':'skill','unit':0,'target':0})
     truth=g.battle.snapshot();check(g.map_magic.active and g.badges[0].previous_hp==wounded,'rally HP delayed until impact')
-    tick(0.63);check(g.badges[0].previous_hp==wounded+3 and g.map_magic.labels[0].node.text=='+3','actual heal amount at impact')
+    dock_hp(wounded,'visible dock before healing')
+    tick(0.40);g.hud.dock.refresh_dock();dock_hp(wounded,'visible dock during travel and layout refresh')
+    tick(0.23);dock_hp(wounded+3,'visible dock updates at healing impact')
+    check(g.badges[0].previous_hp==wounded+3 and g.map_magic.labels[0].node.text=='+3','actual heal amount at impact')
     drain();check(g.battle.snapshot()==truth,'healing presentation never heals twice')
     await setup('injured')
     submit({'kind':'attack','unit':3,'target':0});g.skip_presentation()
@@ -96,5 +102,30 @@ func run():
     check(g.scene_view.pan.abs().x<=g.scene_view.pan_limit.x and g.scene_view.pan.abs().y<=g.scene_view.pan_limit.y,'camera focus within authored map bounds')
     g.skip_presentation();check(g.scene_view.pan==pan,'skip restores camera pan')
     app.mobile_presentation=false
+    await setup('injured')
+    submit({'kind':'attack','unit':3,'target':0})
+    var injury=g.battle.units[0].hp
+    dock_hp(12,'queued damage holds visible HP before cut-in result')
+    submit({'kind':'skill','unit':0,'target':0})
+    truth=g.battle.snapshot();var healed=g.battle.units[0].hp
+    dock_hp(12,'queued heal cannot leak final HP across earlier damage')
+    check(not g.select_actor(1),'actor selection locked across damage/heal queue')
+    g.cutin.finish();g.event_sequence._process(0)
+    check(g.map_magic.active,'queued heal starts after actual damage presentation')
+    dock_hp(injury,'visible dock uses injury HP at start of queued healing')
+    tick(0.40)
+    var replacement=preload('res://logic/runtime.gd').new(g.battle.content)
+    check(replacement.restore(truth),'same-step reconnect snapshot')
+    app.session.logic=replacement;g.battle=replacement;g.refresh()
+    dock_hp(injury,'same-step replacement preserves in-flight dock HP')
+    tick(0.23);dock_hp(healed,'queued heal impact updates visible dock')
+    check(g.battle.snapshot()==truth,'dock and heal never mutate authoritative snapshot')
+    drain();check(g.select_actor(1),'selection resumes after queued presentation')
+    dock_hp(g.battle.units[1].hp,'visible dock follows newly selected actor')
+    await setup('injured')
+    submit({'kind':'attack','unit':3,'target':0});g.skip_presentation()
+    submit({'kind':'skill','unit':0,'target':0});tick(0.4)
+    g.event_sequence.consume(g.event_sequence.last_step+3,[])
+    dock_hp(g.battle.units[0].hp,'reconnect gap settles visible dock to truth')
     print('MAP_MAGIC checks=',checks,' failures=',failures,' real_lua=true')
     quit(1 if failures else 0)

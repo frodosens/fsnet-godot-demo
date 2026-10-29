@@ -16,6 +16,7 @@ for test in test_map_magic test_character_details_touch test_character_details_u
 done
 
 run_checked python3 "$root/tests/run_network.py"
+run_checked python3 "$root/tests/run_map_magic_network.py"
 
 run_checked python3 "$root/tests/run_network.py" --extended
 

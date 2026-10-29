@@ -566,6 +566,7 @@ func presented_hp(unit):
     if game.event_sequence and game.event_sequence.active():return game.event_sequence.health.get(unit.id,unit.hp)
     return unit.hp
 func sync_presented_health():
+    if dock:dock.sync_presented_health()
     var index=1
     for unit in game.battle.units:
         if unit.ally or unit.controller=="player":
