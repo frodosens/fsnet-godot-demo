@@ -73,7 +73,14 @@ var map_touch_dragged=false
 const MAP_DRAG_THRESHOLD=12.0
 # Map art only: never feed per-unit size into movement speed or combat art.
 const MAP_RENDER_FACTORS={"oren":1.05}
-func map_render_factor(unit_id):return MAP_RENDER_FACTORS.get(unit_id,1.0)*scene_render_scale
+func presentation_id(unit):
+    var profile=preload("res://logic/presentation_profiles.gd").resolve(unit)
+    return profile if not profile.is_empty() else unit.id
+func presentation_id_for_instance(id):
+    for unit in battle.units:
+        if unit.id==id:return presentation_id(unit)
+    return id
+func map_render_factor(unit_id):return MAP_RENDER_FACTORS.get(presentation_id_for_instance(unit_id),1.0)*scene_render_scale
 
 func material(color):
     var m = StandardMaterial3D.new()
@@ -294,33 +301,35 @@ func build_world():
         if manifest is Dictionary:iso_characters=manifest.get("characters",{})
     for u in battle.units:
         var sprite = preload("res://view/lit_character.gd").new()
-        var art="res://assets/characters/"+u.id+".png"
-        if not ResourceLoader.exists(art):art="res://assets/sprites/"+u.role+".png"
+        var profile_id=presentation_id(u)
+        var art_role=preload("res://logic/presentation_profiles.gd").map_role(u)
+        var art="res://assets/characters/"+profile_id+".png"
+        if not ResourceLoader.exists(art):art="res://assets/sprites/"+art_role+".png"
         sprite.texture = load(art) if ResourceLoader.exists(art) else pixel_person(u.role,u.ally)
         sprite.set_meta("formal_art",ResourceLoader.exists(art))
         for direction in ["front","back","left","right"]:
-            var path="res://assets/sprites/directional/"+u.role+"_"+direction+".png"
+            var path="res://assets/sprites/directional/"+art_role+"_"+direction+".png"
             if ResourceLoader.exists(path):direction_textures[u.id+":"+direction]=load(path)
-        if iso_characters.has(u.role):
-            var idle=iso_characters[u.role].get("idle",{});var loaded={}
+        if iso_characters.has(art_role):
+            var idle=iso_characters[art_role].get("idle",{});var loaded={}
             for direction in ["front_left","front_right","back_left","back_right"]:
                 var file=idle.get(direction,"")
                 if file is String and file.begins_with("assets/sprites/iso4/") and not file.contains("..") and ResourceLoader.exists("res://"+file):loaded[direction]=load("res://"+file)
             if loaded.size()==4:
                 iso_roles[u.role]=true
                 for direction in loaded:direction_textures[u.id+":"+direction]=loaded[direction]
-        var reserve=preload("res://view/reserve_art.gd").profile(u.id)
+        var reserve=preload("res://view/reserve_art.gd").profile(profile_id)
         if not reserve.is_empty():
             sprite.texture=reserve.map.back_right if u.ally else reserve.map.front_left
             sprite.set_meta("formal_art",true);iso_roles[u.role]=true
             for direction in reserve.map:direction_textures[u.id+":"+direction]=reserve.map[direction]
-        var generic=preload("res://view/generic_map_art.gd").profile(u.id)
+        var generic=preload("res://view/generic_map_art.gd").profile(profile_id)
         if not generic.is_empty():
             sprite.texture=generic.map.back_right if u.ally else generic.map.front_left
             sprite.set_meta("formal_art",true);iso_roles[u.role]=true
-            hero_refresh_libraries[u.id]=generic.library
+            hero_refresh_libraries[profile_id]=generic.library
             for direction in generic.map:direction_textures[u.id+":"+direction]=generic.map[direction]
-        elif preload("res://view/generic_map_art.gd").declared(u.id):
+        elif preload("res://view/generic_map_art.gd").declared(profile_id):
             sprite.texture=pixel_person(u.role,u.ally);sprite.set_meta("formal_art",false)
             for direction in direction_textures.keys():
                 if direction.begins_with(u.id+":"):direction_textures.erase(direction)
@@ -330,7 +339,7 @@ func build_world():
         sprite.texture_filter = BaseMaterial3D.TEXTURE_FILTER_NEAREST
         sprite.billboard = BaseMaterial3D.BILLBOARD_ENABLED if sprite.get_meta("formal_art") else BaseMaterial3D.BILLBOARD_FIXED_Y
         if sprite.get_meta("formal_art"):sprite.offset=Vector2(0,56)
-        sprite.padded_tessa_motion=u.id=="tessa" and sprite.get_meta("formal_art")
+        sprite.padded_tessa_motion=profile_id=="tessa" and sprite.get_meta("formal_art")
         sprite.shaded = true
         sprite.alpha_cut = SpriteBase3D.ALPHA_CUT_DISCARD
         sprite.cast_shadow = GeometryInstance3D.SHADOW_CASTING_SETTING_ON
@@ -834,16 +843,16 @@ func set_character_scale(value):
 # Animation is unit-scoped; unrelated Mod units keep their original art.
 func base_directional_idle_texture(index,direction):
     var unit=battle.units[index]
-    var generic=preload("res://view/generic_map_art.gd").profile(unit.id)
+    var generic=preload("res://view/generic_map_art.gd").profile(presentation_id(unit))
     if not generic.is_empty():return generic.map.get(direction,figures[index].texture)
-    var reserve=preload("res://view/reserve_art.gd").profile(unit.id)
+    var reserve=preload("res://view/reserve_art.gd").profile(presentation_id(unit))
     if not reserve.is_empty():return reserve.map.get(direction,figures[index].texture)
     var fallback=direction_textures.get(unit.id+":"+direction,figures[index].texture)
     var idle=get_node_or_null("MapIdle")
-    return idle.library.sample("map",unit.role+":"+direction,0.0,fallback,true,unit.id) if idle else fallback
+    return idle.library.sample("map",preload("res://logic/presentation_profiles.gd").map_role(unit)+":"+direction,0.0,fallback,true,presentation_id(unit)) if idle else fallback
 
 func hero_refresh_entry(index,direction):
-    var id=battle.units[index].id
+    var id=presentation_id(battle.units[index])
     var enabled=preload("res://view/generic_map_art.gd").declared(id) or (App.rodd_motion_preview if id=="rodd" else App.hero_map_refresh_previews.get(id,false))
     if not enabled or not hero_refresh_libraries.has(id):return {}
     return hero_refresh_libraries[id].matching(id,direction,base_directional_idle_texture(index,direction))
@@ -851,7 +860,7 @@ func apply_map_idle_texture(index,direction,legacy_texture=null):
     # The motion start calls this helper with a neutral texture. Keep the padded
     # Elsbet motion root on that first frame, without replacing stopped idle.
     var id=battle.units[index].id
-    if legacy_texture!=null and id=="elsbet" and motion and motion.motions.has(id) and not elsbet_motion_entry(index,direction).is_empty():
+    if legacy_texture!=null and presentation_id(battle.units[index])=="elsbet" and motion and motion.motions.has(id) and not elsbet_motion_entry(index,direction).is_empty():
         apply_map_motion_texture(index,direction,motion.motions[id].get("travelled",0.0));return
     var entry=hero_refresh_entry(index,direction)
     var figure=figures[index]
@@ -864,29 +873,29 @@ func refresh_preview_ghost_art(index):
     var direction=facing.get(battle.units[index].id,"front");var entry=hero_refresh_entry(index,direction)
     preview_ghost.texture=figures[index].texture if entry.is_empty() else entry.idle.textures[0]
     preview_ghost.flip_h=not entry.is_empty() and entry.idle.flip_h
-    preview_ghost.offset=Vector2(0,64 if not entry.is_empty() else (52 if battle.units[index].id=="tessa" and preview_ghost.texture.get_height()==136 else 56))
+    preview_ghost.offset=Vector2(0,64 if not entry.is_empty() else (52 if presentation_id(battle.units[index])=="tessa" and preview_ghost.texture.get_height()==136 else 56))
 func directional_idle_texture(index,direction):
     var entry=hero_refresh_entry(index,direction)
     if not entry.is_empty():return entry.idle.textures[0]
     var neutral=base_directional_idle_texture(index,direction)
-    return preload("res://view/map_sequence.gd").shared().idle(battle.units[index].id,direction,0.0,neutral,true) if App.map_sequence_enabled(battle.units[index].id) else neutral
+    return preload("res://view/map_sequence.gd").shared().idle(presentation_id(battle.units[index]),direction,0.0,neutral,true) if App.map_sequence_enabled(presentation_id(battle.units[index])) else neutral
 func map_motion_neutral_texture(index,direction):
     var neutral=base_directional_idle_texture(index,direction)
-    if App.map_sequence_enabled(battle.units[index].id):
-        var entry=preload("res://view/map_sequence.gd").shared().matching(battle.units[index].id,direction,neutral)
+    if App.map_sequence_enabled(presentation_id(battle.units[index])):
+        var entry=preload("res://view/map_sequence.gd").shared().matching(presentation_id(battle.units[index]),direction,neutral)
         if not entry.is_empty() and entry.motion.is_empty():return neutral
     return directional_idle_texture(index,direction)
 func neri_motion_entry(index,direction):
-    if battle.units[index].id!="neri" or not App.neri_motion_preview:return {}
+    if presentation_id(battle.units[index])!="neri" or not App.neri_motion_preview:return {}
     return neri_motion_library.matching("neri",direction,base_directional_idle_texture(index,direction))
 func adela_motion_entry(index,direction):
-    if battle.units[index].id!="adela" or not App.adela_motion_preview:return {}
+    if presentation_id(battle.units[index])!="adela" or not App.adela_motion_preview:return {}
     return adela_motion_library.matching("adela",direction,base_directional_idle_texture(index,direction))
 func vera_motion_entry(index,direction):
-    if battle.units[index].id!="vera" or not vera_motion_enabled:return {}
+    if presentation_id(battle.units[index])!="vera" or not vera_motion_enabled:return {}
     return vera_motion_library.matching("vera",direction,base_directional_idle_texture(index,direction))
 func elsbet_motion_entry(index,direction):
-    if battle.units[index].id!="elsbet" or not App.elsbet_motion_preview:return {}
+    if presentation_id(battle.units[index])!="elsbet" or not App.elsbet_motion_preview:return {}
     return elsbet_motion_library.matching("elsbet",direction,base_directional_idle_texture(index,direction))
 func apply_map_motion_texture(index,direction,distance):
     var elsbet=elsbet_motion_entry(index,direction)
@@ -897,10 +906,10 @@ func apply_map_motion_texture(index,direction,distance):
     var refreshed=hero_refresh_entry(index,direction)
     if not refreshed.is_empty():
         if not is_finite(distance) or distance<0:apply_map_idle_texture(index,direction);return
-        figures[index].texture=hero_refresh_libraries[battle.units[index].id].pick(refreshed.motion,distance)
+        figures[index].texture=hero_refresh_libraries[presentation_id(battle.units[index])].pick(refreshed.motion,distance)
         figures[index].flip_h=refreshed.motion.flip_h;figures[index].offset=Vector2(0,64);return
     if figures[index].get_meta("formal_art"):figures[index].offset=Vector2(0,56)
-    var entry=vera_motion_entry(index,direction) if battle.units[index].id=="vera" else adela_motion_entry(index,direction) if battle.units[index].id=="adela" else neri_motion_entry(index,direction)
+    var entry=vera_motion_entry(index,direction) if presentation_id(battle.units[index])=="vera" else adela_motion_entry(index,direction) if presentation_id(battle.units[index])=="adela" else neri_motion_entry(index,direction)
     figures[index].flip_h=is_finite(distance) and distance>=0 and not entry.is_empty() and entry.motion.get("flip_h",false)
     figures[index].texture=map_motion_texture(index,direction,distance)
 func map_motion_texture(index,direction,distance):
@@ -908,20 +917,20 @@ func map_motion_texture(index,direction,distance):
     if not elsbet.is_empty() and is_finite(distance) and distance>=0:return elsbet_motion_library.pick(elsbet.motion,distance)
     var refreshed=hero_refresh_entry(index,direction)
     if not refreshed.is_empty():
-        return hero_refresh_libraries[battle.units[index].id].pick(refreshed.motion,distance) if is_finite(distance) and distance>=0 else refreshed.idle.textures[0]
+        return hero_refresh_libraries[presentation_id(battle.units[index])].pick(refreshed.motion,distance) if is_finite(distance) and distance>=0 else refreshed.idle.textures[0]
     var unit=battle.units[index]
     if not vera_motion_entry(index,direction).is_empty():
-        var trial=vera_motion_library.motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
+        var trial=vera_motion_library.motion(presentation_id(unit),direction,distance,base_directional_idle_texture(index,direction))
         if trial!=null:return trial
     if not adela_motion_entry(index,direction).is_empty():
-        var trial=adela_motion_library.motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
+        var trial=adela_motion_library.motion(presentation_id(unit),direction,distance,base_directional_idle_texture(index,direction))
         if trial!=null:return trial
     if not neri_motion_entry(index,direction).is_empty():
-        var trial=neri_motion_library.motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
+        var trial=neri_motion_library.motion(presentation_id(unit),direction,distance,base_directional_idle_texture(index,direction))
         if trial!=null:return trial
     var sequence=null
-    if App.map_sequence_enabled(unit.id):sequence=preload("res://view/map_sequence.gd").shared().motion(unit.id,direction,distance,base_directional_idle_texture(index,direction))
-    return sequence if sequence!=null else motion.walk_library.sample(unit.id,direction,distance,map_motion_neutral_texture(index,direction))
+    if App.map_sequence_enabled(presentation_id(unit)):sequence=preload("res://view/map_sequence.gd").shared().motion(presentation_id(unit),direction,distance,base_directional_idle_texture(index,direction))
+    return sequence if sequence!=null else motion.walk_library.sample(presentation_id(unit),direction,distance,map_motion_neutral_texture(index,direction))
 func figure_texture_pixel_position(index,pixel):
     # Public figure_pixel_position stays in the original 96px canonical coordinates.
     var texture=figures[index].texture

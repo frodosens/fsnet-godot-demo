@@ -43,7 +43,7 @@ func rebuild(members):
         var i=member[0];var unit=hud.game.battle.units[i]
         var button=Button.new();button.name="Party_"+unit.id;button.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.focus_mode=Control.FOCUS_ALL
         button.pressed.connect(activate.bind(i));column.add_child(button)
-        var eye=TextureRect.new();eye.texture=eye_crop(unit.id);eye.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;eye.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED;eye.mouse_filter=Control.MOUSE_FILTER_IGNORE
+        var eye=TextureRect.new();eye.texture=eye_crop(hud.game.presentation_id(unit));eye.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;eye.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED;eye.mouse_filter=Control.MOUSE_FILTER_IGNORE
         eye.material=ShaderMaterial.new();eye.material.shader=gray_shader;button.add_child(eye)
         var frame=TextureRect.new();frame.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;frame.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(frame)
         var notch=TextureRect.new();notch.texture=textures.selected_notch;notch.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;notch.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(notch)

@@ -106,7 +106,7 @@ func _ready():
     title_label=make_label(panel,"角色资料",44);title_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
     close_button=make_button(panel,"",close,"close_button")
     identity_panel=make_panel(panel)
-    portrait=UI.portrait(actor_id);portrait.custom_minimum_size=Vector2.ZERO;portrait.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED;portrait.clip_contents=true;portrait.mouse_filter=Control.MOUSE_FILTER_IGNORE;identity_panel.add_child(portrait)
+    portrait=UI.portrait(hud.game.presentation_id(hud.game.battle.units[actor]));portrait.custom_minimum_size=Vector2.ZERO;portrait.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED;portrait.clip_contents=true;portrait.mouse_filter=Control.MOUSE_FILTER_IGNORE;identity_panel.add_child(portrait)
     portrait_frame=NinePatchRect.new();portrait_frame.texture=load(ART+"portrait_frame.png");portrait_frame.mouse_filter=Control.MOUSE_FILTER_IGNORE
     for side in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:portrait_frame.set_patch_margin(side,26)
     identity_panel.add_child(portrait_frame)

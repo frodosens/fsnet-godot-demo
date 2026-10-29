@@ -54,7 +54,7 @@ func apply_json():
     var error=Content.validate(candidate)
     if not error.is_empty():feedback.text="未应用："+error;return false
     var selected=unit_picker.selected
-    data=candidate;sync_view();unit_picker.select(clampi(selected,0,data.units.size()-1))
+    data=Content.expand(candidate).data;sync_view();unit_picker.select(clampi(selected,0,data.units.size()-1))
     feedback.text="校验通过 · 内容版本 "+Content.hash_of(data).left(12)
     return true
 func paint(cell):

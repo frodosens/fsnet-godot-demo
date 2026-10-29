@@ -6,6 +6,14 @@ root = pathlib.Path(__file__).resolve().parents[1]
 env = os.environ.copy()
 env['AMBER_TOKEN'] = secrets.token_hex(24)
 temporary = None
+if '--unit-fixture' in sys.argv:
+    temporary = tempfile.TemporaryDirectory(prefix='amber-unit-network-')
+    fixture = pathlib.Path(temporary.name) / 'units.json'
+    env['UNIT_FIXTURE_OUT'] = str(fixture)
+    generated = subprocess.run([env.get('GODOT', 'godot'), '--headless', '--path', str(root), '--script', 'res://tests/export_unit_fixture.gd'], env=env, capture_output=True, text=True, timeout=20)
+    assert generated.returncode == 0 and fixture.exists() and 'ERROR' not in generated.stdout + generated.stderr, generated.stdout + generated.stderr
+    env['AMBER_MOD'] = str(fixture)
+    env['AMBER_TEST_WAIT'] = '1'
 if '--mod-fixture' in sys.argv:
     temporary = tempfile.TemporaryDirectory(prefix='amber-network-mod-')
     data = json.loads((root / 'content/default.json').read_text())
@@ -38,6 +46,10 @@ try:
         except queue.Empty: raise RuntimeError('server startup timeout: ' + ''.join(lines))
         if line is None: raise RuntimeError('server exited before ready: ' + ''.join(lines))
         if 'AMBER_SERVER_READY' in line: break
+    if '--unit-fixture' in sys.argv:
+        probe = subprocess.run(base + ['--script', 'res://tests/network_unit_revision.gd', '--', f'--port={port}'], env=env, capture_output=True, text=True, timeout=10)
+        print(probe.stdout, end='')
+        assert probe.returncode == 0 and 'UNIT_REVISION_REJECTED' in probe.stdout and 'ERROR' not in probe.stdout + probe.stderr, probe.stdout + probe.stderr
     for role in ('driver', 'observer'):
         clients.append(subprocess.Popen(base + ['--script', 'res://tests/network_client.gd', '--', f'--role={role}', f'--port={port}'] + (['--extended'] if extended else []), env=env, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True))
     results = []

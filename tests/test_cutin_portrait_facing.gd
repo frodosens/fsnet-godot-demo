@@ -20,6 +20,7 @@ func run():
     for pass_index in range(2):
         for pair in [["mara","oren"],["oren","mara"],["finn","neri"],["bram","tessa"],["adela","elsbet"],["elsbet","adela"],["unknown_mod","unknown_target"]]:
             var sample=event.duplicate(true);sample.actor=pair[0];sample.target=pair[1]
+            sample.actor_profile=preload("res://logic/presentation_profiles.gd").resolve({"id":pair[0]});sample.target_profile=preload("res://logic/presentation_profiles.gd").resolve({"id":pair[1]})
             status.show_event(sample)
             check(not status.portraits.left.flip_h and status.portraits.right.flip_h,"screen side independent of ID and reuse")
             for side in ["left","right"]:
@@ -33,6 +34,7 @@ func run():
         root.size=size;cutin.layout_surface();await frames()
         for pair in [["oren","mara"],["adela","elsbet"],["elsbet","adela"]]:
             var sample=event.duplicate(true);sample.actor=pair[0];sample.target=pair[1]
+            sample.actor_profile=preload("res://logic/presentation_profiles.gd").resolve({"id":pair[0]});sample.target_profile=preload("res://logic/presentation_profiles.gd").resolve({"id":pair[1]})
             cutin.pending_events=[sample];cutin.play_next();cutin.draw_tick(0);await frames()
             check(status.portraits.right.flip_h and not status.portraits.left.flip_h,"rendered reverse/reserve roles retain side facing")
         cutin.pending_events=[event.duplicate(true)];cutin.play_next();cutin.draw_tick(0);await frames()
