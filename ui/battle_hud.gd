@@ -559,6 +559,13 @@ func equip_item(uid):
     game.session.submit({"kind":"equip","unit":gear_unit,"slot":gear_slot,"item":uid})
     game.battle=game.session.logic;game.refresh();show_gear()
 
+func show_character_details():
+    if blocks_input() or game.selected<0 or game.session.command_pending or game.presentation_active():return
+    if game.battle.units[game.selected].controller!="player":return
+    game.clear_move_preview();game.map_touch=-1;clear_modal()
+    modal=preload("res://ui/character_details.gd").new();modal.hud=self;modal.actor=game.selected;modal.z_index=100
+    modal.canceled.connect(clear_modal);root.add_child(modal);refresh_story()
+
 func show_items():show_picker("item")
 func choose_item(id):clear_modal();game.select_mode("item:"+id)
 

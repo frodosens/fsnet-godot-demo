@@ -112,3 +112,5 @@ python3 "$root/tests/run_progression_network.py"
 
 AMBER_PROGRESSION_CAP=31 python3 "$root/tests/run_progression_network.py"
 AMBER_PROGRESSION_CAP=32 python3 "$root/tests/run_progression_network.py"
+
+python3 "$root/tests/run_character_details_network.py"

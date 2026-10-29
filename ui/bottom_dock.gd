@@ -25,6 +25,12 @@ var action_nodes={}
 var selected="move"
 var layout=JSON.parse_string(FileAccess.get_file_as_string(ART+"layout.json"))
 var portrait_id=""
+var details_button:Button
+var portrait_button:Button
+var details_pointer=-2
+var details_pressed:Button
+var details_start=Vector2.ZERO
+var details_dragged=false
 var notice:Label
 var targeting_legend:Label
 var skins={}
@@ -54,6 +60,8 @@ func setup(owner):
     status_group=Control.new();status_group.mouse_filter=Control.MOUSE_FILTER_IGNORE;canvas.add_child(status_group)
     picture(status_group,"panels/character-status.png",r("character_panel"))
     portrait=picture(status_group,"character/portrait-mara.png",r("portrait"))
+    portrait_button=Button.new();portrait_button.flat=true;portrait_button.mouse_filter=Control.MOUSE_FILTER_IGNORE;portrait_button.position=r("portrait").position;portrait_button.size=r("portrait").size;portrait_button.tooltip_text="角色资料";portrait_button.pressed.connect(hud.show_character_details);status_group.add_child(portrait_button)
+    details_button=Button.new();details_button.text="资料";details_button.mouse_filter=Control.MOUSE_FILTER_IGNORE;details_button.icon=load("res://assets/ui/character_details_v1/profile_button.png");details_button.expand_icon=true;details_button.add_theme_constant_override("icon_max_width",26);details_button.pressed.connect(hud.show_character_details);details_button.position=Vector2(430,796);details_button.size=Vector2(88,64);status_group.add_child(details_button)
     name_label=label(status_group,"",Rect2(194,823,95,34),30);role_label=label(status_group,"",Rect2(300,829,140,28),23)
     for kind in ["hp","mp"]:
         var rect=r(kind+"_shell");picture(status_group,"bars/"+kind+"-shell.png",rect)
@@ -104,7 +112,10 @@ func refresh_dock():
     var physical_ratio=minf(float(get_window().size.x)/view.x,float(get_window().size.y)/view.y)
     for text_node in canvas.find_children("*","Label",true,false):
         text_node.add_theme_font_size_override("font_size",maxi(text_node.get_meta("base_font",24),ceili(16.0/maxf(0.1,factor*physical_ratio))))
+    details_button.size=Vector2(maxf(88,48/factor),maxf(64,48/factor));details_button.position.x=529-details_button.size.x
     var game=hud.game;var logic=game.battle;var i=game.selected
+    details_button.disabled=i<0 or hud.blocks_input() or game.session.command_pending or game.presentation_active()
+    portrait_button.disabled=details_button.disabled
     phase.text="第 %d 回合 · %s"%[logic.round_number,{"playing":"我方行动","victory":"胜利","defeat":"失败"}.get(logic.outcome,logic.outcome)]
     if i>=0 and i<logic.units.size():
         var u=logic.units[i]
@@ -153,3 +164,31 @@ func refresh_dock():
 
 func picker_bottom_limit():
     return canvas.position.y+779*canvas.scale.y
+
+func details_hit(point):
+    for button in [details_button,portrait_button]:
+        if is_instance_valid(button) and button.is_visible_in_tree() and not button.disabled and button.get_global_rect().has_point(point):return button
+    return null
+func _input(event):
+    var point=Vector2.ZERO;var down=false;var up=false;var id=-2;var cancelled=false
+    if event is InputEventScreenTouch:point=event.position;down=event.pressed;up=not event.pressed;id=event.index;cancelled=event.canceled
+    elif event is InputEventMouseButton and event.button_index==MOUSE_BUTTON_LEFT and event.device!=-1:point=event.position;down=event.pressed;up=not event.pressed;id=-1
+    elif event is InputEventScreenDrag:
+        if event.index!=details_pointer:return
+        if event.position.distance_to(details_start)>10:details_dragged=true
+        get_viewport().set_input_as_handled();return
+    elif event is InputEventMouseMotion and details_pointer==-1:
+        if event.position.distance_to(details_start)>10:details_dragged=true
+        get_viewport().set_input_as_handled();return
+    else:return
+    if down:
+        if details_pointer!=-2:details_dragged=true;return
+        var button=details_hit(point)
+        if button==null:return
+        details_pointer=id;details_pressed=button;details_start=point;details_dragged=false
+        get_viewport().set_input_as_handled()
+    elif up and id==details_pointer:
+        var button=details_pressed;var activate=not cancelled and not details_dragged and point.distance_to(details_start)<=10 and details_hit(point)==button
+        details_pointer=-2;details_pressed=null
+        if activate:button.grab_focus();hud.show_character_details()
+        if not event is InputEventScreenTouch:get_viewport().set_input_as_handled()

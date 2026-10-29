@@ -1,0 +1,40 @@
+extends SceneTree
+const Runtime=preload("res://logic/runtime.gd")
+const Model=preload("res://ui/character_details_model.gd")
+var checks=0
+var failures=0
+func check(ok,label):
+    checks+=1
+    if not ok:failures+=1;printerr("FAIL: ",label)
+func _initialize():
+    var logic=Runtime.new();var model=Model.new();var original=logic.snapshot()
+    check(model.SLOTS.size()==9 and model.SLOT_NAMES.size()==9,"nine real slots")
+    check(model.stats(logic.units[0]).size()>6,"real battle attributes exposed")
+    check(model.equipment_reason(logic,0).is_empty(),"preparation permits equipment")
+    check(not model.equipment_reason(logic,0,true).is_empty(),"pending disables submission")
+    check(not model.equipment_reason(logic,-1).is_empty(),"invalid actor rejected")
+    check(model.inventory(logic,0,5).size()>0,"shared boots inventory")
+    var preview=model.preview_equipment(logic,0,5,2)
+    check(preview.allowed,"legal boots preview")
+    var found=false
+    for change in preview.changes:
+        if change.key=="move_actions":found=change.before==1 and change.after==2
+    check(found,"Lua-derived extra movement preview")
+    check(logic.snapshot()==original,"preview cannot change live state or RNG")
+    preview.changes.clear()
+    check(not model.preview_equipment(logic,0,5,2).changes.is_empty(),"cached result cannot be mutated by caller")
+    check(not model.preview_equipment(logic,0,0,2).allowed,"wrong slot rejected by Lua")
+    check(not model.preview_equipment(logic,0,5,999999).allowed,"unknown item rejected by Lua")
+    check(logic.snapshot()==original,"rejected previews preserve live state")
+    check(logic.apply_command({"kind":"equip","unit":0,"slot":5,"item":2,"step":1}),"actual authoritative equip")
+    var equipped=logic.snapshot()
+    check(not model.preview_equipment(logic,1,5,2).allowed,"other actor cannot steal owned equipment")
+    var remove=model.preview_equipment(logic,0,5,0)
+    check(remove.allowed and not remove.changes.is_empty(),"unequip preview recomputed on new state")
+    check(logic.snapshot()==equipped,"unequip preview does not change HP or budgets")
+    check(logic.apply_command({"kind":"move","unit":0,"x":3,"y":5,"step":2}),"legal move ends preparation")
+    var combat=logic.snapshot()
+    check(not model.preview_equipment(logic,0,5,0).allowed,"combat equipment locked")
+    check(logic.snapshot()==combat,"locked preview cannot change combat")
+    print("CHARACTER_DETAILS_MODEL checks=",checks," failures=",failures)
+    quit(0 if failures==0 else 1)

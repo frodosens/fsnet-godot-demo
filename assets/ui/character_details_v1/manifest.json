@@ -1,0 +1,213 @@
+{
+  "version": 1,
+  "filter": "linear",
+  "text_baked": false,
+  "assets": {
+    "modal_panel": {
+      "file": "modal_panel.png",
+      "size_px": [
+        566,
+        346
+      ],
+      "alpha_bbox": [
+        3,
+        5,
+        562,
+        343
+      ],
+      "nine_patch": true,
+      "sha256": "50f3995cbe5876225b93d91f54262a93b38b1ddc3ea1a27f13c155b8ccf78b0e",
+      "cap_margins_ltrb_px": [
+        24,
+        24,
+        24,
+        24
+      ],
+      "minimum_size_px": [
+        49,
+        49
+      ]
+    },
+    "inset_panel": {
+      "file": "inset_panel.png",
+      "size_px": [
+        450,
+        233
+      ],
+      "alpha_bbox": [
+        4,
+        6,
+        443,
+        227
+      ],
+      "nine_patch": true,
+      "sha256": "87bcba83a622e8ae50f72b8ca385eb2c18ef663c819620ee1c2301d1ebb0d4ff",
+      "cap_margins_ltrb_px": [
+        28,
+        28,
+        28,
+        28
+      ],
+      "minimum_size_px": [
+        57,
+        57
+      ]
+    },
+    "portrait_frame": {
+      "file": "portrait_frame.png",
+      "size_px": [
+        297,
+        432
+      ],
+      "alpha_bbox": [
+        4,
+        5,
+        289,
+        428
+      ],
+      "nine_patch": true,
+      "sha256": "050647e48b68385f0edc4dcb90063ad76ff54f0f6f612908f29398c26000e192",
+      "cap_margins_ltrb_px": [
+        32,
+        32,
+        32,
+        32
+      ],
+      "minimum_size_px": [
+        65,
+        65
+      ],
+      "portrait_rect_px": [
+        34,
+        34,
+        229,
+        364
+      ]
+    },
+    "tab_normal": {
+      "file": "tab_normal.png",
+      "size_px": [
+        448,
+        88
+      ],
+      "alpha_bbox": [
+        9,
+        7,
+        436,
+        84
+      ],
+      "nine_patch": false,
+      "sha256": "0bbf62aa8e0dd67f4c3d9c6b5f17b83b7bf6291b786610341add79403b23703b",
+      "text_rect_px": [
+        32,
+        16,
+        384,
+        56
+      ],
+      "fixed_shared_geometry": true
+    },
+    "tab_selected": {
+      "file": "tab_selected.png",
+      "size_px": [
+        448,
+        88
+      ],
+      "alpha_bbox": [
+        9,
+        6,
+        435,
+        82
+      ],
+      "nine_patch": false,
+      "sha256": "f2323cf14f7f1025f1238d95d69e221368e2077832ab8e21390cc829e6c44f58",
+      "text_rect_px": [
+        32,
+        16,
+        384,
+        56
+      ],
+      "fixed_shared_geometry": true
+    },
+    "close_button": {
+      "file": "close_button.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "alpha_bbox": [
+        4,
+        6,
+        89,
+        93
+      ],
+      "nine_patch": false,
+      "sha256": "b737153469f05dfe3ea1deedabaec1ea15de9874d8ceac9d089f8788a5eab425"
+    },
+    "profile_button": {
+      "file": "profile_button.png",
+      "size_px": [
+        96,
+        96
+      ],
+      "alpha_bbox": [
+        7,
+        6,
+        90,
+        91
+      ],
+      "nine_patch": false,
+      "sha256": "b3a76a36e3b6ebc1a267dd721b68d0456eb0e3a7f6e57c5ffb3195311b62dc1f"
+    },
+    "xp_frame": {
+      "file": "xp_frame.png",
+      "size_px": [
+        240,
+        26
+      ],
+      "alpha_bbox": [
+        3,
+        3,
+        236,
+        23
+      ],
+      "nine_patch": false,
+      "sha256": "a1d58fae992b98a7ede9f54a426e2e69f89bc5005bddf93beb82cf4a46ed5c0b",
+      "fill_rect_px": [
+        8,
+        5,
+        224,
+        16
+      ]
+    },
+    "xp_fill": {
+      "file": "xp_fill.png",
+      "size_px": [
+        224,
+        16
+      ],
+      "alpha_bbox": [
+        3,
+        1,
+        221,
+        14
+      ],
+      "nine_patch": false,
+      "sha256": "bbaac7608a39f9d8fbf73d2bb7bf22f746d71a2206749edb7b960fc1711ebe49"
+    },
+    "divider": {
+      "file": "divider.png",
+      "size_px": [
+        480,
+        40
+      ],
+      "alpha_bbox": [
+        4,
+        3,
+        472,
+        34
+      ],
+      "nine_patch": false,
+      "sha256": "9bc96fb57f08a5fc066ebc3c45428c67320df5d74ea3e6ed5a6b4eb7db8e34f7"
+    }
+  }
+}
