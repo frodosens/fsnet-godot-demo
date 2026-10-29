@@ -22,6 +22,8 @@ var mode = "move"
 var camera: Camera3D
 var tiles = {}
 var board
+var board_camera
+var command_gate
 var figures = []
 var badges = []
 var status: Label
@@ -85,6 +87,7 @@ func map_render_factor(unit_id):return MAP_RENDER_FACTORS.get(presentation_id_fo
 func _ready():
     if not App.session:App.new_game()
     session=App.session
+    command_gate=CommandGate.new(self)
     battle = session.logic
     build_world()
     ground_overlay=preload("res://view/path_preview.gd").new();ground_overlay.game=self;add_child(ground_overlay)
@@ -146,6 +149,7 @@ func build_world():
     camera.position -= camera.global_basis.x * 1.0
     camera.position -= camera.global_basis.y * 0.7
     camera.current = true
+    board_camera=BoardCamera.new(camera)
     route_mesh=MeshInstance3D.new();route_mesh.mesh=ImmediateMesh.new();add_child(route_mesh)
     route_arrows=MeshInstance3D.new();route_arrows.mesh=ImmediateMesh.new();add_child(route_arrows)
     var route_material=StandardMaterial3D.new();route_material.shading_mode=BaseMaterial3D.SHADING_MODE_UNSHADED;route_material.albedo_color=Color("e4c58a");route_material.cull_mode=BaseMaterial3D.CULL_DISABLED
@@ -307,34 +311,18 @@ func confirm_move():
     if pending_move.is_empty():return false
     if targeting_locked():clear_move_preview();return false
     var proposal=pending_move.duplicate(true)
-    var valid=mode==proposal.mode and mode=="move" and proposal_state()==proposal.state and proposal_context_matches(proposal) and selected==proposal.unit and battle.step==proposal.step and battle.units[selected].id==proposal.actor_id and battle.path_to(selected,proposal.cell)==proposal.path
+    var valid=mode=="move" and not command_gate.is_stale(proposal) and battle.units[selected].id==proposal.actor_id and battle.path_to(selected,proposal.cell)==proposal.path
     clear_move_preview()
     if not valid:hud.refresh();return false
     return dispatch_confirmation(proposal,{"kind":"move","unit":selected,"actor_id":proposal.actor_id,"x":proposal.cell.x,"y":proposal.cell.y})
 
-func proposal_state():return battle.content_hash+":"+battle.rules_hash+":"+battle.state_hash()
+func proposal_state():return command_gate.state()
 
-func proposal_blocked():
-    return session.command_pending or session.failed or (session.online and not session.ready) or presentation_active() or hud.blocks_input()
-func targeting_locked():return proposal_blocked() or not queued_confirmation.is_empty()
-func proposal_context_matches(proposal):
-    return selected==proposal.unit and mode==proposal.mode and battle.step==proposal.step and session.get_instance_id()==proposal.session_id and session.connection_generation==proposal.connection
-func dispatch_confirmation(proposal,command):
-    # Poll and command share one transport slot. Never overlap sends or blindly retry.
-    if session.pending:
-        queued_confirmation={"proposal":proposal,"command":command};session.defer_poll=true;hud.refresh();return true
-    var accepted=session.submit(command)
-    battle=session.logic;hud.action_menu_open=true;refresh();return accepted
-func flush_confirmation():
-    if queued_confirmation.is_empty():return
-    var proposal=queued_confirmation.proposal
-    if proposal_blocked() or not proposal_context_matches(proposal) or proposal_state()!=proposal.state:
-        clear_move_preview();return
-    if session.pending:return
-    var command=queued_confirmation.command
-    queued_confirmation={};session.defer_poll=false # Consume once, even when submission is rejected.
-    session.submit(command)
-    battle=session.logic;hud.action_menu_open=true;refresh()
+func proposal_blocked():return command_gate.blocked()
+func targeting_locked():return command_gate.locked()
+func proposal_context_matches(proposal):return command_gate.context_matches(proposal)
+func dispatch_confirmation(proposal,command):return command_gate.dispatch(proposal,command)
+func flush_confirmation():command_gate.flush()
 
 func target_command(target):
     var command={"unit":selected,"target":target,"kind":mode}
@@ -355,7 +343,7 @@ func confirm_proposal():
     if not pending_move.is_empty():return confirm_move()
     if pending_target.is_empty():return false
     var proposal=pending_target.duplicate(true)
-    var valid=not targeting_locked() and selected==proposal.unit and mode==proposal.mode and battle.step==proposal.step and proposal_state()==proposal.state and proposal_context_matches(proposal)
+    var valid=not command_gate.is_stale(proposal)
     if valid:
         valid=battle.units[selected].id==proposal.actor_id and battle.at(proposal.cell)==proposal.target and battle.units[proposal.target].id==proposal.target_id and battle.preview_action(proposal.command).get("legal",false)
     clear_move_preview() # Consume before submit, including rejected/pending commands.
@@ -560,12 +548,7 @@ func _exit_tree():
 func request_exit():hud.confirm_leave(true)
 
 func projected_facing(from_cell,to_cell,diagonal=false):
-    var start=camera.unproject_position(Vector3(from_cell.x,0,from_cell.y))
-    var finish=camera.unproject_position(Vector3(to_cell.x,0,to_cell.y))
-    var delta=finish-start
-    if diagonal:return ("front_right" if delta.x>=0 else "front_left") if delta.y>=0 else ("back_right" if delta.x>=0 else "back_left")
-    if absf(delta.x)>absf(delta.y):return "right" if delta.x>0 else "left"
-    return "front" if delta.y>0 else "back"
+    return board_camera.facing(from_cell,to_cell,diagonal)
 
 func presentation_active():return (event_sequence and event_sequence.active()) or (motion and motion.active()) or (cutin and cutin.active)
 func motion_finished():
@@ -579,11 +562,7 @@ func skip_presentation():
     if cutin:cutin.finish()
 
 func mouse_cell(screen):
-    if scene_view and not scene_view.accepts_point(screen):return Vector2i(-1,-1)
-    var origin=camera.project_ray_origin(screen);var direction=camera.project_ray_normal(screen)
-    if absf(direction.y)<0.001:return Vector2i(-1,-1)
-    var hit=origin+direction*(-origin.y/direction.y)
-    return Vector2i(floori(hit.x+0.5),floori(hit.z+0.5))
+    return board_camera.cell_at(screen,scene_view)
 func clear_move_preview():
     if not queued_confirmation.is_empty():session.defer_poll=false
     pending_move={};pending_target={};queued_confirmation={};target_preview={};target_preview_index=-1;target_hover_cell=Vector2i(-1,-1)
@@ -625,10 +604,7 @@ func update_target_preview(cell):
 func figure_height(index):
     return 0.0 if figures[index].get_meta("formal_art") else 0.72
 func figure_pixel_position(index,pixel):
-    var figure=figures[index]
-    if figure.get_meta("formal_art"):
-        return figure.position+camera.global_basis.x*(pixel.x-48)*figure.pixel_size+camera.global_basis.y*(120-pixel.y)*figure.pixel_size
-    return figure.position+camera.global_basis.x*(pixel.x-12)*figure.pixel_size+Vector3.UP*(16-pixel.y)*figure.pixel_size
+    return board_camera.pixel_position(figures[index],pixel)
 func badge_position(index):
     return figure_pixel_position(index,Vector2(48,0))+camera.global_basis.y*0.15 if figures[index].get_meta("formal_art") else figures[index].position+Vector3.UP*0.9
 func badge_height(index):
