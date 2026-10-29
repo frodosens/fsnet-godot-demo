@@ -6,7 +6,9 @@ root = pathlib.Path(__file__).resolve().parents[1]
 env = os.environ.copy()
 env['AMBER_TOKEN'] = secrets.token_hex(24)
 temporary = tempfile.TemporaryDirectory(prefix='amber-progression-network-')
-data = json.loads((root / 'content/homeward/ch03.json').read_text())
+chapter = int(env.get('AMBER_HOMEWARD_CHAPTER', '3'))
+assert chapter in (1, 3)
+data = json.loads((root / f'content/homeward/ch{chapter:02}.json').read_text())
 fixture = pathlib.Path(temporary.name) / 'fixture.json'
 fixture.write_text(json.dumps(data,ensure_ascii=False))
 env['AMBER_MOD'] = str(fixture)

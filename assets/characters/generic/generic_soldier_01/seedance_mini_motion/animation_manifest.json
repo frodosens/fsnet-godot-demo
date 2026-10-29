@@ -1,0 +1,416 @@
+{
+  "schema_version": 1,
+  "character_id": "generic_soldier_01",
+  "status": "user_selected_video_runtime_review_pending",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "reference_body_height_px": 100,
+  "body_scale_policy": "fixed source-to-runtime 1/3; no body shrinking",
+  "frame_count": 8,
+  "frame_weights": [
+    3,
+    3,
+    3,
+    3,
+    2,
+    3,
+    3,
+    3
+  ],
+  "one_grid_one_cycle": true,
+  "preserve_movement_speed": true,
+  "idle": {
+    "type": "static_video_frame",
+    "source_frame": 45,
+    "frame_count": 1,
+    "breathing": false
+  },
+  "direction_sources": {
+    "front_left": {
+      "source": "front_left",
+      "mirrorX": false
+    },
+    "front_right": {
+      "source": "front_left",
+      "mirrorX": true
+    },
+    "back_left": {
+      "source": "back_left",
+      "mirrorX": false
+    },
+    "back_right": {
+      "source": "back_left",
+      "mirrorX": true
+    }
+  },
+  "mirror_applies_to": [
+    "walk",
+    "idle"
+  ],
+  "mirror_axis_x": 80,
+  "fixed_registration": {
+    "source_panel": [
+      640,
+      720
+    ],
+    "source_panel_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resampling": "nearest",
+    "per_frame_recenter": false
+  },
+  "source_cycle": {
+    "zero_based_frame_indices": [
+      24,
+      27,
+      30,
+      33,
+      36,
+      38,
+      41,
+      44
+    ],
+    "endpoint_exclusive": 47,
+    "fps": 24,
+    "duration_seconds": 0.9583333333333334
+  },
+  "key": {
+    "alpha": "1-clip((g-max(r,b)-0.08)/0.32,0,1)",
+    "force_transparent": "g>0.45 and g>1.4*max(r,b)",
+    "partial_alpha_edge_despill": "G=min(G,max(R,B)+12), byte values",
+    "transparent_rgb_zero": true
+  },
+  "frames": [
+    {
+      "state": "walk",
+      "direction": "front_left",
+      "frame": 0,
+      "source_frame": 24,
+      "file": "map_motion/front_left/front_left_walk_00.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        34,
+        43,
+        110,
+        146
+      ],
+      "nontransparent_pixels_below_root": 6,
+      "sha256": "485b3350c657067d0c2822a144de7fb778db26ec6b83ccbade250e2007062e32",
+      "bytes": 11935
+    },
+    {
+      "state": "walk",
+      "direction": "front_left",
+      "frame": 1,
+      "source_frame": 27,
+      "file": "map_motion/front_left/front_left_walk_01.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        31,
+        42,
+        110,
+        147
+      ],
+      "nontransparent_pixels_below_root": 21,
+      "sha256": "19bbcf038ece40ad5746b6d71f5bb84cccc9f522a17cbb30b24d36c151eb70ce",
+      "bytes": 12463
+    },
+    {
+      "state": "walk",
+      "direction": "front_left",
+      "frame": 2,
+      "source_frame": 30,
+      "file": "map_motion/front_left/front_left_walk_02.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        26,
+        41,
+        112,
+        146
+      ],
+      "nontransparent_pixels_below_root": 8,
+      "sha256": "7531e468adbea61b1afc43a46795111052f038cdc99876558786408af0866c8d",
+      "bytes": 12720
+    },
+    {
+      "state": "walk",
+      "direction": "front_left",
+      "frame": 3,
+      "source_frame": 33,
+      "file": "map_motion/front_left/front_left_walk_03.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        23,
+        41,
+        113,
+        148
+      ],
+      "nontransparent_pixels_below_root": 43,
+      "sha256": "9e346a1b12e2321dc0686d535c05c950b8cfadbdf7a54b7e61b2199e73e2f89c",
+      "bytes": 12523
+    },
+    {
+      "state": "walk",
+      "direction": "front_left",
+      "frame": 4,
+      "source_frame": 36,
+      "file": "map_motion/front_left/front_left_walk_04.png",
+      "weight": 2,
+      "alpha_bbox_exclusive": [
+        23,
+        43,
+        114,
+        153
+      ],
+      "nontransparent_pixels_below_root": 138,
+      "sha256": "ad7bdad0a0a1296b40ef20ef2584f3a43731643fd2a49a6c0ac108f15e9a88f0",
+      "bytes": 12758
+    },
+    {
+      "state": "walk",
+      "direction": "front_left",
+      "frame": 5,
+      "source_frame": 38,
+      "file": "map_motion/front_left/front_left_walk_05.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        25,
+        42,
+        113,
+        152
+      ],
+      "nontransparent_pixels_below_root": 120,
+      "sha256": "4970ca874f7673f80ee72ed9146b843cbeffee9118ba9111db698dcbf4915ab8",
+      "bytes": 12585
+    },
+    {
+      "state": "walk",
+      "direction": "front_left",
+      "frame": 6,
+      "source_frame": 41,
+      "file": "map_motion/front_left/front_left_walk_06.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        29,
+        41,
+        112,
+        151
+      ],
+      "nontransparent_pixels_below_root": 95,
+      "sha256": "abec974f17d7e2e029bba62a9a1d2a57bf0b78980c973ac415d5e11aeb2f6a08",
+      "bytes": 12671
+    },
+    {
+      "state": "walk",
+      "direction": "front_left",
+      "frame": 7,
+      "source_frame": 44,
+      "file": "map_motion/front_left/front_left_walk_07.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        32,
+        41,
+        111,
+        149
+      ],
+      "nontransparent_pixels_below_root": 57,
+      "sha256": "0e8e2b3b20bd549f58821da63eb61fd7f5f0a151d66a1fc89e49d045de99fc4e",
+      "bytes": 12385
+    },
+    {
+      "state": "idle",
+      "direction": "front_left",
+      "frame": 0,
+      "source_frame": 45,
+      "file": "map_idle/front_left/front_left_idle_00.png",
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        33,
+        41,
+        111,
+        148
+      ],
+      "nontransparent_pixels_below_root": 38,
+      "sha256": "018af2d046505aec942022cb9dc69a816fefb6a367aa656d6bfcf0a95b24db13",
+      "bytes": 12179
+    },
+    {
+      "state": "walk",
+      "direction": "back_left",
+      "frame": 0,
+      "source_frame": 24,
+      "file": "map_motion/back_left/back_left_walk_00.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        54,
+        43,
+        126,
+        150
+      ],
+      "nontransparent_pixels_below_root": 65,
+      "sha256": "f8d88df5c9f2aa202980aa300ace7dba0e701c937c1956e91b5aee815ba2856f",
+      "bytes": 11619
+    },
+    {
+      "state": "walk",
+      "direction": "back_left",
+      "frame": 1,
+      "source_frame": 27,
+      "file": "map_motion/back_left/back_left_walk_01.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        53,
+        42,
+        127,
+        149
+      ],
+      "nontransparent_pixels_below_root": 52,
+      "sha256": "b30478549f69298f9e059749e1d407bf0d4ed1e41de0197129a28e38f76c6d3f",
+      "bytes": 12002
+    },
+    {
+      "state": "walk",
+      "direction": "back_left",
+      "frame": 2,
+      "source_frame": 30,
+      "file": "map_motion/back_left/back_left_walk_02.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        52,
+        41,
+        130,
+        149
+      ],
+      "nontransparent_pixels_below_root": 53,
+      "sha256": "505face6be9bcebcc2a5aad864f260b300665c091eeafd98e615a43707368bda",
+      "bytes": 11963
+    },
+    {
+      "state": "walk",
+      "direction": "back_left",
+      "frame": 3,
+      "source_frame": 33,
+      "file": "map_motion/back_left/back_left_walk_03.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        51,
+        42,
+        133,
+        150
+      ],
+      "nontransparent_pixels_below_root": 82,
+      "sha256": "c695cc98cc246bee89436d91eeb28107bb1b8d13ce2135a22f228f2994770b62",
+      "bytes": 11476
+    },
+    {
+      "state": "walk",
+      "direction": "back_left",
+      "frame": 4,
+      "source_frame": 36,
+      "file": "map_motion/back_left/back_left_walk_04.png",
+      "weight": 2,
+      "alpha_bbox_exclusive": [
+        51,
+        43,
+        137,
+        152
+      ],
+      "nontransparent_pixels_below_root": 101,
+      "sha256": "5504a00e5b3f5ea81e5776cca5e3bc4904899da7b01f1d7214be9faefb9c9e74",
+      "bytes": 11804
+    },
+    {
+      "state": "walk",
+      "direction": "back_left",
+      "frame": 5,
+      "source_frame": 38,
+      "file": "map_motion/back_left/back_left_walk_05.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        52,
+        43,
+        136,
+        151
+      ],
+      "nontransparent_pixels_below_root": 62,
+      "sha256": "1d3b40d4c4f58f7dddbff727678e5be7456d7d717f5d717b986ffc0e91d31a55",
+      "bytes": 11559
+    },
+    {
+      "state": "walk",
+      "direction": "back_left",
+      "frame": 6,
+      "source_frame": 41,
+      "file": "map_motion/back_left/back_left_walk_06.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        53,
+        41,
+        134,
+        147
+      ],
+      "nontransparent_pixels_below_root": 25,
+      "sha256": "f9eb0b6049f0331851ca10107c0172e2e16e59f0014fb59c19a81c5a90165bd3",
+      "bytes": 11895
+    },
+    {
+      "state": "walk",
+      "direction": "back_left",
+      "frame": 7,
+      "source_frame": 44,
+      "file": "map_motion/back_left/back_left_walk_07.png",
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        55,
+        41,
+        130,
+        148
+      ],
+      "nontransparent_pixels_below_root": 30,
+      "sha256": "03e8e35ca110fc8128f4e35d7e488eae01e6ac03aedc73be2dce6bc5d189a80d",
+      "bytes": 11741
+    },
+    {
+      "state": "idle",
+      "direction": "back_left",
+      "frame": 0,
+      "source_frame": 45,
+      "file": "map_idle/back_left/back_left_idle_00.png",
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        55,
+        42,
+        128,
+        148
+      ],
+      "nontransparent_pixels_below_root": 35,
+      "sha256": "9857b1756e64ceff741d05033b006fa4770c086ced7f5d1fb2f6f65ac65d3eb0",
+      "bytes": 11430
+    }
+  ],
+  "limitations": [
+    "User-selected video candidate; runtime grounding/start-stop review pending.",
+    "Passing feet overlap; no limb repairs or per-frame recentering used.",
+    "Mirroring reverses equipment handedness consistently in both idle and walk.",
+    "Idle is a single held double-support-looking video pose (frame45), not animated breathing.",
+    "Small contour and vertical bob changes remain.",
+    "Generated motion has bolder simplified styling than canonical portrait/reference; retained as user-selected result.",
+    "Feet extend below root during stride; extra canvas padding prevents PNG clipping, not proof of in-game floor clearance."
+  ]
+}

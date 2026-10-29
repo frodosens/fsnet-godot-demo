@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "character_id": "generic_archer_01",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "canonical_reference_body_height_px": 100,
+  "alpha_bbox_threshold": 128,
+  "source_cycles": {
+    "front_left": {
+      "indices": [
+        11,
+        14,
+        17,
+        21,
+        24,
+        27,
+        31,
+        34
+      ],
+      "endpoint": 37,
+      "weights": [
+        3,
+        3,
+        4,
+        3,
+        3,
+        4,
+        3,
+        3
+      ],
+      "source_fps": 24
+    },
+    "back_left": {
+      "indices": [
+        4,
+        7,
+        10,
+        14,
+        17,
+        20,
+        24,
+        27
+      ],
+      "endpoint": 30,
+      "weights": [
+        3,
+        3,
+        4,
+        3,
+        3,
+        4,
+        3,
+        3
+      ],
+      "source_fps": 24
+    }
+  },
+  "fixed_registration": {
+    "source_canvas": [
+      1280,
+      720
+    ],
+    "panel_canvas": [
+      640,
+      720
+    ],
+    "source_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resample": "nearest",
+    "per_frame_adjustment": false
+  },
+  "idle_selection": "Static grounded frame extracted from the same accepted walk cycle, no invented idle motion.",
+  "direction_sources": {
+    "front_left": "front_left",
+    "front_right": "front_left mirrored",
+    "back_left": "back_left",
+    "back_right": "back_left mirrored"
+  },
+  "provenance": "New reconstructed generic identity 2026-10-29, not restored original missing art.",
+  "qa": {
+    "front_left": {
+      "loop_endpoint_MAE": 1.854,
+      "adjacent_rgba_MAE": [
+        3.591,
+        4.83,
+        6.09,
+        3.914,
+        4.223,
+        7.064,
+        4.025,
+        2.741
+      ],
+      "idle_source_frame": 24
+    },
+    "back_left": {
+      "loop_endpoint_MAE": 1.448,
+      "adjacent_rgba_MAE": [
+        3.201,
+        2.542,
+        5.562,
+        4.025,
+        3.803,
+        3.166,
+        5.932,
+        5.401
+      ],
+      "idle_source_frame": 20
+    }
+  },
+  "frames": [
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/front_left/front_left_walk_00.png",
+      "sha256": "82f88bf27f4fa3bdcacecbecc9964446732ef0dc875d25e98f7ad26f646aaf12",
+      "source_frame": 11,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        49,
+        43,
+        114,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        49,
+        43,
+        114,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/front_left/front_left_walk_01.png",
+      "sha256": "36ddc4793fe9ffaf069554023853f76a5623d68747096e7fd334c312fd3e3d4f",
+      "source_frame": 14,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        53,
+        43,
+        114,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        52,
+        43,
+        114,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/front_left/front_left_walk_02.png",
+      "sha256": "9677996e81dfec1524c9c17a434583b8dca6792f80937fef4948b7edf5535a03",
+      "source_frame": 17,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        58,
+        42,
+        112,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        57,
+        42,
+        112,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/front_left/front_left_walk_03.png",
+      "sha256": "938d2197bcb079d0471e75384d3ec25ee4462deb26c0b2b8d0ceb9261e502001",
+      "source_frame": 21,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        56,
+        42,
+        108,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        56,
+        42,
+        108,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/front_left/front_left_walk_04.png",
+      "sha256": "56ba00ee2261b657530a2af83956a96f894dcf799627b40623835776674f1f10",
+      "source_frame": 24,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        51,
+        43,
+        108,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        43,
+        108,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/front_left/front_left_walk_05.png",
+      "sha256": "cc17ddf1dc41232fe2260520668225db2c75160eb912c44bb6d504de79d3ed0c",
+      "source_frame": 27,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        56,
+        43,
+        110,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        56,
+        43,
+        110,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/front_left/front_left_walk_06.png",
+      "sha256": "69dcd582bf6fc79a12eaec0db06b31411c25d3225a3b217b650d1083b23bd302",
+      "source_frame": 31,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        55,
+        42,
+        113,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        54,
+        42,
+        114,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/front_left/front_left_walk_07.png",
+      "sha256": "d9cd2a30c127a560f95cb9e46e8a2170c123799fe12f71ea8d3fdc8d9b39d734",
+      "source_frame": 34,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        51,
+        43,
+        115,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        42,
+        115,
+        146
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/idle/front_left/front_left_idle_00.png",
+      "sha256": "56ba00ee2261b657530a2af83956a96f894dcf799627b40623835776674f1f10",
+      "source_frame": 24,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        51,
+        43,
+        108,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        43,
+        108,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/back_left/back_left_walk_00.png",
+      "sha256": "300c3e39bfcbf5d025e2b132c240e45800686fcddb320a97fea9a5301278f9ce",
+      "source_frame": 4,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        57,
+        43,
+        107,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        57,
+        43,
+        107,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/back_left/back_left_walk_01.png",
+      "sha256": "597a35517af4388d880378f0570fd3c5cc8c557733a4f8832a603c20f52e19c7",
+      "source_frame": 7,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        57,
+        43,
+        110,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        57,
+        43,
+        110,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/back_left/back_left_walk_02.png",
+      "sha256": "66e3079f8cb6aee17441ef84f3865a3f59f8016e65f59c0b204dd0750930e8a5",
+      "source_frame": 10,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        57,
+        44,
+        110,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        57,
+        44,
+        110,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/back_left/back_left_walk_03.png",
+      "sha256": "6d85b3553b08de1dde99ba0f62a7c0148d547cfb68d03e718baae0591f32aa57",
+      "source_frame": 14,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        57,
+        43,
+        104,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        57,
+        43,
+        105,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/back_left/back_left_walk_04.png",
+      "sha256": "81db5bddc03743423049057d051ac1b569bf53ef79d42890047a3615dda635e4",
+      "source_frame": 17,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        56,
+        43,
+        105,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        56,
+        42,
+        105,
+        144
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/back_left/back_left_walk_05.png",
+      "sha256": "8348769afe87d0a78c721444bbe1d5685fd39d8713f4010fed5fa2b433c28b4b",
+      "source_frame": 20,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        56,
+        43,
+        105,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        56,
+        43,
+        105,
+        144
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/back_left/back_left_walk_06.png",
+      "sha256": "b063b31a46e9c433eaf38056123981cebe5ba1b08d91820003f0fcc74cac0a48",
+      "source_frame": 24,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        56,
+        44,
+        109,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        56,
+        44,
+        109,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/motion/back_left/back_left_walk_07.png",
+      "sha256": "fa5923b227154298ce5804998046d106858112faf6310b2824e7f5bc27d3b234",
+      "source_frame": 27,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        57,
+        43,
+        105,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        57,
+        43,
+        105,
+        145
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_archer_01_mini_v1/idle/back_left/back_left_idle_00.png",
+      "sha256": "8348769afe87d0a78c721444bbe1d5685fd39d8713f4010fed5fa2b433c28b4b",
+      "source_frame": 20,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        56,
+        43,
+        105,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        56,
+        43,
+        105,
+        144
+      ]
+    }
+  ],
+  "quality_caveats": [
+    "Generated texture slightly simplified. Right views mirror equipment handedness.",
+    "Conditional only: front/back facing flatter than canonical diagonal reference; map movement review required before admission."
+  ]
+}

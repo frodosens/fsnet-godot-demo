@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "profiles": {
+    "generic_soldier_01": {
+      "base": "assets/characters/generic/generic_soldier_01/seedance_mini_motion/",
+      "manifest": "assets/characters/generic/generic_soldier_01/seedance_mini_motion/runtime_manifest.json",
+      "idle": {
+        "front_left": "assets/characters/generic/generic_soldier_01/seedance_mini_motion/map_idle/front_left/front_left_idle_00.png",
+        "back_left": "assets/characters/generic/generic_soldier_01/seedance_mini_motion/map_idle/back_left/back_left_idle_00.png"
+      },
+      "binding": "exact_unit_id",
+      "campaign_spawns": false
+    },
+    "generic_knight_01": {
+      "base": "assets/sprites/iso4/generic_knight_01_mini_v1/",
+      "manifest": "assets/sprites/iso4/generic_knight_01_mini_v1/runtime_manifest.json",
+      "idle": {
+        "front_left": "assets/sprites/iso4/generic_knight_01_mini_v1/idle/front_left/front_left_idle_00.png",
+        "back_left": "assets/sprites/iso4/generic_knight_01_mini_v1/idle/back_left/back_left_idle_00.png"
+      },
+      "binding": "exact_unit_id",
+      "campaign_spawns": false
+    },
+    "generic_beast_01": {
+      "base": "assets/sprites/iso4/generic_beast_01_mini_v1/",
+      "manifest": "assets/sprites/iso4/generic_beast_01_mini_v1/runtime_manifest.json",
+      "idle": {
+        "front_left": "assets/sprites/iso4/generic_beast_01_mini_v1/idle/front_left/front_left_idle_00.png",
+        "back_left": "assets/sprites/iso4/generic_beast_01_mini_v1/idle/back_left/back_left_idle_00.png"
+      },
+      "binding": "exact_unit_id",
+      "campaign_spawns": false
+    },
+    "generic_caster_01": {
+      "base": "assets/sprites/iso4/generic_caster_01_mini_v1/",
+      "manifest": "assets/sprites/iso4/generic_caster_01_mini_v1/runtime_manifest.json",
+      "idle": {
+        "front_left": "assets/sprites/iso4/generic_caster_01_mini_v1/idle/front_left/front_left_idle_00.png",
+        "back_left": "assets/sprites/iso4/generic_caster_01_mini_v1/idle/back_left/back_left_idle_00.png"
+      },
+      "binding": "exact_unit_id",
+      "campaign_spawns": false
+    },
+    "generic_archer_01": {
+      "base": "assets/sprites/iso4/generic_archer_01_mini_v1/",
+      "manifest": "assets/sprites/iso4/generic_archer_01_mini_v1/runtime_manifest.json",
+      "idle": {
+        "front_left": "assets/sprites/iso4/generic_archer_01_mini_v1/idle/front_left/front_left_idle_00.png",
+        "back_left": "assets/sprites/iso4/generic_archer_01_mini_v1/idle/back_left/back_left_idle_00.png"
+      },
+      "binding": "exact_unit_id",
+      "campaign_spawns": false
+    },
+    "generic_bandit_01": {
+      "base": "assets/sprites/iso4/generic_bandit_01_turbo_v1/",
+      "manifest": "assets/sprites/iso4/generic_bandit_01_turbo_v1/runtime_manifest.json",
+      "idle": {
+        "front_left": "assets/sprites/iso4/generic_bandit_01_turbo_v1/idle/front_left/front_left_idle_00.png",
+        "back_left": "assets/sprites/iso4/generic_bandit_01_turbo_v1/idle/back_left/back_left_idle_00.png"
+      },
+      "binding": "exact_unit_id",
+      "campaign_spawns": false
+    }
+  }
+}
