@@ -70,9 +70,16 @@ three-process reconnect; `tests/run_walk_network.py --unit-fixture` verifies a l
 move while repeated authoritative sync replaces Runtime without replaying its phase.
 Neither test mocks transport. Diagnostics/captures remain outside Git.
 
-The broad regression run encountered the pre-existing shutdown resource error in
-`test_picker_touch_handoff.gd`: all 22 assertions pass, but strict run_checked fails
-on `ERROR: 1 resources still in use at exit`. The same failure was reproduced on a
-separate imported a6da83a baseline worktree. It is not suppressed by this branch.
-Final independent review and reconciliation with any subsequent main hotfix remain
-required; this is not a main merge or an Android-device validation.
+The broad regression run found a pre-existing fast-shutdown error in
+`test_picker_touch_handoff.gd`: all 22 assertions passed, but AudioStreamPlaybackWAV
+and `res://assets/audio/magic.wav` survived the immediate engine shutdown. This was
+reproduced on a separate imported a6da83a baseline worktree. The test-only teardown
+stops presentation, frees its fixture scene/session, and yields process frames for
+120 ms of wall time so the audio thread can consume stop/free before deferred quit.
+Sound remains enabled and the strict runner is unchanged. Three concurrent reruns,
+including verbose fixed-FPS 1000, passed without the resource error. This is a test
+shutdown fix, not a claim about an Android device or a production memory fix.
+
+The final candidate preserves main 365db99c's Mara rear-frame/source-facing hotfix
+byte-for-byte. All gameplay content and other runtime assets are unchanged relative
+to that main. Final independent review is still required before any main merge.

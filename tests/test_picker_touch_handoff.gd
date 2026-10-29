@@ -25,4 +25,14 @@ func run():
         check(game.map_touch==-1 and not game.pending_target.is_empty() and game.battle.snapshot()==before,"first map tap after picker previews and releases finger")
         await tap(cell(target));await tap(cell(target))
         check(game.battle.step==1 and game.session.request_id==1,"second tap commits once, repeat cannot replay")
-    print("PICKER_TOUCH_HANDOFF checks=",checks," failures=0 raw_touch_with_emulation=true");quit()
+    # This harness owns the active scene/session. Drain presentation and queued
+    # node frees before terminating SceneTree rather than stopping mid-heal.
+    game.skip_presentation();game.queue_free();game=null
+    await frames(3)
+    app.close_room();app.session=null
+    await frames(2)
+    # Audio mixing is wall-clock based even in fast headless/fixed-FPS tests.
+    # Let its queued stop/free complete before shutting down AudioServer.
+    var audio_drain_until=Time.get_ticks_msec()+120
+    while Time.get_ticks_msec()<audio_drain_until:await process_frame
+    print("PICKER_TOUCH_HANDOFF checks=",checks," failures=0 raw_touch_with_emulation=true");call_deferred("quit")
