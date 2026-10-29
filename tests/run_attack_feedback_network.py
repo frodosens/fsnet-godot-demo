@@ -6,6 +6,11 @@ env=os.environ.copy();env['AMBER_TOKEN']=secrets.token_hex(24)
 with tempfile.TemporaryDirectory(prefix='event-network-') as folder:
     data=json.loads((root/'content/reference_bridge.json').read_text())
     for unit,point in zip(data['units'][:4],[(2,7),(2,8),(4,7),(5,7)]):unit.update(x=point[0],y=point[1])
+    generic=env.get('AMBER_GENERIC_FEEDBACK_ID','')
+    if generic:
+        assert generic in ('generic_soldier_01','generic_knight_01','generic_beast_01','generic_caster_01','generic_archer_01','generic_bandit_01','ch01_bandit_a','ch01_bandit_b','ch01_bandit_c')
+        data['units'][3 if env.get('AMBER_GENERIC_TARGET')=='1' else 2]['id']=generic
+        data['story']['events']=[]
     path=pathlib.Path(folder)/'fixture.json';path.write_text(json.dumps(data));env['AMBER_MOD']=str(path)
     with socket.socket() as sock:
         sock.bind(('127.0.0.1',0));env['AMBER_TEST_PORT']=str(sock.getsockname()[1])

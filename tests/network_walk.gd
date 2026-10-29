@@ -27,7 +27,7 @@ func run():
     var direction=OS.get_environment("AMBER_WALK_DIRECTION");if direction.is_empty():direction="front_right"
     if OS.get_environment("AMBER_LATEST_MAP")=="1":
         app.load_presentation_preferences()
-        hero_refresh=actor in ["mara","finn","neri","rodd"]
+        hero_refresh=actor in ["mara","finn","neri","rodd"] or preload("res://view/generic_map_art.gd").declared(actor)
         elsbet_mirror=actor=="elsbet";adela_mirror=actor=="adela";neri_mirror=false
         compact=actor in ["oren","bram","tessa"]
 

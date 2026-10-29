@@ -8,6 +8,7 @@ var cutin
 var event_sequence
 var heal_feedback
 var map_magic
+var generic_attack_feedback
 var motion
 var battle
 var last_step = -1
@@ -313,6 +314,16 @@ func build_world():
             sprite.texture=reserve.map.back_right if u.ally else reserve.map.front_left
             sprite.set_meta("formal_art",true);iso_roles[u.role]=true
             for direction in reserve.map:direction_textures[u.id+":"+direction]=reserve.map[direction]
+        var generic=preload("res://view/generic_map_art.gd").profile(u.id)
+        if not generic.is_empty():
+            sprite.texture=generic.map.back_right if u.ally else generic.map.front_left
+            sprite.set_meta("formal_art",true);iso_roles[u.role]=true
+            hero_refresh_libraries[u.id]=generic.library
+            for direction in generic.map:direction_textures[u.id+":"+direction]=generic.map[direction]
+        elif preload("res://view/generic_map_art.gd").declared(u.id):
+            sprite.texture=pixel_person(u.role,u.ally);sprite.set_meta("formal_art",false)
+            for direction in direction_textures.keys():
+                if direction.begins_with(u.id+":"):direction_textures.erase(direction)
         facing[u.id]=("back_right" if u.ally else "front_left") if iso_roles.has(u.role) else ("back" if u.ally else "front")
         last_positions[u.id]=u.pos
         sprite.pixel_size = MAP_PIXEL_SIZE*map_render_factor(u.id) if sprite.get_meta("formal_art") else 0.045
@@ -370,6 +381,7 @@ func build_hud():
     motion=preload("res://view/unit_motion.gd").new();motion.game=self;add_child(motion);motion.last_step=battle.step
     heal_feedback=preload("res://view/heal_feedback.gd").new();heal_feedback.game=self;add_child(heal_feedback);heal_feedback.last_step=battle.step
     map_magic=preload("res://view/map_magic.gd").new();map_magic.game=self;add_child(map_magic)
+    generic_attack_feedback=preload("res://view/generic_attack_feedback.gd").new();generic_attack_feedback.game=self;add_child(generic_attack_feedback)
     event_sequence=preload("res://view/event_sequence.gd").new();event_sequence.game=self;add_child(event_sequence);event_sequence.last_step=battle.step
     active_actor_marker=preload("res://view/active_actor_marker.gd").new();active_actor_marker.game=self;add_child(active_actor_marker)
 
@@ -822,6 +834,8 @@ func set_character_scale(value):
 # Animation is unit-scoped; unrelated Mod units keep their original art.
 func base_directional_idle_texture(index,direction):
     var unit=battle.units[index]
+    var generic=preload("res://view/generic_map_art.gd").profile(unit.id)
+    if not generic.is_empty():return generic.map.get(direction,figures[index].texture)
     var reserve=preload("res://view/reserve_art.gd").profile(unit.id)
     if not reserve.is_empty():return reserve.map.get(direction,figures[index].texture)
     var fallback=direction_textures.get(unit.id+":"+direction,figures[index].texture)
@@ -830,7 +844,7 @@ func base_directional_idle_texture(index,direction):
 
 func hero_refresh_entry(index,direction):
     var id=battle.units[index].id
-    var enabled=App.rodd_motion_preview if id=="rodd" else App.hero_map_refresh_previews.get(id,false)
+    var enabled=preload("res://view/generic_map_art.gd").declared(id) or (App.rodd_motion_preview if id=="rodd" else App.hero_map_refresh_previews.get(id,false))
     if not enabled or not hero_refresh_libraries.has(id):return {}
     return hero_refresh_libraries[id].matching(id,direction,base_directional_idle_texture(index,direction))
 func apply_map_idle_texture(index,direction,legacy_texture=null):

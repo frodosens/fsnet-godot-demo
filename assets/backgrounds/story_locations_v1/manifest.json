@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "asset_set": "story_locations_v1",
+  "usage": "Independent story staging backgrounds, not battle maps or movement grids",
+  "aspect_ratio": [
+    16,
+    9
+  ],
+  "render_contract": {
+    "fit": "cover",
+    "preserve_aspect": true,
+    "background_only_scale": true,
+    "ui_independent": true,
+    "actor_coordinates": "apply exact same uniform cover transform and crop offset as background",
+    "wide_or_tall_viewports": "Keep focal point centered; clamp actor anchors into visible content and dialogue-safe region. Never stretch background axes independently.",
+    "baked_characters": false,
+    "baked_dialogue": false,
+    "perspective": "human-scale fixed three-quarter interior"
+  },
+  "assets": [
+    {
+      "id": "inn_backroom_twilight",
+      "file": "inn_backroom_twilight.png",
+      "chapter_after": 2,
+      "size_px": [
+        1280,
+        720
+      ],
+      "source_size_px": [
+        1672,
+        941
+      ],
+      "source_normalization": "center aspect cover, uniform scale; no nonuniform stretching",
+      "sha256": "d0781e950dd48323d68d972529073188e63ac8ec81a59adafa81b80ffb7ca892",
+      "actor_floor_anchors_uv": [
+        [
+          0.27,
+          0.7
+        ],
+        [
+          0.43,
+          0.7
+        ],
+        [
+          0.59,
+          0.7
+        ],
+        [
+          0.75,
+          0.7
+        ]
+      ],
+      "actor_anchors_status": "suggested; verify with live character scale and dialogue HUD",
+      "focal_uv": [
+        0.5,
+        0.5
+      ]
+    },
+    {
+      "id": "posthouse_night",
+      "file": "posthouse_night.png",
+      "chapter_after": 4,
+      "size_px": [
+        1280,
+        720
+      ],
+      "source_size_px": [
+        1672,
+        941
+      ],
+      "source_normalization": "center aspect cover, uniform scale; no nonuniform stretching",
+      "sha256": "f64d1866a3dd1ae6bc5fd94fb512dbe6f2dc414d16229c77e292883c73b834e4",
+      "actor_floor_anchors_uv": [
+        [
+          0.27,
+          0.7
+        ],
+        [
+          0.43,
+          0.7
+        ],
+        [
+          0.59,
+          0.7
+        ],
+        [
+          0.75,
+          0.7
+        ]
+      ],
+      "actor_anchors_status": "suggested; verify with live character scale and dialogue HUD",
+      "focal_uv": [
+        0.5,
+        0.5
+      ]
+    }
+  ]
+}

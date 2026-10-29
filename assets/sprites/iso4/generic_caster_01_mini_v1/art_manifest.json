@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "character_id": "generic_caster_01",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "canonical_reference_body_height_px": 100,
+  "alpha_bbox_threshold": 128,
+  "source_cycles": {
+    "front_left": {
+      "indices": [
+        9,
+        12,
+        16,
+        19,
+        23,
+        26,
+        30,
+        33
+      ],
+      "endpoint": 37,
+      "weights": [
+        3,
+        4,
+        3,
+        4,
+        3,
+        4,
+        3,
+        4
+      ],
+      "source_fps": 24
+    },
+    "back_left": {
+      "indices": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24
+      ],
+      "endpoint": 27,
+      "weights": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "source_fps": 24
+    }
+  },
+  "fixed_registration": {
+    "source_canvas": [
+      1280,
+      720
+    ],
+    "panel_canvas": [
+      640,
+      720
+    ],
+    "source_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resample": "nearest",
+    "per_frame_adjustment": false
+  },
+  "idle_selection": "Static grounded frame extracted from the same accepted walk cycle, no invented idle motion.",
+  "direction_sources": {
+    "front_left": "front_left",
+    "front_right": "front_left mirrored",
+    "back_left": "back_left",
+    "back_right": "back_left mirrored"
+  },
+  "provenance": "New reconstructed generic identity 2026-10-29, not restored original missing art.",
+  "qa": {
+    "front_left": {
+      "loop_endpoint_MAE": 3.152,
+      "adjacent_rgba_MAE": [
+        5.547,
+        7.794,
+        5.01,
+        6.23,
+        4.722,
+        6.689,
+        4.885,
+        4.603
+      ],
+      "idle_source_frame": 16
+    },
+    "back_left": {
+      "loop_endpoint_MAE": 5.486,
+      "adjacent_rgba_MAE": [
+        3.944,
+        2.803,
+        3.381,
+        4.564,
+        4.431,
+        4.11,
+        3.453,
+        5.484
+      ],
+      "idle_source_frame": 19
+    }
+  },
+  "frames": [
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/front_left/front_left_walk_00.png",
+      "sha256": "3f105cdd914c213d16a87bf765c3174ac8f9a47e3d4651e454c39c25c22dce91",
+      "source_frame": 9,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        45,
+        115,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        44,
+        115,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/front_left/front_left_walk_01.png",
+      "sha256": "eca565c7b04a6f81d3535589001e8f85ac7ccb5d8c73149d1dbcb9b0d71fb4d8",
+      "source_frame": 12,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        45,
+        43,
+        113,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        44,
+        43,
+        113,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/front_left/front_left_walk_02.png",
+      "sha256": "0ad190194c1d819da2536a3e7728a848bbbd4175c1202f0065c2574af95cb0e2",
+      "source_frame": 16,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        43,
+        109,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        43,
+        110,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/front_left/front_left_walk_03.png",
+      "sha256": "0d301d54ce0f581b3b7e192e769bf8f2b780e969f7b11e4aae3c9e43ae7fbbe6",
+      "source_frame": 19,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        45,
+        43,
+        107,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        43,
+        107,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/front_left/front_left_walk_04.png",
+      "sha256": "5615edf57c3b344ce33c059373403bd9ee8c0a29703ea0391ebc43ce95984b52",
+      "source_frame": 23,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        44,
+        106,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        44,
+        106,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/front_left/front_left_walk_05.png",
+      "sha256": "cc692ca98f65f354b7762aa3ba25f7df2ec7e7fd666fab17060e8119f1a18549",
+      "source_frame": 26,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        46,
+        43,
+        106,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        43,
+        106,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/front_left/front_left_walk_06.png",
+      "sha256": "3758608504d62dd5d40ad2186eed78d71b308b1b9daa3ca8302cdf0cae3e180d",
+      "source_frame": 30,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        46,
+        42,
+        108,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        42,
+        108,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/front_left/front_left_walk_07.png",
+      "sha256": "4c46674f8aa9c17e42985909c38ac072e0f1a76b9952e4450a74e3b25b9aa57f",
+      "source_frame": 33,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        45,
+        43,
+        111,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        42,
+        111,
+        146
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/idle/front_left/front_left_idle_00.png",
+      "sha256": "0ad190194c1d819da2536a3e7728a848bbbd4175c1202f0065c2574af95cb0e2",
+      "source_frame": 16,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        45,
+        43,
+        109,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        43,
+        110,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/back_left/back_left_walk_00.png",
+      "sha256": "3ae82e13792a2f4faebe33cf888d4d91dc0337216dc407b6a0f84f95a9e91b1b",
+      "source_frame": 3,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        58,
+        43,
+        113,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        57,
+        42,
+        113,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/back_left/back_left_walk_01.png",
+      "sha256": "7b2ead836263f195a667947e6c67fd9ae94964144778fc652dc830c171408fb5",
+      "source_frame": 6,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        56,
+        43,
+        115,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        55,
+        43,
+        115,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/back_left/back_left_walk_02.png",
+      "sha256": "1da6a916851c201cd9d0979784cc67db82eb76dfc944ade38d1975baeda17e81",
+      "source_frame": 9,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        55,
+        44,
+        117,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        55,
+        44,
+        117,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/back_left/back_left_walk_03.png",
+      "sha256": "ba45351ce6b6843b5aa1cf17e1d38b3acae0a226835298c77f085babd3cd639d",
+      "source_frame": 12,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        58,
+        43,
+        116,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        58,
+        43,
+        116,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/back_left/back_left_walk_04.png",
+      "sha256": "12a1695cf23c72466bb6de6367aa3735fadf89a7880af5408a537fe9e65f913a",
+      "source_frame": 15,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        59,
+        43,
+        115,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        58,
+        43,
+        115,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/back_left/back_left_walk_05.png",
+      "sha256": "8f6fd6e84b4cf32f287fe792ba81b4ce763f8efe34e75b4442fd395fa840cbb2",
+      "source_frame": 18,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        56,
+        43,
+        114,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        56,
+        43,
+        114,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/back_left/back_left_walk_06.png",
+      "sha256": "33a3709abd9d24a81a0093083dcd77440ea0482caee44c2e0ad04273304737aa",
+      "source_frame": 21,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        55,
+        43,
+        114,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        55,
+        43,
+        114,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/motion/back_left/back_left_walk_07.png",
+      "sha256": "add7cfd854751c1e9b5b92d072eeda9e7218e0d21468048ed415b86a0ca4ec7c",
+      "source_frame": 24,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        55,
+        44,
+        114,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        54,
+        44,
+        114,
+        146
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_caster_01_mini_v1/idle/back_left/back_left_idle_00.png",
+      "sha256": "6f738b3648dd242270cc81ebd34192f7f0ae99412fcd248d174adf4cff43c5f6",
+      "source_frame": 19,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        56,
+        43,
+        114,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        55,
+        43,
+        114,
+        146
+      ]
+    }
+  ],
+  "quality_caveats": [
+    "Generated texture slightly simplified. Right views mirror equipment handedness.",
+    "Both legs alternate in early complete cycle; torso/hood/staff angle sways and loop seam is not identical. Later rear-facing drift excluded. Requires in-game review."
+  ]
+}

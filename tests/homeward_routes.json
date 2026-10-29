@@ -1,0 +1,169 @@
+{
+  "1": [
+    {
+      "kind": "move",
+      "step": 1,
+      "unit": 0,
+      "x": 5,
+      "y": 5
+    },
+    {
+      "kind": "move",
+      "step": 2,
+      "unit": 1,
+      "x": 5,
+      "y": 7
+    },
+    {
+      "kind": "end_turn",
+      "step": 3
+    },
+    {
+      "kind": "move",
+      "step": 4,
+      "unit": 0,
+      "x": 5,
+      "y": 3
+    },
+    {
+      "kind": "attack",
+      "step": 5,
+      "target": 2,
+      "unit": 0
+    },
+    {
+      "kind": "move",
+      "step": 6,
+      "unit": 1,
+      "x": 5,
+      "y": 4
+    },
+    {
+      "kind": "end_turn",
+      "step": 7
+    },
+    {
+      "kind": "move",
+      "step": 8,
+      "unit": 0,
+      "x": 4,
+      "y": 1
+    },
+    {
+      "kind": "end_turn",
+      "step": 9
+    },
+    {
+      "kind": "move",
+      "step": 10,
+      "unit": 0,
+      "x": 5,
+      "y": 0
+    }
+  ],
+  "2": [
+    {
+      "kind": "move",
+      "step": 1,
+      "unit": 0,
+      "x": 7,
+      "y": 3
+    },
+    {
+      "kind": "move",
+      "step": 2,
+      "unit": 1,
+      "x": 7,
+      "y": 4
+    },
+    {
+      "kind": "end_turn",
+      "step": 3
+    },
+    {
+      "kind": "move",
+      "step": 4,
+      "unit": 1,
+      "x": 7,
+      "y": 7
+    },
+    {
+      "kind": "move",
+      "step": 5,
+      "unit": 0,
+      "x": 7,
+      "y": 6
+    },
+    {
+      "kind": "end_turn",
+      "step": 6
+    },
+    {
+      "kind": "move",
+      "step": 7,
+      "unit": 0,
+      "x": 5,
+      "y": 7
+    },
+    {
+      "kind": "move",
+      "step": 8,
+      "unit": 1,
+      "x": 4,
+      "y": 7
+    },
+    {
+      "kind": "end_turn",
+      "step": 9
+    },
+    {
+      "kind": "move",
+      "step": 10,
+      "unit": 0,
+      "x": 3,
+      "y": 7
+    }
+  ],
+  "3": [
+    {
+      "kind": "move",
+      "unit": 0,
+      "x": 6,
+      "y": 7,
+      "step": 1
+    },
+    {
+      "kind": "end_turn",
+      "step": 2
+    },
+    {
+      "kind": "move",
+      "unit": 0,
+      "x": 8,
+      "y": 6,
+      "step": 3
+    },
+    {
+      "kind": "end_turn",
+      "step": 4
+    },
+    {
+      "kind": "move",
+      "unit": 0,
+      "x": 8,
+      "y": 3,
+      "step": 5
+    },
+    {
+      "kind": "end_turn",
+      "step": 6
+    },
+    {
+      "kind": "move",
+      "unit": 0,
+      "x": 8,
+      "y": 1,
+      "step": 7
+    }
+  ]
+}

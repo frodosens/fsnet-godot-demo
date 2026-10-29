@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "asset_set": "story_emotes_v1",
+  "canvas_px": [
+    64,
+    64
+  ],
+  "tail_anchor_px": [
+    32,
+    60
+  ],
+  "suggested_display_px": [
+    24,
+    32,
+    40
+  ],
+  "filter": "nearest",
+  "placement": "Anchor tail tip above actor head, below main HUD; no map gameplay collision",
+  "nine_slice": false,
+  "assets": [
+    {
+      "id": "question",
+      "file": "emote_question.png",
+      "size": [
+        64,
+        64
+      ],
+      "tail_anchor_px": [
+        32,
+        60
+      ],
+      "alpha_bbox": [
+        4,
+        10,
+        60,
+        61
+      ],
+      "sha256": "bd4a8c6b25d0701cc6eca17976e26e9217e4e6edbac27af5487f4bb1d4b08a8f"
+    },
+    {
+      "id": "exclamation",
+      "file": "emote_exclamation.png",
+      "size": [
+        64,
+        64
+      ],
+      "tail_anchor_px": [
+        32,
+        60
+      ],
+      "alpha_bbox": [
+        4,
+        10,
+        60,
+        61
+      ],
+      "sha256": "35e9b5dcf51bb151250ea3e77b5e2f5a2f4f3e8fa88fc100b64cedbb20f12b49"
+    },
+    {
+      "id": "ellipsis",
+      "file": "emote_ellipsis.png",
+      "size": [
+        64,
+        64
+      ],
+      "tail_anchor_px": [
+        32,
+        60
+      ],
+      "alpha_bbox": [
+        4,
+        10,
+        60,
+        61
+      ],
+      "sha256": "d3a1cd355dc2b338213036a7bb53dd8346246568a4a7fd1da48b4579792b0cdf"
+    },
+    {
+      "id": "sweat",
+      "file": "emote_sweat.png",
+      "size": [
+        64,
+        64
+      ],
+      "tail_anchor_px": [
+        32,
+        60
+      ],
+      "alpha_bbox": [
+        4,
+        10,
+        60,
+        61
+      ],
+      "sha256": "daeb66dd793bb0b996fff408eb00b16961f1dfb2fde33db1ae03220f5e258d96"
+    },
+    {
+      "id": "anger",
+      "file": "emote_anger.png",
+      "size": [
+        64,
+        64
+      ],
+      "tail_anchor_px": [
+        32,
+        60
+      ],
+      "alpha_bbox": [
+        4,
+        10,
+        60,
+        61
+      ],
+      "sha256": "49be2fe89a5174f61d64037cc5d79a8eb5c9fa197a41a49610983c677c3fc7ea"
+    },
+    {
+      "id": "relief",
+      "file": "emote_relief.png",
+      "size": [
+        64,
+        64
+      ],
+      "tail_anchor_px": [
+        32,
+        60
+      ],
+      "alpha_bbox": [
+        4,
+        10,
+        60,
+        61
+      ],
+      "sha256": "7974a03936a60d0aedbc85e35c385cd8e7c0f971e1701736477a9f7fe7b546bd"
+    }
+  ]
+}

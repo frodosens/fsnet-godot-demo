@@ -140,7 +140,7 @@ static func validate(data):
         speakers[person.id]=true
     for event in story.events:
         if not event is Dictionary or not identifier(event.get("id")) or event_ids.has(event.id) or not event.get("lines") is Array or event.lines.size()>32:return "剧情事件无效/重复。"
-        if event.get("trigger") not in ["chapter_enter_before_first_player_action","first_player_turn_started_with_round_gte_2","first_player_turn_started_with_round_gte_3","battle_terminal_victory","battle_terminal_defeat","round"]:return "不支持的剧情触发器。"
+        if event.get("trigger") not in ["chapter_enter_before_first_player_action","first_player_turn_started_with_round_gte_2","first_player_turn_started_with_round_gte_3","battle_terminal_victory","battle_terminal_defeat","round","campaign_finish"]:return "不支持的剧情触发器。"
         if event.trigger=="round" and not integer(event.get("round"),1,99):return "剧情回合阈值无效。"
         for line in event.lines:
             if not line is Dictionary or not speakers.has(line.get("speaker","")) or not short_text(line.get("text"),500):return "台词或说话人引用无效。"
@@ -209,7 +209,7 @@ static func chapter_three_content():
 static func write_mod(data,overwrite=false):
     var error=validate(data)
     if not error.is_empty():return error
-    if data.id in ["amber_bridge","amber_bridge_reference","white_elm_watchhouse","mill_receipts"]:return "请为 Mod 使用新 ID，不能覆盖内置战役。"
+    if data.id in ["amber_bridge","amber_bridge_reference","white_elm_watchhouse","mill_receipts","homeward_01","homeward_02","homeward_03"]:return "请为 Mod 使用新 ID，不能覆盖内置战役。"
     DirAccess.make_dir_recursive_absolute("user://mods")
     var path="user://mods/"+data.id+".json"
     if FileAccess.file_exists(path) and not overwrite:return "同名 Mod 已存在，请确认覆盖。"

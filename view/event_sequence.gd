@@ -72,6 +72,7 @@ func play_next():
                 game.cutin.last_seen_step=-1
                 game.cutin.consume(current._visual_step,[current],visual_units(),content)
                 if game.cutin.active:return
+                if game.generic_attack_feedback.start(current):return
             'heal':
                 game.heal_feedback.last_step=-1
                 game.heal_feedback.consume(current._visual_step,[current])
@@ -105,7 +106,7 @@ func _process(_delta):
     var done=false
     match current.get('kind'):
         'move':done=not game.motion.active()
-        'attack':done=not game.cutin.active
+        'attack':done=not game.cutin.active and not game.generic_attack_feedback.active()
         'heal':done=game.heal_feedback.numbers.is_empty()
     if done:apply_result();play_next()
 func sync_visuals():
@@ -136,4 +137,5 @@ func finish():
     if game.motion:game.motion.finish(false)
     if game.cutin:game.cutin.finish()
     if game.heal_feedback:game.heal_feedback.clear()
+    if game.generic_attack_feedback:game.generic_attack_feedback.clear()
     settle_truth()

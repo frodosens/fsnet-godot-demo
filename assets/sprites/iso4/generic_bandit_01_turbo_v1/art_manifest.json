@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "character_id": "generic_bandit_01",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "canonical_reference_body_height_px": 100,
+  "alpha_bbox_threshold": 128,
+  "source_cycles": {
+    "front_left": {
+      "indices": [
+        43,
+        47,
+        52,
+        56,
+        61,
+        65,
+        69,
+        74
+      ],
+      "endpoint": 78,
+      "weights": [
+        4,
+        5,
+        4,
+        5,
+        4,
+        4,
+        5,
+        4
+      ],
+      "source_fps": 24
+    },
+    "back_left": {
+      "indices": [
+        43,
+        47,
+        52,
+        56,
+        61,
+        65,
+        69,
+        74
+      ],
+      "endpoint": 78,
+      "weights": [
+        4,
+        5,
+        4,
+        5,
+        4,
+        4,
+        5,
+        4
+      ],
+      "source_fps": 24
+    }
+  },
+  "fixed_registration": {
+    "source_canvas": [
+      1280,
+      720
+    ],
+    "panel_canvas": [
+      640,
+      720
+    ],
+    "source_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resample": "nearest",
+    "per_frame_adjustment": false
+  },
+  "idle_selection": "Static grounded frame extracted from the same accepted walk cycle, no invented idle motion.",
+  "direction_sources": {
+    "front_left": "front_left",
+    "front_right": "front_left mirrored",
+    "back_left": "back_left",
+    "back_right": "back_left mirrored"
+  },
+  "provenance": "Original bandit input and video recovered via authorized Runway source task; reference SHA256 a26cda28be699fbc737e1b9678fb8e39032a0c40464d75efb9047c9e4fd69704 matches historical original.",
+  "qa": {
+    "front_left": {
+      "loop_endpoint_MAE": 1.007,
+      "adjacent_rgba_MAE": [
+        3.998,
+        6.295,
+        4.163,
+        3.983,
+        3.876,
+        3.697,
+        5.967,
+        3.866
+      ],
+      "idle_source_frame": 43
+    },
+    "back_left": {
+      "loop_endpoint_MAE": 0.838,
+      "adjacent_rgba_MAE": [
+        3.933,
+        5.644,
+        3.553,
+        3.844,
+        3.996,
+        3.93,
+        5.515,
+        3.192
+      ],
+      "idle_source_frame": 43
+    }
+  },
+  "frames": [
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/front_left/front_left_walk_00.png",
+      "sha256": "13f5d189c981871cfac95a6021fe0aa568e7d63bd2665ad2b48e014c6ff8ae40",
+      "source_frame": 43,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        44,
+        45,
+        105,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        44,
+        45,
+        105,
+        143
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/front_left/front_left_walk_01.png",
+      "sha256": "7537230491aeaea2e7c36aefbeacdd37f72de8c87522d290038b749c6c21ac95",
+      "source_frame": 47,
+      "weight": 5,
+      "alpha_bbox_exclusive": [
+        43,
+        44,
+        106,
+        140
+      ],
+      "any_alpha_bbox_exclusive": [
+        43,
+        44,
+        107,
+        140
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/front_left/front_left_walk_02.png",
+      "sha256": "b141eee85498c4b3fc6e43c9491b68bb5266a1c6b823f20f2e52544f8a09812d",
+      "source_frame": 52,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        42,
+        43,
+        109,
+        140
+      ],
+      "any_alpha_bbox_exclusive": [
+        41,
+        42,
+        109,
+        140
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/front_left/front_left_walk_03.png",
+      "sha256": "a3e8825717f6d08ffc9f0f4365f49fbfaf5db00a473abf7949295376ae28d55f",
+      "source_frame": 56,
+      "weight": 5,
+      "alpha_bbox_exclusive": [
+        41,
+        44,
+        110,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        41,
+        43,
+        111,
+        144
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/front_left/front_left_walk_04.png",
+      "sha256": "1dd6e971aa2fc5fa90cd8baaae67839c3479c5022c410560ba444da9d15fd4be",
+      "source_frame": 61,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        40,
+        45,
+        112,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        40,
+        45,
+        112,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/front_left/front_left_walk_05.png",
+      "sha256": "546b87424a077a173ccc6b1a8d5b30a16c308e33d0457e3eed60a3d2ce6b14f4",
+      "source_frame": 65,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        41,
+        44,
+        110,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        41,
+        44,
+        110,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/front_left/front_left_walk_06.png",
+      "sha256": "1865c83a61ec07ad711d389cb5ec30510cebad973f7f61cba0c4ee0cc5d7dc1c",
+      "source_frame": 69,
+      "weight": 5,
+      "alpha_bbox_exclusive": [
+        42,
+        42,
+        108,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        42,
+        42,
+        108,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/front_left/front_left_walk_07.png",
+      "sha256": "292e1c730a489f40da4464d59934b4da759af7b325ac23c0adabb4755ea77cfb",
+      "source_frame": 74,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        43,
+        44,
+        106,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        43,
+        43,
+        106,
+        145
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/idle/front_left/front_left_idle_00.png",
+      "sha256": "13f5d189c981871cfac95a6021fe0aa568e7d63bd2665ad2b48e014c6ff8ae40",
+      "source_frame": 43,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        44,
+        45,
+        105,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        44,
+        45,
+        105,
+        143
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/back_left/back_left_walk_00.png",
+      "sha256": "eb8e187b5f028410142d3d64412278bb4bf208a9766f22fc47a010a9366b23cc",
+      "source_frame": 43,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        58,
+        45,
+        117,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        58,
+        45,
+        117,
+        144
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/back_left/back_left_walk_01.png",
+      "sha256": "8185937fedc316f81ca683c47e8a39ae7c48b0c34abf65a6a4a79b20146e2e46",
+      "source_frame": 47,
+      "weight": 5,
+      "alpha_bbox_exclusive": [
+        56,
+        44,
+        118,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        56,
+        44,
+        118,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/back_left/back_left_walk_02.png",
+      "sha256": "ffee1ceb8f1eb0cec91655ab15705449c8e80b9a2d8420a1961f493d772c46a2",
+      "source_frame": 52,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        53,
+        43,
+        119,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        53,
+        42,
+        120,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/back_left/back_left_walk_03.png",
+      "sha256": "e69cb98bf28e50e7801a44032c515394e506e23c63644b564b0236f2942bb099",
+      "source_frame": 56,
+      "weight": 5,
+      "alpha_bbox_exclusive": [
+        51,
+        44,
+        121,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        44,
+        121,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/back_left/back_left_walk_04.png",
+      "sha256": "357bb1f8e8c4056a32ae4cb082ba4c7b562b8c35fd682452b058dc1db1fbcaa8",
+      "source_frame": 61,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        49,
+        45,
+        121,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        49,
+        45,
+        121,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/back_left/back_left_walk_05.png",
+      "sha256": "bc7914a2f49f70a573da73efd4784130c40928ea4c2b8aa86f725dad2c73c7ec",
+      "source_frame": 65,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        52,
+        44,
+        120,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        44,
+        120,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/back_left/back_left_walk_06.png",
+      "sha256": "42b4fee13faab4ae6008aedb07f297b638b10ecbac8bf9099a62627edf3b0e4d",
+      "source_frame": 69,
+      "weight": 5,
+      "alpha_bbox_exclusive": [
+        54,
+        42,
+        119,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        54,
+        42,
+        119,
+        143
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/motion/back_left/back_left_walk_07.png",
+      "sha256": "69b18a7f2f922a68f392fd655b0c6600ef929fc4654ce731717b0f0e75298323",
+      "source_frame": 74,
+      "weight": 4,
+      "alpha_bbox_exclusive": [
+        57,
+        44,
+        117,
+        143
+      ],
+      "any_alpha_bbox_exclusive": [
+        57,
+        43,
+        118,
+        143
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_bandit_01_turbo_v1/idle/back_left/back_left_idle_00.png",
+      "sha256": "eb8e187b5f028410142d3d64412278bb4bf208a9766f22fc47a010a9366b23cc",
+      "source_frame": 43,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        58,
+        45,
+        117,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        58,
+        45,
+        117,
+        144
+      ]
+    }
+  ],
+  "quality_caveats": [
+    "Generated texture slightly simplified. Right views mirror equipment handedness.",
+    "Independent visual QA passed actual limb alternation and stable distinct diagonal facings."
+  ]
+}

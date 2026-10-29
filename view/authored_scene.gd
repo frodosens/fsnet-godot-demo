@@ -29,7 +29,7 @@ static func profile(content):
         {"data":C.chapter_two_content(),"root":"res://assets/backgrounds/white_elm_watchhouse/","battle":"res://assets/backgrounds/white_elm_watchhouse/battle.png","canvas":Vector2(1586,992),"camera_offset":Vector2(1.0,0.0375233)},third_profile()]:
         if entry.is_empty():continue
         var authored=entry.data
-        if content.get("id")==authored.id and content.get("width")==authored.width and content.get("height")==authored.height and content.get("terrain")==authored.terrain:
+        if (content.get("id")==authored.id or {"homeward_01":"amber_bridge_reference","homeward_02":"white_elm_watchhouse","homeward_03":"mill_receipts"}.get(content.get("id",""),"")==authored.id) and content.get("width")==authored.width and content.get("height")==authored.height and content.get("terrain")==authored.terrain:
             if not entry.has("map"):entry["map"]=entry.root+("map.png" if authored.id=="white_elm_watchhouse" else "background.png")
             return entry
     return {}

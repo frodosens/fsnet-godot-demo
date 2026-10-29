@@ -7,6 +7,8 @@ static func content(actor,direction):
         data.units[reserve_index].id=actor
         data.units[reserve_index].name="阿黛拉" if actor=="adela" else "埃尔丝贝特"
         data.story.events=[]
+    if preload("res://view/generic_map_art.gd").declared(actor):
+        data.units[0].id=actor;data.units[0].name=actor;data.story.events=[]
     if actor=="rodd":
         data.units[0].id="rodd";data.units[0].name="罗德";data.story.events=[]
     if actor=="vera":
