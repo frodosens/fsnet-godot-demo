@@ -39,6 +39,10 @@ func run():
     bar.update_health(0,10,true);check(not bar.visible and not bar.fill.visible,"dead meter hidden")
     bar.update_health(10,10,true);check(bar.visible and bar.fill.region_rect.size.x==312,"full-health meter retained")
     check(game.battle.snapshot()==truth,"presentation does not mutate rules")
-    var file=FileAccess.open("res://docs/unit-health-pixel-results.json",FileAccess.WRITE);file.store_string(JSON.stringify(measurements,"  "))
+    # Measurements are diagnostic output, not an assertion: keep the checkout clean
+    # and only refresh the tracked report when explicitly asked for.
+    var report="res://docs/unit-health-pixel-results.json" if OS.get_environment("AMBER_RECORD_FIXTURES")=="1" else "user://unit-health-pixel-results.json"
+    var file=FileAccess.open(report,FileAccess.WRITE)
+    if file:file.store_string(JSON.stringify(measurements,"  "))
     print("UNIT_HEALTH checks=",checks," failures=",failures," physical_minimum=8px")
     quit(1 if failures else 0)

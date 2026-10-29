@@ -17,12 +17,17 @@ cases=[("print('CHECKS checks=10 failures=0')",0),
 for program,expected in cases:
  result=subprocess.run([sys.executable,str(runner),sys.executable,'-c',program],capture_output=True,text=True)
  assert result.returncode==expected,(program,result.returncode,result.stdout,result.stderr)
-with tempfile.TemporaryDirectory(prefix='checked-godot-') as folder:
- fixture=Path(folder)/'assert_then_quit.gd'
- fixture.write_text('extends SceneTree\nfunc _initialize():call_deferred("intentional_failure");call_deferred("finish")\nfunc intentional_failure():assert(false,"intentional runner selftest")\nfunc finish():quit(0)\n')
- command=[os.environ.get('GODOT','godot'),'--headless','--path',str(runner.parent.parent),'--script',str(fixture)]
- direct=subprocess.run(command,capture_output=True,text=True,timeout=30)
- assert direct.returncode==0 and 'SCRIPT ERROR' in direct.stdout+direct.stderr,'fixture must reproduce Godot zero-exit assertion'
- checked=subprocess.run([sys.executable,str(runner),*command],capture_output=True,text=True,timeout=30)
- assert checked.returncode!=0 and 'CHECKED_RUNNER:' in checked.stderr,'actual assertion must fail wrapper'
+# A plain directory instead of TemporaryDirectory/mkdtemp: on Windows a Godot
+# child can keep the fixture busy, and sandboxed environments may refuse writes
+# into a directory created with restrictive temp permissions. Neither has
+# anything to do with what this selftest asserts.
+folder=Path(tempfile.gettempdir())/f'checked-godot-selftest-{os.getpid()}'
+folder.mkdir(parents=True,exist_ok=True)
+fixture=folder/'assert_then_quit.gd'
+fixture.write_text('extends SceneTree\nfunc _initialize():call_deferred("intentional_failure");call_deferred("finish")\nfunc intentional_failure():assert(false,"intentional runner selftest")\nfunc finish():quit(0)\n')
+command=[os.environ.get('GODOT','godot'),'--headless','--path',str(runner.parent.parent),'--script',str(fixture)]
+direct=subprocess.run(command,capture_output=True,text=True,timeout=30)
+assert direct.returncode==0 and 'SCRIPT ERROR' in direct.stdout+direct.stderr,'fixture must reproduce Godot zero-exit assertion'
+checked=subprocess.run([sys.executable,str(runner),*command],capture_output=True,text=True,timeout=30)
+assert checked.returncode!=0 and 'CHECKED_RUNNER:' in checked.stderr,'actual assertion must fail wrapper'
 print(f'CHECKED_RUNNER_SELFTEST synthetic={len(cases)} real_godot=2 failures=0')

@@ -1,0 +1,102 @@
+# Headless baseline (Windows)
+
+Recorded 2026-10-29 on this machine. This is the regression gate every refactor
+step must keep green; it replaces "I ran the tests once" with a reproducible
+11-minute run and a CSV report.
+
+## How to run
+
+```powershell
+pwsh tools/test-headless.ps1 `
+  -Godot  'G:\Godot_v4.6.1-stable_win64\Godot_v4.6.1-stable_win64_console.exe' `
+  -Python 'C:\Users\frodo\.dsh\dsh-runtimes\dsh-primary-runtime\dependencies\python\python.exe'
+```
+
+Useful switches: `-Filter 'test_bridge*'` for a subset, `-SkipImport` to reuse an
+existing import (only safe when the import cache is intact), `-KeepLogs` to keep
+every log, `-IncludeNetwork` to add the fsnet loopback smoke test (currently red,
+see below), `-Out` to move the CSV report.
+
+The script:
+
+1. redirects `%APPDATA%`/`%LOCALAPPDATA%` to a temp directory, so the engine
+   never writes into the real profile (a read-only profile used to crash startup);
+2. imports the project (`--headless --import`, ~30 s) on every run: the
+   `AmberLogic` GDExtension class is only registered after `extension_list.cfg`
+   exists, and 915 assets have no committed `.import` metadata, so the importer is
+   what makes them loadable;
+3. runs the python checks and every `test_*.gd` listed in `tools/test.sh`
+   (that file remains the single source of truth for the list);
+4. fails a child that exits 0 but printed `ERROR:`, `SCRIPT ERROR`, a `FAIL`
+   marker or a non-zero `failures=` count, mirroring `tools/run_checked.py`;
+5. restores importer-rewritten `*.import` metadata and removes generated
+   `*.uid`/`*.import` files so the checkout stays clean.
+
+## Environment
+
+| Item | Value |
+|---|---|
+| OS | Windows, `F:\workspace` checkout |
+| Engine | Godot **4.6.1.stable.official.14d19694e** (project declares 4.6.3) |
+| Native runtime | prebuilt `bin/windows/x86_64/libamber.dll` (`compatibility_minimum = "4.6"`), loaded successfully |
+| Python | bundled 3.x used for the asset checks |
+| Import | 25 s, 1276 resources, `.godot/` ≈ 69 MB (git-ignored) |
+
+## Baseline result
+
+| Stage | Count | Result |
+|---|---|---|
+| Godot headless tests | 148 | 148 passed |
+| Python asset checks | 11 | 11 passed |
+| Reported assertions | 88,020 | 0 failures |
+| Runtime | 645 s (10m45s) including the import pass | serial, one engine process per test |
+| Slowest cases | `test_generic_runtime` 48 s, `test_walk_direction_batch` 26 s, `test_hero_refresh_scene` 24 s | |
+
+**Rule: the reported assertion total must never go down.** It is the cheapest
+guard against silently deleting coverage while moving files around.
+
+`tests/test_golden_snapshot.gd` (added with this baseline) freezes:
+
+- `rules_hash` — the SHA-256 of the assembled Lua rules source;
+- `content_hash` — the SHA-256 of the validated default content;
+- the canonical snapshot after a fixed move → skill → enemy-turn sequence;
+- the byte-identical snapshot round-trip through a fresh VM.
+
+Any accidental edit to `logic/battle.lua`, `logic/rules/*.lua`,
+`logic/runtime.gd` or `content/default.json` fails this test with the expected
+and actual value. Regenerate only for an intentional rules change:
+
+```powershell
+$env:AMBER_UPDATE_GOLDEN='1'
+godot --headless --path . --script res://tests/test_golden_snapshot.gd
+```
+
+## Known red: network smoke
+
+`tests/run_network.py` fails on this host after 16 s:
+
+```
+CLIENT_DISCONNECTED after_step=2
+NETWORK_TIMEOUT role=driver status=Online · action 2 · sync
+```
+
+The authority stays at action 2 after the deliberate disconnect; the client never
+reaches action 3. This reproduces on the unmodified checkout, is unrelated to the
+refactor (which does not touch `logic/` or `native/`), and is excluded from the
+gate (`-IncludeNetwork` opts in). Tracked separately.
+
+## Engine-version side effects
+
+The checkout is imported with 4.6.1 while the project declares 4.6.3. Running
+either engine rewrites import metadata: in one full run we observed 361 tracked
+`.import` files touched (content identical after normalisation), 915 untracked
+`.import` files and 242 untracked `.uid` files. The runner cleans all of that;
+if you run tests by hand, finish with:
+
+```powershell
+git checkout -- ':(glob)**/*.import'
+git clean -f -q -- '*.import' '*.uid'
+```
+
+Installing 4.6.3 and re-recording this baseline is recommended before the
+structural work that touches rendering (`main.gd` extraction).

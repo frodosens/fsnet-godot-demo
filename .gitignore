@@ -34,6 +34,9 @@ bin/*
 # Documentation image imports are not runtime assets
 docs/*.import
 
+# Local test reports and captured logs (tools/test-headless.ps1)
+artifacts/
+
 # Versioned Windows runtime; other native outputs remain local.
 !bin/windows/
 !bin/windows/**
