@@ -19,7 +19,10 @@ var last_event = "A small bridge, a warm evening. Keep your crew safe."
 var rules_hash = ""
 
 func _init(data={},campaign={}):
-    content=Content.default_content() if data.is_empty() else data.duplicate(true)
+    var expanded=Content.expand(Content.default_content() if data.is_empty() else data)
+    assert(expanded.error.is_empty(),expanded.error)
+    content=expanded.data
+    Content.freeze(content.units) # Immutable baseline configuration, not UnitInstance state.
     content_hash=Content.hash_of(content)
     size=Vector2i(content.width,content.height)
     var source = rule_source()
@@ -27,9 +30,10 @@ func _init(data={},campaign={}):
     assert(vm.load_rules(source),vm.last_error())
     reset(campaign)
 
-# Snapshot-only compatibility: this reviewed predecessor has identical v5 state layout.
+# Snapshot-only compatibility: exact trusted predecessors with compatible numeric layouts.
+# 72cde9... is frozen release a6da83a (v6); template metadata is rebuilt from saved content.
 # Command replay and network handshakes continue requiring the current rule hash.
-const SNAPSHOT_COMPATIBLE_RULES=["830d97787829f942d8d2734d5b3d1a20ab9ee9153780220aa5be396ca163ec73","ff0209fc228021e6c2a82a3a4858fe20e26996d3e0b75f3a16966125a7855ca5"]
+const SNAPSHOT_COMPATIBLE_RULES=["72cde9c5e5f4bcfc0e44f59a60439a1702937933b32248fce1c275ab9af09e3c","830d97787829f942d8d2734d5b3d1a20ab9ee9153780220aa5be396ca163ec73","ff0209fc228021e6c2a82a3a4858fe20e26996d3e0b75f3a16966125a7855ca5"]
 static func accepts_saved_rules(hash_value):
     return hash_value==rule_source().sha256_text() or hash_value==LEGACY_V5_HASH or hash_value in SNAPSHOT_COMPATIBLE_RULES
 

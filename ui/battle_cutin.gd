@@ -1,5 +1,6 @@
 extends CanvasLayer
 # Presentation only: settled events, no command submission or state mutation.
+const Profiles=preload("res://logic/presentation_profiles.gd")
 const UI=preload("res://ui/style.gd")
 const MARA=["00_idle","01_anticipation","02_dash","03_thrust","04_follow_through","05_recovery","06_return_step","07_settle_guard"]
 const OREN=["00_idle","01_brace","02_hit","03_recover"]
@@ -76,6 +77,12 @@ func _ready():
         var data=enemies.characters[id+"_hit"];var textures=[]
         for frame in data.frames:textures.append(load("res://assets/battle/enemy_combat/"+frame.path))
         defender_sets[id]={"idle":mara_idle if id=="mara" else actor_sets[id].textures[0],"hit":textures[0],"recover":textures[1]}
+    var sword_frames=[]
+    for pose in MARA:sword_frames.append(load("res://assets/battle/mara/"+pose+".png"))
+    actor_sets.mara={"textures":sword_frames,"timeline":TIMELINE,"tick_seconds":1.0/12.0,"release":int(contact_points.mara.contact_tick)}
+    var guard_frames=[]
+    for pose in OREN:guard_frames.append(load("res://assets/battle/oren/"+pose+".png"))
+    defender_sets.oren={"sequence":guard_frames}
     register_reserve_art()
     register_chapter_guards()
     damage_label=UI.label("",42,Color("d5a18b"));damage_label.position=Vector2(850,275);arena.add_child(damage_label)
@@ -141,81 +148,83 @@ func consume(step,events,units=[],content={},local_faction=""):
     reference_background.visible=compatible
     for node in legacy_backdrop:node.visible=not compatible
     for item in preload("res://ui/combat_context.gd").annotate(events,units):
-        if item.get("kind")!="attack" or (item.get("target")!="oren" and not defender_sets.has(item.get("target"))):continue
-        if item.actor!="mara" and not actor_sets.has(item.actor):continue
-        # Basic attack shares Neri's existing staff-release presentation. Damage type,
-        # mana/cooldown and result still come exclusively from the authoritative event.
-        if item.actor=="neri" and item.get("ability") not in ["attack","ember","focus_bolt"]:continue
-        if reserve_sets.has(item.actor) and item.get("ability","attack")!="attack":continue # Only authored melee art; no invented spell animation.
+        var ap=item.get("presentation",{}).get("actor_profile",Profiles.resolve({"id":item.get("actor","")}))
+        var tp=item.get("presentation",{}).get("target_profile",Profiles.resolve({"id":item.get("target","")}))
+        if item.get("kind")!="attack" or not defender_sets.has(tp) or not actor_sets.has(ap):continue
+        var allowed=Profiles.combat(ap).get("allowed_actions",[])
+        if not allowed.is_empty() and item.get("ability","attack") not in allowed:continue
+        item.actor_profile=ap;item.target_profile=tp
         item.actor_left=preload("res://ui/combat_sides.gd").actor_on_left(item,units,local_faction)
         pending_events.append(item.duplicate(true))
     play_next()
 func play_next():
     if pending_events.is_empty():finish();return
     event=pending_events.pop_front();elapsed=0.0;active=true;hitstop_done=false;hitstop_remaining=0.0;release_played=false
-    tick_seconds=1.0/12.0 if event.actor=="mara" else actor_sets[event.actor].tick_seconds
-    release_tick=int(contact_points.mara.contact_tick) if event.actor=="mara" else actor_sets[event.actor].release
+    tick_seconds=actor_sets[actor_profile()].tick_seconds
+    release_tick=actor_sets[actor_profile()].release
     title.text=str(event.get("ability","attack")) if event.get("ability","attack")!="attack" else "普通攻击"
     title.text={"ember":"余烬","focus_bolt":"专注魔弹","strong_shot":"强力射击","rally":"鼓舞"}.get(title.text,title.text)
     feedback_strength=0.0 if App.reduced_motion else 1.0
     actor_left=event.get("actor_left",true)
     combat_status.show_event(event)
     surface.show();draw_tick(0)
-func is_melee():return event.get("actor") in ["mara","oren","tessa","bram"] or reserve_sets.has(event.get("actor")) or actor_sets.get(event.get("actor"),{}).get("melee",false)
+func actor_profile():return event.get("actor_profile",Profiles.resolve({"id":event.get("actor","")}))
+func target_profile():return event.get("target_profile",Profiles.resolve({"id":event.get("target","")}))
+func actor_capability():return Profiles.combat(actor_profile())
+func target_capability():return Profiles.combat(target_profile())
+func is_melee():return actor_capability().get("melee",false)
 func hit_tick():return release_tick if is_melee() else release_tick+4
 func socket_point(values):return Vector2(values[0],values[1])
 func hurt_screen_point():return arena.position+defender.position+contact_target*2.0
-func weapon_screen_point():return arena.position+attacker.position+(Vector2(192-socket_point(contact_points[event.actor].weapon_tip).x,socket_point(contact_points[event.actor].weapon_tip).y) if attacker.flip_h else socket_point(contact_points[event.actor].weapon_tip))*2.0
+func weapon_screen_point():return arena.position+attacker.position+(Vector2(192-socket_point(contact_points[actor_profile()].weapon_tip).x,socket_point(contact_points[actor_profile()].weapon_tip).y) if attacker.flip_h else socket_point(contact_points[actor_profile()].weapon_tip))*2.0
 func projectile_screen_point():
-    var tip=socket_point(contact_points[event.actor].projectile_tip)*2.0
+    var tip=socket_point(contact_points[actor_profile()].projectile_tip)*2.0
     if projectile.flip_h:tip.x=projectile.size.x-tip.x
     return arena.position+projectile.position+tip
 func draw_tick(frame):
     attacker.flip_h=false;projectile.flip_h=false;impact.flip_h=false
     var tick=clampi(int(frame),0,23)
     var melee=is_melee();var critical=event.get("is_critical",false)
-    if event.actor=="mara":attacker.texture=load("res://assets/battle/mara/"+MARA[TIMELINE[tick]]+".png")
-    else:
-        var data=actor_sets[event.actor];attacker.texture=data.textures[int(data.timeline[tick])]
+    var data=actor_sets[actor_profile()];attacker.texture=data.textures[int(data.timeline[tick])]
     combat_status.update_health(event,tick>=hit_tick())
     var hit=hit_tick();var after=maxf(0.0,(frame-hit)*tick_seconds)
     var defend=0 if tick<release_tick-2 else (1 if tick<hit else (2 if tick<hit+4 else 3))
     if event.get("hp",1)==0 and tick>=hit:defend=2
-    defender.flip_h=event.target!="oren"
-    if event.target=="oren":defender.texture=load("res://assets/battle/oren/"+OREN[defend]+".png")
-    else:
-        var poses=defender_sets[event.target];defender.texture=poses.hit if defend==2 else (poses.recover if defend==3 else poses.idle)
+    defender.flip_h=target_capability().get("idle_side","right")!="left"
+    var poses=defender_sets[target_profile()]
+    if poses.has("sequence"):defender.texture=poses.sequence[defend]
+    else:defender.texture=poses.hit if defend==2 else (poses.recover if defend==3 else poses.idle)
     # Idle only in authored neutral windows. Guard/brace, hit and recovery
     # keep their own frames, including the final two settle/recover ticks.
     var idle_time=maxf(0,frame)*tick_seconds
     if tick<2:
-        attacker.texture=idle_library.sample("battle",event.actor+":right",idle_time,attacker.texture,App.reduced_motion,event.actor)
-        attacker.texture=sample_reserve_idle(event.actor,idle_time,attacker.texture)
+        attacker.texture=idle_library.sample("battle",actor_profile()+":right",idle_time,attacker.texture,App.reduced_motion,actor_profile())
+        attacker.texture=sample_reserve_idle(actor_profile(),idle_time,attacker.texture)
     if defend==0:
-        defender.texture=idle_library.sample("battle",event.target+(":left" if event.target=="oren" else ":right"),idle_time,defender.texture,App.reduced_motion,event.target)
-        defender.texture=sample_reserve_idle(event.target,idle_time,defender.texture)
-    contact_target=socket_point(contact_points[event.target].hurt_point)
-    if event.actor=="elsbet":
+        defender.texture=idle_library.sample("battle",target_profile()+":"+target_capability().get("idle_side","right"),idle_time,defender.texture,App.reduced_motion,target_profile())
+        defender.texture=sample_reserve_idle(target_profile(),idle_time,defender.texture)
+    contact_target=socket_point(contact_points[target_profile()].hurt_point)
+    if actor_capability().get("head_contact",false):
         # High staff strike: select the head area, not a torso socket that would
         # translate the entire attacker's feet upward. Existing poses stay put.
-        if reserve_sets.has(event.target):
-            var head=reserve_sets[event.target].geometry.hurt_head_anchor_xy
+        if reserve_sets.has(target_profile()):
+            var head=reserve_sets[target_profile()].geometry.hurt_head_anchor_xy
             contact_target=Vector2(192-(head[0]+0.5),head[1]+0.5)
-        elif event.target in ["rodd","vera"]:
-            contact_target=Vector2(contact_target.x,64.5)
+        elif target_capability().get("head_y",60.5)!=60.5:
+            contact_target=Vector2(contact_target.x,target_capability().head_y)
         else:
-            var x=float(preload("res://view/reserve_art.gd").LEGACY_HEAD_X[event.target])+0.5
+            var x=float(target_capability().head_x)+0.5
             contact_target=Vector2(192-x if defender.flip_h else x,60.5)
     if melee:
         # Contact may land anywhere in the authored torso hurt region, preserving grounded feet.
-        var tip=socket_point(contact_points[event.actor].weapon_tip)
-        contact_target.y=clampf(tip.y,contact_target.y-(8 if event.actor=="elsbet" else contact_points[event.target].get("hurt_radius",12)),contact_target.y+(8 if event.actor=="elsbet" else contact_points[event.target].get("hurt_radius",12)))
+        var tip=socket_point(contact_points[actor_profile()].weapon_tip)
+        contact_target.y=clampf(tip.y,contact_target.y-(8 if actor_capability().get("head_contact",false) else contact_points[target_profile()].get("hurt_radius",12)),contact_target.y+(8 if actor_capability().get("head_contact",false) else contact_points[target_profile()].get("hurt_radius",12)))
     defender.modulate.a=clampf(1.0-(tick-hit-2)/5.0,0,1) if event.get("hp",1)==0 and tick>=hit else 1.0
     defender.position=Vector2(700,205)
     var base=Vector2(180,205)
     if melee:
         # Align actual sword tip to actual hit-pose torso socket at impact.
-        var contact=defender.position+(contact_target-socket_point(contact_points[event.actor].weapon_tip))*2.0
+        var contact=defender.position+(contact_target-socket_point(contact_points[actor_profile()].weapon_tip))*2.0
         var approach=clampf((frame-6.0)/(hit-6.0),0,1)
         if frame>=18:approach=clampf((24.0-frame)/6.0,0,1)
         attacker.position=base.lerp(contact,approach)
@@ -238,13 +247,13 @@ func draw_tick(frame):
     if melee and tick>=hit and after<0.16:
         impact.texture=fx.impact;impact.position=target-impact.size*0.5;impact.modulate.a=(1-after/0.16)*feedback_strength;impact.show()
     if not melee:
-        var magic=event.actor=="neri"
-        var origin=attacker.position+socket_point(contact_points[event.actor].release_point)*2.0
+        var magic=actor_capability().get("projectile")=="magic"
+        var origin=attacker.position+socket_point(contact_points[actor_profile()].release_point)*2.0
         if magic and tick>=5 and tick<release_tick:
             projectile.texture=fx.gather if tick<8 else fx.charge;projectile.position=origin-Vector2(64,48);projectile.show()
         elif tick>=release_tick and tick<=hit:
             projectile.texture=fx.bolt if magic else fx.arrow
-            projectile.position=origin.lerp(target,clampf((frame-release_tick)/4.0,0,1))-socket_point(contact_points[event.actor].projectile_tip)*2.0;projectile.show()
+            projectile.position=origin.lerp(target,clampf((frame-release_tick)/4.0,0,1))-socket_point(contact_points[actor_profile()].projectile_tip)*2.0;projectile.show()
         if tick>=hit and after<0.22:
             impact.texture=fx.impact if after<0.12 else fx.dissipate;impact.position=target-impact.size*0.5;impact.modulate.a=(1-after/0.22)*feedback_strength;impact.show()
     if not actor_left:
@@ -262,7 +271,7 @@ func _process(delta):
     var next=elapsed+delta*speed;var contact_time=hit_tick()*tick_seconds
     var sound_time=(maxi(0,release_tick-3) if is_melee() else release_tick)*tick_seconds
     if not release_played and next>=sound_time:
-        release_played=true;play_sound("swing" if is_melee() else ("arrow" if event.actor in ["finn","vera"] else "magic"))
+        release_played=true;play_sound("swing" if is_melee() else actor_capability().get("projectile","arrow"))
     if not hitstop_done and next>=contact_time:
         elapsed=contact_time;hitstop_done=true;impact_play_count+=1;play_sound("critical" if event.get("is_critical",false) else "impact");hitstop_remaining=(0.10 if event.get("is_critical",false) else 0.055)*feedback_strength
     else:elapsed=next

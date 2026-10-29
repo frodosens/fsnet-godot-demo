@@ -17,10 +17,10 @@ func run():
    var id=g.battle.units[i].id
    check(Art.canonical_id(id)=='generic_bandit_01','bandit identity')
    check(not Art.profile(id).static_fallback,'valid gait')
-   check(g.hero_refresh_libraries.has(id),'actual bound instance')
+   check(g.hero_refresh_libraries.has(g.presentation_id(g.battle.units[i])),'actual bound presentation profile')
    check(preload('res://ui/style.gd').framed_portrait(id)==null,'no hero portrait')
    check(g.figures[i].texture.get_width()==160,'real canonical texture')
-  check(g.hero_refresh_libraries.ch01_bandit_a!=g.hero_refresh_libraries.ch01_bandit_b,'independent playback')
+  check(g.battle.units[2].id!=g.battle.units[3].id and g.battle.units[2].pos!=g.battle.units[3].pos,'independent instances share immutable art; motion isolation tested with legal commands')
   while not app.next_story().is_empty():app.advance_story(true)
   if DisplayServer.get_name()!='headless':
    await process_frame;root.get_texture().get_image().save_png('/tmp/homeward-three-bandits-'+str(size.x)+'.png')

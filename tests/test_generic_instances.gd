@@ -20,7 +20,7 @@ func run():
     check(preload("res://logic/content.gd").validate(d).is_empty(),"ordinary editor JSON schema accepts template IDs")
     app.new_game(d);change_scene_to_file("res://main.tscn");await frames();var g=current_scene;g.refresh();g.motion.set_process(false)
     for i in 3:
-        check(g.hero_refresh_libraries[ids[i]]!=g.hero_refresh_libraries[ids[(i+1)%3]],"independent ID-bound loader")
+        check(g.hero_refresh_libraries.has("generic_bandit_01"),"shared immutable profile, independent instance clocks below")
         g.select_actor(i);g.scene_view.cancel_focus();g.selection_pending_focus=false
         check(g.selected==i and g.hud.party_selector.rows.has(i),"each allied fixture independently selectable")
         var positions=[];var textures=[]

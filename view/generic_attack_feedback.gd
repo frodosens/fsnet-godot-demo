@@ -18,11 +18,12 @@ func start(item):
     clear()
     if item.get("kind")!="attack":return false
     var art=preload("res://view/generic_map_art.gd")
-    if not art.declared(item.get("actor","")) and not art.declared(item.get("target","")):return false
     for i in game.battle.units.size():
         if game.battle.units[i].id==item.get("actor"):actor_index=i
         if game.battle.units[i].id==item.get("target"):target_index=i
     if actor_index<0 or target_index<0:return false
+    var profiles=preload("res://logic/presentation_profiles.gd")
+    if not art.declared(profiles.resolve(game.battle.units[actor_index])) and not art.declared(profiles.resolve(game.battle.units[target_index])):return false
     event=item.duplicate(true);elapsed=0
     label.text=game.battle.units[actor_index].name+" → "+game.battle.units[target_index].name+"  −"+str(item.get("damage",0))
     label.show();update_positions();return true

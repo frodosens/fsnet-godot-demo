@@ -9,7 +9,7 @@ end
 local function run_ai_phase()
   local actors=sorted_units(function(u) return u.controller=='ai' end)
   for _,i in ipairs(actors) do
-    local u=state.units[i];local config=content.units[i];local policy=config.policy or 'offensive'
+    local u=state.units[i];local config=definition_of(u);local policy=config.policy or 'offensive'
     if u.hp>0 then
       local anchor={x=config.x,y=config.y};local leash=config.leash or 4
       if policy=='escort' then

@@ -28,7 +28,7 @@ local function item_by_uid(s,uid)
 end
 derive_equipment=function(s)
   for index,u in ipairs(s.units) do
-    local d=content.units[index];local stats={physical=0,spell=0,armor=0,resist=0,hp=0};local sets={};local move_bonus=0
+    local d=definition_of(u);local stats={physical=0,spell=0,armor=0,resist=0,hp=0};local sets={};local move_bonus=0
     u.mobile_cast=false
     local function add(values) for key,value in pairs(values) do stats[key]=stats[key]+value end end
     for _,uid in ipairs(u.equipment) do if uid~=0 then

@@ -3,6 +3,8 @@
 local M = {}
 local state
 local content
+local definitions_by_id={}
+local function definition_of(u) return assert(definitions_by_id[u.id],"unknown instance configuration") end
 local effects={}
 local initialize_inventory,derive_equipment,equip_action,drop_reward
 local initialize_progression,derive_progression,settle_progression
@@ -15,8 +17,9 @@ local function fresh(seed)
   local result={version=6,step=0,rng=seed,round_number=1,outcome='playing',story_flags=0,preparation=true,units={}}
   for _,d in ipairs(content.units) do
     local u=unit(d.name,d.role,d.ally,d.x,d.y,d.hp,d.movement,d.reach,d.damage)
+    u.template_ref=d.template_ref;u.presentation_ref=d.presentation_ref
     u.id=d.id;u.controller=d.controller or (d.ally and "player" or "ai");u.faction=d.faction or (d.ally and "crew" or "guards");u.mp=d.mp;u.max_mp=d.mp;u.moves_used=0;u.move_actions=1;u.armor=d.armor;u.resist=d.resist
-    u.abilities=d.abilities;u.skill_id=d.skill_id;u.cooldowns={};u.charges={}
+    u.abilities={};for j,id in ipairs(d.abilities) do u.abilities[j]=id end;u.skill_id=d.skill_id;u.cooldowns={};u.charges={}
     for j,ability in ipairs(content.abilities) do u.cooldowns[j]=0;u.charges[j]=ability.charges end
     result.units[#result.units+1]=u
   end
@@ -49,7 +52,9 @@ function M.reset(args)
     for _,d in ipairs(args.content.units) do probe.units[#probe.units+1]={id=d.id,controller=d.controller or (d.ally and 'player' or 'ai')} end
     assert(import_campaign(probe,args.campaign,args.content.id),'invalid campaign')
   end
-  content=args.content;state=fresh(seed);effects={}
+  local by_id={}
+  for _,d in ipairs(args.content.units) do assert(type(d.id)=="string" and not by_id[d.id],"duplicate instance ID");by_id[d.id]=d end
+  content=args.content;definitions_by_id=by_id;state=fresh(seed);effects={}
   if args.campaign then assert(import_campaign(state,args.campaign),'invalid campaign');derive_equipment(state) end
   for _,u in ipairs(state.units) do u.hp=u.max_hp;u.mp=u.max_mp end
   outcome();drop_reward();settle_progression();story_update(true,false);return M.view()

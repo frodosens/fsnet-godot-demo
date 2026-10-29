@@ -77,7 +77,7 @@ func _ready():
         var unit=game.battle.units[i]
         if unit.ally or unit.controller=="player":
             var button=Button.new();button.custom_minimum_size=Vector2(48,60);button.tooltip_text=unit.name;button.pressed.connect(select_hero.bind(i));hero_column.add_child(button)
-            var image=UI.portrait(unit.id,48);image.texture=UI.framed_portrait(unit.id);image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);image.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(image)
+            var image=UI.portrait(game.presentation_id(unit),48);image.texture=UI.framed_portrait(game.presentation_id(unit));image.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);image.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(image)
             if image.texture==null:button.text=unit.name.left(1)
             var health=preload("res://ui/art_meter.gd").new();health.position=Vector2(4,56);health.size=Vector2(40,3);health.max_value=unit.max_hp;health.value=unit.hp;health.mouse_filter=Control.MOUSE_FILTER_IGNORE;button.add_child(health)
             art_frame(button,"ally_portrait_frame")
@@ -250,8 +250,8 @@ func refresh():
     var display_index=game.selected if game.selected>=0 else (0 if not logic.units.is_empty() else -1)
     if display_index>=0 and display_index<logic.units.size():
         var u=logic.units[display_index]
-        var image=preload("res://view/reserve_art.gd").portrait_path(u.id)
-        selected_portrait.texture=UI.framed_portrait(u.id)
+        var image=preload("res://view/reserve_art.gd").portrait_path(game.presentation_id(u))
+        selected_portrait.texture=UI.framed_portrait(game.presentation_id(u))
         var skill="默认技能："+u.skill_id
         for ability in logic.content.abilities:
             if ability.id==u.skill_id:skill="默认技能："+ability.name;detail.tooltip_text=ability_description(ability)
@@ -278,7 +278,7 @@ func refresh():
     if target_panel.visible:
         var victim=logic.units[game.target_preview_index];var prediction=game.target_preview
         target_panel.position=Vector2(maxf(12,party_selector.position.x-target_panel.size.x-12) if party_selector else view.x-304,90)
-        var image=preload("res://view/reserve_art.gd").portrait_path(victim.id);target_portrait.texture=load(image) if ResourceLoader.exists(image) else null
+        var image=preload("res://view/reserve_art.gd").portrait_path(game.presentation_id(victim));target_portrait.texture=load(image) if ResourceLoader.exists(image) else null
         target_detail.text="%s · HP %d/%d\n伤害 %d–%d"%[victim.name,victim.hp,victim.max_hp,prediction.low,prediction.high]
         if prediction.crit_chance>0:target_detail.text+="\n每段暴击 %d%% · %d–%d"%[prediction.crit_chance,prediction.critical_low,prediction.critical_high]
         if prediction.healing>0:target_detail.text+="\n治疗 +%d"%prediction.healing

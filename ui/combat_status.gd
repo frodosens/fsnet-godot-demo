@@ -39,7 +39,7 @@ func setup(cutin):
 func show_event(event):
     var data=event.get("presentation",{})
     for side in ["left","right"]:
-        var actor=(side=="left")==event.get("actor_left",true);var id=event.actor if actor else event.target
+        var actor=(side=="left")==event.get("actor_left",true);var id=event.get("actor_profile",event.actor) if actor else event.get("target_profile",event.target)
         var path=preload("res://view/reserve_art.gd").portrait_path(id)
         # Screen-side presentation only; reset explicitly for every reused event.
         portraits[side].flip_h=side=="right"

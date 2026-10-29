@@ -71,7 +71,7 @@ func _ready():
     set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);mouse_filter=Control.MOUSE_FILTER_STOP
     session=hud.game.session;generation=session.connection_generation;actor_id=hud.game.battle.units[actor].id
     panel=Panel.new();panel.mouse_filter=Control.MOUSE_FILTER_IGNORE;panel.add_theme_stylebox_override("panel",art_skin("modal_panel",24));add_child(panel)
-    portrait=UI.portrait(actor_id);portrait.mouse_filter=Control.MOUSE_FILTER_IGNORE;panel.add_child(portrait)
+    portrait=UI.portrait(hud.game.presentation_id(hud.game.battle.units[actor]));portrait.mouse_filter=Control.MOUSE_FILTER_IGNORE;panel.add_child(portrait)
     portrait_frame=NinePatchRect.new();portrait_frame.texture=load(ART+"portrait_frame.png");portrait_frame.mouse_filter=Control.MOUSE_FILTER_IGNORE
     for side in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:portrait_frame.set_patch_margin(side,32)
     panel.add_child(portrait_frame)

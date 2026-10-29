@@ -59,7 +59,7 @@ settle_progression=function()
   table.sort(players,function(a,b)return a.id<b.id end)
   local pool=progression_config.victory_xp
   for i,u in ipairs(state.units) do
-    if not factions[u.faction] and u.hp<=0 and content.units[i].hp>0 then pool=pool+progression_config.kill_xp end
+    if not factions[u.faction] and u.hp<=0 and definition_of(u).hp>0 then pool=pool+progression_config.kill_xp end
   end
   if #players>0 then
     for i,u in ipairs(players) do

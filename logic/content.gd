@@ -23,7 +23,50 @@ static func normalize(value,depth=0):
         for item in value:result.append(normalize(item,depth+1))
         return result
     return value
-static func hash_of(data):return JSON.stringify(data,"",true).sha256_text()
+const Profiles=preload("res://logic/presentation_profiles.gd")
+const DEFINITION_FIELDS=["id","name","role","hp","movement","reach","damage","armor","resist","mp","abilities","skill_id","presentation_ref"]
+const INSTANCE_FIELDS=["id","template_ref","name","presentation_ref","x","y","ally","controller","faction","policy","leash","escort"]
+static func expand(data):
+    if not data is Dictionary:return {"error":"内容必须是对象。","data":{}}
+    if data.get("version")!=2:
+        # Legacy records retain their exact bytes; new explicit references still
+        # pass admission even when an expanded save/config enters Runtime directly.
+        var issue=""
+        if data.get("units") is Array:
+            for u in data.units:
+                if u is Dictionary and (u.has("template_ref") or u.has("presentation_ref")):
+                    issue=validate(data);break
+        return {"error":issue,"data":data.duplicate(true) if issue.is_empty() else {}}
+    if JSON.stringify(data).to_utf8_buffer().size()>MAX_BYTES:return {"error":"模板内容超过 128 KiB。","data":{}}
+    if not data.get("unit_definitions") is Array or data.unit_definitions.is_empty() or data.unit_definitions.size()>16 or not data.get("units") is Array or data.units.size()<2 or data.units.size()>16:return {"error":"模板或实例列表无效。","data":{}}
+    var definitions={};var used={};var result=data.duplicate(true);result.version=1;result.erase("unit_definitions");result.units=[]
+    for definition in data.unit_definitions:
+        if not definition is Dictionary or not identifier(definition.get("id")) or definitions.has(definition.id):return {"error":"模板 ID 无效或重复。","data":{}}
+        for key in definition:
+            if key not in DEFINITION_FIELDS:return {"error":"模板含非法字段："+str(key),"data":{}}
+        if not Profiles.allowed(definition.get("presentation_ref","")):return {"error":"模板表现引用不在许可表。","data":{}}
+        definitions[definition.id]=definition
+    for instance in data.units:
+        if not instance is Dictionary or not definitions.has(instance.get("template_ref","")):return {"error":"未知单位模板。","data":{}}
+        for key in instance:
+            if key not in INSTANCE_FIELDS:return {"error":"实例不允许覆盖模板属性："+str(key),"data":{}}
+        var unit=definitions[instance.template_ref].duplicate(true)
+        unit.erase("id")
+        for key in instance:unit[key]=instance[key].duplicate(true) if instance[key] is Array or instance[key] is Dictionary else instance[key]
+        used[instance.template_ref]=true;result.units.append(unit)
+    if used.size()!=definitions.size():return {"error":"存在未使用的单位模板。","data":{}}
+    var issue=validate(result)
+    return {"error":issue,"data":result if issue.is_empty() else {}}
+static func freeze(value):
+    if value is Dictionary:
+        for key in value:freeze(value[key])
+        value.make_read_only()
+    elif value is Array:
+        for item in value:freeze(item)
+        value.make_read_only()
+static func hash_of(data):
+    var expanded=expand(data)
+    return JSON.stringify(expanded.data,"",true).sha256_text() if expanded.error.is_empty() else ""
 static func identifier(value):
     if not value is String or value.is_empty() or value.length()>40:return false
     for c in value:
@@ -72,6 +115,7 @@ static func bridge_cost(value,depth=0):
     return cost
 static func validate(data):
     if not data is Dictionary:return "内容必须是 JSON 对象。"
+    if data.get("version")==2:return expand(data).error
     for key in data:
         if key not in ["version","id","revision","title","width","height","terrain","units","victory","defeat","story","equipment","abilities","consumables"]:return "未知内容字段："+str(key)
     if data.get("version")!=1:return "不支持的内容版本。"
@@ -106,7 +150,9 @@ static func validate(data):
     for u in data.units:
         if not u is Dictionary:return "单位必须是对象。"
         for key in u:
-            if key not in ["id","name","role","ally","x","y","hp","movement","reach","damage","armor","resist","mp","controller","faction","abilities","skill_id","policy","leash","escort"]:return "未知单位字段："+str(key)
+            if key not in ["id","name","role","ally","x","y","hp","movement","reach","damage","armor","resist","mp","controller","faction","abilities","skill_id","policy","leash","escort","template_ref","presentation_ref"]:return "未知单位字段："+str(key)
+        if u.has("template_ref") and not identifier(u.template_ref):return "模板 ID 无效。"
+        if u.has("presentation_ref") and not Profiles.allowed(u.presentation_ref):return "表现引用不在许可表。"
         if not identifier(u.get("id")) or ids.has(u.id) or not short_text(u.get("name"),32) or u.get("role") not in ROLES or not u.get("ally") is bool:return "单位身份/职业无效或重复。"
         if not integer(u.get("x"),0,data.width-1) or not integer(u.get("y"),0,data.height-1):return "单位出生点超出地图。"
         var key=u.y*data.width+u.x
@@ -189,7 +235,7 @@ static func from_file(path):
     if file.get_length()>MAX_BYTES:return {"error":"内容文件超过 128 KiB。"}
     var data=normalize(parse_json(file.get_as_text()))
     var error=validate(data)
-    return {"error":error,"data":data if error.is_empty() else {}}
+    return {"error":error,"data":expand(data).data if error.is_empty() else {}}
 static func default_content():
     var result=from_file("res://content/default.json")
     assert(result.error.is_empty(),result.error)

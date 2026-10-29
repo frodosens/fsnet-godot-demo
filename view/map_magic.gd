@@ -20,7 +20,11 @@ var core
 var timeline:AnimationPlayer
 static func accepts(event,content):
     if event.get('kind')=='heal':return true
-    if event.get('kind')!='attack' or event.get('actor')!='neri' or event.get('ability') not in ['ember','focus_bolt']:return false
+    if event.get('kind')!='attack' or event.get('ability') not in ['ember','focus_bolt']:return false
+    var profile=""
+    for unit in content.get("units",[]):
+        if unit.id==event.get("actor"):profile=preload("res://logic/presentation_profiles.gd").resolve(unit);break
+    if preload("res://logic/presentation_profiles.gd").combat(profile).get("projectile")!="magic":return false
     for ability in content.get('abilities',[]):
         if ability.id==event.ability:return ability.get('damage_type')=='magic'
     return false
