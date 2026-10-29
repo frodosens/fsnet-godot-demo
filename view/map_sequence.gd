@@ -2,13 +2,16 @@ extends RefCounted
 # Optional weighted map-only sequences; old idle/walk libraries remain intact.
 const PATH="res://assets/animations/map_sequences.json"
 const DIRECTIONS=["front_left","front_right","back_left","back_right"]
+const CATALOG_IDS=["generic_soldier_01", "generic_knight_01", "generic_beast_01", "generic_caster_01", "generic_archer_01", "generic_bandit_01"]
+var catalog_mode=false
 static var instance
 var profiles={}
 var errors=[]
 static func shared():
     if instance==null:instance=load("res://view/map_sequence.gd").new()
     return instance
-func _init(path=PATH):
+func _init(path=PATH,admit_catalog=false):
+    catalog_mode=admit_catalog==true
     if not FileAccess.file_exists(path):return
     var file=FileAccess.open(path,FileAccess.READ)
     if file==null or file.get_length()>65536:errors.append("map sequence unreadable/oversized");return
@@ -30,7 +33,8 @@ func configure(data):
         if not idle_only is bool or not motion_only is bool:errors.append("invalid sequence mode flag: "+str(id));continue
         if idle_only and motion_only:errors.append("conflicting sequence modes: "+str(id));continue
         var hero_canvas=version==2
-        if hero_canvas and (id not in ["mara","finn","neri","rodd","elsbet"] or not valid_hero_canvas(spec.get("canvas")) or motion_only or idle_only):
+        var catalog=hero_canvas and catalog_mode and id in CATALOG_IDS
+        if hero_canvas and ((not catalog and id not in ["mara","finn","neri","rodd","elsbet"]) or not valid_hero_canvas(spec.get("canvas")) or motion_only or idle_only):
             errors.append("invalid hero refresh profile: "+str(id));continue
         var decoded={};var valid=true
         for direction in DIRECTIONS:
@@ -38,15 +42,15 @@ func configure(data):
             if not item is Dictionary:valid=false;break
             var idle_width=item.get("idle_canvas_width",96)
             if not (idle_width is int or idle_width is float) or not is_finite(idle_width) or (idle_width!=96 and idle_width!=128):valid=false;break
-            var guard_width=item.get("neutral_canvas_width",96)
-            if not (guard_width is int or guard_width is float) or not is_finite(guard_width) or (guard_width!=96 and guard_width!=128):valid=false;break
-            var guard_root=item.get("neutral_root",[48,120] if guard_width==96 else null)
+            var guard_width=item.get("neutral_canvas_width",160 if catalog else 96)
+            if not (guard_width is int or guard_width is float) or not is_finite(guard_width) or (guard_width!=96 and guard_width!=128 and not (catalog and guard_width==160)):valid=false;break
+            var guard_root=item.get("neutral_root",[80,144] if catalog else ([48,120] if guard_width==96 else null))
             if not guard_root is Array or guard_root.size()!=2:valid=false;break
             var root_valid=true
             for value in guard_root:
                 if not (value is int or value is float) or not is_finite(value):root_valid=false
-            if not root_valid or guard_root[0]!=guard_width/2 or guard_root[1]!=120:valid=false;break
-            var guard=texture_at(item.get("neutral_guard"),Vector2i(int(guard_width),128))
+            if not root_valid or guard_root[0]!=guard_width/2 or guard_root[1]!=(144 if catalog else 120):valid=false;break
+            var guard=texture_at(item.get("neutral_guard"),Vector2i(int(guard_width),160 if catalog else 128))
             var idle={} if motion_only else decode(item.get("idle"),Vector2i(160,160) if hero_canvas else Vector2i(int(idle_width),128),144 if hero_canvas else 120)
             var motion_canvas=Vector2i(160,160) if hero_canvas else (Vector2i(128,136) if id=="tessa" else Vector2i(128,128))
             var motion={} if idle_only else decode(item.get("motion"),motion_canvas,144 if hero_canvas else 120)

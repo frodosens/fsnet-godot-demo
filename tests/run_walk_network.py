@@ -9,6 +9,8 @@ with tempfile.TemporaryDirectory(prefix='walk-network-') as folder:
     if actor in ('adela','elsbet'):
         data['units'][0 if actor=='adela' else 3].update(id=actor,name='阿黛拉' if actor=='adela' else '埃尔丝贝特')
         data['story']['events']=[]
+    if actor in ('generic_soldier_01','generic_knight_01','generic_beast_01','generic_caster_01','generic_archer_01','generic_bandit_01','ch01_bandit_a','ch01_bandit_b','ch01_bandit_c'):
+        data['units'][0].update(id=actor,name=actor);data['story']['events']=[]
     if actor=='rodd':
         data['units'][0].update(id='rodd',name='罗德');data['story']['events']=[]
     if actor=='vera':

@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "character_id": "generic_knight_01",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "canonical_reference_body_height_px": 100,
+  "alpha_bbox_threshold": 128,
+  "source_cycles": {
+    "front_left": {
+      "indices": [
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49
+      ],
+      "endpoint": 52,
+      "weights": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "source_fps": 24
+    },
+    "back_left": {
+      "indices": [
+        28,
+        31,
+        34,
+        37,
+        40,
+        43,
+        46,
+        49
+      ],
+      "endpoint": 52,
+      "weights": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "source_fps": 24
+    }
+  },
+  "fixed_registration": {
+    "source_canvas": [
+      1280,
+      720
+    ],
+    "panel_canvas": [
+      640,
+      720
+    ],
+    "source_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resample": "nearest",
+    "per_frame_adjustment": false
+  },
+  "idle_selection": "Static grounded frame extracted from the same accepted walk cycle, no invented idle motion.",
+  "direction_sources": {
+    "front_left": "front_left",
+    "front_right": "front_left mirrored",
+    "back_left": "back_left",
+    "back_right": "back_left mirrored"
+  },
+  "provenance": "New reconstructed generic identity 2026-10-29, not restored original missing art.",
+  "qa": {
+    "front_left": {
+      "loop_endpoint_MAE": 3.26,
+      "adjacent_rgba_MAE": [
+        9.536,
+        9.088,
+        5.992,
+        4.074,
+        8.666,
+        8.795,
+        8.314,
+        3.19
+      ],
+      "idle_source_frame": 49
+    },
+    "back_left": {
+      "loop_endpoint_MAE": 1.945,
+      "adjacent_rgba_MAE": [
+        7.429,
+        7.505,
+        5.091,
+        2.12,
+        7.973,
+        6.94,
+        5.919,
+        1.667
+      ],
+      "idle_source_frame": 34
+    }
+  },
+  "frames": [
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/front_left/front_left_walk_00.png",
+      "sha256": "47998c79bd5ba4213fc54475b6169bf68ecee0d6fa8bbc9361a286cbee515f9d",
+      "source_frame": 28,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        46,
+        43,
+        115,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        43,
+        115,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/front_left/front_left_walk_01.png",
+      "sha256": "b7ba2f260a9475eb978609d3fe80be5e4f6b233b6f2242fd0c8d288b0d4534ed",
+      "source_frame": 31,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        41,
+        41,
+        117,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        41,
+        41,
+        117,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/front_left/front_left_walk_02.png",
+      "sha256": "0fc92f5c7697d956bddb5e7f816a783238a8bdc533c0bb73bf835f0bf11f2646",
+      "source_frame": 34,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        34,
+        41,
+        119,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        34,
+        41,
+        119,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/front_left/front_left_walk_03.png",
+      "sha256": "b07c141f933d8bb495d804b1f4a42d33e0de4bcb6b34a19c8b5c118f3f63ff52",
+      "source_frame": 37,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        30,
+        43,
+        122,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        30,
+        43,
+        122,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/front_left/front_left_walk_04.png",
+      "sha256": "7681f14478c3f20d2314014f9a253e8fedceda22fe7f7258695c92f4938310d1",
+      "source_frame": 40,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        28,
+        43,
+        123,
+        152
+      ],
+      "any_alpha_bbox_exclusive": [
+        28,
+        43,
+        123,
+        152
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/front_left/front_left_walk_05.png",
+      "sha256": "c33ea0a2b32a026d58e844c4f2a8055888c1413a006ee76135eb5b9f2b6d280a",
+      "source_frame": 43,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        34,
+        41,
+        119,
+        151
+      ],
+      "any_alpha_bbox_exclusive": [
+        34,
+        41,
+        119,
+        151
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/front_left/front_left_walk_06.png",
+      "sha256": "79de0594fde709e286b98a9aef4322203f584db317e72cd9abf6cdb47bb9693b",
+      "source_frame": 46,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        39,
+        41,
+        116,
+        151
+      ],
+      "any_alpha_bbox_exclusive": [
+        38,
+        41,
+        116,
+        151
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/front_left/front_left_walk_07.png",
+      "sha256": "97c0586bd842e8aecd4a244b4b57e8a780bff00c9242b3553c4f865311075c81",
+      "source_frame": 49,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        44,
+        43,
+        114,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        44,
+        43,
+        114,
+        149
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/idle/front_left/front_left_idle_00.png",
+      "sha256": "97c0586bd842e8aecd4a244b4b57e8a780bff00c9242b3553c4f865311075c81",
+      "source_frame": 49,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        44,
+        43,
+        114,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        44,
+        43,
+        114,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/back_left/back_left_walk_00.png",
+      "sha256": "c0d7e9ed64b3eb1a46c92d605ae6d2457d7c16f9dc62d8e9ec624650d3aff390",
+      "source_frame": 28,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        41,
+        43,
+        121,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        41,
+        43,
+        121,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/back_left/back_left_walk_01.png",
+      "sha256": "667fecc402a7fb522bef96f91e1b6550a0646da9884ee4fbda2523897a4b70fa",
+      "source_frame": 31,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        41,
+        113,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        41,
+        114,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/back_left/back_left_walk_02.png",
+      "sha256": "2deabb4558066c2286452b13d7cb573a34582ae6ea782926925213c495d47e2e",
+      "source_frame": 34,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        47,
+        42,
+        106,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        42,
+        106,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/back_left/back_left_walk_03.png",
+      "sha256": "c0d1e61dfe56ebfe965762c011e3c960231b672ff63a4e71f2e732c03ebfa00b",
+      "source_frame": 37,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        47,
+        43,
+        102,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        47,
+        43,
+        102,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/back_left/back_left_walk_04.png",
+      "sha256": "4533a6cccff1898f63b1e09ac30969f2901324132edcafc6bb773c7a671a3139",
+      "source_frame": 40,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        46,
+        43,
+        105,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        43,
+        105,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/back_left/back_left_walk_05.png",
+      "sha256": "6e72b5ae562f8eb6675237631fe066c9f3e27211303c1cf8a3c7ba0298ab1baa",
+      "source_frame": 43,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        45,
+        41,
+        108,
+        146
+      ],
+      "any_alpha_bbox_exclusive": [
+        45,
+        41,
+        108,
+        146
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/back_left/back_left_walk_06.png",
+      "sha256": "f852fe28658c7a3470fd5b775083a88f55507e82a803cff395885cd14da5b5c6",
+      "source_frame": 46,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        44,
+        42,
+        115,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        44,
+        42,
+        115,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/motion/back_left/back_left_walk_07.png",
+      "sha256": "7c59e99a25624148556369881a64cda4d7cf38e2219116166bf758c8dac49de6",
+      "source_frame": 49,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        41,
+        43,
+        120,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        41,
+        43,
+        120,
+        148
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/generic_knight_01_mini_v1/idle/back_left/back_left_idle_00.png",
+      "sha256": "2deabb4558066c2286452b13d7cb573a34582ae6ea782926925213c495d47e2e",
+      "source_frame": 34,
+      "weight": 1,
+      "alpha_bbox_exclusive": [
+        47,
+        42,
+        106,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        46,
+        42,
+        106,
+        147
+      ]
+    }
+  ],
+  "quality_caveats": [
+    "Generated texture slightly simplified. Right views mirror equipment handedness.",
+    "Independent visual QA passed actual limb alternation and stable distinct diagonal facings."
+  ]
+}
