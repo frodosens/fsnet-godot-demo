@@ -57,6 +57,7 @@ static func validate_campaign(c):
     return true
 static func campaign_fits(data,c):
     if not validate_campaign(c):return false
+    if c.completed.size()==32 and data.id not in c.completed:return false
     var ids={}
     for entry in c.roster:ids[entry.id]=true
     for u in data.units:

@@ -43,6 +43,12 @@ function M.reset(args)
   local seed=args.seed or 12345
   assert(integer(seed,1,2147483646),'invalid seed')
   assert(type(args.content)=='table','content required')
+  -- Reject incompatible campaign imports before changing an existing VM/session.
+  if args.campaign then
+    local probe={units={}}
+    for _,d in ipairs(args.content.units) do probe.units[#probe.units+1]={id=d.id,controller=d.controller or (d.ally and 'player' or 'ai')} end
+    assert(import_campaign(probe,args.campaign,args.content.id),'invalid campaign')
+  end
   content=args.content;state=fresh(seed);effects={}
   if args.campaign then assert(import_campaign(state,args.campaign),'invalid campaign');derive_equipment(state) end
   for _,u in ipairs(state.units) do u.hp=u.max_hp;u.mp=u.max_mp end

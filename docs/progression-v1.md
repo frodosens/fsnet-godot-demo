@@ -46,7 +46,10 @@ No grant-XP command exists. UI fields are derived views, never authority writes.
 
 Snapshot v6 stores bounded integer campaign data and settlement flag in the
 canonical state. Limits: 32 roster records, 32 completed chapter IDs, ID length40,
-XP<=1620. Normal network restore rejects v5; rules/content handshake remains strict.
+XP<=1620. A full 32-chapter ledger can only enter a chapter already recorded;
+a new chapter needs a free completion slot. App admission rejects this before
+closing the current session; Lua reset and restore enforce the same combination.
+No entry is evicted and full-ledger replay never pays XP twice. Normal network restore rejects v5; rules/content handshake remains strict.
 Host authority determines the initial campaign and all settlement. Fresh clients
 receive its complete snapshot; reconnect/tail replay cannot grant rewards twice.
 `Runtime/Authority.new(data,campaign)`, `Session.offline(data,campaign)` and
@@ -84,7 +87,7 @@ godot --path . --script tests/test_progression_scene.gd
 Real three-process authority/two-client test seeds host XP59, settles XP89, passes
 16-command checkpoint compaction and both clients reconnecting; exact offline
 snapshot comparison. Existing standard, extended gear/item and Mod network tests
-also pass. Max legitimate fixture snapshot12831 bytes/reply13135 bytes fits native
+also pass. Maximum-record fixture snapshot/reply remains below 14KB and fits native
 limits without native changes. Actual viewport touch attacks through victory at
 1280x800 and2400x1080 drain XP events and leave chapter-entry story usable.
 Linux Godot4.6.3/llvmpipe; no Android/Windows device result claimed.
@@ -100,3 +103,9 @@ walk_direction_batch (all with test_ prefix). No animation fix or fixture rewrit
 is hidden in progression. Local comparison logs are /tmp/progression-base-* and
 /tmp/progression-rem-*. The remaining suites were run independently rather than
 claiming the failed monolithic runner completed successfully.
+
+Cap regression: tests/test_progression_cap.gd checks 31+new completion, 32+current
+completion, 32+new rejection before active session replacement, raw Lua atomic
+rejection, invalid snapshot restore, authority duplicate rejection. Real network
+runner also executes with AMBER_PROGRESSION_CAP=31 and =32 through checkpoint
+compaction and two-client reconnect, comparing exact offline replay.

@@ -7,7 +7,7 @@ func check(ok,label):
  checks+=1
  if not ok:failures+=1;printerr('FAIL: ',label)
 func _initialize():
- var data=C.default_content();data.width=16;data.height=16;data.terrain=[]
+ var data=C.default_content();data.id="z".repeat(40);data.width=16;data.height=16;data.terrain=[]
  for i in range(16):data.terrain.append('GGGGGGGGGGGGGGGG')
  var sample=data.units[0].duplicate(true);data.units=[]
  for i in range(16):
@@ -20,6 +20,7 @@ func _initialize():
  for i in range(32):
   campaign.roster.append({'id':data.units[i].id if i<8 else 'a'+str(i).pad_zeros(2)+'z'.repeat(37),'xp':1620})
   campaign.completed.append('c'+str(i).pad_zeros(2)+'y'.repeat(37))
+ campaign.completed[0]=data.id # Full ledger is playable only for an already recorded chapter.
  check(R.validate_campaign(campaign),'bounded max campaign valid')
  var a=R.new(data,campaign);var b=R.new(data);var snapshot=a.snapshot()
  check(snapshot.length()<16384 and b.restore(snapshot) and b.snapshot()==snapshot,'max legitimate snapshot fits unchanged transport and restores')

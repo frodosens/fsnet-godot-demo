@@ -13,7 +13,7 @@ local function dense(t,limit)
   for k in pairs(t) do if not integer(k,1,#t) then return false end end
   return true
 end
-local function import_campaign(s,c)
+local function import_campaign(s,c,chapter_id)
   if not exact_keys(c,{roster=true,completed=true}) or not dense(c.roster,32) or not dense(c.completed,32) then return false end
   local roster,completed={},{};local seen={}
   for _,r in ipairs(c.roster) do
@@ -25,6 +25,8 @@ local function import_campaign(s,c)
     if not valid_id(id) or seen[id] then return false end
     seen[id]=true;completed[#completed+1]=id
   end
+  -- Reserve a completion slot before a playable state can be admitted.
+  if #completed==32 and not seen[chapter_id or content.id] then return false end
   for _,u in ipairs(s.units) do if u.controller=='player' then
     local found=false;for _,r in ipairs(roster) do if r.id==u.id then found=true end end
     if not found then roster[#roster+1]={id=u.id,xp=0} end
