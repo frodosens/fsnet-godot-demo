@@ -1,6 +1,6 @@
--- Canonical numeric snapshot v4. Content owns static definitions; no executable input.
+-- Canonical numeric snapshot v6. Content owns static definitions; no executable input.
 function M.snapshot()
-  local values={5,state.step,state.rng,state.round_number,({playing=0,victory=1,defeat=2})[state.outcome],state.story_flags,state.preparation and 1 or 0,#state.units}
+  local values={6,state.step,state.rng,state.round_number,({playing=0,victory=1,defeat=2})[state.outcome],state.story_flags,state.preparation and 1 or 0,#state.units}
   for _,u in ipairs(state.units) do
     for _,v in ipairs({u.x,u.y,u.hp,u.moves_used,u.acted and 1 or 0,u.skill and 1 or 0,u.mp}) do values[#values+1]=v end
     for i=1,#content.abilities do values[#values+1]=u.cooldowns[i];values[#values+1]=u.charges[i] end
@@ -12,6 +12,14 @@ function M.snapshot()
     for _,v in ipairs({item.uid,item.base,item.quality,item.seed,#item.affixes}) do values[#values+1]=v end
     for _,a in ipairs(item.affixes) do values[#values+1]=a.index;values[#values+1]=a.value end
   end
+  local function append_id(id)
+    values[#values+1]=#id;for i=1,#id do values[#values+1]=id:byte(i) end
+  end
+  values[#values+1]=state.progression_settled and 1 or 0
+  values[#values+1]=#state.campaign.roster
+  for _,r in ipairs(state.campaign.roster) do append_id(r.id);values[#values+1]=r.xp end
+  values[#values+1]=#state.campaign.completed
+  for _,id in ipairs(state.campaign.completed) do append_id(id) end
   return table.concat(values,',')
 end
 function M.restore(args)
@@ -23,7 +31,7 @@ function M.restore(args)
     local n=math.tointeger(v);if not n then return false end;values[#values+1]=n
   end
   local count=#content.units;local stride=16+2*#content.abilities
-  if #values<11+count*stride or table.concat(values,',')~=raw or values[1]~=5 or not integer(values[2],0,1000000)
+  if #values<11+count*stride or table.concat(values,',')~=raw or (values[1]~=6 and not (values[1]==5 and args.allow_legacy==true)) or not integer(values[2],0,1000000)
     or not integer(values[3],1,2147483646) or not integer(values[4],1,1000001) or not integer(values[5],0,2)
     or not integer(values[6],0,(1 << #content.story.events)-1) or not integer(values[7],0,1) or values[8]~=count then return false end
   local candidate=fresh(values[3]);candidate.rng=values[3];candidate.step=values[2];candidate.round_number=values[4]
@@ -49,6 +57,39 @@ function M.restore(args)
       seen[index]=true;item.affixes[j]={index=index,value=value}
     end
     candidate.inventory[i]=item;by_uid[uid]=item
+  end
+  if values[1]==6 then
+    local settled=values[cursor];local records=values[cursor+1];cursor=cursor+2
+    if not integer(settled,0,1) or not integer(records,0,32) then return false end
+    local function read_id()
+      local n=values[cursor];cursor=cursor+1
+      if not integer(n,1,40) then return nil end
+      local chars={};for i=1,n do
+        if not integer(values[cursor],0,127) then return nil end
+        chars[i]=string.char(values[cursor]);cursor=cursor+1
+      end
+      return table.concat(chars)
+    end
+    local campaign={roster={},completed={}};local previous=''
+    for i=1,records do
+      local id=read_id();local xp=values[cursor];cursor=cursor+1
+      if not valid_id(id) or id<=previous then return false end
+      previous=id;campaign.roster[i]={id=id,xp=xp}
+    end
+    local completed=values[cursor];cursor=cursor+1
+    if not integer(completed,0,32) then return false end
+    previous=''
+    for i=1,completed do
+      local id=read_id();if not valid_id(id) or id<=previous then return false end
+      previous=id;campaign.completed[i]=id
+    end
+    if not import_campaign(candidate,campaign) or #candidate.campaign.roster~=records then return false end
+    candidate.progression_settled=settled==1
+    if candidate.progression_settled~=(candidate.outcome~='playing') then return false end
+  else
+    -- Explicit legacy import is separately authenticated by the save reader.
+    candidate.progression_settled=candidate.outcome~='playing'
+    if candidate.outcome=='victory' then candidate.campaign.completed={content.id} end
   end
   if cursor~=#values+1 then return false end
   local equipped={};local slots={'main_hand','off_hand','head','body','hands','feet','neck','ring','ring'}

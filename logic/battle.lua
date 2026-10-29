@@ -5,13 +5,14 @@ local state
 local content
 local effects={}
 local initialize_inventory,derive_equipment,equip_action,drop_reward
+local initialize_progression,derive_progression,settle_progression
 local directions = {{-1,0},{1,0},{0,-1},{0,1}}
 local function unit(name,role,ally,x,y,hp,movement,reach,damage)
   return {name=name,role=role,ally=ally,x=x,y=y,hp=hp,max_hp=hp,movement=movement,
     reach=reach,damage=damage,moved=false,acted=false,skill=true}
 end
 local function fresh(seed)
-  local result={version=5,step=0,rng=seed,round_number=1,outcome='playing',story_flags=0,preparation=true,units={}}
+  local result={version=6,step=0,rng=seed,round_number=1,outcome='playing',story_flags=0,preparation=true,units={}}
   for _,d in ipairs(content.units) do
     local u=unit(d.name,d.role,d.ally,d.x,d.y,d.hp,d.movement,d.reach,d.damage)
     u.id=d.id;u.controller=d.controller or (d.ally and "player" or "ai");u.faction=d.faction or (d.ally and "crew" or "guards");u.mp=d.mp;u.max_mp=d.mp;u.moves_used=0;u.move_actions=1;u.armor=d.armor;u.resist=d.resist
@@ -19,7 +20,7 @@ local function fresh(seed)
     for j,ability in ipairs(content.abilities) do u.cooldowns[j]=0;u.charges[j]=ability.charges end
     result.units[#result.units+1]=u
   end
-  initialize_inventory(result);derive_equipment(result)
+  initialize_progression(result);initialize_inventory(result);derive_equipment(result)
   result.supplies={};for i,item in ipairs(content.consumables) do result.supplies[i]=item.count end
   return result
 end
@@ -35,13 +36,17 @@ local function roll()
   state.rng=(state.rng*16807)%2147483647
   return state.rng%2
 end
+-- @module progression
 -- @module equipment
 -- @module objectives
 function M.reset(args)
   local seed=args.seed or 12345
   assert(integer(seed,1,2147483646),'invalid seed')
   assert(type(args.content)=='table','content required')
-  content=args.content;state=fresh(seed);effects={};outcome();drop_reward();story_update(true,false);return M.view()
+  content=args.content;state=fresh(seed);effects={}
+  if args.campaign then assert(import_campaign(state,args.campaign),'invalid campaign');derive_equipment(state) end
+  for _,u in ipairs(state.units) do u.hp=u.max_hp;u.mp=u.max_mp end
+  outcome();drop_reward();settle_progression();story_update(true,false);return M.view()
 end
 function M.view()
   state.width=content.width;state.height=content.height;state.terrain=content.terrain
@@ -101,7 +106,7 @@ local function apply_command(c)
   end
   outcome()
   state.step=c.step;if c.kind~='equip' then state.preparation=false end
-  drop_reward()
+  drop_reward();settle_progression()
   story_update(false,c.kind=='end_turn')
   return true
 end

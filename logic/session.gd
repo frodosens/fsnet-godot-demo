@@ -18,12 +18,12 @@ var retry_clock = 0.0
 var status = "Offline · shared Lua rules"
 var failed = false
 
-func offline(data={}):
+func offline(data={},campaign={}):
     connection_generation+=1;command_pending=false;ready=false;defer_poll=false
     if transport: transport.shutdown()
     transport = null
     online = false
-    authority = Authority.new(data)
+    authority = Authority.new(data,campaign)
     logic = authority.logic
     request_id = 0
     pending = false

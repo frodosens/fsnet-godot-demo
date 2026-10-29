@@ -42,8 +42,9 @@ derive_equipment=function(s)
       end
     end end
     for _,set in ipairs(content.equipment.sets) do if (sets[set.id] or 0)>=set.pieces then add(set.stats) end end
-    u.max_hp=d.hp+stats.hp;u.hp=math.min(u.hp,u.max_hp)
-    u.damage=d.damage+stats.physical;u.spell_bonus=stats.spell;u.armor=d.armor+stats.armor;u.resist=d.resist+stats.resist
+    derive_progression(u,d,s)
+    u.max_hp=u.base_hp+stats.hp;u.hp=math.min(u.hp,u.max_hp)
+    u.damage=u.base_damage+stats.physical;u.spell_bonus=stats.spell;u.armor=d.armor+stats.armor;u.resist=d.resist+stats.resist
     u.move_actions=1+math.min(1,move_bonus);u.moved=u.moves_used>=u.move_actions
   end
 end

@@ -110,10 +110,12 @@ func close_room():
 func startup_error():
     if ClassDB.class_exists("AmberLogic") and ClassDB.class_exists("AmberTransport"):return ""
     return "原生组件未加载，暂时无法开始游戏。\n当前平台：%s / %s\nWindows x86_64：请使用官方 Godot 4.6.3 标准版，确认 bin/windows/x86_64 中四个 DLL 齐全，然后完全关闭并重新打开编辑器。若仍失败，请保留输出中的 DLL 名称和错误码；参见 docs/WINDOWS_RUNTIME.md。Windows 运行尚待实机验证。Linux x86_64 仍须按 README 构建 bin/libamber.so 和外部 libfsnet；macOS 暂无对应运行库。\n请检查 Godot 输出中的 GDExtension 加载错误。" % [OS.get_name(),Engine.get_architecture_name()]
-func new_game(data={}):
+func new_game(data={},campaign={}):
     last_error=startup_error()
     if not last_error.is_empty():return false
-    close_room();session=Session.new();session.offline(data)
+    if not campaign is Dictionary or (not campaign.is_empty() and not Runtime.campaign_fits(Content.default_content() if data.is_empty() else data,campaign)):
+        last_error="成长记录无效，当前对局未改变。";return false
+    close_room();session=Session.new();session.offline(data,campaign)
     presentation={"seen":[],"active":"","line":0};saved_snapshot="";saved_presentation="";last_error=""
     return true
 func next_chapter_number():
@@ -128,17 +130,18 @@ func enter_next_chapter():
     var number=next_chapter_number()
     var error=save_chapter_checkpoint()
     if not error.is_empty():last_error=error;return false
-    return new_game(Content.chapter_two_content() if number==2 else Content.chapter_three_content())
-func start_room(host,port,secret,data={}):
+    return new_game(Content.chapter_two_content() if number==2 else Content.chapter_three_content(),session.logic.campaign_state())
+func start_room(host,port,secret,data={},campaign={}):
     last_error=startup_error()
     if not last_error.is_empty():return false
     if data.is_empty() and not OS.get_environment("AMBER_MOD").is_empty():
         var loaded=Content.from_file(OS.get_environment("AMBER_MOD"))
         if not loaded.error.is_empty():last_error=loaded.error;return false
         data=loaded.data
-    close_room();new_game(data);room_port=port;room_token=secret;connection_age=0.0
+    if not new_game(data,campaign):return false
+    room_port=port;room_token=secret;connection_age=0.0
     if host:
-        server_authority=Authority.new(session.logic.content);server=ClassDB.instantiate("AmberTransport")
+        server_authority=Authority.new(session.logic.content,session.logic.campaign_state());server=ClassDB.instantiate("AmberTransport")
         if not server.start(true,port,secret):last_error=server.last_error();close_room();return false
     if not session.connect_local(port,secret):last_error=session.status;close_room();return false
     return true
@@ -187,7 +190,7 @@ func _write_save(slot):
     if slot not in SLOT_IDS:
         if not is_chapter_checkpoint(slot) or not next_chapter_ready() or slot!=checkpoint_id(session.logic.rules_hash,session.logic.content_hash,session.logic.snapshot(),presentation):return "无效章节检查点。"
         if FileAccess.file_exists(save_path(slot)):return "章节检查点已存在，不允许覆盖。"
-    var data={"format":2,"rules_hash":session.logic.rules_hash,"content_hash":session.logic.content_hash,
+    var data={"format":3,"rules_hash":session.logic.rules_hash,"content_hash":session.logic.content_hash,
         "content":session.logic.content,"snapshot":session.logic.snapshot(),"hash":session.logic.state_hash(),
         "presentation":presentation.duplicate(true),"saved_at":Time.get_datetime_string_from_system(false,true)}
     DirAccess.make_dir_recursive_absolute(save_root)
@@ -208,17 +211,21 @@ func inspect_slot(slot):
     var file=FileAccess.open(save_path(slot),FileAccess.READ)
     if not file or file.get_length()>262144:return {"error":"存档无法读取或大小异常。"}
     var data=Content.normalize(Content.parse_json(file.get_as_text()))
-    if not data is Dictionary or data.get("format")!=2:return {"error":"存档损坏或版本不兼容。"}
+    if not data is Dictionary or data.get("format") not in [2,3]:return {"error":"存档损坏或版本不兼容。"}
     if not Runtime.accepts_saved_rules(data.get("rules_hash")):return {"error":"规则版本不兼容，请保留旧存档。"}
     var issue=Content.validate(data.get("content"))
     if not issue.is_empty() or Content.hash_of(data.content)!=data.get("content_hash"):return {"error":"内容版本校验失败："+issue}
     var candidate=Runtime.new(data.content)
-    if not data.get("snapshot") is String or not candidate.restore(data.snapshot) or candidate.state_hash()!=data.get("hash"):return {"error":"战斗快照损坏或校验不符。"}
+    var legacy=data.format==2 and data.rules_hash!=Runtime.rule_source().sha256_text()
+    if not data.get("snapshot") is String:return {"error":"战斗快照格式错误。"}
+    if legacy:
+        if not Runtime.validate_legacy(data.content,data.snapshot,data.get("hash")) or not candidate.restore(data.snapshot,true):return {"error":"旧战斗快照损坏或校验不符。"}
+    elif not candidate.restore(data.snapshot) or candidate.state_hash()!=data.get("hash"):return {"error":"战斗快照损坏或校验不符。"}
     var p=data.get("presentation")
     if not valid_presentation(p,candidate):return {"error":"剧情阅读进度损坏。"}
     if is_chapter_checkpoint(slot) and (not CHAPTER_CHECKPOINTS.has(data.content.id) or candidate.outcome!="victory" or slot!=checkpoint_id(data.rules_hash,data.content_hash,data.snapshot,p,data.content.id)):
         return {"error":"章节检查点身份校验失败。"}
-    return {"error":"","data":data,"round":candidate.round_number,"step":candidate.step,"title":data.content.title,"saved_at":data.get("saved_at","")}
+    return {"error":"","data":data,"round":candidate.round_number,"step":candidate.step,"title":data.content.title,"saved_at":data.get("saved_at",""),"migrated_snapshot":candidate.snapshot(),"legacy":legacy}
 func valid_presentation(p,logic):
     if not p is Dictionary or not p.get("seen") is Array or p.seen.size()>24 or not p.get("active") is String or not Content.integer(p.get("line"),0,32):return false
     var known={}
@@ -232,7 +239,7 @@ func load_slot(slot):
     if not result.error.is_empty():last_error=result.error;return false
     var data=result.data
     var replacement=Session.new();replacement.offline(data.content)
-    if not replacement.logic.restore(data.snapshot):last_error="快照恢复失败。";return false
+    if not replacement.logic.restore(result.migrated_snapshot):last_error="快照恢复失败。";return false
     replacement.authority.checkpoint=replacement.logic.snapshot();replacement.authority.history.clear()
     close_room();session=replacement;presentation=data.presentation.duplicate(true)
     saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation);last_error=""

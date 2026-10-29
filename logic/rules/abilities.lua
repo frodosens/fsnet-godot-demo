@@ -33,7 +33,7 @@ local function cast_ability(u,index,id,target,consumable)
           local before=recipient.hp;recipient.hp=math.min(recipient.max_hp,recipient.hp+effect.value)
           effects[#effects+1]={kind='heal',actor=u.id,target=recipient.id,amount=recipient.hp-before}
         elseif effect.op=='damage' then
-          local raw=(definition.damage_type=='magic' and content.units[index].damage+u.spell_bonus or u.damage)+effect.value+random
+          local raw=(definition.damage_type=='magic' and u.base_damage+u.spell_bonus or u.damage)+effect.value+random
           if critical then raw=raw*(definition.crit_multiplier or 150)//100 end
           local before=recipient.hp;recipient.hp=math.max(0,recipient.hp-math.max(1,raw-(definition.damage_type=='magic' and recipient.resist or recipient.armor)))
           effects[#effects+1]={kind='attack',actor=u.id,target=recipient.id,ability=id,is_critical=critical,damage=before-recipient.hp,hp=recipient.hp}
@@ -68,7 +68,7 @@ function M.preview(args)
         local restored=math.min(v.max_hp-branch.hp,effect.value)
         next_variants[#next_variants+1]={hp=branch.hp+restored,damage=branch.damage,healing=branch.healing+restored,critical=branch.critical}
       else
-        local raw=(definition.damage_type=='magic' and content.units[index].damage+u.spell_bonus or u.damage)+effect.value
+        local raw=(definition.damage_type=='magic' and u.base_damage+u.spell_bonus or u.damage)+effect.value
         local armor=definition.damage_type=='magic' and v.resist or v.armor
         for critical=0,1 do if (critical==0 and chance<100) or (critical==1 and chance>0) then
           for random=0,1 do

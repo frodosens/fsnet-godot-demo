@@ -7,8 +7,8 @@ var history = []
 var clients = {}
 const MAX_CLIENTS = 8
 
-func _init(data={}):
-    logic=Runtime.new(data)
+func _init(data={},campaign={}):
+    logic=Runtime.new(data,campaign)
     checkpoint=logic.snapshot()
 
 # JSON only transports values; canonical state hashing happens in the rules VM.
