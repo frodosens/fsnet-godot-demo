@@ -85,8 +85,16 @@ end
 -- @module ai
 local function apply_command(c)
   effects={}
-  if (state.outcome~='playing' and c.kind~='equip') or not integer(c.step,1,1000000) or c.step~=state.step+1 then return false end
-  if c.kind=='end_turn' then
+  if (state.outcome~='playing' and c.kind~='equip' and c.kind~='finish_story') or not integer(c.step,1,1000000) or c.step~=state.step+1 then return false end
+  if c.kind=='finish_story' then
+    if state.outcome~='victory' or type(c.event_id)~='string' then return false end
+    local pending
+    for i,event in ipairs(content.story.events) do
+      if event.trigger=='campaign_finish' and (state.story_flags & (1 << (i-1)))==0 then pending=i;break end
+    end
+    if not pending or content.story.events[pending].id~=c.event_id then return false end
+    state.story_flags=state.story_flags | (1 << (pending-1))
+  elseif c.kind=='end_turn' then
     run_ai_phase()
     state.round_number=state.round_number+1
     for _,u in ipairs(state.units) do u.moved=false;u.moves_used=0;u.acted=false;u.mp=math.min(u.max_mp,u.mp+1)
