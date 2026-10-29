@@ -24,8 +24,17 @@ func run():
   while not app.next_story().is_empty():app.advance_story(true)
   var writable=app.save_root
   if num==3:check(app.complete_homeward_checkpoint('homeward_03_finish').is_empty(),'chapter3 completed')
-  var blocker=FileAccess.open('user://blocked_destination',FileAccess.WRITE);blocker.store_string('fixture');blocker.close()
-  app.save_root='user://blocked_destination/saves'
+  # A directory at the exact temporary file path makes FileAccess fail quietly.
+  # This exercises the real write-failure branch without mkdir engine errors.
+  app.save_root=writable+'/blocked_'+str(num)
+  var probe=preload('res://logic/runtime.gd').new(app.session.logic.content)
+  check(probe.restore(app.session.logic.snapshot()),'prepare failure fixture')
+  var event_id='homeward_04_finish' if num==3 else 'homeward_01_finish'
+  check(probe.apply_command({'kind':'finish_story','event_id':event_id,'step':probe.step+1}),'predict completed snapshot')
+  var local_story=app.presentation.duplicate(true)
+  if num==3:local_story.interlude_completed=4
+  var slot=app.checkpoint_id(probe.rules_hash,probe.content_hash,probe.snapshot(),local_story,probe.content.id)
+  check(DirAccess.make_dir_recursive_absolute(app.save_path(slot)+'.tmp')==OK,'create failed-write fixture')
   var snap=app.session.logic.snapshot();var p=app.presentation.duplicate(true);var session=app.session
   var issue=app.complete_homeward_checkpoint('homeward_04_finish',4) if num==3 else app.complete_homeward_checkpoint('homeward_01_finish')
   check(not issue.is_empty(),'write failure reported')
