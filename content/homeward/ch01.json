@@ -59,8 +59,8 @@
       "skill_id": "ember"
     },
     {
-      "id": "ch01_guard_1",
-      "name": "拦路散兵1",
+      "id": "ch01_bandit_a",
+      "name": "山贼甲",
       "role": "raider",
       "ally": false,
       "x": 5,
@@ -75,35 +75,19 @@
       "abilities": [
         "attack"
       ],
-      "skill_id": "attack"
+      "skill_id": "attack",
+      "controller": "ai",
+      "faction": "bandits",
+      "policy": "offensive"
     },
     {
-      "id": "ch01_guard_2",
-      "name": "拦路散兵2",
-      "role": "scout",
+      "id": "ch01_bandit_b",
+      "name": "山贼乙",
+      "role": "raider",
       "ally": false,
       "x": 7,
       "y": 1,
-      "hp": 5,
-      "movement": 3,
-      "reach": 1,
-      "damage": 2,
-      "armor": 0,
-      "resist": 0,
-      "mp": 0,
-      "abilities": [
-        "attack"
-      ],
-      "skill_id": "attack"
-    },
-    {
-      "id": "ch01_guard_3",
-      "name": "拦路散兵3",
-      "role": "brute",
-      "ally": false,
-      "x": 7,
-      "y": 2,
-      "hp": 8,
+      "hp": 6,
       "movement": 2,
       "reach": 1,
       "damage": 2,
@@ -113,7 +97,32 @@
       "abilities": [
         "attack"
       ],
-      "skill_id": "attack"
+      "skill_id": "attack",
+      "controller": "ai",
+      "faction": "bandits",
+      "policy": "offensive"
+    },
+    {
+      "id": "ch01_bandit_c",
+      "name": "山贼丙",
+      "role": "raider",
+      "ally": false,
+      "x": 7,
+      "y": 2,
+      "hp": 6,
+      "movement": 2,
+      "reach": 1,
+      "damage": 2,
+      "armor": 0,
+      "resist": 0,
+      "mp": 0,
+      "abilities": [
+        "attack"
+      ],
+      "skill_id": "attack",
+      "controller": "ai",
+      "faction": "bandits",
+      "policy": "offensive"
     }
   ],
   "victory": {
@@ -159,7 +168,7 @@
       },
       {
         "id": "road_guard",
-        "name": "拦路散兵"
+        "name": "拦路山贼"
       },
       {
         "id": "watch_guard",

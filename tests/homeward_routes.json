@@ -4,15 +4,15 @@
       "kind": "move",
       "step": 1,
       "unit": 0,
-      "x": 4,
-      "y": 4
+      "x": 5,
+      "y": 5
     },
     {
       "kind": "move",
       "step": 2,
       "unit": 1,
-      "x": 4,
-      "y": 8
+      "x": 5,
+      "y": 7
     },
     {
       "kind": "end_turn",
@@ -22,8 +22,8 @@
       "kind": "move",
       "step": 4,
       "unit": 0,
-      "x": 4,
-      "y": 2
+      "x": 5,
+      "y": 3
     },
     {
       "kind": "attack",
@@ -35,22 +35,27 @@
       "kind": "move",
       "step": 6,
       "unit": 1,
-      "x": 3,
-      "y": 7
+      "x": 5,
+      "y": 4
     },
     {
       "kind": "end_turn",
       "step": 7
     },
     {
-      "kind": "attack",
+      "kind": "move",
       "step": 8,
-      "target": 2,
-      "unit": 0
+      "unit": 0,
+      "x": 4,
+      "y": 1
+    },
+    {
+      "kind": "end_turn",
+      "step": 9
     },
     {
       "kind": "move",
-      "step": 9,
+      "step": 10,
       "unit": 0,
       "x": 5,
       "y": 0

@@ -117,7 +117,7 @@ func new_game(data={},campaign={}):
     if not campaign is Dictionary or (not campaign.is_empty() and not Runtime.campaign_fits(Content.default_content() if data.is_empty() else data,campaign)):
         last_error="成长记录无效，当前对局未改变。";return false
     close_room();session=Session.new();session.offline(data,campaign)
-    presentation={"seen":[],"active":"","line":0};saved_snapshot="";saved_presentation="";last_error=""
+    presentation={"seen":[],"active":"","line":0,"campaign_instance":Crypto.new().generate_random_bytes(16).hex_encode()};saved_snapshot="";saved_presentation="";last_error=""
     homeward_player.scene_id=""
     return true
 func next_chapter_number():
@@ -137,14 +137,16 @@ func enter_next_chapter():
         if not saved.is_empty():last_error=saved;return false
         get_tree().call_deferred("change_scene_to_file","res://story/interlude.tscn");return true
     var homeward=session.logic.content.id.begins_with("homeward_")
-    if homeward and not finish_homeward_event(session.logic.content.id+"_finish"):last_error="章节完成命令未获确认。";return false
-    var error=save_chapter_checkpoint()
+    var error=complete_homeward_checkpoint(session.logic.content.id+"_finish") if homeward else save_chapter_checkpoint()
     if not error.is_empty():last_error=error;return false
     if homeward:
         if number==4:
             get_tree().call_deferred("change_scene_to_file","res://story/interlude.tscn")
             return true
-        return new_game(preload("res://story/library.gd").content(number),session.logic.campaign_state())
+        var identity=presentation.get("campaign_instance","")
+        var started=new_game(preload("res://story/library.gd").content(number),session.logic.campaign_state())
+        if started and not identity.is_empty():presentation.campaign_instance=identity
+        return started
     return new_game(Content.chapter_two_content() if number==2 else Content.chapter_three_content(),session.logic.campaign_state())
 func start_room(host,port,secret,data={},campaign={}):
     last_error=startup_error()
@@ -209,6 +211,10 @@ func _write_save(slot):
     var data={"format":3,"rules_hash":session.logic.rules_hash,"content_hash":session.logic.content_hash,
         "content":session.logic.content,"snapshot":session.logic.snapshot(),"hash":session.logic.state_hash(),
         "presentation":presentation.duplicate(true),"saved_at":Time.get_datetime_string_from_system(false,true)}
+    var error=_persist_save_data(slot,data)
+    if error.is_empty():saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation)
+    return error
+func _persist_save_data(slot,data):
     DirAccess.make_dir_recursive_absolute(save_root)
     var path=save_path(slot);var file=FileAccess.open(path+".tmp",FileAccess.WRITE)
     if not file:return "无法写入存档，原存档未改变。"
@@ -217,7 +223,28 @@ func _write_save(slot):
         DirAccess.remove_absolute(path+".tmp")
         return "存档写入未完成，原存档未改变。"
     if DirAccess.rename_absolute(path+".tmp",path)!=OK:return "无法完成存档替换，原存档未改变。"
-    saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation)
+    return ""
+func complete_homeward_checkpoint(id,interlude=0):
+    # Offline copy-on-write: publish the completed session only after durable save.
+    # Never roll back or replace a distributed authority.
+    if not session or session.online or not next_chapter_ready():return "仅离线已完成章节可以建立章节检查点。"
+    var candidate=Session.new();candidate.offline(session.logic.content)
+    if not candidate.logic.restore(session.logic.snapshot()):return "无法准备章节检查点。"
+    candidate.authority.checkpoint=candidate.logic.snapshot()
+    if not homeward_event_done(id) and not candidate.submit({"kind":"finish_story","event_id":id}):return "章节完成命令未获确认。"
+    var local_story=presentation.duplicate(true)
+    if interlude==4:local_story.interlude_completed=4
+    var r=candidate.logic
+    var slot=checkpoint_id(r.rules_hash,r.content_hash,r.snapshot(),local_story,r.content.id)
+    if FileAccess.file_exists(save_path(slot)):
+        var existing=inspect_slot(slot)
+        if not existing.error.is_empty():return existing.error
+    else:
+        var data={"format":3,"rules_hash":r.rules_hash,"content_hash":r.content_hash,"content":r.content,"snapshot":r.snapshot(),"hash":r.state_hash(),"presentation":local_story,"saved_at":Time.get_datetime_string_from_system(false,true)}
+        var error=_persist_save_data(slot,data)
+        if not error.is_empty():return error
+    session=candidate;presentation=local_story
+    saved_snapshot=r.snapshot();saved_presentation=JSON.stringify(presentation)
     return ""
 func inspect_slot(slot):
     var issue_startup=startup_error()
@@ -243,6 +270,8 @@ func inspect_slot(slot):
         return {"error":"章节检查点身份校验失败。"}
     return {"error":"","data":data,"round":candidate.round_number,"step":candidate.step,"title":data.content.title,"saved_at":data.get("saved_at",""),"migrated_snapshot":candidate.snapshot(),"legacy":legacy}
 func valid_presentation(p,logic):
+    if p is Dictionary and p.has("campaign_instance"):
+        if not p.campaign_instance is String or p.campaign_instance.length()!=32 or not p.campaign_instance.is_valid_hex_number():return false
     if not p is Dictionary or not p.get("seen") is Array or p.seen.size()>24 or not p.get("active") is String or not Content.integer(p.get("line"),0,32):return false
     if p.has("interlude_completed"):
         if p.interlude_completed!=4 or logic.content.id!="homeward_03":return false
@@ -269,6 +298,7 @@ func load_slot(slot):
     replacement.authority.checkpoint=replacement.logic.snapshot();replacement.authority.history.clear()
     homeward_player.scene_id=""
     close_room();session=replacement;presentation=data.presentation.duplicate(true)
+    if not presentation.has("campaign_instance"):presentation.campaign_instance=Crypto.new().generate_random_bytes(16).hex_encode()
     saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation);last_error=""
     return true
 func speaker_name(id):
