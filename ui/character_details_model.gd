@@ -61,3 +61,18 @@ func progression(unit):
         if not unit.has(field):return {"available":false}
     var required=maxi(0,int(unit.xp_next)-int(unit.xp_floor))
     return {"available":true,"level":int(unit.level),"total":int(unit.xp),"current":maxi(0,int(unit.xp)-int(unit.xp_floor)),"required":required,"capped":required==0}
+
+# The art's ten cells combine current/max health and mana; values stay authoritative.
+func attribute_rows(unit):
+    return [
+        {"name":"生命", "value":"%s / %s"%[unit.get("hp","—"),unit.get("max_hp","—")]},
+        {"name":"护甲", "value":str(unit.get("armor","—"))},
+        {"name":"法力", "value":"%s / %s"%[unit.get("mp","—"),unit.get("max_mp","—")]},
+        {"name":"魔法抗性", "value":str(unit.get("resist","—"))},
+        {"name":"物理攻击", "value":str(unit.get("damage","—"))},
+        {"name":"攻击距离", "value":str(unit.get("reach","—"))},
+        {"name":"法术加成", "value":str(unit.get("spell_bonus","—"))},
+        {"name":"移动次数", "value":str(unit.get("move_actions","—"))},
+        {"name":"移动距离", "value":str(unit.get("movement","—"))},
+        {"name":"行动", "value":("已使用" if unit.acted else "未使用") if unit.has("acted") else "—"}
+    ]

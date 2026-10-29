@@ -48,46 +48,104 @@ var fingerprint=""
 var last_pending=false
 var elapsed=0.0
 var skins={}
-const ART="res://assets/ui/character_details_v1/"
+const ART="res://assets/ui/character_details_v2/"
+const CONTRACT=preload("res://ui/character_details_geometry.gd")
 var portrait_frame:NinePatchRect
-func art_skin(name,margin):
+var title_label:Label
+var class_label:Label
+var level_label:Label
+var footer_label:Label
+var close_button:Button
+var identity_panel:Panel
+var attributes_panel:Panel
+var traits_panel:Panel
+var equipment_panel:Panel
+var attributes_heading:Label
+var traits_heading:Label
+var equipment_heading:Label
+var body_scroll:ScrollContainer
+var body_canvas:Control
+var stat_rows=[]
+var layout_scale=1.0
+var compact=false
+var xp_frame:NinePatchRect
+var manifest={}
+func art_skin(name,_margin=0):
     if not skins.has(name):
         var box=StyleBoxTexture.new();box.texture=load(ART+name+".png")
-        for side in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:box.set_texture_margin(side,margin)
+        var spec=manifest[name]
+        var caps=spec.get("cap_margins_ltrb_px",[0,0,0,0])
+        var pads=spec.get("content_padding_ltrb_px",[0,0,0,0])
+        for i in range(4):
+            var side=[SIDE_LEFT,SIDE_TOP,SIDE_RIGHT,SIDE_BOTTOM][i]
+            box.set_texture_margin(side,caps[i]);box.set_content_margin(side,pads[i])
         skins[name]=box
     return skins[name]
-func skin(selected=false):return art_skin("tab_selected" if selected else "tab_normal",24)
+func skin(selected=false):return art_skin("tab_selected" if selected else "tab_normal")
 func ui_ratio():return maxf(.25,minf(float(get_window().size.x)/get_viewport_rect().size.x,float(get_window().size.y)/get_viewport_rect().size.y))
-func hit_size():return maxf(48,48/ui_ratio())
-func make_label(parent,text,font=18):
-    var node=UI.label(text,ceili(font/ui_ratio()));node.set_meta("details_font",font);node.mouse_filter=Control.MOUSE_FILTER_IGNORE;node.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;parent.add_child(node);return node
-func make_button(parent,text,callback):
-    var node=Button.new();node.text=text;node.mouse_filter=Control.MOUSE_FILTER_IGNORE;node.custom_minimum_size.y=hit_size();node.add_theme_font_size_override("font_size",ceili(18/ui_ratio()));node.clip_text=true;node.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
-    for state in ["normal","hover","pressed","focus","disabled"]:node.add_theme_stylebox_override(state,skin(state=="focus"))
+func hit_size():return 48/ui_ratio() if compact else maxf(44/ui_ratio(),64*layout_scale)
+func make_label(parent,text,font=26):
+    var node=UI.label(text,font);node.set_meta("details_font",font);node.mouse_filter=Control.MOUSE_FILTER_IGNORE;node.autowrap_mode=TextServer.AUTOWRAP_WORD_SMART;parent.add_child(node);return node
+func make_button(parent,text,callback,asset="return_button"):
+    var node=Button.new();node.text=text;node.mouse_filter=Control.MOUSE_FILTER_IGNORE;node.clip_text=true;node.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+    node.set_meta("details_button_asset",asset)
+    for state in ["normal","hover","pressed","disabled"]:node.add_theme_stylebox_override(state,art_skin(asset))
+    var focus=StyleBoxEmpty.new();node.add_theme_stylebox_override("focus",focus);node.add_theme_color_override("font_focus_color",Color("eed49a"))
     node.pressed.connect(callback);parent.add_child(node);return node
 func make_scroll(parent):
     var node=ScrollContainer.new();node.mouse_filter=Control.MOUSE_FILTER_IGNORE;node.horizontal_scroll_mode=ScrollContainer.SCROLL_MODE_DISABLED;parent.add_child(node);return node
+func make_panel(parent,asset="inset_panel"):
+    var node=Panel.new();node.mouse_filter=Control.MOUSE_FILTER_IGNORE;node.add_theme_stylebox_override("panel",art_skin(asset));parent.add_child(node);return node
+func make_art(parent,asset):
+    var node=TextureRect.new();node.texture=load(ART+asset+".png");node.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;node.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_CENTERED;node.mouse_filter=Control.MOUSE_FILTER_IGNORE;parent.add_child(node);return node
 func _ready():
+    manifest=JSON.parse_string(FileAccess.get_file_as_string(ART+"manifest.json")).assets
     set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);mouse_filter=Control.MOUSE_FILTER_STOP
     session=hud.game.session;generation=session.connection_generation;actor_id=hud.game.battle.units[actor].id
-    panel=Panel.new();panel.mouse_filter=Control.MOUSE_FILTER_IGNORE;panel.add_theme_stylebox_override("panel",art_skin("modal_panel",24));add_child(panel)
-    portrait=UI.portrait(actor_id);portrait.mouse_filter=Control.MOUSE_FILTER_IGNORE;panel.add_child(portrait)
+    panel=make_panel(self,"modal_panel")
+    title_label=make_label(panel,"角色资料",44);title_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+    close_button=make_button(panel,"",close,"close_button")
+    identity_panel=make_panel(panel)
+    portrait=UI.portrait(actor_id);portrait.custom_minimum_size=Vector2.ZERO;portrait.stretch_mode=TextureRect.STRETCH_KEEP_ASPECT_COVERED;portrait.clip_contents=true;portrait.mouse_filter=Control.MOUSE_FILTER_IGNORE;identity_panel.add_child(portrait)
     portrait_frame=NinePatchRect.new();portrait_frame.texture=load(ART+"portrait_frame.png");portrait_frame.mouse_filter=Control.MOUSE_FILTER_IGNORE
-    for side in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:portrait_frame.set_patch_margin(side,32)
-    panel.add_child(portrait_frame)
-    identity=make_label(panel,"");summary=make_label(panel,"")
-    xp_group=Control.new();xp_group.mouse_filter=Control.MOUSE_FILTER_IGNORE;panel.add_child(xp_group)
-    var xp_frame=TextureRect.new();xp_frame.texture=load(ART+"xp_frame.png");xp_frame.mouse_filter=Control.MOUSE_FILTER_IGNORE;xp_frame.size=Vector2(240,26);xp_group.add_child(xp_frame)
-    xp_bar=TextureProgressBar.new();xp_bar.mouse_filter=Control.MOUSE_FILTER_IGNORE;xp_bar.texture_progress=load(ART+"xp_fill.png");xp_bar.position=Vector2(8,5);xp_bar.size=Vector2(224,16);xp_group.add_child(xp_bar)
-    for i in range(4):tabs.append(make_button(panel,["属性","技能","队伍道具","装备"][i],change_tab.bind(i)))
+    for side in [SIDE_LEFT,SIDE_RIGHT,SIDE_TOP,SIDE_BOTTOM]:portrait_frame.set_patch_margin(side,26)
+    identity_panel.add_child(portrait_frame)
+    identity=make_label(identity_panel,"",38);class_label=make_label(identity_panel,"",23);level_label=make_label(identity_panel,"",26)
+    for label in [identity,class_label,level_label]:
+        label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;label.autowrap_mode=TextServer.AUTOWRAP_OFF;label.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+    summary=make_label(identity_panel,"",18);summary.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER;summary.autowrap_mode=TextServer.AUTOWRAP_OFF;summary.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+    xp_group=Control.new();xp_group.mouse_filter=Control.MOUSE_FILTER_IGNORE;identity_panel.add_child(xp_group)
+    xp_frame=NinePatchRect.new();xp_frame.texture=load(ART+"xp_frame.png");xp_frame.mouse_filter=Control.MOUSE_FILTER_IGNORE
+    xp_frame.patch_margin_left=12;xp_frame.patch_margin_right=12;xp_frame.patch_margin_top=6;xp_frame.patch_margin_bottom=6;xp_group.add_child(xp_frame)
+    xp_bar=TextureProgressBar.new();xp_bar.mouse_filter=Control.MOUSE_FILTER_IGNORE;xp_bar.texture_progress=load(ART+"xp_fill.png");xp_bar.nine_patch_stretch=true;xp_group.add_child(xp_bar)
+    for i in range(4):
+        var button=make_button(panel,["属性","技能","队伍道具","装备"][i],change_tab.bind(i),"tab_normal")
+        button.icon=load(ART+["icon_helmet","icon_sparkle","icon_pouch","icon_armor"][i]+".png");button.expand_icon=true;tabs.append(button)
     back=make_button(panel,"返回",close)
-    list=make_scroll(panel);column=VBoxContainer.new();column.mouse_filter=Control.MOUSE_FILTER_IGNORE;column.size_flags_horizontal=Control.SIZE_EXPAND_FILL;list.add_child(column)
-    description=make_scroll(panel);body=make_label(description,"");body.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-    equipment_scroll=make_scroll(panel);equipment_text=make_label(equipment_scroll,"");equipment_text.size_flags_horizontal=Control.SIZE_EXPAND_FILL
-    full=make_button(panel,"展开完整说明",open_description);equip=make_button(panel,"装备",commit_equipment)
-    detail_layer=Panel.new();detail_layer.mouse_filter=Control.MOUSE_FILTER_IGNORE;detail_layer.add_theme_stylebox_override("panel",art_skin("inset_panel",28));add_child(detail_layer);detail_layer.hide()
+    footer_label=make_label(panel,"共享背包 · 查看不消耗行动",21);footer_label.horizontal_alignment=HORIZONTAL_ALIGNMENT_CENTER
+    body_scroll=make_scroll(panel);body_canvas=Control.new();body_canvas.mouse_filter=Control.MOUSE_FILTER_IGNORE;body_canvas.size_flags_horizontal=Control.SIZE_EXPAND_FILL;body_scroll.add_child(body_canvas)
+    attributes_panel=make_panel(body_canvas);attributes_heading=make_label(attributes_panel,"基础属性",30)
+    for i in range(10):
+        var row=Control.new();row.mouse_filter=Control.MOUSE_FILTER_IGNORE;attributes_panel.add_child(row)
+        var icon=make_art(row,["icon_heart","icon_shield","icon_book","icon_resistance","icon_sword","icon_crosshair","icon_sparkle","icon_boot","icon_boot","icon_hourglass"][i])
+        var label=make_label(row,"");label.autowrap_mode=TextServer.AUTOWRAP_OFF;label.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+        var value=make_label(row,"");value.horizontal_alignment=HORIZONTAL_ALIGNMENT_RIGHT;value.autowrap_mode=TextServer.AUTOWRAP_OFF;value.text_overrun_behavior=TextServer.OVERRUN_TRIM_ELLIPSIS
+        var divider=make_art(row,"divider");stat_rows.append({"root":row,"icon":icon,"label":label,"value":value,"divider":divider})
+    list=make_scroll(attributes_panel);column=VBoxContainer.new();column.mouse_filter=Control.MOUSE_FILTER_IGNORE;column.size_flags_horizontal=Control.SIZE_EXPAND_FILL;list.add_child(column)
+    traits_panel=make_panel(body_canvas);traits_heading=make_label(traits_panel,"装备特性",30)
+    description=make_scroll(traits_panel);body=make_label(description,"");body.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+    equipment_panel=make_panel(panel);equipment_heading=make_label(equipment_panel,"当前装备",30)
+    equipment_scroll=make_scroll(equipment_panel);equipment_text=make_label(equipment_scroll,"",23);equipment_text.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+    full=make_button(panel,"完整说明",open_description);equip=make_button(panel,"装备",commit_equipment)
+    detail_layer=make_panel(self);detail_layer.hide()
     detail_back=make_button(detail_layer,"返回资料",close_description);detail_scroll=make_scroll(detail_layer);detail_text=make_label(detail_scroll,"");detail_text.size_flags_horizontal=Control.SIZE_EXPAND_FILL
     resized.connect(relayout);relayout();refresh_data(true);tabs[0].grab_focus()
+func relayout():
+    CONTRACT.arrange(self)
+func update_stats(unit):
+    var data=model.attribute_rows(unit)
+    for i in range(stat_rows.size()):
+        stat_rows[i].label.text=data[i].name;stat_rows[i].value.text=data[i].value
 func current():
     var game=hud.game
     return game.session==session and session.connection_generation==generation and actor>=0 and actor<game.battle.units.size() and game.battle.units[actor].id==actor_id and game.selected==actor and not game.presentation_active()
@@ -96,35 +154,11 @@ func _process(delta):
     if not current():close();return
     elapsed+=delta
     if elapsed>=.2:elapsed=0;refresh_data()
-func relayout():
-    panel.position=Vector2(16,16);panel.size=size-Vector2(32,32)
-    var hit=hit_size()
-    for label in find_children("*","Label",true,false):
-        if label.has_meta("details_font"):label.add_theme_font_size_override("font_size",ceili(label.get_meta("details_font")/ui_ratio()))
-    var w=panel.size.x;var h=panel.size.y;var left=w*.23;var center=w*.51;var x=left+20
-    portrait.position=Vector2(16,hit+26);portrait.size=Vector2(left-20,maxf(60,h*.4))
-    portrait_frame.position=portrait.position;portrait_frame.size=portrait.size
-    portrait.position+=Vector2(20,20);portrait.size-=Vector2(40,40)
-    identity.position=Vector2(16,portrait_frame.position.y+portrait_frame.size.y+10);identity.size=Vector2(left-20,78)
-    xp_group.position=identity.position+Vector2(0,68);xp_group.scale=Vector2.ONE*((left-20)/240.0)
-    summary.position=identity.position+Vector2(0,98);summary.size=Vector2(left-20,maxf(40,h-summary.position.y-16))
-    for i in range(4):tabs[i].position=Vector2(16+i*(w-164)/4,12);tabs[i].size=Vector2((w-164)/4-6,hit)
-    back.position=Vector2(w-140,12);back.size=Vector2(124,hit)
-    list.position=Vector2(x,hit+30);list.size=Vector2(center-16,maxf(70,(h-156)*.54))
-    description.position=Vector2(x,list.position.y+list.size.y+8);description.size=Vector2(center-16,maxf(50,h-description.position.y-hit-24))
-    list.visible=tab!=0
-    if tab==0:description.position=Vector2(x,hit+30);description.size=Vector2(center-16,h-hit*2-54)
-    equipment_scroll.position=Vector2(x+center,hit+30);equipment_scroll.size=Vector2(w-x-center-16,h-hit-46)
-    full.position=Vector2(x,h-hit-12);full.size=Vector2((center-24)*.6,hit)
-    equip.position=Vector2(x+(center-24)*.6+8,h-hit-12);equip.size=Vector2((center-24)*.4,hit)
-    detail_layer.position=panel.position+Vector2(20,20);detail_layer.size=panel.size-Vector2(40,40)
-    detail_back.position=Vector2(detail_layer.size.x-148,12);detail_back.size=Vector2(132,hit)
-    detail_scroll.position=Vector2(20,hit+28);detail_scroll.size=detail_layer.size-Vector2(40,hit+48)
 func change_tab(index):
     scroll_positions[tab]=list.scroll_vertical;tab=index;selected_key="";selected_uid=-1;description_open=false;detail_layer.hide();refresh_data(true);relayout()
     list.set_deferred("scroll_vertical",scroll_positions.get(tab,0))
 func add_row(text,key,callback,icon=null):
-    var button=make_button(column,text,callback);button.set_meta("key",key);button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
+    var button=make_button(column,text,callback,"list_row");button.custom_minimum_size.y=hit_size();button.add_theme_font_size_override("font_size",roundi(16/ui_ratio()) if compact else roundi(24*layout_scale));button.set_meta("key",key);button.size_flags_horizontal=Control.SIZE_EXPAND_FILL
     if icon:button.icon=icon;button.expand_icon=true;button.add_theme_constant_override("icon_max_width",32)
     rows.append(button)
 func refresh_data(force=false):
@@ -142,26 +176,30 @@ func refresh_data(force=false):
     for child in column.get_children():column.remove_child(child);child.queue_free()
     rows.clear()
     var u=logic.units[actor]
-    identity.text=u.name+"\n"+{"knight":"骑士","archer":"弓手","mage":"法师"}.get(u.role,u.role)
+    identity.text=u.name
+    class_label.text={"knight":"骑士","archer":"弓手","mage":"法师"}.get(u.role,u.role)
     var growth=model.progression(u);xp_group.visible=growth.available
     if growth.available:
-        identity.text+=" · Lv."+str(growth.level)
+        level_label.text="Lv."+str(growth.level)
         xp_bar.max_value=maxi(1,growth.required);xp_bar.value=xp_bar.max_value if growth.capped else growth.current
-        summary.text=("已满级" if growth.capped else "经验 %d / %d"%[growth.current,growth.required])+"\n累计经验 %d\n\n共享背包 · 不消耗行动查看"%growth.total
-    else:summary.text="等级／经验：数据暂不可用\n\n共享背包 · 不消耗行动查看"
-    var gear_lines=["当前装备"]
+        summary.text="已满级" if growth.capped else "经验 %d / %d"%[growth.current,growth.required]
+        summary.tooltip_text="累计经验 %d"%growth.total
+    else:
+        level_label.text="Lv. —";summary.text="经验数据暂不可用"
+    update_stats(u)
+    var gear_lines=[]
     for i in range(9):
         var text="空"
         for item in logic.inventory:
             if item.uid==u.equipment[i]:text=hud.item_text(item)
         gear_lines.append(Model.SLOT_NAMES[i]+"："+text)
-    equipment_text.text="\n\n".join(gear_lines)
+    equipment_text.text="\n".join(gear_lines)
     equip.visible=tab==3;equip.disabled=true
     if tab==0:
-        var lines=[]
-        for stat in model.stats(u):lines.append(stat.name+"："+("是" if stat.value else "否") if stat.value is bool else stat.name+"："+str(stat.value))
-        body.text="\n".join(lines)
-
+        body.text="移动施法："+("允许" if u.get("mobile_cast",false) else "不允许")
+        for item in logic.inventory:
+            if item.uid in u.equipment:body.text+="\n"+hud.item_text(item)
+        if u.equipment.all(func(uid):return uid==0):body.text+="\n尚未穿戴装备"
     elif tab in [1,2]:
         var entries=hud.picker_entries("skill" if tab==1 else "item")
         var selection_found=false
@@ -181,6 +219,7 @@ func refresh_data(force=false):
         else:body.text="请选择"+Model.SLOT_NAMES[slot]+"装备查看实际属性变化。\n"+model.equipment_reason(logic,actor,session.pending)
     list.set_deferred("scroll_vertical",old_scroll)
     if description_open:detail_text.text=body.text
+    relayout()
 func select_text(key,text):
     selected_key=key;body.text=text;description.scroll_vertical=0
 func choose_slot(index):slot=index;selected_uid=-1;refresh_data(true)
@@ -214,18 +253,24 @@ func close():
     closing=true;cancel_pointer();canceled.emit()
 func cancel_pointer():pointer=-2;pressed=null;drag_scroll=null;dragged=false
 func active_panel():return detail_layer if description_open else panel
-func controls():return [detail_back] if description_open else tabs+[back,full,equip]+([] if tab==0 else rows)
+func controls():return [detail_back] if description_open else tabs+[close_button,back,full,equip]+([] if tab==0 else rows)
+func point_visible(node,point):
+    var ancestor=node.get_parent()
+    while ancestor!=self and ancestor!=null:
+        if ancestor is ScrollContainer and not ancestor.get_global_rect().has_point(point):return false
+        ancestor=ancestor.get_parent()
+    return true
 func hit(point):
     for node in controls():
         if not node.is_visible_in_tree() or node.disabled:continue
-        if node in rows and not list.get_global_rect().has_point(point):continue
+        if not point_visible(node,point):continue
         if node.get_global_rect().has_point(point):return node
     return null
 func down(point,id):
     if pointer!=-2:dragged=true;pressed=null;return
     pointer=id;start=point;dragged=false;pressed=hit(point);outside=not active_panel().get_global_rect().has_point(point)
-    for scroll in ([detail_scroll] if description_open else [list,description,equipment_scroll]):
-        if scroll.is_visible_in_tree() and scroll.get_global_rect().has_point(point):drag_scroll=scroll;scroll_start=scroll.scroll_vertical;break
+    for scroll in ([detail_scroll] if description_open else [list,description,equipment_scroll,body_scroll]):
+        if scroll.is_visible_in_tree() and scroll.get_v_scroll_bar().max_value>scroll.get_v_scroll_bar().page and scroll.get_global_rect().has_point(point) and point_visible(scroll,point):drag_scroll=scroll;scroll_start=scroll.scroll_vertical;break
 func drag(point):
     if pointer==-2:return
     if point.distance_to(start)>=10:dragged=true
@@ -250,8 +295,8 @@ func _input(event):
                 else:up(event.position,-1)
             elif event.pressed and event.button_index==MOUSE_BUTTON_RIGHT:close()
             elif event.pressed and event.button_index in [MOUSE_BUTTON_WHEEL_UP,MOUSE_BUTTON_WHEEL_DOWN]:
-                for scroll in ([detail_scroll] if description_open else [list,description,equipment_scroll]):
-                    if scroll.is_visible_in_tree() and scroll.get_global_rect().has_point(event.position):scroll.scroll_vertical+=64*(1 if event.button_index==MOUSE_BUTTON_WHEEL_DOWN else -1)
+                for scroll in ([detail_scroll] if description_open else [list,description,equipment_scroll,body_scroll]):
+                    if scroll.is_visible_in_tree() and scroll.get_v_scroll_bar().max_value>scroll.get_v_scroll_bar().page and scroll.get_global_rect().has_point(event.position) and point_visible(scroll,event.position):scroll.scroll_vertical+=64*(1 if event.button_index==MOUSE_BUTTON_WHEEL_DOWN else -1);break
     elif event is InputEventMouseMotion:
         if pointer==-1:drag(event.position)
     elif event is InputEventKey or event is InputEventJoypadButton or event is InputEventJoypadMotion:
@@ -260,7 +305,7 @@ func _input(event):
             var focused=get_viewport().gui_get_focus_owner()
             if focused in controls() and not focused.disabled:focused.pressed.emit()
         elif event.is_action_pressed("ui_down") or event.is_action_pressed("ui_up"):
-            var scroll=detail_scroll if description_open else (description if tab==0 else list)
+            var scroll=detail_scroll if description_open else (body_scroll if tab==0 and body_scroll.get_v_scroll_bar().max_value>body_scroll.size.y else (description if tab==0 else list))
             scroll.scroll_vertical+=64*(1 if event.is_action_pressed("ui_down") else -1)
         elif event.is_action_pressed("ui_focus_next") or event.is_action_pressed("ui_focus_prev"):
             var available=controls().filter(func(n):return n.is_visible_in_tree() and not n.disabled);var at=available.find(get_viewport().gui_get_focus_owner());available[posmod(at+(1 if event.is_action_pressed("ui_focus_next") else -1),available.size())].grab_focus()

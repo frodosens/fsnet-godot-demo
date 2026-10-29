@@ -19,7 +19,7 @@ func run():
         game.refresh();game.hud.show_character_details();await frames();var page=game.hud.modal;var u=game.battle.units[0];var growth=model.progression(u)
         check(growth.available and growth.total==xp,"actual XP displayed")
         check(growth.current==xp-u.xp_floor and growth.required==u.xp_next-u.xp_floor,"progress relative to actual thresholds")
-        check(page.identity.text.contains("Lv."+str(u.level)),"actual level label")
+        check(page.level_label.text=="Lv."+str(u.level),"actual level label")
         check(page.xp_group.visible and page.xp_bar.value==(page.xp_bar.max_value if xp==1620 else growth.current),"real XP fill with cap guard")
         check(page.summary.text.contains("已满级") if xp==1620 else page.summary.text.contains("经验 %d / %d"%[growth.current,growth.required]),"progress/cap readable text")
         var snapshot=game.battle.snapshot();var preview=model.preview_equipment(game.battle,0,6,4)
