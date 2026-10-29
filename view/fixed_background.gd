@@ -57,7 +57,7 @@ func set_fixed(enabled,fixture_texture:Texture2D=null):
     if enabled==active:return true
     cancel_focus()
     if enabled and not compatible():
-        var authored=preload("res://logic/content.gd").reference_content()
+        var authored=Content.reference_content()
         if game.battle.content.id==authored.id and game.battle.content.revision<authored.revision:
             compatibility_message="旧版地图 · 3D兼容视图"
         return false

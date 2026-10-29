@@ -48,7 +48,7 @@ func run():
         g.battle=app.session.logic;g.refresh();g.motion.advance(.1)
         require(g.motion.motions.has("custom_guard_0") and not g.motion.motions.has("custom_guard_1"),"independent motion state")
         var travelled=g.motion.motions.custom_guard_0.travelled
-        var r=preload("res://logic/runtime.gd").new(g.battle.content);require(r.restore(g.battle.snapshot()),"replacement restore")
+        var r=Runtime.new(g.battle.content);require(r.restore(g.battle.snapshot()),"replacement restore")
         g.battle=r;g.refresh()
         require(g.motion.motions.custom_guard_0.travelled==travelled,"same-state replacement never restarts")
         g.skip_presentation();require(g.battle.units[1].pos==Vector2i(4,6),"other instance unmoved")

@@ -2,7 +2,7 @@ extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func run():
     var app=root.get_node("App");app.load_presentation_preferences()
-    var d=preload("res://logic/content.gd").from_file(OS.get_environment("AMBER_MOD")).data
+    var d=Content.from_file(OS.get_environment("AMBER_MOD")).data
     require(app.start_room(false,int(OS.get_environment("AMBER_TEST_PORT")),OS.get_environment("AMBER_TOKEN"),d),"connect")
     var deadline=Time.get_ticks_msec()+15000
     while not app.session.ready or app.session.pending:

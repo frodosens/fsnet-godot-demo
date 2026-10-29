@@ -7,7 +7,7 @@ func shot(name):
     assert(root.get_texture().get_image().save_png("res://docs/"+name+".png")==OK)
 func run():
     assert(DisplayServer.get_name()!="headless")
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();assert(game.scene_view.set_fixed(true));var rig=game.layer_rig;assert(rig.available)
     var truth=game.battle.snapshot();var original=game.figures[0].texture

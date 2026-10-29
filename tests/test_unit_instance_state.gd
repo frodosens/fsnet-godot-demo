@@ -25,7 +25,7 @@ func _initialize():
     require(C.validate(maximum)=="","16 instances one immutable definition")
     var max_runtime=R.new(maximum);require(max_runtime.apply_command({"kind":"end_turn","step":1}),"independent AI policies/anchors within budget")
     maximum.units.append(maximum.units[0].duplicate(true));require(not C.validate(maximum).is_empty(),"17 instances rejected")
-    var auth=preload("res://logic/authority.gd").new(d)
+    var auth=Authority.new(d)
     var revised=d.duplicate(true);revised.unit_definitions[0].damage+=1
     require(auth.handle({"rules":auth.logic.rules_hash,"content":C.hash_of(revised),"client":"template-revision"}).get("error")=="rules mismatch","template revision cannot join room")
     var app=root.get_node("App");app.new_game(d);var session=app.session

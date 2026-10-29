@@ -17,7 +17,7 @@ func run():
         app.set_oren_sequence_preview(true);game.refresh()
         assert(not preload("res://view/map_sequence.gd").shared().matching("oren",direction,game.base_directional_idle_texture(3,direction)).is_empty())
         assert(game.figures[3].texture.get_width()==128)
-        var label=preload("res://ui/style.gd").label("奥伦关键帧暂用试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 保留姿态与碎步限制",18)
+        var label=Style.label("奥伦关键帧暂用试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 保留姿态与碎步限制",18)
         label.position=Vector2(320,96);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
         await frames(140)
         await RenderingServer.frame_post_draw

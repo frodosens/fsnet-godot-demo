@@ -1,11 +1,10 @@
 extends "res://tests/support/test_case.gd"
-const Runtime=preload("res://logic/runtime.gd")
 const Model=preload("res://ui/character_details_model.gd")
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame
 func run():
-    var app=root.get_node("App");var model=Model.new();var content=preload("res://logic/content.gd").reference_content()
+    var app=root.get_node("App");var model=Model.new();var content=Content.reference_content()
     check(not model.progression({}).available,"missing fields not invented")
     for xp in [0,59,60,149,150,1620]:
         var campaign={"roster":[{"id":"mara","xp":xp}],"completed":[]}

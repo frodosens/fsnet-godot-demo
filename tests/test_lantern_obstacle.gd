@@ -1,8 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
-const Authority=preload("res://logic/authority.gd")
-const Session=preload("res://logic/session.gd")
 var app
 var capture_dir=OS.get_environment("AMBER_LANTERN_CAPTURE")
 func _initialize():call_deferred("run")

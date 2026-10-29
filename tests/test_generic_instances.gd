@@ -4,15 +4,15 @@ func _initialize():call_deferred("run")
 func frames():
     for n in range(4):await process_frame
 func run():
-    var app=root.get_node("App");var d=preload("res://logic/content.gd").reference_content();d.story.events=[]
+    var app=root.get_node("App");var d=Content.reference_content();d.story.events=[]
     var ids=["ch01_bandit_a","ch01_bandit_b","ch01_bandit_c"]
     require(Art.templates().size()==6,"six data-only templates")
     for unknown in ["ch01_bandit_d","generic_bandit_02","generic_bandit_01/../mara","mara"]:require(not Art.declared(unknown),"no wildcard alias")
     for i in 3:
         d.units[i].id=ids[i];d.units[i].name=["山贼甲","山贼乙","山贼丙"][i];d.units[i].x=[1,4,6][i];d.units[i].y=6
         require(Art.canonical_id(ids[i])=="generic_bandit_01","exact chapter alias")
-        require(preload("res://ui/style.gd").framed_portrait(ids[i])==null,"no hero portrait")
-    require(preload("res://logic/content.gd").validate(d).is_empty(),"ordinary editor JSON schema accepts template IDs")
+        require(Style.framed_portrait(ids[i])==null,"no hero portrait")
+    require(Content.validate(d).is_empty(),"ordinary editor JSON schema accepts template IDs")
     app.new_game(d);change_scene_to_file("res://main.tscn");await frames();var g=current_scene;g.refresh();g.motion.set_process(false)
     for i in 3:
         require(g.hero_refresh_libraries.has("generic_bandit_01"),"shared immutable profile, independent instance clocks below")

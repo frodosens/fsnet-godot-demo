@@ -19,7 +19,7 @@ func run():
             var game=current_scene;game.refresh();game.scene_view.set_fixed(OS.get_environment("ELSBET_VIEW")!="3d");game.selected=index;game.facing[hero]=direction
             app.set_elsbet_motion_preview(on);game.refresh()
             var title={"elsbet":"埃尔丝贝特"}[hero]+" · "+str(spec[0])+ (" · 保留旧待机 / 新移动" if on else " · 旧素材对照")
-            var label=preload("res://ui/style.gd").label(title+"\n合法测试摆位 · 正常模拟速度 · 只移动镜像，旧待机不变",18);label.position=Vector2(300,90);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
+            var label=Style.label(title+"\n合法测试摆位 · 正常模拟速度 · 只移动镜像，旧待机不变",18);label.position=Vector2(300,90);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
             await frames(12)
             if on and spec[0]!="turn":
                 await RenderingServer.frame_post_draw;root.get_texture().get_image().save_png(output+"/"+hero+"-"+direction+"-idle.png")

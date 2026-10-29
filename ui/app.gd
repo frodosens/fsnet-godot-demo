@@ -1,8 +1,4 @@
 extends Node
-const Session=preload("res://logic/session.gd")
-const Runtime=preload("res://logic/runtime.gd")
-const Authority=preload("res://logic/authority.gd")
-const Content=preload("res://logic/content.gd")
 var session
 var mobile_presentation=OS.has_feature("android")
 var safe_area_override=Rect2i() # Test-only physical screen inset fixture; never saved.

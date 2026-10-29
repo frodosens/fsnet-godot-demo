@@ -1,7 +1,5 @@
 extends "res://tests/support/test_case.gd"
 # Real ordered Lua attacks establish both actor roles; pose probes never submit commands.
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
 func _initialize():call_deferred("run")
 func run():
     var app=root.get_node("App");app.sfx_enabled=false;app.reduced_motion=false

@@ -1,3 +1,4 @@
+class_name Content
 extends RefCounted
 # Data-only mods. No script evaluation, resource paths, or writes beneath res://.
 const MAX_BYTES=131072

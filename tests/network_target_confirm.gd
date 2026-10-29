@@ -33,7 +33,7 @@ func wait_step(step):
     require(false,"step timeout")
 func run():
     app=root.get_node("App");var port=int(OS.get_environment("AMBER_TEST_PORT"));var token=OS.get_environment("AMBER_TOKEN")
-    require(app.start_room(false,port,token,preload("res://logic/content.gd").reference_content()),"real fsnet client starts")
+    require(app.start_room(false,port,token,Content.reference_content()),"real fsnet client starts")
     await wait_ready();change_scene_to_file("res://main.tscn");await frames(5);game=current_scene
     while not app.next_story().is_empty():app.advance_story(true)
     game.refresh();await frames();await tap(game.hud.action_buttons.move);await cell(Vector2i(4,6))
@@ -80,7 +80,7 @@ func run():
     await tap(game.hud.action_buttons.move);await cell(Vector2i(4,7))
     # Same-step changed snapshot is a protocol-edge fixture, not a server gameplay action.
     var altered=game.battle.content.duplicate(true);altered.units[0].hp-=1
-    var alternate=preload("res://logic/runtime.gd").new(altered)
+    var alternate=Runtime.new(altered)
     require(alternate.apply_command({"kind":"move","unit":0,"x":4,"y":6,"step":1}) and alternate.apply_command({"kind":"end_turn","step":2}),"same-step alternate fixture")
     app.set_process(false)
     require(app.session.synchronize({"rules":game.battle.rules_hash,"content":game.battle.content_hash,"snapshot":alternate.snapshot(),"history":[],"hash":alternate.state_hash(),"step":2,"ack":1}),"validated same-step changed snapshot")

@@ -1,6 +1,6 @@
 extends "res://tests/support/test_case.gd"
-const C=preload('res://logic/content.gd')
-const R=preload('res://logic/runtime.gd')
+const C=preload("res://logic/content.gd")
+const R=preload("res://logic/runtime.gd")
 func _initialize():call_deferred('run')
 func run():
  var traces=C.normalize(JSON.parse_string(FileAccess.get_file_as_string('res://tests/homeward_routes.json')))

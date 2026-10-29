@@ -23,7 +23,7 @@ func configure(data):
 func valid_key(domain,key):
     if not key is String:return false
     var parts=key.split(":",true)
-    if parts.size()!=2 or not preload("res://logic/content.gd").identifier(parts[0]):return false
+    if parts.size()!=2 or not Content.identifier(parts[0]):return false
     return parts[1] in (["front_left","front_right","back_left","back_right"] if domain=="map" else ["left","right"])
 func decode(spec,canvas):
     if not spec is Dictionary:return {}
@@ -31,7 +31,7 @@ func decode(spec,canvas):
     if not unit_ids is Array or unit_ids.size()>128:return {}
     if spec.has("unit_ids") and unit_ids.is_empty():return {}
     for id in unit_ids:
-        if not preload("res://logic/content.gd").identifier(id):return {}
+        if not Content.identifier(id):return {}
     var paths=spec.get("frames",[]);var durations=spec.get("frame_ms",[])
     if not paths is Array or paths.is_empty() or paths.size()>32:return {}
     if not durations is Array or durations.size()!=paths.size():return {}

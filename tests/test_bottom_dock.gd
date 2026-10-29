@@ -7,7 +7,7 @@ func click(button):
         var e=InputEventMouseButton.new();e.button_index=MOUSE_BUTTON_LEFT;e.position=button.get_global_rect().get_center();e.pressed=pressed;root.push_input(e,true);await process_frame
     await frames()
 func run():
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();var hud=game.hud;var dock=hud.dock
     for viewport in [Vector2i(1280,800),Vector2i(960,600),Vector2i(1280,720)]:

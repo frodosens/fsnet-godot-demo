@@ -7,7 +7,7 @@ func key(code):
     for pressed in [true,false]:
         var event=InputEventKey.new();event.keycode=code;event.physical_keycode=code;event.pressed=pressed;Input.parse_input_event(event);await process_frame
 func run():
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();var hud=game.hud;var truth=game.battle.snapshot()
     for size in [Vector2i(1280,800),Vector2i(960,600)]:

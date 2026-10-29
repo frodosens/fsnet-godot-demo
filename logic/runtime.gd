@@ -1,6 +1,6 @@
+class_name Runtime
 extends RefCounted
 # The ONLY rules implementation is battle.lua; this adapter only marshals data.
-const Content=preload("res://logic/content.gd")
 var content={}
 var content_hash=""
 var story_flags=0

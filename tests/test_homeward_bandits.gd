@@ -1,5 +1,5 @@
 extends "res://tests/support/test_case.gd"
-const C=preload('res://logic/content.gd')
+const C=preload("res://logic/content.gd")
 const Art=preload('res://view/generic_map_art.gd')
 func _initialize():call_deferred('run')
 func run():
@@ -13,7 +13,7 @@ func run():
    require(Art.canonical_id(id)=='generic_bandit_01','bandit identity')
    require(not Art.profile(id).static_fallback,'valid gait')
    require(g.hero_refresh_libraries.has(g.presentation_id(g.battle.units[i])),'actual bound presentation profile')
-   require(preload('res://ui/style.gd').framed_portrait(id)==null,'no hero portrait')
+   require(Style.framed_portrait(id)==null,'no hero portrait')
    require(g.figures[i].texture.get_width()==160,'real canonical texture')
   require(g.battle.units[2].id!=g.battle.units[3].id and g.battle.units[2].pos!=g.battle.units[3].pos,'independent instances share immutable art; motion isolation tested with legal commands')
   while not app.next_story().is_empty():app.advance_story(true)

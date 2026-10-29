@@ -31,7 +31,7 @@ func run():
                 else:g.skip_presentation()
                 require(f.texture==expected and f.flip_h==entry.idle.flip_h,"natural completion or skip standing")
                 g.get_node("MapIdle").advance(1);require(f.texture==expected,"stopped standing")
-                var snapshot=g.battle.snapshot();var runtime=preload("res://logic/runtime.gd").new(g.battle.content);require(runtime.restore(snapshot),"restore")
+                var snapshot=g.battle.snapshot();var runtime=Runtime.new(g.battle.content);require(runtime.restore(snapshot),"restore")
                 app.session.logic=runtime;g.battle=runtime;g.refresh();require(f.texture==expected and g.battle.snapshot()==snapshot,"same-state replacement keeps standing")
                 require(g.badges[i].visible,"health visible after replacement")
     print("NERI_STANDING_IDLE checks=",checks," failures=0");quit()

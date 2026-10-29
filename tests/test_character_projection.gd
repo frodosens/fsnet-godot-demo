@@ -3,7 +3,7 @@ func _initialize():call_deferred("run")
 func frames():
     for i in range(3):await process_frame
 func run():
-    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     var game=current_scene;var snapshot=game.battle.snapshot()
     for size in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=size;await frames()
@@ -26,6 +26,6 @@ func run():
     require(game.preview_ghost.billboard==BaseMaterial3D.BILLBOARD_ENABLED and game.preview_ghost.offset==Vector2(0,56))
     require(game.preview_ghost.position.y==0);require(game.preview_ghost.pixel_size==game.figures[0].pixel_size)
     require(game.battle.snapshot()==snapshot)
-    var content=preload("res://logic/content.gd").default_content();require(app.new_game(content));change_scene_to_file("res://main.tscn");await frames()
+    var content=Content.default_content();require(app.new_game(content));change_scene_to_file("res://main.tscn");await frames()
     require(not current_scene.scene_view.active);require(current_scene.figures[0].position.y==0)
     print("CHARACTER_PROJECTION checks=",checks," failures=0");quit()

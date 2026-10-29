@@ -17,7 +17,7 @@ func advance(delta):
         clocks[id]=time
         var fallback=game.direction_textures.get(id+":"+direction,game.figures[i].texture)
         var reserve=preload("res://view/reserve_art.gd").profile(profile)
-        var texture=reserve.map.get(direction,fallback) if not reserve.is_empty() else library.sample("map",preload("res://logic/presentation_profiles.gd").map_role(unit)+":"+direction,time,fallback,App.reduced_motion,profile)
+        var texture=reserve.map.get(direction,fallback) if not reserve.is_empty() else library.sample("map",PresentationProfiles.map_role(unit)+":"+direction,time,fallback,App.reduced_motion,profile)
         if App.map_sequence_enabled(profile):
             var guard=game.base_directional_idle_texture(i,direction)
             var sequences=preload("res://view/map_sequence.gd").shared()

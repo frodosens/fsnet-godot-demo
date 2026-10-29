@@ -13,9 +13,9 @@ func run():
         require(c.idle_library.sample("battle",key,.4,fallback,false,"mod-other")==fallback,"other identity fallback")
     var events=[];var units=[];var content={}
     for id in ["tessa","bram"]:
-        var data=preload("res://logic/content.gd").reference_content();var i=4 if id=="tessa" else 5
+        var data=Content.reference_content();var i=4 if id=="tessa" else 5
         data.units[i].x=data.units[0].x+1;data.units[i].y=data.units[0].y
-        var logic=preload("res://logic/runtime.gd").new(data)
+        var logic=Runtime.new(data)
         require(logic.apply_command({"kind":"attack","actor_id":"mara","target_id":id,"step":1}),"real player attack "+id)
         var truth=logic.snapshot();c.last_seen_step=-1;c.consume(1,logic.events,logic.units,data)
         var clip=c.idle_library.clips.battle[id+":right"]

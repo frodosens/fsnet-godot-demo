@@ -1,7 +1,7 @@
 extends RefCounted
 # Explicit legal test placement; never included in the default roster/content.
 static func content(actor,direction):
-    var data=preload("res://logic/content.gd").reference_content()
+    var data=Content.reference_content()
     if actor in ["adela","elsbet"]:
         var reserve_index=0 if actor=="adela" else 3
         data.units[reserve_index].id=actor

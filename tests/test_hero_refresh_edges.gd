@@ -20,7 +20,7 @@ func run():
         game.motion.advance(.4/game.character_scale);require(game.figures[index].flip_h,"first segment mirrored")
         game.motion.advance(.8/game.character_scale);require(game.facing[hero]=="front_left" and not game.figures[index].flip_h,"turn changes both frame and mirror")
         var distance=game.motion.motions[hero].travelled;var position=game.figures[index].position
-        var snapshot=game.battle.snapshot();var replacement=preload("res://logic/runtime.gd").new(game.battle.content)
+        var snapshot=game.battle.snapshot();var replacement=Runtime.new(game.battle.content)
         require(replacement.restore(snapshot),"same-state restore")
         game.session.logic=replacement;game.battle=replacement;game.refresh()
         require(game.motion.motions[hero].travelled==distance and game.figures[index].position==position,"VM replacement preserves phase")

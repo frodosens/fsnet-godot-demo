@@ -7,7 +7,6 @@ extends "res://tests/support/test_case.gd"
 #
 # Regenerate only when a rules/content change is intentional:
 #   AMBER_UPDATE_GOLDEN=1 <godot> --headless --path . --script res://tests/test_golden_snapshot.gd
-const Runtime=preload("res://logic/runtime.gd")
 
 const RULES_HASH="7dd510122458af062e62933faa6a21a55f618afb20966d5d72676e8b5fb3e341"
 const CONTENT_HASH="e3522933bf3137160005d6ba59ae822b2d121cf2bf6037ee6ed461391a1773ed"

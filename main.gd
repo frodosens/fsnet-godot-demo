@@ -1,5 +1,4 @@
 extends Node3D
-const Session = preload("res://logic/session.gd")
 var session
 const Architecture=preload("res://view/architecture.gd")
 const Hud=preload("res://ui/battle_hud.gd")
@@ -74,7 +73,7 @@ const MAP_DRAG_THRESHOLD=12.0
 # Map art only: never feed per-unit size into movement speed or combat art.
 const MAP_RENDER_FACTORS={"oren":1.05}
 func presentation_id(unit):
-    var profile=preload("res://logic/presentation_profiles.gd").resolve(unit)
+    var profile=PresentationProfiles.resolve(unit)
     return profile if not profile.is_empty() else unit.id
 func presentation_id_for_instance(id):
     for unit in battle.units:
@@ -302,7 +301,7 @@ func build_world():
     for u in battle.units:
         var sprite = preload("res://view/lit_character.gd").new()
         var profile_id=presentation_id(u)
-        var art_role=preload("res://logic/presentation_profiles.gd").map_role(u)
+        var art_role=PresentationProfiles.map_role(u)
         var art="res://assets/characters/"+profile_id+".png"
         if not ResourceLoader.exists(art):art="res://assets/sprites/"+art_role+".png"
         sprite.texture = load(art) if ResourceLoader.exists(art) else pixel_person(u.role,u.ally)
@@ -510,7 +509,7 @@ func wait_proposal():
 
 func next_wait_actor():
     # Ask the same Lua command admission on a disposable VM, not UI counters.
-    var probe=preload("res://logic/runtime.gd").new(battle.content)
+    var probe=Runtime.new(battle.content)
     var snapshot=battle.snapshot()
     for offset in range(1,battle.units.size()):
         var index=(selected+offset)%battle.units.size()
@@ -849,7 +848,7 @@ func base_directional_idle_texture(index,direction):
     if not reserve.is_empty():return reserve.map.get(direction,figures[index].texture)
     var fallback=direction_textures.get(unit.id+":"+direction,figures[index].texture)
     var idle=get_node_or_null("MapIdle")
-    return idle.library.sample("map",preload("res://logic/presentation_profiles.gd").map_role(unit)+":"+direction,0.0,fallback,true,presentation_id(unit)) if idle else fallback
+    return idle.library.sample("map",PresentationProfiles.map_role(unit)+":"+direction,0.0,fallback,true,presentation_id(unit)) if idle else fallback
 
 func hero_refresh_entry(index,direction):
     var id=presentation_id(battle.units[index])

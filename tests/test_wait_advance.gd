@@ -1,12 +1,11 @@
 extends "res://tests/support/test_case.gd"
 var app
 var game
-const Runtime=preload("res://logic/runtime.gd")
 func _initialize():call_deferred("run")
 func frames(n=4):
     for i in range(n):await process_frame
 func fresh(data={}):
-    app.new_game(data if not data.is_empty() else preload("res://logic/content.gd").reference_content())
+    app.new_game(data if not data.is_empty() else Content.reference_content())
     change_scene_to_file("res://main.tscn");await frames(6);game=current_scene
     while not app.next_story().is_empty():app.advance_story(true)
     game.refresh();await frames()
@@ -36,7 +35,7 @@ func run():
     before=game.battle.snapshot();require(not game.wait_selected() and game.battle.snapshot()==before,"double touch cannot submit a second End Turn")
     require(not game.wait_selected() or not game.presentation_active(),"AI presentation blocks input")
     # Only the selected player's faction and living, controllable units qualify.
-    var data=preload("res://logic/content.gd").reference_content()
+    var data=Content.reference_content()
     data.units[1].hp=1;data.units[3].x=2;data.units[3].y=8;data.units[3].movement=0;data.units[3].damage=10
     await fresh(data);require(app.session.submit({"kind":"end_turn"}),"real AI phase for dead-unit fixture")
     game.refresh();game.skip_presentation();await frames()

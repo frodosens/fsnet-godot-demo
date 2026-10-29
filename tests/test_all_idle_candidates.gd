@@ -2,7 +2,7 @@ extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func run():
     var app=root.get_node("App");preload("res://tests/legacy_map_fixture.gd").apply(app);app.neri_motion_preview=false # Explicit old-motion baseline; default-on trial has separate tests.
-    app.reduced_motion=false;app.new_game(preload("res://logic/content.gd").reference_content())
+    app.reduced_motion=false;app.new_game(Content.reference_content())
     change_scene_to_file("res://main.tscn");await process_frame;await process_frame
     while not app.next_story().is_empty():app.advance_story(true)
     var g=current_scene;g.refresh();var idle=g.get_node("MapIdle");idle.set_process(false);g.motion.set_process(false)
@@ -48,8 +48,8 @@ func run():
     require(is_equal_approx(idle.library.clips.map["mage:front_left"].duration,1.2),"Neri1200ms three slots")
     # Oren defence uses LEFT old group; his right-facing attack remains untouched.
     var c=load("res://ui/battle_cutin.gd").new();root.add_child(c);c.set_process(false)
-    var data=preload("res://logic/content.gd").reference_content();data.units[3].x=data.units[0].x+1;data.units[3].y=data.units[0].y
-    var logic=preload("res://logic/runtime.gd").new(data);require(logic.apply_command({"kind":"attack","unit":0,"target":3,"step":1}),"real attack")
+    var data=Content.reference_content();data.units[3].x=data.units[0].x+1;data.units[3].y=data.units[0].y
+    var logic=Runtime.new(data);require(logic.apply_command({"kind":"attack","unit":0,"target":3,"step":1}),"real attack")
     c.consume(1,logic.events,logic.units,data);c.draw_tick(5)
     require(c.defender.texture.resource_path=="res://assets/battle/oren/idle/01_inhale.png" and not c.defender.flip_h,"Oren left inhale no double mirror")
     c.draw_tick(8);require(c.defender.texture.resource_path.ends_with("battle/oren/01_brace.png"),"Oren brace takes priority")

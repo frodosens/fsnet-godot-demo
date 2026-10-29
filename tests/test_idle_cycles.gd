@@ -14,7 +14,7 @@ func run():
     require(lib.sample("map","knight:back_right",0.11,fallback,true)==fallback)
     for bad in [{"frames":["assets/../secret.png"],"frame_ms":[100]},{"frames":map_clip.frames,"frame_ms":[0,100]},{"frames":["assets/missing.png"],"frame_ms":[100]},battle_clip]:
         require(lib.decode(bad,Vector2i(96,128)).is_empty())
-    var app=root.get_node("App");require(app.new_game(preload("res://logic/content.gd").reference_content()))
+    var app=root.get_node("App");require(app.new_game(Content.reference_content()))
     var game=load("res://main.tscn").instantiate();root.add_child(game);current_scene=game
     await process_frame
     while not app.next_story().is_empty():app.advance_story(true)
@@ -28,8 +28,8 @@ func run():
     game.facing.mara="front_right";idle.advance(0);require(idle.clocks.mara==0)
     require(game.figures[0].texture==game.direction_textures["mara:front_right"])
     require(game.battle.snapshot()==snapshot)
-    var data=preload("res://logic/content.gd").reference_content();data.units[3].x=data.units[0].x+1;data.units[3].y=data.units[0].y
-    var logic=preload("res://logic/runtime.gd").new(data);require(logic.apply_command({"kind":"attack","unit":0,"target":3,"step":1}))
+    var data=Content.reference_content();data.units[3].x=data.units[0].x+1;data.units[3].y=data.units[0].y
+    var logic=Runtime.new(data);require(logic.apply_command({"kind":"attack","unit":0,"target":3,"step":1}))
     var cutin=load("res://ui/battle_cutin.gd").new();root.add_child(cutin);cutin.idle_library=lib
     var original=logic.snapshot();cutin.consume(logic.step,logic.events,logic.units,logic.content)
     cutin.draw_tick(1.5);require(cutin.attacker.texture==load("res://assets/battle/mara/01_anticipation.png"))

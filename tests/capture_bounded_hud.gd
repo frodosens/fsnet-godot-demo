@@ -5,7 +5,7 @@ func frames(n=5):
 func run():
     var small="--small" in OS.get_cmdline_user_args();var after="--after" in OS.get_cmdline_user_args()
     root.size=Vector2i(960,600) if small else Vector2i(1280,800)
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();assert(game.scene_view.set_fixed(true));game.update_move_preview(Vector2i(4,4));game.hud.refresh();await frames(10)
     await RenderingServer.frame_post_draw

@@ -1,5 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Runtime=preload("res://logic/runtime.gd")
 const Model=preload("res://ui/character_details_model.gd")
 func _initialize():
     var logic=Runtime.new();var model=Model.new();var original=logic.snapshot()

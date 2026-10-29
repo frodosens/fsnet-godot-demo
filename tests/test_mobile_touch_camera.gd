@@ -16,7 +16,7 @@ func drag(a,b,index=0):
         Input.parse_input_event(e);Input.flush_buffered_events();await frames(2)
     await send_touch(b,false,index);await frames()
 func fresh(data={}):
-    app.new_game(data if not data.is_empty() else preload("res://logic/content.gd").reference_content())
+    app.new_game(data if not data.is_empty() else Content.reference_content())
     change_scene_to_file("res://main.tscn");await frames(6);game=current_scene
     while not app.next_story().is_empty():app.advance_story(true)
     game.refresh();await frames()
@@ -103,7 +103,7 @@ func run():
     await tap(cell(target));require(game.battle.step==1 and game.battle.units[0].pos==target,"second post-drag tap confirms exactly once")
     game.skip_presentation();await frames()
     # Chapter two's objectives remain pickable after bounded camera positioning.
-    await fresh(preload("res://logic/content.gd").chapter_two_content())
+    await fresh(Content.chapter_two_content())
     for pos in [Vector2i(8,1),game.battle.units[0].pos]:
         var seen=false
         for y in [-1,0,1]:

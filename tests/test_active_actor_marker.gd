@@ -1,7 +1,7 @@
 extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func run():
-    var app=root.get_node("App");app.sfx_enabled=false;var data=preload("res://logic/content.gd").default_content()
+    var app=root.get_node("App");app.sfx_enabled=false;var data=Content.default_content()
     for y in range(data.height):data.terrain[y]="G".repeat(data.width)
     data.units[3].x=3;data.units[3].y=3;data.units[4].x=5;data.units[4].y=3;data.units[5].x=6;data.units[5].y=4
     app.new_game(data);change_scene_to_file("res://main.tscn");await process_frame;await process_frame

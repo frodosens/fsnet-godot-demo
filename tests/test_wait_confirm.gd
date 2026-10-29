@@ -1,12 +1,10 @@
 extends "res://tests/support/test_case.gd"
-const Runtime=preload("res://logic/runtime.gd")
-const Content=preload("res://logic/content.gd")
 func _initialize():call_deferred("run")
 func frames():
     for i in range(4):await process_frame
 func run():
     var data=Content.reference_content();var a=Runtime.new(data);var b=Runtime.new(data);var c=Runtime.new(data)
-    var authority=preload("res://logic/authority.gd").new(data)
+    var authority=Authority.new(data)
     require(authority.handle({"rules":"old-rules","content":a.content_hash,"client":"compat-test"}).get("error")=="rules mismatch","old peer explicitly rejected")
     var initial=a.snapshot();var rng=a.call_rule("view",{}).get("rng")
     require(not a.apply_command({"kind":"wait","unit":3,"step":1}) and a.snapshot()==initial,"enemy wait rejected atomically")

@@ -1,6 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
 func _initialize():call_deferred("run")
 func run():
     var cutin=load("res://ui/battle_cutin.gd").new();root.add_child(cutin);cutin.set_process(false)

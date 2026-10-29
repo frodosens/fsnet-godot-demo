@@ -1,6 +1,6 @@
 extends "res://tests/support/test_case.gd"
-const C=preload('res://logic/content.gd')
-const R=preload('res://logic/runtime.gd')
+const C=preload("res://logic/content.gd")
+const R=preload("res://logic/runtime.gd")
 func _initialize():call_deferred('run')
 func corridor():
  var d=C.default_content();d.width=8;d.height=10;d.terrain=[]
@@ -49,7 +49,7 @@ func run():
  var f=FileAccess.open(file,FileAccess.WRITE);f.store_string(JSON.stringify(payload));f.close()
  check(app.load_slot('slot1') and app.session.logic.snapshot()==payload.snapshot,'previous-rule save restores exact inventory/RNG/snapshot')
  payload.rules_hash='unknown';f=FileAccess.open(file,FileAccess.WRITE);f.store_string(JSON.stringify(payload));f.close();check(not app.load_slot('slot1'),'unknown rule saves still rejected')
- var authority=preload('res://logic/authority.gd').new(d)
+ var authority=Authority.new(d)
  check(authority.handle({'rules':R.SNAPSHOT_COMPATIBLE_RULES[0],'content':r.content_hash,'client':'old-client'}).has('error'),'old network rules rejected rather than silently replayed')
  print('ALLY_TRAVERSAL checks=',checks,' failures=',failures)
  quit(1 if failures else 0)

@@ -12,7 +12,7 @@ func run():
                 require(not rect.intersects(keepout),"edge layout avoids actor")
                 require(rect.position.x>=19.9 and rect.end.x<=view.x-19.9 and rect.position.y>=79.9 and rect.end.y<=view.y-69.9,"arc fully within safe viewport")
     root.size=Vector2i(1280,800)
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();await frames();var hud=game.hud;var before=game.battle.snapshot()
     require(hud.action_panel.visible and hud.arc_actor_id=="mara","arc attached to selected actor")

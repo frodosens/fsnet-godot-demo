@@ -1,5 +1,4 @@
 extends SceneTree
-const Authority=preload("res://logic/authority.gd")
 var authority
 var transport
 func _initialize():
@@ -8,7 +7,7 @@ func _initialize():
     var data={}
     var mod_path=OS.get_environment("AMBER_MOD")
     if not mod_path.is_empty():
-        var loaded=Authority.Runtime.Content.from_file(mod_path)
+        var loaded=Content.from_file(mod_path)
         if not loaded.error.is_empty():printerr("Invalid server Mod: ",loaded.error);quit(1);return
         data=loaded.data
     authority=Authority.new(data)
@@ -23,7 +22,7 @@ func _initialize():
 func _process(_delta):
     if not transport: return false
     for event in transport.poll_events():
-        var request=Authority.Runtime.Content.parse_json(event.payload)
+        var request=Content.parse_json(event.payload)
         var response=authority.handle(request)
         transport.respond(event.id,JSON.stringify(response))
     return false

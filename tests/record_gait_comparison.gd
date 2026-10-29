@@ -11,7 +11,7 @@ func run():
         var image=Image.load_from_file(old_dir+"/%02d.png"%i);assert(image!=null);old.append(ImageTexture.create_from_image(image))
     var app=root.get_node("App")
     for revised in [false,true]:
-        app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames(8)
+        app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames(8)
         while not app.next_story().is_empty():app.advance_story(true)
         var game=current_scene
         if not revised:game.motion.frames.knight.front_right=old

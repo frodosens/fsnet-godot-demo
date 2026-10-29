@@ -4,9 +4,9 @@ func run():
     var app=root.get_node("App");app.reduced_motion=false;app.sfx_enabled=false
     var c=load("res://ui/battle_cutin.gd").new();root.add_child(c);c.set_process(false)
     for id in ["finn","neri"]:
-        var data=preload("res://logic/content.gd").reference_content();var i=1 if id=="finn" else 2
+        var data=Content.reference_content();var i=1 if id=="finn" else 2
         data.units[3].x=data.units[i].x+1;data.units[3].y=data.units[i].y
-        var logic=preload("res://logic/runtime.gd").new(data)
+        var logic=Runtime.new(data)
         require(logic.apply_command({"kind":"end_turn","step":1}),"real AI turn "+id)
         c.last_seen_step=-1;c.consume(1,logic.events,logic.units,data)
         require(c.event.actor=="oren" and c.event.target==id,"actual target "+id)

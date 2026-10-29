@@ -1,6 +1,6 @@
 extends "res://tests/support/test_case.gd"
-const C=preload('res://logic/content.gd')
-const R=preload('res://logic/runtime.gd')
+const C=preload("res://logic/content.gd")
+const R=preload("res://logic/runtime.gd")
 const Player=preload('res://story/player.gd')
 func _initialize():call_deferred('run')
 func run():

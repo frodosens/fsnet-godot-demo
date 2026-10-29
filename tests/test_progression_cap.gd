@@ -1,6 +1,6 @@
 extends "res://tests/support/test_case.gd"
-const C=preload('res://logic/content.gd')
-const R=preload('res://logic/runtime.gd')
+const C=preload("res://logic/content.gd")
+const R=preload("res://logic/runtime.gd")
 func ledger(count):
  var c={'roster':[],'completed':[]}
  for i in range(count):c.completed.append('done_'+str(i).pad_zeros(2))
@@ -34,8 +34,8 @@ func run():
  var other=d.duplicate(true);other.id='unrecorded_chapter'
  var outsider=R.new(other);var prior=outsider.snapshot()
  check(not outsider.restore(truth) and outsider.snapshot()==prior,'restore rejects incompatible full ledger without state loss')
- var authority=preload('res://logic/authority.gd').new(d,room)
- var client=preload('res://logic/session.gd').new();client.logic=R.new(d)
+ var authority=Authority.new(d,room)
+ var client=Session.new();client.logic=R.new(d)
  var req={'rules':authority.logic.rules_hash,'content':authority.logic.content_hash,'client':'cap-test-client'}
  req.id=1;req.command={'kind':'end_turn','step':1}
  var reply=authority.handle(req)

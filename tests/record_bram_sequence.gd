@@ -17,7 +17,7 @@ func run():
         app.set_bram_sequence_preview(true);game.refresh()
         assert(not preload("res://view/map_sequence.gd").shared().matching("bram",direction,game.base_directional_idle_texture(5,direction)).is_empty())
         assert(game.figures[5].texture.get_width()==128)
-        var label=preload("res://ui/style.gd").label("布拉姆关键帧暂用试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 保留姿态与碎步限制",18)
+        var label=Style.label("布拉姆关键帧暂用试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 保留姿态与碎步限制",18)
         label.position=Vector2(320,96);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
         await frames(140)
         await RenderingServer.frame_post_draw

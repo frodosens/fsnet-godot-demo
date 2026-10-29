@@ -29,7 +29,7 @@ func run():
         FileAccess.set_unix_permissions(path,384);DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
         require(rejected);require(unreadable.sample("map","knight:back_right",0,fallback)==fallback)
     else:print("Unreadable-file OS permissions fixture: not run on this platform")
-    var content=preload("res://logic/content.gd").reference_content();content.units[1].role="knight"
+    var content=Content.reference_content();content.units[1].role="knight"
     var app=root.get_node("App");require(app.new_game(content));change_scene_to_file("res://main.tscn")
     await process_frame;await process_frame
     while not app.next_story().is_empty():app.advance_story(true)

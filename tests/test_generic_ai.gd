@@ -1,12 +1,12 @@
 extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func run():
-    var app=root.get_node("App");var d=preload("res://logic/content.gd").default_content();d.story.events=[]
+    var app=root.get_node("App");var d=Content.default_content();d.story.events=[]
     for y in range(d.height):d.terrain[y]="G".repeat(d.width)
     var ids=["ch01_bandit_a","ch01_bandit_b","ch01_bandit_c"]
     for i in 3:
         d.units[i+3].id=ids[i];d.units[i+3].name=["山贼甲","山贼乙","山贼丙"][i];d.units[i+3].x=[3,5,6][i];d.units[i+3].y=[3,3,4][i]
-    require(preload("res://logic/content.gd").validate(d).is_empty(),"three enemy aliases validate without changing stats")
+    require(Content.validate(d).is_empty(),"three enemy aliases validate without changing stats")
     app.new_game(d);change_scene_to_file("res://main.tscn");await process_frame;await process_frame
     var g=current_scene;g.refresh()
     for n in [g,g.motion,g.cutin,g.heal_feedback,g.generic_attack_feedback,g.event_sequence]:n.set_process(false)

@@ -25,7 +25,7 @@ func wait_presentation():
  assert(count<1800)
 func run():
  app=root.get_node('App');app.scene_renderer='auto'
- var data=preload('res://logic/content.gd').reference_content()
+ var data=Content.reference_content()
  # Legal adjacent-placement fixture, not a claimed unmodified chapter playthrough.
  data.units[3].x=4;data.units[3].y=6;data.units[3].hp=100
  assert(app.new_game(data))

@@ -1,7 +1,7 @@
 extends SceneTree
 func _initialize():call_deferred("run")
 func run():
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn")
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn")
     for i in range(8):await process_frame
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh()

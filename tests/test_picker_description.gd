@@ -12,7 +12,7 @@ func click(point):
 func joy(button):
     var e=InputEventJoypadButton.new();e.button_index=button;e.pressed=true;root.push_input(e,true)
 func run():
-    var host=Control.new();host.theme=preload("res://ui/style.gd").make_theme();host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);root.add_child(host)
+    var host=Control.new();host.theme=Style.make_theme();host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);root.add_child(host)
     var body="法术命中目标后造成伤害并降低护盾。目标必须处于有效射程内，不能穿越墙壁。冷却结束后才能再次施放。".repeat(30)+"\n"+"ModDescriptionWithoutAnySpaces".repeat(30)+"\n末尾说明可读。"
     root.min_size=Vector2i(320,240)
     for viewport in [Vector2i(1280,800),Vector2i(960,600),Vector2i(960,540)]:
@@ -48,7 +48,7 @@ func run():
         picker.entries[1].description="";picker.open_description();await frames();check(picker.description_text.text.contains("暂无详细说明"),"empty description explicit fallback")
         picker.queue_free();await frames()
     host.queue_free();await frames()
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.select_actor(2);await frames();game.hud.show_abilities();await frames();var picker=game.hud.modal
     picker.entries[0].description=body;var camera=game.camera.transform;var truth=game.battle.snapshot();picker.open_description();await frames()

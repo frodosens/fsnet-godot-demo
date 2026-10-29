@@ -2,7 +2,7 @@ extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred('run')
 func run():
  var app=root.get_node('App')
- var data=preload('res://logic/content.gd').from_file(OS.get_environment('AMBER_MOD')).data
+ var data=Content.from_file(OS.get_environment('AMBER_MOD')).data
  check(app.start_room(false,int(OS.get_environment('AMBER_TEST_PORT')),OS.get_environment('AMBER_TOKEN'),data),'connect authority')
  var deadline=Time.get_ticks_msec()+45000
  while not app.session.ready or app.session.pending:
@@ -43,7 +43,7 @@ func run():
  var until=Time.get_ticks_msec()+600
  while Time.get_ticks_msec()<until:await process_frame
  check(not g.presentation_active() and g.event_sequence.trace==expected,'completed batch not replayed')
- var offline=preload('res://logic/runtime.gd').new(data);check(offline.apply_command({'kind':'move','unit':0,'x':3,'y':3,'step':1}),'offline allied move');check(offline.apply_command({'kind':'end_turn','step':2}),'offline same AI command')
+ var offline=Runtime.new(data);check(offline.apply_command({'kind':'move','unit':0,'x':3,'y':3,'step':1}),'offline allied move');check(offline.apply_command({'kind':'end_turn','step':2}),'offline same AI command')
  check(offline.snapshot()==truth,'offline/network canonical equality')
  print('NETWORK_EVENT_SEQUENCE failures=',failures,' replacements=',replacements,' samples=',samples,' trace=',expected)
  app.session.transport.shutdown();quit(1 if failures else 0)

@@ -5,7 +5,7 @@ func frames(count):
 func key(code):
     var event=InputEventKey.new();event.pressed=true;event.physical_keycode=code;current_scene._unhandled_input(event)
 func run():
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames(10)
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames(10)
     while not app.next_story().is_empty():app.advance_story(true)
     current_scene.refresh();await frames(30)
     var initial=app.session.logic.snapshot()

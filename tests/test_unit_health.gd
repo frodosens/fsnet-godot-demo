@@ -4,7 +4,7 @@ func frames():
     for i in range(4):await process_frame
 func run():
     root.size=Vector2i(1280,800)
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();var truth=game.battle.snapshot();var measurements=[]
     for size in [Vector2i(960,600),Vector2i(1280,800),Vector2i(1920,1080)]:

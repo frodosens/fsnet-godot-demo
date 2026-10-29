@@ -1,7 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Runtime=preload("res://logic/runtime.gd")
-const Content=preload("res://logic/content.gd")
-const Authority=preload("res://logic/authority.gd")
 func _initialize():
     var data=Content.default_content()
     data.units[0].controller="ai";data.units[0].faction="crew"

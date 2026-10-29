@@ -19,7 +19,7 @@ static func profile(id):
     cache[id]={}
     var base=ROOT+id+"/";var file=FileAccess.open(base+"manifest.json",FileAccess.READ)
     if not file or file.get_length()>32768:return rejected("manifest unreadable or too large: "+id)
-    var data=preload("res://logic/content.gd").normalize(JSON.parse_string(file.get_as_text()))
+    var data=Content.normalize(JSON.parse_string(file.get_as_text()))
     cache[id]=decode_profile(data,id,base)
     return cache[id]
 static func rejected(reason):

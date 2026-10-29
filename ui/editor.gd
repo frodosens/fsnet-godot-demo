@@ -1,6 +1,5 @@
 extends Control
 const UI=preload("res://ui/style.gd")
-const Content=preload("res://logic/content.gd")
 const Grid=preload("res://ui/editor_grid.gd")
 var data={}
 var raw

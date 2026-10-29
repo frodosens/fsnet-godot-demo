@@ -15,7 +15,7 @@ func run():
             var data=preload("res://tests/walk_rear_fixture.gd").content("bram",direction)
             var target=preload("res://tests/walk_rear_fixture.gd").target(direction)
             if direction=="front_left":data.units[5].y=5;target=Vector2i(4,8)
-            check(preload("res://logic/content.gd").validate(data)=="","fixture valid")
+            check(Content.validate(data)=="","fixture valid")
             app.new_game(data);change_scene_to_file("res://main.tscn");await frames()
             while not app.next_story().is_empty():app.advance_story(true)
             var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed)

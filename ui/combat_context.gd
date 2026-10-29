@@ -14,7 +14,7 @@ static func annotate(events:Array,units:Array)->Array:
         var item=original.duplicate(true)
         var actor=item.get("actor","");var target=item.get("target","")
         if identities.has(actor) and identities.has(target):
-            item.presentation={"actor_profile":preload("res://logic/presentation_profiles.gd").resolve(identities[actor]),"target_profile":preload("res://logic/presentation_profiles.gd").resolve(identities[target]),"actor_name":identities[actor].name,"target_name":identities[target].name,
+            item.presentation={"actor_profile":PresentationProfiles.resolve(identities[actor]),"target_profile":PresentationProfiles.resolve(identities[target]),"actor_name":identities[actor].name,"target_name":identities[target].name,
                 "actor_ally":identities[actor].get("ally",false),"target_ally":identities[target].get("ally",false),
                 "actor_hp":health[actor],"actor_max_hp":int(identities[actor].max_hp),
                 "target_before":health[target],"target_max_hp":int(identities[target].max_hp)}

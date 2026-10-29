@@ -28,7 +28,7 @@ func key(code):
     await frames()
 func fresh():
     # Legal compact content fixture, not a forced outcome or altered live state.
-    var data=preload("res://logic/content.gd").reference_content()
+    var data=Content.reference_content()
     data.units[3].x=5;data.units[3].y=7;data.units[5].x=4;data.units[5].y=6
     app.new_game(data);change_scene_to_file("res://main.tscn");await frames(5);game=current_scene
     while not app.next_story().is_empty():app.advance_story(true)
@@ -65,7 +65,7 @@ func run():
     await fresh();await tap(game.hud.action_buttons.attack);await cell(Vector2i(5,7))
     # A legal alternative starting content produces a distinct authoritative state at step0.
     var altered=game.battle.content.duplicate(true);altered.units[0].hp-=1
-    game.session.logic=preload("res://logic/runtime.gd").new(altered)
+    game.session.logic=Runtime.new(altered)
     require(not game.confirm_proposal() and game.session.request_id==0,"same-step replacement state cannot confirm stale target before next process")
     await fresh();await tap(game.hud.action_buttons.attack);await cell(Vector2i(5,7))
     game.mode="ability:rally";await frames();require(game.pending_target.is_empty(),"changed ability invalidates previous target")

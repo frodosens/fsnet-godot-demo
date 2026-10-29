@@ -1,6 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Runtime=preload("res://logic/runtime.gd")
-const Content=preload("res://logic/content.gd")
 func _initialize():
     var data=Content.default_content();data.units[3].x=5;data.units[3].y=5
     var a=Runtime.new(data);var b=Runtime.new(data)

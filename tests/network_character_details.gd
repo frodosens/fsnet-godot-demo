@@ -24,7 +24,7 @@ func settle():
     app.session.defer_poll=true;await ready();await frames()
 func run():
     app=root.get_node("App");var port=int(OS.get_environment("AMBER_TEST_PORT"));var token=OS.get_environment("AMBER_TOKEN")
-    require(app.start_room(false,port,token,preload("res://logic/content.gd").reference_content()),"real fsnet room connection")
+    require(app.start_room(false,port,token,Content.reference_content()),"real fsnet room connection")
     await ready();change_scene_to_file("res://main.tscn");await frames(5);game=current_scene
     while not app.next_story().is_empty():app.advance_story(true)
     game.refresh();await frames();await click(game.hud.dock.details_button.get_global_rect().get_center())

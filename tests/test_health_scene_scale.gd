@@ -11,7 +11,7 @@ func run():
  var measurements=[]
  var reserve=preload('res://tests/reserve_art_fixture.gd').content()
  var authored_reserve=reserve.duplicate(true);authored_reserve.id='amber_bridge_reference'
- for data in [preload('res://logic/content.gd').reference_content(),reserve,authored_reserve]:
+ for data in [Content.reference_content(),reserve,authored_reserve]:
   app.new_game(data);change_scene_to_file('res://main.tscn');await frames();var g=current_scene
   var snapshot=g.battle.snapshot()
   for size in [Vector2i(1280,800),Vector2i(2400,1080),Vector2i(1600,1200)]:

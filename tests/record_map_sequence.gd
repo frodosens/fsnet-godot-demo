@@ -15,7 +15,7 @@ func run():
         while not app.next_story().is_empty():app.advance_story(true)
         var game=current_scene;game.refresh();game.scene_view.set_fixed(fixed);game.facing.mara=direction;game.selected=0
         app.set_mara_sequence_preview(true);game.refresh()
-        var label=preload("res://ui/style.gd").label("玛拉关键帧试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 单脚碎步未验收",18)
+        var label=Style.label("玛拉关键帧试验 · "+direction+"\n合法测试摆位 · 每格一循环 · 单脚碎步未验收",18)
         label.position=Vector2(320,96);label.mouse_filter=Control.MOUSE_FILTER_IGNORE;game.hud.root.add_child(label)
         await frames(100)
         await RenderingServer.frame_post_draw

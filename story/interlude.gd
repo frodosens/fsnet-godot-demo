@@ -1,5 +1,5 @@
 extends Control
-const UI=preload('res://ui/style.gd')
+const UI=preload("res://ui/style.gd")
 const P=preload('res://story/player.gd')
 var player=P.new()
 var words
@@ -37,7 +37,7 @@ func _ready():
  status=UI.paragraph('',650);status.add_theme_font_size_override('font_size',14);col.add_child(status)
  player.start(preload('res://story/library.gd').scene(scene_id))
  if FileAccess.file_exists(cursor_path):
-  var saved=preload('res://logic/content.gd').normalize(JSON.parse_string(FileAccess.get_file_as_string(cursor_path)))
+  var saved=Content.normalize(JSON.parse_string(FileAccess.get_file_as_string(cursor_path)))
   if saved is Dictionary and saved.get('origin','')==origin():player.restore(preload('res://story/library.gd').scene(scene_id),saved.get('cursor',{}))
  exit_prompt=ConfirmationDialog.new();exit_prompt.dialog_text='保存当前演出位置并退出？';add_child(exit_prompt)
  exit_prompt.confirmed.connect(func():

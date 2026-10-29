@@ -2,7 +2,7 @@ extends "res://tests/support/test_case.gd"
 func _initialize():call_deferred("run")
 func run():
     for entry in preload("res://view/generic_map_art.gd").templates():
-        var d=preload("res://logic/content.gd").default_content();d.story.events=[]
+        var d=Content.default_content();d.story.events=[]
         var before=d.units[0].duplicate(true)
         var form=preload("res://ui/content_form.gd").new();form.draft=d;root.add_child(form);await process_frame
         var id_field=form.controls["/id"];id_field.text=entry.id;id_field.text_changed.emit(entry.id)

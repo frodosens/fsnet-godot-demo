@@ -1,7 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Runtime=preload("res://logic/runtime.gd")
-const Authority=preload("res://logic/authority.gd")
-const Session=preload("res://logic/session.gd")
 
 func _initialize():
     var a=Runtime.new()

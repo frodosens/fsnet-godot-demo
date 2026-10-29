@@ -1,6 +1,4 @@
 extends SceneTree
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
 func _initialize():
     var data=Content.default_content();data.width=16;data.height=16;data.terrain=[]
     for y in range(16):data.terrain.append("GGGGGGGGGGGGGGGG")

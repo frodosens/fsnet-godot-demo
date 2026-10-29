@@ -12,7 +12,7 @@ func run():
         app.new_game(data);change_scene_to_file("res://main.tscn");await frames(4)
         while not app.next_story().is_empty():app.advance_story(true)
         var g=current_scene;g.refresh();g.facing[actor]="front_right";g.selected=i;app.set_idle_sequence_preview(true,actor);g.refresh()
-        var text=preload("res://ui/style.gd").label(actor+" · 仅新待机 / 移动保留原素材\n合法测试摆位 · 正常模拟速度",18);text.position=Vector2(320,96);text.mouse_filter=Control.MOUSE_FILTER_IGNORE;g.hud.root.add_child(text)
+        var text=Style.label(actor+" · 仅新待机 / 移动保留原素材\n合法测试摆位 · 正常模拟速度",18);text.position=Vector2(320,96);text.mouse_filter=Control.MOUSE_FILTER_IGNORE;g.hud.root.add_child(text)
         await frames(310)
         assert(app.session.submit({"kind":"move","unit":i,"x":4,"y":8}))
         g.battle=app.session.logic;g.refresh()

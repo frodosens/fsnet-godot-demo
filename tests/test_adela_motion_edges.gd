@@ -37,7 +37,7 @@ func run():
     game.motion.last_step=-1;game.motion.consume(game.battle.step,game.battle.events);game.motion.advance(.4/game.character_scale)
     require(game.figures[0].flip_h,"replay applies mirror only while moving")
     game.skip_presentation();require(not game.figures[0].flip_h,"skip restores idle")
-    var snapshot=game.battle.snapshot();var replacement=preload("res://logic/runtime.gd").new(game.battle.content)
+    var snapshot=game.battle.snapshot();var replacement=Runtime.new(game.battle.content)
     require(replacement.restore(snapshot),"snapshot restore")
     game.session.logic=replacement;game.refresh();require(not game.motion.active() and not game.figures[0].flip_h and game.battle.snapshot()==snapshot,"restored state never replays mirror")
     game.adela_motion_library.configure({})

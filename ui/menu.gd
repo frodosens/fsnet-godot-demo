@@ -45,7 +45,7 @@ func show_home():
     page.get_child(1).grab_focus()
 func start_new():
     if busy:return
-    if not App.new_game(preload("res://logic/content.gd").reference_content()):
+    if not App.new_game(Content.reference_content()):
         show_startup_error();return
     busy=true;open_battle()
 func show_startup_error():
@@ -76,20 +76,20 @@ func show_network():
     page.add_theme_constant_override("separation",8)
     page.add_child(UI.paragraph("双方合作控制同一支小队。主机离开会结束房间。本版仅支持本机 127.0.0.1。",460))
     content_picker=OptionButton.new();content_picker.fit_to_longest_item=false;content_picker.custom_minimum_size.x=460
-    network_choices=[preload("res://logic/content.gd").reference_content(),preload("res://logic/content.gd").default_content()]
+    network_choices=[Content.reference_content(),Content.default_content()]
     content_picker.add_item("内置战役 · 琥珀桥来信（新版场景）")
     content_picker.add_item("旧桥场景 · 回归兼容版")
     for file in (DirAccess.get_files_at("user://mods") if DirAccess.dir_exists_absolute("user://mods") else PackedStringArray()):
         if network_choices.size()>=33:break
         if not file.ends_with(".json"):continue
-        var loaded=preload("res://logic/content.gd").from_file("user://mods/"+file)
+        var loaded=Content.from_file("user://mods/"+file)
         if loaded.error.is_empty():
-            network_choices.append(loaded.data);content_picker.add_item(loaded.data.title+" · "+preload("res://logic/content.gd").hash_of(loaded.data).left(8))
+            network_choices.append(loaded.data);content_picker.add_item(loaded.data.title+" · "+Content.hash_of(loaded.data).left(8))
         else:
             network_choices.append({});content_picker.add_item(file+" · 无效");content_picker.set_item_disabled(content_picker.item_count-1,true);content_picker.set_item_tooltip(content_picker.item_count-1,loaded.error)
-    network_choices.append(preload("res://logic/content.gd").chapter_two_content())
+    network_choices.append(Content.chapter_two_content())
     content_picker.add_item("第二章 · 旧值房的回信")
-    network_choices.append(preload("res://logic/content.gd").chapter_three_content())
+    network_choices.append(Content.chapter_three_content())
     content_picker.add_item("第三章 · 水闸边的收据（美术待制作）")
     page.add_child(content_picker)
     page.add_child(UI.paragraph("双方请选择同一 Mod 版本；内容哈希不一致会拒绝进入。",460))

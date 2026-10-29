@@ -9,7 +9,7 @@ func shot():
     return root.get_texture().get_image()
 func run():
     assert(DisplayServer.get_name()!="headless")
-    var app=root.get_node("App");app.scene_renderer="three_d";app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.scene_renderer="three_d";app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.hud.hide();game.preview_ghost.hide()
     var truth=game.battle.snapshot()

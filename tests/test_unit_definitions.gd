@@ -1,6 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
 func source():
     var d=Content.reference_content().duplicate(true);d.version=2;d.unit_definitions=[]
     var records=[]

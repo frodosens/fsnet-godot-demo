@@ -17,7 +17,7 @@ func fixture(count):
     for i in range(count):result.append({"id":"fixture_"+str(i),"name":"测试技能"+str(i),"summary":"MP 2 · 冷却 0","description":"测试说明，只在测试中使用","reason":"法力不足" if i==1 else ""})
     return result
 func run():
-    var host=Control.new();host.theme=preload("res://ui/style.gd").make_theme();host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);root.add_child(host)
+    var host=Control.new();host.theme=Style.make_theme();host.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);root.add_child(host)
     for viewport in [Vector2i(1280,800),Vector2i(960,600)]:
         root.size=viewport;await frames()
         for count in [0,1,8,9,12,37]:
@@ -58,7 +58,7 @@ func run():
     narrow.queue_free();await frames()
     # Real HUD: snapshot/cost preservation, map targeting, cancel, invalidation and scene exit.
     host.queue_free();await frames()
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames()
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames()
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.selected=0;game.refresh();var truth=game.battle.snapshot()
     game.hud.show_abilities();await frames();var picker=game.hud.modal

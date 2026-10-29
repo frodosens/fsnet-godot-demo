@@ -9,7 +9,7 @@ func run():
     require(Art.profile("unknown_mod").is_empty() and Art.profile("mara").is_empty(),"explicit catalog identity only")
     for id in Seq.CATALOG_IDS:
         var a=Art.profile(id);require(not a.is_empty() and not a.static_fallback,"valid admitted profile "+id)
-        require(preload("res://ui/style.gd").framed_portrait(id)==null,"missing portrait does not borrow hero")
+        require(Style.framed_portrait(id)==null,"missing portrait does not borrow hero")
         for fixed in [true,false]:
             for size in [Vector2i(1280,800),Vector2i(960,600)]:
                 root.size=size

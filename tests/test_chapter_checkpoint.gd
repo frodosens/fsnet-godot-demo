@@ -1,5 +1,5 @@
 extends "res://tests/support/test_case.gd"
-const C=preload('res://logic/content.gd')
+const C=preload("res://logic/content.gd")
 func _initialize():call_deferred('run')
 func run():
  var app=root.get_node('App');app.save_root='user://checkpoint_'+str(Time.get_ticks_usec())

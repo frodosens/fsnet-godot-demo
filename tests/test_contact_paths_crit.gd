@@ -1,6 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
 func _initialize():call_deferred("run")
 func run():
     var data=Content.default_content();data.units[3].x=3;data.units[3].y=5;data.units[3].hp=100

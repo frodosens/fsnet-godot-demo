@@ -1,5 +1,5 @@
 extends "res://tests/support/test_case.gd"
-const C=preload('res://logic/content.gd')
+const C=preload("res://logic/content.gd")
 func _initialize():call_deferred('run')
 func frames(n=4):
  for i in range(n):await process_frame

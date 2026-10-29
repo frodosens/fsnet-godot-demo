@@ -7,7 +7,7 @@ func click(point):
         var e=InputEventMouseButton.new();e.position=point;e.button_index=MOUSE_BUTTON_LEFT;e.pressed=pressed;root.push_input(e,true);await process_frame
 func run():
     root.size=Vector2i(1280,800)
-    var app=root.get_node("App");app.new_game(preload("res://logic/content.gd").reference_content());change_scene_to_file("res://main.tscn");await frames(10)
+    var app=root.get_node("App");app.new_game(Content.reference_content());change_scene_to_file("res://main.tscn");await frames(10)
     while not app.next_story().is_empty():app.advance_story(true)
     var game=current_scene;game.refresh();game.scene_view.set_fixed(true);await frames(30)
     var truth=game.battle.snapshot()

@@ -1,7 +1,5 @@
 extends "res://tests/support/test_case.gd"
 const Art=preload("res://view/reserve_art.gd")
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
 const Fixture=preload("res://tests/reserve_art_fixture.gd")
 func _initialize():call_deferred("run")
 func frames():

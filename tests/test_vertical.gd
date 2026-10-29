@@ -1,5 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Content=preload("res://logic/content.gd")
 var app
 func _initialize():call_deferred("run")
 func run():

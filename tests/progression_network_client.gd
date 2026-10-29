@@ -1,6 +1,6 @@
 extends "res://tests/support/test_case.gd"
-const S=preload('res://logic/session.gd')
-const R=preload('res://logic/runtime.gd')
+const S=preload("res://logic/session.gd")
+const R=preload("res://logic/runtime.gd")
 var s
 var role='driver'
 var elapsed=0.0

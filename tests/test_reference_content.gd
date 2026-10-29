@@ -1,8 +1,4 @@
 extends "res://tests/support/test_case.gd"
-const Content=preload("res://logic/content.gd")
-const Runtime=preload("res://logic/runtime.gd")
-const Authority=preload("res://logic/authority.gd")
-const Session=preload("res://logic/session.gd")
 var request_id=0
 func _initialize():call_deferred("run")
 func distance(a,b):return absi(a.x-b.x)+absi(a.y-b.y)

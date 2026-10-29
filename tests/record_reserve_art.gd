@@ -19,7 +19,7 @@ func attack(actor,target):
 func run():
     root.size=Vector2i(1280,800);app=root.get_node("App");app.sfx_enabled=false
     var layer=CanvasLayer.new();layer.layer=100;root.add_child(layer)
-    caption=preload("res://ui/style.gd").label("",20);caption.position=Vector2(24,118);layer.add_child(caption)
+    caption=Style.label("",20);caption.position=Vector2(24,118);layer.add_child(caption)
     caption.text="备用美术样板 · 既有规则承载，不是新职业"
     await scene(preload("res://tests/reserve_art_fixture.gd").content());await wait_frames(20)
     for direction in preload("res://view/reserve_art.gd").DIRECTIONS:

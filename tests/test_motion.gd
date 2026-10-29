@@ -1,6 +1,5 @@
 # ARCHIVED: historical walk-frame diagnostic, not current idle-slide runtime.
 extends "res://tests/support/test_case.gd"
-const Content=preload("res://logic/content.gd")
 func _initialize():call_deferred("run")
 func run():
     var app=root.get_node("App");var data=Content.default_content();data.units[0].x=2;app.new_game(data)

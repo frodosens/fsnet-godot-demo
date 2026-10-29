@@ -1,7 +1,7 @@
 extends "res://tests/test_mobile_touch_camera.gd"
 const Targeting=preload("res://view/targeting_preview.gd")
 func fixture():
-    var data=preload("res://logic/content.gd").reference_content()
+    var data=Content.reference_content()
     data.units[3].x=5;data.units[3].y=7;data.units[5].x=4;data.units[5].y=6
     return data
 func named(prefix):

@@ -22,7 +22,7 @@ func start(item):
         if game.battle.units[i].id==item.get("actor"):actor_index=i
         if game.battle.units[i].id==item.get("target"):target_index=i
     if actor_index<0 or target_index<0:return false
-    var profiles=preload("res://logic/presentation_profiles.gd")
+    var profiles=PresentationProfiles
     if not art.declared(profiles.resolve(game.battle.units[actor_index])) and not art.declared(profiles.resolve(game.battle.units[target_index])):return false
     event=item.duplicate(true);elapsed=0
     label.text=game.battle.units[actor_index].name+" → "+game.battle.units[target_index].name+"  −"+str(item.get("damage",0))
