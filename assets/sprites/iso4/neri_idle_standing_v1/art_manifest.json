@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "character_id": "neri",
+  "scope": "idle-only correction; accepted motion assets unchanged",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "source_video_sha256": "3ea76d72b7e7665a47a3aeca5f9382f03b96f92d3fd38a8037991c67ef45e731",
+  "source_frame_indices": {
+    "front_left": 0,
+    "back_left": 0
+  },
+  "previous_idle_frame_indices": {
+    "front_left": 22,
+    "back_left": 22
+  },
+  "selection": "Initial reference stance before gait starts; naturally separated uncrossed feet. Static held idle, not breathing animation.",
+  "fixed_registration": {
+    "source_resolution": [
+      1280,
+      720
+    ],
+    "panel": [
+      640,
+      720
+    ],
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resampling": "nearest",
+    "per_frame_adjustment": false
+  },
+  "right_directions": {
+    "front_right": {
+      "source": "front_left",
+      "flip_h": true
+    },
+    "back_right": {
+      "source": "back_left",
+      "flip_h": true
+    }
+  },
+  "notes": [
+    "Do not change walk cycle timing or images.",
+    "Preserve old resources; switch idle references only.",
+    "Initial stance retains original source styling; generated walk has some style variation.",
+    "Mirror flips equipment handedness as current accepted pipeline already does."
+  ],
+  "frames": [
+    {
+      "direction": "front_left",
+      "file": "front_left_idle_00.png",
+      "source_frame": 0,
+      "sha256": "33ffb53ed4ea9baa8d593943973c60f740347f2b253ff35926f98695254eccd0",
+      "alpha_bbox": [
+        59,
+        43,
+        117,
+        144
+      ]
+    },
+    {
+      "direction": "back_left",
+      "file": "back_left_idle_00.png",
+      "source_frame": 0,
+      "sha256": "870f7736ee9b5cc172982183b2285e07402ead8624f2059314325bca3d8d2395",
+      "alpha_bbox": [
+        53,
+        45,
+        103,
+        144
+      ]
+    }
+  ]
+}

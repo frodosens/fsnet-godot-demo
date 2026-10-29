@@ -10,7 +10,7 @@
         "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/front_left_idle_00.png",
         "idle": {
           "frames": [
-            "assets/sprites/iso4/neri_seedance_mini_v2/idle/front_left/front_left_idle_00.png"
+            "assets/sprites/iso4/neri_idle_standing_v1/front_left_idle_00.png"
           ],
           "ticks": [
             1
@@ -55,7 +55,7 @@
         "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/front_right_idle_00.png",
         "idle": {
           "frames": [
-            "assets/sprites/iso4/neri_seedance_mini_v2/idle/front_left/front_left_idle_00.png"
+            "assets/sprites/iso4/neri_idle_standing_v1/front_left_idle_00.png"
           ],
           "ticks": [
             1
@@ -100,7 +100,7 @@
         "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/back_left_idle_00.png",
         "idle": {
           "frames": [
-            "assets/sprites/iso4/neri_seedance_mini_v2/idle/back_left/back_left_idle_00.png"
+            "assets/sprites/iso4/neri_idle_standing_v1/back_left_idle_00.png"
           ],
           "ticks": [
             1
@@ -145,7 +145,7 @@
         "neutral_guard": "assets/sprites/iso4/idle_candidate/neri/back_right_idle_00.png",
         "idle": {
           "frames": [
-            "assets/sprites/iso4/neri_seedance_mini_v2/idle/back_left/back_left_idle_00.png"
+            "assets/sprites/iso4/neri_idle_standing_v1/back_left_idle_00.png"
           ],
           "ticks": [
             1
