@@ -6,6 +6,8 @@ var last_step=-1
 var batches=[]
 var events=[]
 var current={}
+var map_items=[]
+var impact_applied=false
 var units=[]
 var content={}
 var positions={}
@@ -46,6 +48,18 @@ func play_next():
     current={}
     while not events.is_empty():
         current=events.pop_front();record(current)
+        map_items=[];impact_applied=false
+        if game.map_magic.accepts(current,content):
+            map_items.append(current)
+            # Existing Neri AoE emits one consecutive event per distinct recipient.
+            # Do not merge repeated targets (separate effect/hit) or command batches.
+            var targets=[current.get('target')]
+            while current.get('ability')=='ember' and not events.is_empty():
+                var next=events[0]
+                if not game.map_magic.accepts(next,content) or next.get('actor')!=current.actor or next.get('ability')!='ember' or next.get('target') in targets:break
+                targets.append(next.target);map_items.append(events.pop_front());record(next)
+            game.map_magic.start(map_items,positions)
+            return
         match current.get('kind',''):
             'move':
                 game.motion.last_step=-1
@@ -65,7 +79,16 @@ func play_next():
         apply_result()
         current={}
     start_batch()
+func map_impact():
+    if map_items.is_empty() or impact_applied:return
+    impact_applied=true
+    for e in map_items:
+        if e.kind=='attack':health[e.target]=int(e.hp)
+        elif e.kind=='heal':health[e.target]=health.get(e.target,0)+int(e.amount)
+    sync_visuals()
 func apply_result():
+    if not map_items.is_empty():
+        map_impact();map_items.clear();return
     if current.get('kind')=='move' and current.get('path') is Array and not current.path.is_empty():
         var end=current.path[-1];positions[current.actor]=Vector2i(end.x,end.y);facings[current.actor]=game.facing.get(current.actor,"front")
     if current.get('kind')=='attack':health[current.target]=int(current.hp)
@@ -76,6 +99,9 @@ func motion_finished():
     apply_result();play_next()
 func _process(_delta):
     if current.is_empty():return
+    if not map_items.is_empty():
+        if not game.map_magic.active:apply_result();play_next()
+        return
     var done=false
     match current.get('kind'):
         'move':done=not game.motion.active()
@@ -93,6 +119,7 @@ func sync_visuals():
         game.figures[i].visible=hp>0;game.badges[i].visible=hp>0
         game.badges[i].position=game.badge_position(i)
         game.badges[i].update_health(hp,u.max_hp,u.ally,i==game.selected)
+    if game.hud:game.hud.sync_presented_health()
     if game.selected>=0 and game.selected<game.figures.size():
         var p=game.figures[game.selected].position;game.selection_ring.position=Vector3(p.x,0.04,p.z)
 func settle_truth():
@@ -102,8 +129,10 @@ func settle_truth():
         game.figures[i].position=Vector3(u.x,game.figure_height(i),u.y)
         game.figures[i].visible=u.hp>0;game.badges[i].visible=u.hp>0
         game.badges[i].position=game.badge_position(i);game.badges[i].update_health(u.hp,u.max_hp,u.ally,i==game.selected)
+    if game.hud:game.hud.sync_presented_health()
 func finish():
-    batches.clear();events.clear();current={}
+    batches.clear();events.clear();current={};map_items.clear();impact_applied=false
+    if game.map_magic:game.map_magic.finish()
     if game.motion:game.motion.finish(false)
     if game.cutin:game.cutin.finish()
     if game.heal_feedback:game.heal_feedback.clear()

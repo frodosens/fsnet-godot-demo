@@ -141,7 +141,7 @@ func sync_shadows():
         var p=game.figures[i].position
         var footprint=Vector2(0.56,0.38)*game.character_scale*game.map_render_factor(game.battle.units[i].id)
         if not shadows[i].mesh.size.is_equal_approx(footprint):shadows[i].mesh.size=footprint
-        shadows[i].position=Vector3(p.x,0.008,p.z);shadows[i].visible=game.battle.units[i].hp>0
+        shadows[i].position=Vector3(p.x,0.008,p.z);shadows[i].visible=game.figures[i].visible
 func _process(delta):
     if not active:return
     fit()

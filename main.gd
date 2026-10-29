@@ -7,6 +7,7 @@ var hud
 var cutin
 var event_sequence
 var heal_feedback
+var map_magic
 var motion
 var battle
 var last_step = -1
@@ -368,6 +369,7 @@ func build_hud():
     cutin=preload("res://ui/battle_cutin.gd").new();add_child(cutin)
     motion=preload("res://view/unit_motion.gd").new();motion.game=self;add_child(motion);motion.last_step=battle.step
     heal_feedback=preload("res://view/heal_feedback.gd").new();heal_feedback.game=self;add_child(heal_feedback);heal_feedback.last_step=battle.step
+    map_magic=preload("res://view/map_magic.gd").new();map_magic.game=self;add_child(map_magic)
     event_sequence=preload("res://view/event_sequence.gd").new();event_sequence.game=self;add_child(event_sequence);event_sequence.last_step=battle.step
     active_actor_marker=preload("res://view/active_actor_marker.gd").new();active_actor_marker.game=self;add_child(active_actor_marker)
 

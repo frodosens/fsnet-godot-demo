@@ -240,10 +240,10 @@ func refresh():
         var u=logic.units[i]
         if u.ally or u.controller=="player":
             var b=hero_column.get_child(button_index);button_index+=1
-            b.tooltip_text="%s %d/%d · %s"%[u.name,u.hp,u.max_hp,"友军 AI" if u.controller=="ai" else "选择队员"]
+            b.tooltip_text="%s %d/%d · %s"%[u.name,presented_hp(u),u.max_hp,"友军 AI" if u.controller=="ai" else "选择队员"]
             b.disabled=u.hp<=0 or u.controller!="player"
             b.visible=game.selected!=i
-            b.get_child(1).max_value=u.max_hp;b.get_child(1).value=u.hp
+            b.get_child(1).max_value=u.max_hp;b.get_child(1).value=presented_hp(u)
             var border=StyleBoxFlat.new();border.bg_color=Color(0.12,0.17,0.16,0.7);border.border_color=Color("dfa75f") if game.selected==i else Color("59624b");border.set_border_width_all(2 if game.selected==i else 1);b.add_theme_stylebox_override("normal",border)
     detail.text="队伍休整中。";profession_label.text="";move_label.text="";act_label.text=""
     var active=game.selected>=0 and logic.usable(game.selected)
@@ -260,8 +260,8 @@ func refresh():
         profession_label.position=detail.position+Vector2(detail.get_theme_font("font").get_string_size(u.name,HORIZONTAL_ALIGNMENT_LEFT,-1,24).x+10,6)
         detail.tooltip_text=skill+"\n"+detail.tooltip_text
         move_label.text="移动 %d"%maxi(0,u.move_actions-u.moves_used);act_label.text="行动 %d"%(0 if u.acted else 1)
-        hp_bar.max_value=u.max_hp;hp_bar.value=u.hp;mp_bar.max_value=maxi(1,u.max_mp);mp_bar.value=u.mp
-        hp_label.text="%d/%d"%[u.hp,u.max_hp];mp_label.text="%d/%d"%[u.mp,u.max_mp]
+        hp_bar.max_value=u.max_hp;hp_bar.value=presented_hp(u);mp_bar.max_value=maxi(1,u.max_mp);mp_bar.value=u.mp
+        hp_label.text="%d/%d"%[presented_hp(u),u.max_hp];mp_label.text="%d/%d"%[u.mp,u.max_mp]
         action_buttons.move.text="移动"
         action_buttons.move.disabled=not active or u.moves_used>=u.move_actions
         action_buttons.attack.disabled=not active or u.acted
@@ -560,3 +560,17 @@ func action_emblem(name):
     var holder=Control.new();holder.custom_minimum_size=Vector2(28,28);holder.mouse_filter=Control.MOUSE_FILTER_IGNORE
     var frame=TextureRect.new();frame.texture=load("res://assets/ui/hud_v3/action_unselected.png");frame.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;frame.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;frame.mouse_filter=Control.MOUSE_FILTER_IGNORE;frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);holder.add_child(frame)
     var icon=art_icon(name);icon.position=Vector2(4,4);holder.add_child(icon);return holder
+
+# Read-only projection of queued HP. Admission continues to use authoritative units.
+func presented_hp(unit):
+    if game.event_sequence and game.event_sequence.active():return game.event_sequence.health.get(unit.id,unit.hp)
+    return unit.hp
+func sync_presented_health():
+    var index=1
+    for unit in game.battle.units:
+        if unit.ally or unit.controller=="player":
+            hero_column.get_child(index).get_child(1).value=presented_hp(unit);index+=1
+    var selected=game.selected if game.selected>=0 else 0
+    if selected<game.battle.units.size():
+        var unit=game.battle.units[selected]
+        hp_bar.value=presented_hp(unit);hp_label.text="%d/%d"%[presented_hp(unit),unit.max_hp]
