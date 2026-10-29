@@ -55,7 +55,11 @@ $env:PYTHONIOENCODING = 'utf-8'
 $benign = @(
     'Failed to read the root certificate store',
     'at: get_system_ca_certificates',
-    'VSync is not supported'
+    'VSync is not supported',
+    # Godot 4.6.3 prints renderer-shutdown diagnostics for the dummy backend used
+    # by --headless; they are not assertions and never fail a test body.
+    'were leaked at exit',
+    'PagedAllocator'
 )
 $failurePattern = 'SCRIPT ERROR|\bERROR:|\bFAIL(?:URE)?(?:\s|:)|Assertion failed|\bfailures\s*=\s*[1-9]\d*'
 

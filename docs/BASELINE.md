@@ -30,7 +30,11 @@ The script:
 3. runs the python checks and every `test_*.gd` listed in `tools/test.sh`
    (that file remains the single source of truth for the list);
 4. fails a child that exits 0 but printed `ERROR:`, `SCRIPT ERROR`, a `FAIL`
-   marker or a non-zero `failures=` count, mirroring `tools/run_checked.py`;
+   marker or a non-zero `failures=` count, mirroring `tools/run_checked.py`.
+   Engine messaging that is not an assertion is allow-listed: the root
+   certificate query on Windows, VSync on the dummy renderer, and the renderer
+   shutdown diagnostics Godot 4.6.3 prints for `--headless` ("were leaked at
+   exit", "PagedAllocator");
 5. restores importer-rewritten `*.import` metadata and removes generated
    `*.uid`/`*.import` files so the checkout stays clean.
 
@@ -57,7 +61,7 @@ assertion into a failure even when Godot exits zero.
 | Item | Value |
 |---|---|
 | OS | Windows, `F:\workspace` checkout |
-| Engine | Godot **4.6.1.stable.official.14d19694e** (project declares 4.6.3) |
+| Engine | Godot **4.6.3.stable.official.7d41c59c4** (the version the project declares) |
 | Native runtime | prebuilt `bin/windows/x86_64/libamber.dll` (`compatibility_minimum = "4.6"`), loaded successfully |
 | Python | bundled 3.x used for the asset checks |
 | Import | 25 s, 1276 resources, `.godot/` ≈ 69 MB (git-ignored) |
