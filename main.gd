@@ -29,6 +29,7 @@ var buttons = []
 var facing={}
 # Separate movement-only opt-in; does not replace Neri idle profile.
 var hero_refresh_libraries={
+    "rodd":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/rodd_seedance_mini_v1/runtime_manifest.json"),
     "mara":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/mara_seedance_mini_v2/runtime_manifest.json"),
     "finn":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/finn_seedance_mini_v2/runtime_manifest.json"),
     "neri":preload("res://view/map_sequence.gd").new("res://assets/sprites/iso4/neri_seedance_mini_v2/runtime_manifest.json")}
@@ -826,7 +827,8 @@ func base_directional_idle_texture(index,direction):
 
 func hero_refresh_entry(index,direction):
     var id=battle.units[index].id
-    if not App.hero_map_refresh_previews.get(id,false) or not hero_refresh_libraries.has(id):return {}
+    var enabled=App.rodd_motion_preview if id=="rodd" else App.hero_map_refresh_previews.get(id,false)
+    if not enabled or not hero_refresh_libraries.has(id):return {}
     return hero_refresh_libraries[id].matching(id,direction,base_directional_idle_texture(index,direction))
 func apply_map_idle_texture(index,direction,legacy_texture=null):
     var entry=hero_refresh_entry(index,direction)

@@ -1,0 +1,492 @@
+{
+  "schema_version": 1,
+  "character_id": "rodd",
+  "canvas": [
+    160,
+    160
+  ],
+  "root": [
+    80,
+    144
+  ],
+  "canonical_reference_body_height_px": 100,
+  "alpha_bbox_threshold": 128,
+  "direction_sources": {
+    "front_left": "front_left",
+    "front_right": "front_left mirrored",
+    "back_left": "back_left",
+    "back_right": "back_left mirrored"
+  },
+  "source_cycles": {
+    "front_left": {
+      "indices": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24
+      ],
+      "endpoint": 27,
+      "weights": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "source_fps": 24
+    },
+    "back_left": {
+      "indices": [
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24
+      ],
+      "endpoint": 27,
+      "weights": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "source_fps": 24
+    }
+  },
+  "idle_selection": "Preserve canonical original idle; pad original 128px canvas by (16,24), no body resizing.",
+  "fixed_registration": {
+    "source_canvas": [
+      1280,
+      720
+    ],
+    "panel_canvas": [
+      640,
+      720
+    ],
+    "source_root": [
+      320,
+      528
+    ],
+    "scale": 0.3333333333333333,
+    "inverse_affine": [
+      3,
+      0,
+      80,
+      0,
+      3,
+      96
+    ],
+    "resample": "nearest",
+    "per_frame_adjustment": false
+  },
+  "key": "green excess alpha; zero transparent RGB; green despill on partial-alpha edges",
+  "frames": [
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/front_left/front_left_walk_00.png",
+      "sha256": "cb1e022e89732110bb4a61cdde58452d059a65331b8eb1fe4f1d30d140217513",
+      "source_frame": 3,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        35,
+        43,
+        111,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        35,
+        43,
+        111,
+        144
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/front_left/front_left_walk_01.png",
+      "sha256": "81ec5d9b281a65d520113937cdf730a9f059190928d030126148f0cb235cec0d",
+      "source_frame": 6,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        33,
+        43,
+        113,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        32,
+        43,
+        113,
+        144
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/front_left/front_left_walk_02.png",
+      "sha256": "0996279c44819649ddac9e63488013d8ddfaed7ac21b19f95226e49110889517",
+      "source_frame": 9,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        29,
+        43,
+        113,
+        144
+      ],
+      "any_alpha_bbox_exclusive": [
+        29,
+        42,
+        114,
+        144
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/front_left/front_left_walk_03.png",
+      "sha256": "1de4246c25ccb8fd34d69de73af7ad4c25d53e165f9f358653190cebabd25431",
+      "source_frame": 12,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        25,
+        43,
+        115,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        25,
+        43,
+        115,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/front_left/front_left_walk_04.png",
+      "sha256": "5b589b708600cb0628aa64ca751417cef4576955813f0e3965b56e06135bca9f",
+      "source_frame": 15,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        27,
+        43,
+        115,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        26,
+        43,
+        115,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/front_left/front_left_walk_05.png",
+      "sha256": "0783bd11e0f84730571c9325441c4755b02321aa72033d652b2492882b9bdf1f",
+      "source_frame": 18,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        30,
+        42,
+        113,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        30,
+        42,
+        113,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/front_left/front_left_walk_06.png",
+      "sha256": "9c0bfa77f157020528844928482518c54e1fce38e7771aa6b6a664fc5fb4ec2f",
+      "source_frame": 21,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        34,
+        42,
+        112,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        33,
+        42,
+        112,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "front_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/front_left/front_left_walk_07.png",
+      "sha256": "c627e84f3e441a27100858ed4a577877640d97b4072748fda7c35d1d07f7abff",
+      "source_frame": 24,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        36,
+        43,
+        111,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        36,
+        43,
+        111,
+        145
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "front_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/idle/front_left/front_left_idle_00.png",
+      "sha256": "746e88ca23760de1a411b6baa04eeefbc4584896b6e802bb2b670213539044c0",
+      "source": "unchanged canonical sprite padded +16,+24"
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/back_left/back_left_walk_00.png",
+      "sha256": "17c8a03c905e118d684d3262a2c70be4462982c90ef9b094ec9e62636eba305f",
+      "source_frame": 3,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        51,
+        43,
+        127,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        43,
+        127,
+        147
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 1,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/back_left/back_left_walk_01.png",
+      "sha256": "8e88c6b484856200ff2bfe178c198c58af7794863bba3676ecccd9c4ad2fec56",
+      "source_frame": 6,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        49,
+        42,
+        127,
+        147
+      ],
+      "any_alpha_bbox_exclusive": [
+        49,
+        42,
+        127,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 2,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/back_left/back_left_walk_02.png",
+      "sha256": "15f17204f52450e7ab316c210e5eebd0ed6f6585c32a9bec0008c4607379f758",
+      "source_frame": 9,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        49,
+        42,
+        126,
+        148
+      ],
+      "any_alpha_bbox_exclusive": [
+        48,
+        42,
+        126,
+        148
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 3,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/back_left/back_left_walk_03.png",
+      "sha256": "7dab329ceb5381ca09744a5695e27145144c81c79f6a4ef45bdf289375d2a611",
+      "source_frame": 12,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        48,
+        43,
+        126,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        48,
+        43,
+        126,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 4,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/back_left/back_left_walk_04.png",
+      "sha256": "98b61fae1789043ff31c12344874a13c2100e5afde4b0b4b9bbf502b8374f398",
+      "source_frame": 15,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        49,
+        43,
+        127,
+        149
+      ],
+      "any_alpha_bbox_exclusive": [
+        49,
+        43,
+        127,
+        149
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 5,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/back_left/back_left_walk_05.png",
+      "sha256": "3dcd220f6111b8fbf6c5b222eb5b5f2cf83a0782c6fd240ef778f50a5501b2a3",
+      "source_frame": 18,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        50,
+        42,
+        127,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        50,
+        42,
+        127,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 6,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/back_left/back_left_walk_06.png",
+      "sha256": "bc0cff3036ae65cfd3b614f49c8af9f0a19545baefdfa8c073267b1f5dbbc74e",
+      "source_frame": 21,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        51,
+        42,
+        126,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        51,
+        42,
+        126,
+        145
+      ]
+    },
+    {
+      "kind": "motion",
+      "direction": "back_left",
+      "frame": 7,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/motion/back_left/back_left_walk_07.png",
+      "sha256": "392482a1d87df9a9f2386406bc1e718322cf83523b00aa9bd8b0124388ec91f1",
+      "source_frame": 24,
+      "weight": 3,
+      "alpha_bbox_exclusive": [
+        52,
+        43,
+        126,
+        145
+      ],
+      "any_alpha_bbox_exclusive": [
+        52,
+        43,
+        126,
+        145
+      ]
+    },
+    {
+      "kind": "idle",
+      "direction": "back_left",
+      "frame": 0,
+      "file": "assets/sprites/iso4/rodd_seedance_mini_v1/idle/back_left/back_left_idle_00.png",
+      "sha256": "8e56fb74ab43e463b8ede000e4d410dc9b5de16c6c494cee1a87c911bdbb359c",
+      "source": "unchanged canonical sprite padded +16,+24"
+    }
+  ],
+  "quality_caveats": [
+    "Only early cycle source frames 3 through 26 admitted. Late back-left video rotates toward back-right and is excluded.",
+    "Generated pixels simplify canonical face/costume texture slightly; original static idle preserved.",
+    "Right views mirror equipment handedness, matching approved pipeline."
+  ],
+  "qa": {
+    "front_left": {
+      "adjacent_rgba_MAE": [
+        5.822,
+        5.483,
+        4.732,
+        2.942,
+        5.691,
+        5.333,
+        6.07,
+        3.997
+      ],
+      "loop_endpoint_MAE": 2.976,
+      "alpha_bottom_range": [
+        144,
+        149
+      ]
+    },
+    "back_left": {
+      "adjacent_rgba_MAE": [
+        5.021,
+        3.482,
+        3.63,
+        3.252,
+        4.238,
+        3.83,
+        4.339,
+        3.865
+      ],
+      "loop_endpoint_MAE": 1.258,
+      "alpha_bottom_range": [
+        145,
+        149
+      ]
+    }
+  }
+}

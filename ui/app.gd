@@ -32,6 +32,7 @@ var bram_sequence_preview=true # User-accepted provisional gesture and shuffle.
 var oren_sequence_preview=true # Provisional idle/motion; old art remains available.
 var tessa_motion_preview=true
 const NERI_MOTION_DEFAULT_VERSION=1
+var rodd_motion_preview=false # Review-pending map-only trial, independent rollback.
 var adela_motion_preview=true # Independent movement-only two-panel trial.
 var neri_motion_preview=true # User-approved default; independent of Neri idle.
 var finn_motion_preview=false # Motion-only trial; original Finn idle is retained.
@@ -41,10 +42,13 @@ var presentation_preferences_path="user://presentation.cfg"
 func load_presentation_preferences():
     for id in hero_map_refresh_previews:hero_map_refresh_previews[id]=true
     for id in idle_sequence_previews:idle_sequence_previews[id]=false
+    rodd_motion_preview=false
     adela_motion_preview=true;neri_motion_preview=true;tessa_motion_preview=true;health_bar_avoidance=false;mara_sequence_preview=false;finn_motion_preview=false;oren_sequence_preview=true;bram_sequence_preview=true
     var config=ConfigFile.new()
     var loaded=config.load(presentation_preferences_path)
     if loaded==OK:
+        var rodd_value=config.get_value("map","rodd_motion_preview",false)
+        if rodd_value is bool:rodd_motion_preview=rodd_value
         var value=config.get_value("map","health_bar_avoidance",false)
         if value is bool:health_bar_avoidance=value
         value=config.get_value("map","mara_sequence_preview",false)
@@ -382,3 +386,13 @@ func set_hero_map_refresh_preview(on,id):
     else:push_warning("Cannot save hero refresh preference without overwriting unreadable settings")
     var game=get_tree().current_scene
     if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art(id)
+
+func set_rodd_motion_preview(on):
+    rodd_motion_preview=bool(on)
+    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
+    if loaded==OK or loaded==ERR_FILE_NOT_FOUND:
+        config.set_value("map","rodd_motion_preview",rodd_motion_preview)
+        if config.save(presentation_preferences_path)!=OK:push_warning("Cannot save Rodd motion preference")
+    else:push_warning("Cannot save Rodd preference without overwriting unreadable settings")
+    var game=get_tree().current_scene
+    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("rodd")

@@ -16,8 +16,8 @@ func run():
         var truth=g.battle.snapshot();var scroll=g.hud.modal.find_child("AnimationOptions",true,false)
         check(scroll!=null and scroll.clip_contents,"options clipped")
         check(root.get_visible_rect().encloses(scroll.get_global_rect()),"bounded scroll area")
-        var toggles=scroll.find_children("*","CheckButton",true,false);check(toggles.size()==13,"thirteen independent animation controls including three hero V2 trials")
-        var expected=["玛拉视频关键帧（候选）","芬恩视频移动（候选）","奥伦视频关键帧（暂用）","布拉姆视频关键帧（暂用）","泰莎视频移动（试验）","奈莉镜像移动（试验）","阿黛拉双面板移动（试验）","奈莉视频待机（暂用）","阿黛拉视频待机（暂用）","埃尔丝贝特视频待机（暂用）","玛拉地图重制 V2（试验）","芬恩地图重制 V2（试验）","奈莉地图重制 V2（试验）"]
+        var toggles=scroll.find_children("*","CheckButton",true,false);check(toggles.size()==14,"fourteen animation controls including independent Rodd trial")
+        var expected=["玛拉视频关键帧（候选）","芬恩视频移动（候选）","奥伦视频关键帧（暂用）","布拉姆视频关键帧（暂用）","泰莎视频移动（试验）","奈莉镜像移动（试验）","阿黛拉双面板移动（试验）","奈莉视频待机（暂用）","阿黛拉视频待机（暂用）","埃尔丝贝特视频待机（暂用）","玛拉地图重制 V2（试验）","芬恩地图重制 V2（试验）","奈莉地图重制 V2（试验）","罗德地图动作（试验）"]
         var actual=[]
         for toggle in toggles:actual.append(toggle.text)
         check(actual==expected,"exact animation control identities/order; no duplicates or missing options")

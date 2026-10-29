@@ -7,6 +7,7 @@ func run():
     var app=root.get_node("App")
     var hero_refresh=OS.get_environment("AMBER_HERO_REFRESH")=="1"
     for id in app.hero_map_refresh_previews:app.hero_map_refresh_previews[id]=hero_refresh and OS.get_environment("AMBER_WALK_ACTOR")==id
+    app.rodd_motion_preview=hero_refresh and OS.get_environment("AMBER_WALK_ACTOR")=="rodd"
     var compact=OS.get_environment("AMBER_COMPACT_SEQUENCE")=="1"
     var adela_mirror=OS.get_environment("AMBER_ADELA_MOTION")=="1"
     app.adela_motion_preview=adela_mirror

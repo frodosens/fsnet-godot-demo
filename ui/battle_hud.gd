@@ -392,6 +392,7 @@ func show_feedback_settings():
         var option=CheckButton.new();option.text={"neri":"奈莉","adela":"阿黛拉","elsbet":"埃尔丝贝特"}[id]+"视频待机（暂用）";option.button_pressed=App.map_sequence_enabled(id);option.tooltip_text="只替换待机；移动由独立的镜像移动选项控制。关闭恢复原待机。" if id in ["neri","adela"] else "只替换待机；移动仍使用原素材。关闭恢复原待机。";option.toggled.connect(App.set_idle_sequence_preview.bind(id));options.add_child(option)
     for id in ["mara","finn","neri"]:
         var trial=CheckButton.new();trial.text={"mara":"玛拉","finn":"芬恩","neri":"奈莉"}[id]+"地图重制 V2（试验）";trial.button_pressed=App.hero_map_refresh_previews[id];trial.tooltip_text="独立地图待机与移动试验；关闭恢复此角色原有设置。";trial.toggled.connect(App.set_hero_map_refresh_preview.bind(id));options.add_child(trial)
+    var rodd=CheckButton.new();rodd.text="罗德地图动作（试验）";rodd.button_pressed=App.rodd_motion_preview;rodd.tooltip_text="地图待机与移动；关闭恢复旧素材。";rodd.toggled.connect(App.set_rodd_motion_preview);options.add_child(rodd)
     var sound=CheckButton.new();sound.text="战斗音效";sound.button_pressed=App.sfx_enabled;sound.toggled.connect(func(on):App.sfx_enabled=on);c.add_child(sound)
     var volume=HSlider.new();volume.min_value=-30;volume.max_value=0;volume.step=1;volume.value=App.sfx_volume_db;volume.custom_minimum_size=Vector2(320,36);volume.tooltip_text="音效音量 dB";volume.value_changed.connect(func(value):App.sfx_volume_db=value);c.add_child(volume)
     c.add_child(UI.button("返回暂停菜单",func():clear_modal();toggle_pause()))
