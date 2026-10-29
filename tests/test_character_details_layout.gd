@@ -24,7 +24,7 @@ func run():
         check(page.body_scroll.get_global_rect().position.y>=nav_bottom,"body below tabs")
         check(page.body_scroll.get_global_rect().end.y<=page.back.get_global_rect().position.y+.1,"body excludes footer")
         check(not page.xp_group.get_global_rect().intersects(page.level_label.get_global_rect()),"XP separate from level")
-        check(page.identity_panel.get_global_rect().grow(.1).encloses(page.summary.get_global_rect()),"XP text stays inside identity")
+        check(page.summary.get_global_rect().end.y<=page.identity_panel.get_global_rect().end.y-12/ratio,"XP text clears identity bottom border by 12 physical pixels")
         check(not page.xp_group.get_global_rect().intersects(page.summary.get_global_rect()),"XP fill and text have distinct rows")
         check(page.stat_rows.size()==10,"ten cells")
         check(page.stat_rows[0].value.text=="12 / 12" and page.stat_rows[2].value.text=="0 / 0","current/max data combined without loss")

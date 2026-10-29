@@ -156,6 +156,10 @@ func _process(delta):
     if elapsed>=.2:elapsed=0;refresh_data()
 func change_tab(index):
     scroll_positions[tab]=list.scroll_vertical;tab=index;selected_key="";selected_uid=-1;description_open=false;detail_layer.hide();refresh_data(true);relayout()
+    # Outer content belongs to navigation, not the previous tab's scrolled summary.
+    # Preserve each inner list offset, but always reveal that list after switching.
+    body_scroll.scroll_vertical=0
+    body_scroll.set_deferred("scroll_vertical",0)
     list.set_deferred("scroll_vertical",scroll_positions.get(tab,0))
 func add_row(text,key,callback,icon=null):
     var button=make_button(column,text,callback,"list_row");button.custom_minimum_size.y=hit_size();button.add_theme_font_size_override("font_size",roundi(16/ui_ratio()) if compact else roundi(24*layout_scale));button.set_meta("key",key);button.size_flags_horizontal=Control.SIZE_EXPAND_FILL

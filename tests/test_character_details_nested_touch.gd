@@ -3,18 +3,35 @@ func visible_center(node,page):
     return node.get_global_rect().intersection(page.list.get_global_rect()).intersection(page.body_scroll.get_global_rect()).get_center()
 func run():
     app=root.get_node("App");app.mobile_presentation=true;Input.emulate_mouse_from_touch=true
-    root.size=Vector2i(960,540);await frames();await fresh()
+    root.size=Vector2i(1200,540);app.safe_area_override=Rect2i(40,24,1136,476);await frames();await fresh()
     await button(game.hud.dock.details_button);var page=game.hud.modal
     check(page.compact and page.equipment_panel.get_parent()==page.body_canvas,"narrow layout stacks current equipment")
+    await capture("mobile-attributes")
     var before=game.battle.snapshot();var camera=game.camera.position
     # Non-overflowing traits must not swallow the drag intended for the outer content.
-    page.body_scroll.scroll_vertical=260;await frames()
+    var drag_top=page.body_scroll.get_global_rect().position+Vector2(page.body_scroll.size.x*.5,30/page.ui_ratio())
+    var drag_bottom=drag_top+Vector2(0,180/page.ui_ratio())
+    await drag(drag_bottom,drag_top)
     var point=page.description.get_global_rect().intersection(page.body_scroll.get_global_rect()).get_center()
     var previous=page.body_scroll.scroll_vertical
     await drag(point,point-Vector2(0,70))
     check(page.body_scroll.scroll_vertical>previous,"short trait drag falls through to outer scroll")
     check(game.battle.snapshot()==before and game.camera.position==camera,"body scroll cannot reach world")
-    page.body_scroll.scroll_vertical=0;await frames();await button(page.tabs[3])
+    # Reproduce the reviewer's exact path: reach equipment summary, then tap Skills.
+    for i in range(4):await drag(drag_bottom,drag_top)
+    check(page.body_scroll.scroll_vertical>500,"actual drags reach lower equipment summary")
+    await capture("mobile-summary-before-switch")
+    await button(page.tabs[1])
+    check(page.tab==1 and page.body_scroll.scroll_vertical==0,"Skills tab resets outer scroll without test repair")
+    check(page.list.get_global_rect().intersection(page.body_scroll.get_global_rect()).size.y>0,"skill list is visible after real tab switch")
+    await capture("mobile-skills-after-switch")
+    check(not page.rows.is_empty(),"real skills available")
+    var skill=page.rows[-1];page.list.ensure_control_visible(skill);await frames()
+    await tap(visible_center(skill,page));check(page.selected_key==skill.get_meta("key"),"skill entry accepts touch after switch")
+    await button(page.tabs[0])
+    for i in range(4):await drag(drag_bottom,drag_top)
+    await button(page.tabs[3])
+    check(page.body_scroll.scroll_vertical==0,"Equipment tab also reveals its list")
     page.list.ensure_control_visible(page.rows[5]);await frames()
     await tap(visible_center(page.rows[5],page));check(page.slot==5,"real touch selects feet after scrolling")
     var item
@@ -28,3 +45,9 @@ func run():
     check(game.battle.step==step+1 and game.battle.units[0].move_actions==2,"footer touch equips once after nested scrolling")
     await button(page.close_button);check(not is_instance_valid(game.hud.modal),"new close control respects real touch")
     print("DETAILS_NESTED_TOUCH checks=",checks," failures=0");quit()
+
+func capture(name):
+    var folder=OS.get_environment("DETAILS_REVIEW_DIR")
+    if folder.is_empty():return
+    await RenderingServer.frame_post_draw
+    check(root.get_texture().get_image().save_png(folder.path_join(name+".png"))==OK,"review screenshot saved")

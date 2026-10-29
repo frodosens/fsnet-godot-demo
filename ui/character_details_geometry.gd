@@ -59,9 +59,9 @@ static func desktop(p,s):
     # Portrait content remains 323:406; the decorative frame surrounds it.
     put(p.portrait,rect(12*s,13*s,323*s,406*s))
     put(p.portrait_frame,rect(0,0,347*s,432*s))
-    for item in [[p.identity,417,46],[p.class_label,468,36],[p.level_label,528,36],[p.summary,594,27]]:
+    for item in [[p.identity,417,46],[p.class_label,468,36],[p.level_label,506,36],[p.summary,579,30]]:
         put(item[0],rect(12*s,item[1]*s,323*s,item[2]*s))
-    put(p.xp_group,rect(20*s,574*s,305*s,19*s))
+    put(p.xp_group,rect(20*s,548*s,305*s,23*s))
     for i in range(4):
         var x=[493,745,1003,1261][i]
         var w=[240,246,246,278][i]
@@ -84,7 +84,7 @@ static func compact(p,k):
     var left=(w-3*gap)*.25;var main_x=gap+left+gap;var main_w=w-main_x-gap
     for i in range(4):put(p.tabs[i],rect(gap+i*(w-2*gap)/4,tabs_y,(w-2*gap)/4-4*k,48*k))
     put(p.identity_panel,rect(gap,body_y,left,body_h))
-    var ph=minf(body_h*.53,body_h-112*k);ph=minf(ph,(left-24*k)/PORTRAIT_ASPECT);ph=maxf(24*k,ph)
+    var ph=minf(body_h*.53,body_h-148*k);ph=minf(ph,(left-24*k)/PORTRAIT_ASPECT);ph=maxf(24*k,ph)
     var pw=ph*PORTRAIT_ASPECT;var px=(left-pw)/2
     put(p.portrait,rect(px,8*k,pw,ph));put(p.portrait_frame,rect(px-6*k,2*k,pw+12*k,ph+12*k))
     var y=ph+18*k
