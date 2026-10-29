@@ -216,13 +216,14 @@ if ($IncludeNetwork) {
 }
 
 # Godot's importer rewrites tracked .import metadata when the engine minor version
-# differs from the one the project was imported with. Restore only that generated
-# metadata so a test run never leaves the checkout dirty and never touches source.
+# differs from the one the project was imported with. Restore those tracked files,
+# but keep the metadata the importer generated for the ~900 assets that have no
+# committed .import: deleting it leaves the project unable to load its textures
+# until the next editor open ("No loader found for resource: ...").
 if (Test-Path -LiteralPath (Join-Path $repo '.git')) {
     $previous = $ErrorActionPreference
     $ErrorActionPreference = 'Continue'
     git -C $repo checkout -- ':(glob)**/*.import' 2>$null
-    git -C $repo clean -f -q -- '*.import' '*.uid' 2>$null
     $ErrorActionPreference = $previous
     $global:LASTEXITCODE = 0
 }
