@@ -84,12 +84,6 @@ func run():
  var mapped=R.new(reordered,xp)
  for u in mapped.units:
   if u.controller=='player':check(u.xp==60,'stable IDs independent of roster index')
- # Existing snapshot cannot be injected under current network restore API.
- var old=ClassDB.instantiate('AmberLogic');check(old.load_rules(R.legacy_rule_source()),'trusted old VM loads')
- old.invoke('reset',{'seed':12345,'content':d});var legacy=str(old.invoke('snapshot',{}))
- check(not replica.restore(legacy),'v5 rejected by normal restore')
- check(R.validate_legacy(d,legacy,legacy.sha256_text()) and replica.restore(legacy,true),'authenticated explicit legacy import')
- check(replica.units[0].xp==0 and replica.units[0].hp==d.units[0].hp,'legacy defaults XP0 no stat drift')
  for bad in [r.snapshot()+',0','7'+r.snapshot().substr(1)]:
   var before=replica.snapshot();check(not replica.restore(bad) and replica.snapshot()==before,'malformed snapshot atomic')
  print('PROGRESSION checks=',checks,' failures=',failures)

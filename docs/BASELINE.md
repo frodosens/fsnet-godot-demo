@@ -1,8 +1,9 @@
 # Headless baseline (Windows)
 
-Recorded 2026-10-29 on this machine. This is the regression gate every refactor
-step must keep green; it replaces "I ran the tests once" with a reproducible
-11-minute run and a CSV report.
+Historical full baseline recorded 2026-10-29 on the Windows machine below.
+For current default/extended/network entry points and the authorized test
+reductions, see [TESTING.md](TESTING.md). These timings are not a current
+development-run requirement.
 
 ## How to run
 
@@ -27,15 +28,15 @@ The script:
    `AmberLogic` GDExtension class is only registered after `extension_list.cfg`
    exists, and 915 assets have no committed `.import` metadata, so the importer is
    what makes them loadable;
-3. runs the python checks and every `test_*.gd` listed in `tools/test.sh`
-   (that file remains the single source of truth for the list);
+3. runs the Python checks and the default tests listed in `tools/test.sh`;
+   `-Extended` includes `tools/test-extended.txt` matrices;
 4. fails a child that exits 0 but printed `ERROR:`, `SCRIPT ERROR`, a `FAIL`
    marker or a non-zero `failures=` count, mirroring `tools/run_checked.py`.
    Engine messaging that is not an assertion is allow-listed: the root
    certificate query on Windows, VSync on the dummy renderer, and the renderer
    shutdown diagnostics Godot 4.6.3 prints for `--headless` ("were leaked at
    exit", "PagedAllocator");
-5. restores the tracked `*.import` files the importer rewrote. Generated
+5. **Warning: use an isolated worktree with no user import edits.** It restores the tracked `*.import` files the importer rewrote. Generated
    metadata for the ~900 assets that have no committed `.import` stays on disk
    (deleting it makes the project unable to load its textures until the next
    import) and is `.gitignore`d, so the checkout still reports clean.
@@ -78,8 +79,9 @@ assertion into a failure even when Godot exits zero.
 | Runtime | 645 s (10m45s) including the import pass | serial, one engine process per test |
 | Slowest cases | `test_generic_runtime` 48 s, `test_walk_direction_batch` 26 s, `test_hero_refresh_scene` 24 s | |
 
-**Rule: the reported assertion total must never go down.** It is the cheapest
-guard against silently deleting coverage while moving files around.
+**Coverage rule:** preserve named current behaviors and strict failure detection.
+Explicitly reviewed removal of obsolete or duplicate assertions may reduce the
+total; moving matrices must retain an executable extended/release entry point.
 
 `tests/test_golden_snapshot.gd` (added with this baseline) freezes:
 

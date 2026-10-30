@@ -2,6 +2,15 @@
 set -euo pipefail
 root=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)
 godot_bin=${GODOT:-godot}
+extended=0
+network=0
+for option in "$@"; do
+  case "$option" in
+    --extended) extended=1 ;;
+    --network) network=1 ;;
+    *) echo "Usage: $0 [--extended] [--network]" >&2; exit 2 ;;
+  esac
+done
 run_checked() { python3 "$root/tools/run_checked.py" "$@"; }
 python3 "$root/tests/test_checked_runner.py"
 run_checked python3 "$root/tests/test_elsbet_motion_assets.py"
@@ -17,8 +26,19 @@ run_checked python3 "$root/tests/test_map_spell_assets.py"
 run_checked python3 "$root/tests/test_neri_standing_assets.py"
 
 for test in test_mara_back_diagonal test_unit_legacy_parity test_unit_editor test_unit_definitions test_unit_instance_state test_presentation_instances test_map_magic_combined test_map_particles test_map_spell_core test_map_magic test_homeward_bandits test_homeward_contract test_homeward_routes test_homeward_scene test_homeward_review test_neri_standing_idle test_generic_ai test_generic_editor test_generic_combat test_generic_instances test_generic_admission test_generic_runtime test_generic_turns test_character_details_touch test_character_details_ui test_character_details_progression test_character_details_model test_character_details_visible_scroll test_character_details_layout test_character_details_nested_touch test_character_details_instances test_progression test_progression_save test_progression_limits test_progression_cap test_progression_scene test_party_rodd_eyes test_party_attack_handoff test_party_selector test_active_actor_marker test_hero_refresh_edges test_hero_refresh_contract test_hero_refresh_preferences test_hero_refresh_scene test_neutral_canvas test_chapter_guards test_adela_motion test_adela_motion_edges test_chapter_three test_chapter_three_art test_chapter_three_scene test_targeting_command_switch test_neri_default_migration test_neri_mirror_edges test_neri_mirror test_picker_touch_handoff test_picker_description test_content_picker test_selection_camera test_health_scene_scale test_mobile_targeting test_mobile_cutin_layout test_combined_mobile_sequence test_ally_traversal test_event_sequence test_event_sequence_input test_wait_advance test_mobile_touch_camera test_combat_sides test_chapter_checkpoint test_chapter_two test_chapter_two_scene test_chapter_two_playthrough test_tessa_sequence test_tessa_sequence_scene test_tessa_sequence_edges test_route_art test_idle_only test_idle_only_scene test_idle_options test_bram_sequence test_bram_sequence_scene test_bram_sequence_edges test_oren_sequence test_oren_sequence_scene test_oren_sequence_edges test_finn_sequence test_finn_sequence_scene test_finn_sequence_edges test_map_sequence test_map_sequence_scene test_map_sequence_edges test_walk_direction_batch test_oren_map_scale test_walk_cycles test_target_confirm test_bridge test_idle_cycles test_idle_boundaries test_mara_idle_candidate test_all_idle_candidates test_default_renderer test_small_controls test_content_icons test_wait_confirm test_logic test_rules_modules test_abilities test_equipment test_items_ai test_content_budget test_cutin test_combat_context test_combat_status test_cutin_portrait_facing test_battle_idle_candidate test_ranged_idle_candidate test_all_battle_idles test_ranged_animation test_scene test_directions test_idle_slide test_vertical test_gear_ui test_menu test_story_footer_input test_player_loop test_editor test_content_ui test_contact_paths_crit test_reference_content test_bottom_dock test_fixed_background test_lantern_obstacle test_reserve_art test_character_lighting test_character_projection test_move_interaction test_route_ribbon test_unit_health test_health_width test_attack_feedback test_latest_map_policy test_elsbet_motion test_elsbet_motion_scene test_rodd_motion test_rodd_motion_scene test_golden_snapshot; do
+  if [[ "$extended" == 0 ]] && grep -qx "$test" "$root/tools/test-extended.txt"; then continue; fi
   run_checked "$godot_bin" --headless --path "$root" --script "res://tests/$test.gd"
 done
+
+# Same preferences, new process: do not repeat the normal policy mode above.
+LATEST_MAP_RESTART=1 run_checked "$godot_bin" --headless --path "$root" --script res://tests/test_latest_map_policy.gd
+for phase in upgrade manual_off relaunch; do
+  NERI_MIGRATION_PHASE="$phase" run_checked "$godot_bin" --headless --path "$root" --script res://tests/test_neri_default_restart.gd
+done
+
+# Real multiplayer coverage remains mandatory for networking changes/releases,
+# but is explicit for routine local development, as in the PowerShell gate.
+if [[ "$network" == 0 ]]; then exit 0; fi
 
 run_checked python3 "$root/tests/run_network.py"
 run_checked python3 "$root/tests/run_network.py" --unit-fixture
@@ -87,11 +107,6 @@ for direction in front_left front_right back_left back_right; do
   AMBER_NERI_MIRROR=1 AMBER_COMPACT_SEQUENCE=1 AMBER_WALK_ACTOR=neri AMBER_WALK_DIRECTION="$direction" run_checked python3 "$root/tests/run_walk_network.py"
 done
 
-# Three independent processes exercise obsolete OFF ignored across separate-process reloads.
-for phase in upgrade manual_off relaunch; do
-  NERI_MIGRATION_PHASE="$phase" run_checked "$godot_bin" --headless --path "$root" --script res://tests/test_neri_default_restart.gd
-done
-
 for direction in front_left front_right back_left back_right; do
   AMBER_ADELA_MOTION=1 AMBER_WALK_ACTOR=adela AMBER_WALK_DIRECTION="$direction" run_checked python3 "$root/tests/run_walk_network.py"
 done
@@ -107,9 +122,6 @@ for actor in mara finn neri; do
     AMBER_HERO_REFRESH=1 AMBER_WALK_ACTOR="$actor" AMBER_WALK_DIRECTION="$direction" run_checked python3 "$root/tests/run_walk_network.py"
   done
 done
-
-run_checked "$godot_bin" --headless --path "$root" --script res://tests/test_latest_map_policy.gd
-LATEST_MAP_RESTART=1 run_checked "$godot_bin" --headless --path "$root" --script res://tests/test_latest_map_policy.gd
 
 run_checked python3 "$root/tests/run_attack_feedback_network.py"
 

@@ -2,7 +2,7 @@
 # Headless regression gate for the Amber Bridge project (Windows / PowerShell 7).
 #
 # Mirrors the headless portion of tools/test.sh: the python asset checks that run
-# before the GDScript loop, then every test listed in that loop. The full bash
+# before the GDScript loop, then its default tests (-Extended adds matrices). The full bash
 # script additionally runs hundreds of multi-process network permutations; those
 # need a working fsnet loopback stack and are opt-in here (-IncludeNetwork).
 #
@@ -18,6 +18,7 @@ param(
     [string]$Godot = $env:GODOT,
     [string]$Python = $env:AMBER_PYTHON,
     [string]$Filter = '*',
+    [switch]$Extended,
     [switch]$IncludeNetwork,
     [switch]$SkipImport,
     [switch]$KeepLogs,
@@ -201,12 +202,29 @@ foreach ($check in $pythonChecks) {
 # 2. Every GDScript test named in the tools/test.sh loop.
 if (-not $loopMatch.Success) { throw 'Cannot find the "for test in ... do" list in tools/test.sh' }
 $tests = ($loopMatch.Groups['list'].Value -split '\s+') | Where-Object { $_ -match '^test_' }
+$extendedTests = Get-Content -LiteralPath (Join-Path $repo 'tools/test-extended.txt') |
+    Where-Object { $_ -match '^test_' }
+if (-not $Extended) { $tests = $tests | Where-Object { $_ -notin $extendedTests } }
 Write-Host ("running {0} python checks and {1} godot tests (filter: {2})" -f $pythonChecks.Count, $tests.Count, $Filter)
 
 foreach ($test in $tests) {
     if ($test -notlike $Filter) { continue }
     $rows.Add((Invoke-Checked -Stage 'godot' -Name $test -FileName $godotExe `
                 -Arguments @('--headless', '--path', $repo, '--script', "res://tests/$test.gd")))
+}
+
+# Preserve separate-process preference verification in the headless gate too.
+if ('test_latest_map_policy' -like $Filter) {
+    $rows.Add((Invoke-Checked -Stage 'godot' -Name 'test_latest_map_policy_restart' -FileName $godotExe `
+                -Arguments @('--headless', '--path', $repo, '--script', 'res://tests/test_latest_map_policy.gd') `
+                -Environment @{ LATEST_MAP_RESTART = '1' }))
+}
+if ('test_neri_default_restart' -like $Filter) {
+    foreach ($phase in @('upgrade', 'manual_off', 'relaunch')) {
+        $rows.Add((Invoke-Checked -Stage 'godot' -Name "test_neri_default_restart_$phase" -FileName $godotExe `
+                    -Arguments @('--headless', '--path', $repo, '--script', 'res://tests/test_neri_default_restart.gd') `
+                    -Environment @{ NERI_MIGRATION_PHASE = $phase }))
+    }
 }
 
 # 3. Opt-in network smoke (currently red on some Windows hosts; see docs/BASELINE.md).
