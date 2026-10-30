@@ -1,0 +1,7 @@
+# Retained matrices: run with test.sh --extended or test-headless.ps1 -Extended.
+# Historical fallback animations, explicitly selected by legacy_map_fixture:
+test_walk_direction_batch
+test_all_idle_candidates
+# Exhaustive current profile/render matrices; focused contracts stay in default.
+test_generic_runtime
+test_hero_refresh_scene
