@@ -22,6 +22,7 @@ const ContentPicker=preload("res://ui/content_picker.gd")
 var picker_context={}
 var _picker_impl
 var _modal_impl
+var _story_impl
 var gear_open=false
 var last_step=-1
 var action_panel
@@ -61,6 +62,10 @@ func _picker():
 func _modal():
     if _modal_impl==null:_modal_impl=preload("res://ui/hud_modal.gd").new(self)
     return _modal_impl
+
+func _story():
+    if _story_impl==null:_story_impl=preload("res://ui/hud_story.gd").new(self)
+    return _story_impl
 
 func pointer_blocks_map(point):
     for control in root.find_children("*","Control",true,false):
@@ -140,19 +145,7 @@ func _ready():
     root.resized.connect(refresh)
     refresh()
 func objective_text(goal):
-    match goal.kind:
-        "defeat_all":return "目标 · 击退所有敌人"
-        "all_allies":return "目标 · 所有友方失去战力"
-        "reach":
-            if game.battle.content.id=="mill_receipts":return "目标 · 到接洽点 (8,1)"
-            return "目标 · 玛拉送信至门前 (8,1)" if game.battle.content.id=="white_elm_watchhouse" else "目标 · %s到达 (%d,%d)"%[goal.unit,goal.x,goal.y]
-        "survive":return "目标 · 坚持到第 %d 回合"%goal.round
-        "protect":return "条件 · %s失去战力"%goal.unit
-        "all","any":
-            var parts=[]
-            for child in goal.children:parts.append(objective_text(child).trim_prefix("目标 · "))
-            return ("全部：" if goal.kind=="all" else "任一：")+"；".join(parts)
-    return "目标条件"
+    return _story().objective_text(goal)
 func soft_panel(pos,size):
     var control=Control.new();control.position=pos;control.size=size;root.add_child(control)
     var bg=TextureRect.new();var texture=GradientTexture2D.new();texture.width=128;texture.height=32
@@ -316,30 +309,9 @@ func refresh():
     log_label.text=log_lines[-1] if not log_lines.is_empty() else ""
     refresh_story()
 func refresh_story():
-    if not root.has_node("HomewardBubbles"):
-        var bubbles=preload("res://story/head_bubbles.gd").new();bubbles.name="HomewardBubbles";bubbles.game=game;root.add_child(bubbles)
-    var line=App.next_story()
-    story_panel.visible=not line.is_empty() and not is_instance_valid(modal) and not game.presentation_active()
-    # z_index only changes drawing: the later dock otherwise steals story clicks.
-    # Synchronize here as dialogue/modal transitions need not call full refresh().
-    if dock:
-        dock.visible=not story_panel.visible and (not is_instance_valid(modal) or modal is ContentPicker)
-        dock.refresh_dock()
-        turn_button.disabled=not dock.visible or is_instance_valid(modal) or game.battle.outcome!="playing"
-    chapter_button.text="前往"+App.next_chapter_label()
-    chapter_button.visible=not story_panel.visible and not is_instance_valid(modal) and App.next_chapter_ready()
-    if line.is_empty():story_key="";return
-    var key=line.id+":"+str(line.index)
-    if key==story_key:return
-    story_key=key;story_name.text=App.speaker_name(line.speaker);story_text.text=line.text;story_count.text="%d / %d · 剧情仅控制本地阅读，联机对局不会因此暂停。"%[line.index,line.total] if game.session.online else "%d / %d"%[line.index,line.total]
-    portrait.texture=null
-    var path=preload("res://view/reserve_art.gd").portrait_path(line.speaker)
-    if ResourceLoader.exists(path):
-        portrait.texture=load(path)
-    portrait_initial.visible=portrait.texture==null
-    portrait_initial.text="信" if line.speaker=="narrator" else App.speaker_name(line.speaker).left(1)
+    return _story().refresh_story()
 func advance(skip):
-    App.advance_story(skip);refresh_story()
+    return _story().advance(skip)
 func clear_modal():
     return _modal().clear_modal()
 func modal_page(title):
