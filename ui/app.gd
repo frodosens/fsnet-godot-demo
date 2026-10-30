@@ -1,5 +1,6 @@
 extends Node
 var session
+var _inspector_impl
 var mobile_presentation=OS.has_feature("android")
 var safe_area_override=Rect2i() # Test-only physical screen inset fixture; never saved.
 func ui_safe_rect():return preload("res://ui/mobile_layout.gd").safe_rect(get_viewport(),mobile_presentation,safe_area_override)
@@ -66,6 +67,10 @@ func _ready():
     get_tree().auto_accept_quit=false
     load_presentation_preferences()
     var fps=preload("res://ui/fps_display.gd").new();fps.name="FPSDisplay";add_child(fps)
+func _inspector():
+    if _inspector_impl==null:_inspector_impl=preload("res://ui/app/save_inspector.gd").new(self)
+    return _inspector_impl
+
 func _process(delta):
     tick_homeward_story(delta)
     if server:
@@ -141,33 +146,15 @@ func start_room(host,port,secret,data={},campaign={}):
     if not session.connect_local(port,secret):last_error=session.status;close_room();return false
     return true
 func dirty():
-    return session and (session.logic.snapshot()!=saved_snapshot or JSON.stringify(presentation)!=saved_presentation)
-func save_path(slot):return save_root+"/"+slot+".json"
+    return _inspector().dirty()
+func save_path(slot):
+    return _inspector().save_path(slot)
 func is_chapter_checkpoint(slot):
-    if not slot is String:return false
-    var prefix=""
-    for candidate in CHAPTER_CHECKPOINTS.values():
-        if slot.begins_with(candidate):prefix=candidate;break
-    if prefix.is_empty():return false
-    var digest=slot.trim_prefix(prefix)
-    if digest.length()!=64:return false
-    for c in digest:
-        if c not in "0123456789abcdef":return false
-    return true
+    return _inspector().is_chapter_checkpoint(slot)
 func checkpoint_id(rules_hash,content_hash,snapshot,local_story,content_id=""):
-    if content_id.is_empty() and session!=null:content_id=session.logic.content.id
-    var prefix=CHAPTER_CHECKPOINTS.get(content_id,"")
-    if content_id=="homeward_03" and local_story.get("interlude_completed",0)==4:prefix="homeward4_end_"
-    if prefix.is_empty():return ""
-    return prefix+(rules_hash+content_hash+snapshot+JSON.stringify(local_story,"",true)).sha256_text()
+    return _inspector().checkpoint_id(rules_hash, content_hash, snapshot, local_story, content_id)
 func loadable_slots():
-    var result=SLOT_IDS.duplicate()
-    var checkpoints=[]
-    if DirAccess.dir_exists_absolute(save_root):
-        for file in DirAccess.get_files_at(save_root):
-            if file.ends_with(".json") and is_chapter_checkpoint(file.trim_suffix(".json")):checkpoints.append(file.trim_suffix(".json"))
-    checkpoints.sort();result.append_array(checkpoints)
-    return result
+    return _inspector().loadable_slots()
 func save_chapter_checkpoint():
     if not next_chapter_ready() or session.online:return "仅离线已完成章节可以建立章节检查点。"
     var slot=checkpoint_id(session.logic.rules_hash,session.logic.content_hash,session.logic.snapshot(),presentation)
@@ -225,48 +212,9 @@ func complete_homeward_checkpoint(id,interlude=0):
     saved_snapshot=r.snapshot();saved_presentation=JSON.stringify(presentation)
     return ""
 func inspect_slot(slot):
-    var issue_startup=startup_error()
-    if not issue_startup.is_empty():return {"error":issue_startup}
-    if slot not in SLOT_IDS and not is_chapter_checkpoint(slot):return {"error":"无效存档槽。"}
-    if not FileAccess.file_exists(save_path(slot)):return {"error":"无存档","empty":true}
-    var file=FileAccess.open(save_path(slot),FileAccess.READ)
-    if not file or file.get_length()>262144:return {"error":"存档无法读取或大小异常。"}
-    var data=Content.normalize(Content.parse_json(file.get_as_text()))
-    if not data is Dictionary or data.get("format") not in [2,3]:return {"error":"存档损坏或版本不兼容。"}
-    if not Runtime.accepts_saved_rules(data.get("rules_hash")):return {"error":"规则版本不兼容，请保留旧存档。"}
-    var issue=Content.validate(data.get("content"))
-    if not issue.is_empty() or Content.hash_of(data.content)!=data.get("content_hash"):return {"error":"内容版本校验失败："+issue}
-    var candidate=Runtime.new(data.content)
-    var legacy=data.format==2 and data.rules_hash!=Runtime.rule_source().sha256_text()
-    if not data.get("snapshot") is String:return {"error":"战斗快照格式错误。"}
-    if legacy:
-        if not Runtime.validate_legacy(data.content,data.snapshot,data.get("hash")) or not candidate.restore(data.snapshot,true):return {"error":"旧战斗快照损坏或校验不符。"}
-    elif not candidate.restore(data.snapshot) or candidate.state_hash()!=data.get("hash"):return {"error":"战斗快照损坏或校验不符。"}
-    var p=data.get("presentation")
-    if not valid_presentation(p,candidate):return {"error":"剧情阅读进度损坏。"}
-    if is_chapter_checkpoint(slot) and (not CHAPTER_CHECKPOINTS.has(data.content.id) or candidate.outcome!="victory" or slot!=checkpoint_id(data.rules_hash,data.content_hash,data.snapshot,p,data.content.id)):
-        return {"error":"章节检查点身份校验失败。"}
-    return {"error":"","data":data,"round":candidate.round_number,"step":candidate.step,"title":data.content.title,"saved_at":data.get("saved_at",""),"migrated_snapshot":candidate.snapshot(),"legacy":legacy}
+    return _inspector().inspect_slot(slot)
 func valid_presentation(p,logic):
-    if p is Dictionary and p.has("campaign_instance"):
-        if not p.campaign_instance is String or p.campaign_instance.length()!=32 or not p.campaign_instance.is_valid_hex_number():return false
-    if not p is Dictionary or not p.get("seen") is Array or p.seen.size()>24 or not p.get("active") is String or not Content.integer(p.get("line"),0,32):return false
-    if p.has("interlude_completed"):
-        if p.interlude_completed!=4 or logic.content.id!="homeward_03":return false
-        var marked=false
-        for i in range(logic.content.story.events.size()):
-            if logic.content.story.events[i].id=="homeward_04_finish" and (logic.story_flags & (1<<i))!=0:marked=true
-        if not marked:return false
-    if p.has("cue"):
-        var data=preload("res://story/library.gd").scene(p.get("active",""))
-        var probe=preload("res://story/player.gd").new()
-        if not logic.content.id.begins_with("homeward_") or not probe.restore(data,p.cue):return false
-    var known={}
-    for event in logic.content.story.events:known[event.id]=event.lines.size()
-    for id in p.seen:
-        if not known.has(id):return false
-    if p.active!="" and (not known.has(p.active) or p.line>=known[p.active] or p.active in p.seen):return false
-    return true
+    return _inspector().valid_presentation(p, logic)
 func load_slot(slot):
     var result=inspect_slot(slot)
     if not result.error.is_empty():last_error=result.error;return false
