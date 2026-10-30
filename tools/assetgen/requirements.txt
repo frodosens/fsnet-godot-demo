@@ -1,0 +1,40 @@
+# Character asset pipeline - Python dependencies
+#
+# The core (config / templates / prompt plumbing / sprite export) needs only the
+# standard library plus Pillow and numpy. Everything below is either a matting
+# model or an optional convenience; install the extras you actually use.
+#
+#   python -m pip install -r requirements.txt
+#
+# Verified on Python 3.14 / Windows 11. Python 3.10+ should be fine.
+
+# --- core -------------------------------------------------------------------
+Pillow>=10.0            # every image read/write, checkerboard previews, Tk thumbnails
+numpy>=1.24             # all matting maths and sprite geometry
+
+# --- still-image background removal (concept / portrait) ---------------------
+scipy>=1.10             # connected-component labelling for the border flood
+                        # (falls back to a slow pure-python BFS when missing)
+onnxruntime>=1.16       # MODNet onnx inference (CPU build suffices)
+
+# --- BiRefNet (best edges, ~18 s/image on CPU) ------------------------------
+# Fetch the weights first: models/birefnet/  (ZhengPeng7/BiRefNet_lite, ~170 MB)
+transformers>=4.40      # AutoModelForImageSegmentation with trust_remote_code
+safetensors>=0.4        # weight format used by the BiRefNet release
+einops>=0.7             # required by BiRefNet's remote code
+kornia>=0.7             # required by BiRefNet's remote code
+timm>=0.9               # required by BiRefNet's remote code
+
+# --- RVM (sequence matting for idle / walk frames, GPL-3.0) ------------------
+# Fetch weights first: models/rvm/  (rvm_mobilenetv3.pth + the repo's model/ code)
+torch>=2.0              # CPU build works; a CUDA wheel runs BiRefNet ~60x faster:
+torchvision>=0.15       #   pip install --force-reinstall --no-deps \
+                        #     --index-url https://download.pytorch.org/whl/cu128 \
+                        #     "torch==2.11.0+cu128" "torchvision==0.26.0+cu128"
+
+# --- setup helpers (only used by `model-fetch` and the BiRefNet download) ----
+huggingface-hub>=0.20   # snapshot_download for the model weights
+
+# Not required:
+#   tkinter  - ships with CPython on Windows/macOS; on Linux install python3-tk
+#   ffmpeg   - the video frame extraction shells out to it; put it on PATH

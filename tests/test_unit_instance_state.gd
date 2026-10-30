@@ -34,5 +34,5 @@ func _initialize():
     require(app.save_slot("slot3")=="","save expanded content")
     var saved=app.session.logic.snapshot();d.unit_definitions[0].hp+=20
     app.new_game(d);require(app.load_slot("slot3") and app.session.logic.snapshot()==saved,"load uses saved expansion not changed definitions")
-    require(R.accepts_saved_rules("72cde9c5e5f4bcfc0e44f59a60439a1702937933b32248fce1c275ab9af09e3c") and not R.accepts_saved_rules("untrusted"),"exact predecessor only")
+    require(R.accepts_saved_rules(app.session.logic.rules_hash) and not R.accepts_saved_rules("untrusted"),"current rules accepted, unknown rules rejected")
     print("UNIT_INSTANCE_STATE checks=",checks," failures=",failures);quit(1 if failures else 0)

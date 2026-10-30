@@ -178,9 +178,41 @@
       "model": ""
     },
     "walk": {
-      "status": "pending",
-      "current": null,
-      "history": [],
+      "status": "done",
+      "current": "20261030-191021-146",
+      "history": [
+        {
+          "run": "20261030-191021-146",
+          "created": "2026-10-30T19:11:57",
+          "prompt": "画面是 2 行 2 列共 4 个互不干扰的格子，每格都是同一个角色，背景纯深灰绿色，镜头完全固定。左上格：朝左前方；右上格：朝右前方；左下格：朝左后方；右下格：朝右后方。四格里同时做原地行走循环——膝盖抬起、小腿前摆、双脚交替落地，步幅清楚可见；手臂自然前后摆动，幅度适中；身体位置不移动、不转身、不改变面朝角度；每格角色都留在自己格子中央，不越界、不重叠、不跨格；像素美术风格与首帧一致。",
+          "prompts": {
+            "walk_video": "画面是 2 行 2 列共 4 个互不干扰的格子，每格都是同一个角色，背景纯深灰绿色，镜头完全固定。左上格：朝左前方；右上格：朝右前方；左下格：朝左后方；右下格：朝右后方。四格里同时做原地行走循环——膝盖抬起、小腿前摆、双脚交替落地，步幅清楚可见；手臂自然前后摆动，幅度适中；身体位置不移动、不转身、不改变面朝角度；每格角色都留在自己格子中央，不越界、不重叠、不跨格；像素美术风格与首帧一致。"
+          },
+          "params": {
+            "provider": {
+              "kind": "ark",
+              "image_model": "doubao-seedream-5-0-flash-260915",
+              "video_model": "doubao-seedance-2-5-260628",
+              "vision_model": "doubao-seed-2-1-lite-260915",
+              "prompt_model": "",
+              "resolution": "480p",
+              "duration": 5,
+              "ratio": "auto"
+            },
+            "model": "doubao-seedance-2-5-260628"
+          },
+          "files": {
+            "grid": "idle\\20261030-182220-849\\grid.png",
+            "video": "walk\\20261030-191021-146\\walk.mp4",
+            "sprites/front_left": "walk\\20261030-191021-146\\sprites\\front_left\\frame_00.png",
+            "sprites/front_right": "walk\\20261030-191021-146\\sprites\\front_right\\frame_00.png",
+            "sprites/back_left": "walk\\20261030-191021-146\\sprites\\back_left\\frame_00.png",
+            "sprites/back_right": "walk\\20261030-191021-146\\sprites\\back_right\\frame_00.png",
+            "contact_sheet": "walk\\20261030-191021-146\\contact_sheet.png"
+          },
+          "note": "4 directions x 8 frames"
+        }
+      ],
       "reference": null,
       "model": ""
     }
