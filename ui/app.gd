@@ -2,6 +2,7 @@ extends Node
 var session
 var _inspector_impl
 var _writer_impl
+var _loader_impl
 var mobile_presentation=OS.has_feature("android")
 var safe_area_override=Rect2i() # Test-only physical screen inset fixture; never saved.
 func ui_safe_rect():return preload("res://ui/mobile_layout.gd").safe_rect(get_viewport(),mobile_presentation,safe_area_override)
@@ -68,6 +69,10 @@ func _ready():
     get_tree().auto_accept_quit=false
     load_presentation_preferences()
     var fps=preload("res://ui/fps_display.gd").new();fps.name="FPSDisplay";add_child(fps)
+func _loader():
+    if _loader_impl==null:_loader_impl=preload("res://ui/app/save_loader.gd").new(self)
+    return _loader_impl
+
 func _writer():
     if _writer_impl==null:_writer_impl=preload("res://ui/app/save_writer.gd").new(self)
     return _writer_impl
@@ -195,17 +200,7 @@ func inspect_slot(slot):
 func valid_presentation(p,logic):
     return _inspector().valid_presentation(p, logic)
 func load_slot(slot):
-    var result=inspect_slot(slot)
-    if not result.error.is_empty():last_error=result.error;return false
-    var data=result.data
-    var replacement=Session.new();replacement.offline(data.content)
-    if not replacement.logic.restore(result.migrated_snapshot):last_error="快照恢复失败。";return false
-    replacement.authority.checkpoint=replacement.logic.snapshot();replacement.authority.history.clear()
-    homeward_player.scene_id=""
-    close_room();session=replacement;presentation=data.presentation.duplicate(true)
-    if not presentation.has("campaign_instance"):presentation.campaign_instance=Crypto.new().generate_random_bytes(16).hex_encode()
-    saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation);last_error=""
-    return true
+    return _loader().load_slot(slot)
 func speaker_name(id):
     if id=="narrator":return session.logic.content.story.chapterTitle
     for person in session.logic.content.story.characters:
