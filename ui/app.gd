@@ -3,6 +3,7 @@ var session
 var _inspector_impl
 var _writer_impl
 var _loader_impl
+var _prefs_impl
 var mobile_presentation=OS.has_feature("android")
 var safe_area_override=Rect2i() # Test-only physical screen inset fixture; never saved.
 func ui_safe_rect():return preload("res://ui/mobile_layout.gd").safe_rect(get_viewport(),mobile_presentation,safe_area_override)
@@ -42,26 +43,11 @@ var presentation_preferences_path="user://presentation.cfg"
 # Animation selection is a shipped resource policy, not a saved user preference.
 # Obsolete animation keys are ignored without rewriting unrelated settings.
 func load_presentation_preferences():
-    for id in hero_map_refresh_previews:hero_map_refresh_previews[id]=true
-    for id in idle_sequence_previews:idle_sequence_previews[id]=true
-    rodd_motion_preview=true;elsbet_motion_preview=true
-    adela_motion_preview=true;neri_motion_preview=true;tessa_motion_preview=true
-    mara_sequence_preview=true;finn_motion_preview=true;oren_sequence_preview=true;bram_sequence_preview=true
-    health_bar_avoidance=false
-    var config=ConfigFile.new();var loaded=config.load(presentation_preferences_path)
-    if loaded==OK:
-        var value=config.get_value("map","health_bar_avoidance",false)
-        if value is bool:health_bar_avoidance=value
-    elif loaded!=ERR_FILE_NOT_FOUND:push_warning("Presentation preferences unreadable; preserving file and using defaults")
+    return _prefs().load_presentation_preferences()
 func neri_motion_preference_version(config):
-    var version=config.get_value("map","neri_motion_default_version",0)
-    return version if version is int and version>=0 else 0
+    return _prefs().neri_motion_preference_version(config)
 func set_health_bar_avoidance(on):
-    health_bar_avoidance=bool(on)
-    var config=ConfigFile.new();config.load(presentation_preferences_path)
-    config.set_value("map","health_bar_avoidance",health_bar_avoidance)
-    var result=config.save(presentation_preferences_path)
-    if result!=OK:push_warning("Cannot save local health bar preference: "+str(result))
+    return _prefs().set_health_bar_avoidance(on)
 const SLOT_IDS=["auto","slot1","slot2","slot3"]
 const CHECKPOINT_PREFIX="chapter1_end_"
 const CHAPTER_CHECKPOINTS={"amber_bridge_reference":"chapter1_end_","white_elm_watchhouse":"chapter2_end_","homeward_01":"homeward1_end_","homeward_02":"homeward2_end_","homeward_03":"homeward3_end_","homeward_04":"homeward4_end_"}
@@ -69,6 +55,10 @@ func _ready():
     get_tree().auto_accept_quit=false
     load_presentation_preferences()
     var fps=preload("res://ui/fps_display.gd").new();fps.name="FPSDisplay";add_child(fps)
+func _prefs():
+    if _prefs_impl==null:_prefs_impl=preload("res://ui/app/prefs_service.gd").new(self)
+    return _prefs_impl
+
 func _loader():
     if _loader_impl==null:_loader_impl=preload("res://ui/app/save_loader.gd").new(self)
     return _loader_impl
@@ -261,69 +251,29 @@ func _exit_tree():close_room()
 
 # In-memory hooks used by fallback/asset QA; no settings UI or persistence.
 func set_mara_sequence_preview(on):
-    mara_sequence_preview=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("mara")
-
+    return _prefs().set_mara_sequence_preview(on)
 func map_sequence_enabled(id):
-    if id=="tessa":return tessa_motion_preview
-    if idle_sequence_previews.has(id):return idle_sequence_previews[id]
-    if id=="bram":return bram_sequence_preview
-    if id=="oren":return oren_sequence_preview
-    return mara_sequence_preview if id=="mara" else (finn_motion_preview if id=="finn" else false)
+    return _prefs().map_sequence_enabled(id)
 func set_finn_motion_preview(on):
-    finn_motion_preview=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("finn")
-
+    return _prefs().set_finn_motion_preview(on)
 func set_oren_sequence_preview(on):
-    oren_sequence_preview=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("oren")
-
+    return _prefs().set_oren_sequence_preview(on)
 func set_bram_sequence_preview(on):
-    bram_sequence_preview=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("bram")
-
+    return _prefs().set_bram_sequence_preview(on)
 func set_idle_sequence_preview(on,id):
-    if not idle_sequence_previews.has(id):return
-    idle_sequence_previews[id]=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art(id)
-
+    return _prefs().set_idle_sequence_preview(on, id)
 func set_tessa_motion_preview(on):
-    tessa_motion_preview=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("tessa")
-
+    return _prefs().set_tessa_motion_preview(on)
 func set_neri_motion_preview(on):
-    neri_motion_preview=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("neri")
-
+    return _prefs().set_neri_motion_preview(on)
 func set_adela_motion_preview(on):
-    adela_motion_preview=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("adela")
-
+    return _prefs().set_adela_motion_preview(on)
 func set_hero_map_refresh_preview(on,id):
-    if not hero_map_refresh_previews.has(id):return
-    hero_map_refresh_previews[id]=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art(id)
-
+    return _prefs().set_hero_map_refresh_preview(on, id)
 func set_rodd_motion_preview(on):
-    rodd_motion_preview=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_map_sequence_art"):game.refresh_map_sequence_art("rodd")
-
+    return _prefs().set_rodd_motion_preview(on)
 func set_elsbet_motion_preview(on):
-    elsbet_motion_preview=bool(on)
-    var game=get_tree().current_scene
-    if game and game.has_method("refresh_elsbet_motion_art"):game.refresh_elsbet_motion_art()
-
-# Homeward cues are local presentation; battle flags/outcome remain authoritative.
+    return _prefs().set_elsbet_motion_preview(on)
 var homeward_player=preload("res://story/player.gd").new()
 func next_story():
     var line=legacy_next_story()
