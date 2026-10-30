@@ -5,6 +5,7 @@ var _writer_impl
 var _loader_impl
 var _prefs_impl
 var _story_impl
+var _chapter_impl
 var mobile_presentation=OS.has_feature("android")
 var safe_area_override=Rect2i() # Test-only physical screen inset fixture; never saved.
 func ui_safe_rect():return preload("res://ui/mobile_layout.gd").safe_rect(get_viewport(),mobile_presentation,safe_area_override)
@@ -56,6 +57,10 @@ func _ready():
     get_tree().auto_accept_quit=false
     load_presentation_preferences()
     var fps=preload("res://ui/fps_display.gd").new();fps.name="FPSDisplay";add_child(fps)
+func _chapter():
+    if _chapter_impl==null:_chapter_impl=preload("res://ui/app/chapter_service.gd").new(self)
+    return _chapter_impl
+
 func _story():
     if _story_impl==null:_story_impl=preload("res://ui/app/story_service.gd").new(self)
     return _story_impl
@@ -96,46 +101,15 @@ func startup_error():
     if ClassDB.class_exists("AmberLogic") and ClassDB.class_exists("AmberTransport"):return ""
     return "原生组件未加载，暂时无法开始游戏。\n当前平台：%s / %s\nWindows x86_64：请使用官方 Godot 4.6.3 标准版，确认 bin/windows/x86_64 中四个 DLL 齐全，然后完全关闭并重新打开编辑器。若仍失败，请保留输出中的 DLL 名称和错误码；参见 docs/WINDOWS_RUNTIME.md。Windows 运行尚待实机验证。Linux x86_64 仍须按 README 构建 bin/libamber.so 和外部 libfsnet；macOS 暂无对应运行库。\n请检查 Godot 输出中的 GDExtension 加载错误。" % [OS.get_name(),Engine.get_architecture_name()]
 func new_game(data={},campaign={}):
-    if not data.is_empty():
-        var expanded=Content.expand(data)
-        if not expanded.error.is_empty():last_error=expanded.error;return false
-        data=expanded.data
-    last_error=startup_error()
-    if not last_error.is_empty():return false
-    if not campaign is Dictionary or (not campaign.is_empty() and not Runtime.campaign_fits(Content.default_content() if data.is_empty() else data,campaign)):
-        last_error="成长记录无效，当前对局未改变。";return false
-    close_room();session=Session.new();session.offline(data,campaign)
-    presentation={"seen":[],"active":"","line":0,"campaign_instance":Crypto.new().generate_random_bytes(16).hex_encode()};saved_snapshot="";saved_presentation="";last_error=""
-    homeward_player.scene_id=""
-    return true
+    return _chapter().new_game(data, campaign)
 func next_chapter_number():
-    if session==null:return 0
-    return {"amber_bridge_reference":2,"white_elm_watchhouse":3,"homeward_01":2,"homeward_02":3,"homeward_03":4}.get(session.logic.content.id,0)
+    return _chapter().next_chapter_number()
 func next_chapter_label():
-    if session and session.logic.content.id=="homeward_02" and "ch02_after_watchhouse" not in presentation.seen:return "旅店后屋"
-    return {2:"第二章",3:"第三章",4:"第四章 · 驿站"}.get(next_chapter_number(),"")
+    return _chapter().next_chapter_label()
 func next_chapter_ready():
-    return next_chapter_number()!=0 and session.logic.outcome=="victory" and next_story().is_empty()
+    return _chapter().next_chapter_ready()
 func enter_next_chapter():
-    if not next_chapter_ready():last_error="请先完成当前章节胜利剧情。";return false
-    if session.online:last_error="网络房间内容固定。请双方退出后选择"+next_chapter_label()+"创建/加入新房间。";return false
-    var number=next_chapter_number()
-    if session.logic.content.id=="homeward_02" and "ch02_after_watchhouse" not in presentation.seen:
-        var saved=save_chapter_checkpoint()
-        if not saved.is_empty():last_error=saved;return false
-        get_tree().call_deferred("change_scene_to_file","res://story/interlude.tscn");return true
-    var homeward=session.logic.content.id.begins_with("homeward_")
-    var error=complete_homeward_checkpoint(session.logic.content.id+"_finish") if homeward else save_chapter_checkpoint()
-    if not error.is_empty():last_error=error;return false
-    if homeward:
-        if number==4:
-            get_tree().call_deferred("change_scene_to_file","res://story/interlude.tscn")
-            return true
-        var identity=presentation.get("campaign_instance","")
-        var started=new_game(preload("res://story/library.gd").content(number),session.logic.campaign_state())
-        if started and not identity.is_empty():presentation.campaign_instance=identity
-        return started
-    return new_game(Content.chapter_two_content() if number==2 else Content.chapter_three_content(),session.logic.campaign_state())
+    return _chapter().enter_next_chapter()
 func start_room(host,port,secret,data={},campaign={}):
     last_error=startup_error()
     if not last_error.is_empty():return false
@@ -169,27 +143,7 @@ func _write_save(slot):
 func _persist_save_data(slot,data):
     return _writer()._persist_save_data(slot, data)
 func complete_homeward_checkpoint(id,interlude=0):
-    # Offline copy-on-write: publish the completed session only after durable save.
-    # Never roll back or replace a distributed authority.
-    if not session or session.online or not next_chapter_ready():return "仅离线已完成章节可以建立章节检查点。"
-    var candidate=Session.new();candidate.offline(session.logic.content)
-    if not candidate.logic.restore(session.logic.snapshot()):return "无法准备章节检查点。"
-    candidate.authority.checkpoint=candidate.logic.snapshot()
-    if not homeward_event_done(id) and not candidate.submit({"kind":"finish_story","event_id":id}):return "章节完成命令未获确认。"
-    var local_story=presentation.duplicate(true)
-    if interlude==4:local_story.interlude_completed=4
-    var r=candidate.logic
-    var slot=checkpoint_id(r.rules_hash,r.content_hash,r.snapshot(),local_story,r.content.id)
-    if FileAccess.file_exists(save_path(slot)):
-        var existing=inspect_slot(slot)
-        if not existing.error.is_empty():return existing.error
-    else:
-        var data={"format":3,"rules_hash":r.rules_hash,"content_hash":r.content_hash,"content":r.content,"snapshot":r.snapshot(),"hash":r.state_hash(),"presentation":local_story,"saved_at":Time.get_datetime_string_from_system(false,true)}
-        var error=_persist_save_data(slot,data)
-        if not error.is_empty():return error
-    session=candidate;presentation=local_story
-    saved_snapshot=r.snapshot();saved_presentation=JSON.stringify(presentation)
-    return ""
+    return _chapter().complete_homeward_checkpoint(id, interlude)
 func inspect_slot(slot):
     return _inspector().inspect_slot(slot)
 func valid_presentation(p,logic):
