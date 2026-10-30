@@ -4,6 +4,7 @@ var _inspector_impl
 var _writer_impl
 var _loader_impl
 var _prefs_impl
+var _story_impl
 var mobile_presentation=OS.has_feature("android")
 var safe_area_override=Rect2i() # Test-only physical screen inset fixture; never saved.
 func ui_safe_rect():return preload("res://ui/mobile_layout.gd").safe_rect(get_viewport(),mobile_presentation,safe_area_override)
@@ -55,6 +56,10 @@ func _ready():
     get_tree().auto_accept_quit=false
     load_presentation_preferences()
     var fps=preload("res://ui/fps_display.gd").new();fps.name="FPSDisplay";add_child(fps)
+func _story():
+    if _story_impl==null:_story_impl=preload("res://ui/app/story_service.gd").new(self)
+    return _story_impl
+
 func _prefs():
     if _prefs_impl==null:_prefs_impl=preload("res://ui/app/prefs_service.gd").new(self)
     return _prefs_impl
@@ -192,53 +197,15 @@ func valid_presentation(p,logic):
 func load_slot(slot):
     return _loader().load_slot(slot)
 func speaker_name(id):
-    if id=="narrator":return session.logic.content.story.chapterTitle
-    for person in session.logic.content.story.characters:
-        if person.id==id:return person.name
-    return id
+    return _story().speaker_name(id)
 func event_by_id(id):
-    for event in session.logic.content.story.events:
-        if event.id==id:return event
-    return {}
+    return _story().event_by_id(id)
 func legacy_next_story():
-    if not session:return {}
-    var logic=session.logic;var entries=logic.content.story.events
-    # Terminal events preempt local mid-battle dialogue without changing shared flags.
-    if logic.outcome!="playing":
-        var terminal="battle_terminal_"+logic.outcome
-        for event in entries:
-            if event.trigger==terminal and event.id not in presentation.seen:
-                if presentation.active!=event.id:presentation.active=event.id;presentation.line=0
-                break
-        if presentation.active!="" and event_by_id(presentation.active).get("trigger")!=terminal:
-            presentation.active="";presentation.line=0
-    if presentation.active=="":
-        for i in range(entries.size()):
-            var event=entries[i]
-            if logic.outcome!="playing" and event.trigger not in ["battle_terminal_victory","battle_terminal_defeat"]:continue
-            if (logic.story_flags & (1<<i))!=0 and event.id not in presentation.seen:
-                presentation.active=event.id;presentation.line=0;break
-    if presentation.active=="":return {}
-    var current=event_by_id(presentation.active)
-    var mid=current.trigger.begins_with("first_player_turn") or current.trigger=="round"
-    while presentation.line<current.lines.size():
-        var line=current.lines[presentation.line]
-        var unavailable=false
-        if mid:
-            for u in logic.units:
-                if u.id==line.speaker and u.hp<=0:unavailable=true
-        if not unavailable:return {"id":current.id,"speaker":line.speaker,"text":line.text,"index":presentation.line+1,"total":current.lines.size()}
-        presentation.line+=1
-    complete_story();return next_story()
+    return _story().legacy_next_story()
 func complete_story():
-    if presentation.active!="" and presentation.active not in presentation.seen:presentation.seen.append(presentation.active)
-    presentation.active="";presentation.line=0
+    return _story().complete_story()
 func legacy_advance_story(skip=false):
-    if presentation.active=="":return
-    if skip:complete_story()
-    else:
-        presentation.line+=1
-        if presentation.line>=event_by_id(presentation.active).lines.size():complete_story()
+    return _story().legacy_advance_story(skip)
 func return_to_menu():
     close_room();session=null
     get_tree().call_deferred("change_scene_to_file","res://ui/menu.tscn")
@@ -276,49 +243,12 @@ func set_elsbet_motion_preview(on):
     return _prefs().set_elsbet_motion_preview(on)
 var homeward_player=preload("res://story/player.gd").new()
 func next_story():
-    var line=legacy_next_story()
-    if line.is_empty() or not session.logic.content.id.begins_with("homeward_"):return line
-    if line.id=="ch02_after_watchhouse":return {}
-    var data=preload("res://story/library.gd").scene(line.id)
-    if data.is_empty():return line
-    if homeward_player.scene_id!=line.id or presentation.get("cue",{}).get("scene","")!=line.id:
-        homeward_player.start(data)
-        if presentation.get("cue",{}).get("scene","")==line.id:homeward_player.restore(data,presentation.cue)
-        else:
-            var count=0
-            while not homeward_player.current().is_empty() and count<line.index-1:
-                if homeward_player.current().op=="say":count+=1
-                homeward_player.revealed=true;homeward_player.advance()
-    presentation.cue=homeward_player.save()
-    var c=homeward_player.current()
-    if c.is_empty():complete_story();presentation.erase("cue");return legacy_next_story()
-    return {"id":line.id,"speaker":c.get("speaker","narrator"),"text":c.get("text",""),"index":homeward_player.index+1,"total":data.cues.size()}
+    return _story().next_story()
 func advance_story(skip=false):
-    var line=next_story()
-    if line.is_empty():return
-    if not session.logic.content.id.begins_with("homeward_") or preload("res://story/library.gd").scene(line.id).is_empty():legacy_advance_story(skip);return
-    if skip:homeward_player.skip()
-    else:
-        var c=homeward_player.current()
-        # Text is immediately readable in this first slice; no mandatory typewriter delay.
-        homeward_player.revealed=true;homeward_player.advance()
-        if c.get("op")=="say":presentation.line+=1
-    presentation.cue=homeward_player.save()
-    if homeward_player.current().is_empty():complete_story();presentation.erase("cue")
+    return _story().advance_story(skip)
 func tick_homeward_story(delta):
-    if not session or not session.logic.content.id.begins_with("homeward_"):return
-    var scene=get_tree().current_scene
-    if not scene or not scene.get("hud") or is_instance_valid(scene.hud.modal) or scene.presentation_active():return
-    next_story()
-    homeward_player.tick(int(delta*1000))
-    if presentation.has("cue"):presentation.cue=homeward_player.save()
-    scene.hud.refresh_story()
-
+    return _story().tick_homeward_story(delta)
 func homeward_event_done(id):
-    if not session:return false
-    for i in range(session.logic.content.story.events.size()):
-        if session.logic.content.story.events[i].id==id:return (session.logic.story_flags & (1<<i))!=0
-    return false
+    return _story().homeward_event_done(id)
 func finish_homeward_event(id):
-    if homeward_event_done(id):return true
-    return session.submit({"kind":"finish_story","event_id":id})
+    return _story().finish_homeward_event(id)
