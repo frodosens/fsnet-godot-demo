@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "name": "",
+  "style_prompt": "",
+  "style_reference": "",
+  "apply_style_to_new": true,
+  "background": "#ff00ff",
+  "refine": false,
+  "api": {
+    "base_url": "https://ark.cn-beijing.volces.com/api/v3",
+    "key_env": "ARK_API_KEY",
+    "image_model": "doubao-seedream-5-0-flash-260915",
+    "video_model": "doubao-seedance-2-5-260628",
+    "vision_model": "doubao-seed-2-1-lite-260915"
+  },
+  "step_styles": {
+    "concept": {
+      "prompt": "复古16位JRPG像素画风，像素密度适中，采用单像素粗细的深棕色轮廓描边，明暗层次柔和过渡，配色为低饱和复古奇幻色调，以深蓝、暖棕、米白为主，搭配纯净纯白色背景。",
+      "source": ""
+    },
+    "portrait": {
+      "prompt": "",
+      "source": ""
+    },
+    "idle": {
+      "prompt": "",
+      "source": ""
+    },
+    "walk": {
+      "prompt": "",
+      "source": ""
+    }
+  }
+}

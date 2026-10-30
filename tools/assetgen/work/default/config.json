@@ -1,0 +1,341 @@
+{
+  "schema": 1,
+  "character": {
+    "id": "default",
+    "display_name": "default",
+    "description": "pixel character, edit this description",
+    "style": "pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #ff00ff, no text, no frame, no watermark"
+  },
+  "provider": {
+    "kind": "ark",
+    "image_model": "doubao-seedream-5-0-flash-260915",
+    "video_model": "doubao-seedance-2-5-260628",
+    "vision_model": "doubao-seed-2-1-lite-260915",
+    "prompt_model": "",
+    "resolution": "480p",
+    "duration": 5,
+    "ratio": "auto"
+  },
+  "steps": {
+    "concept": {
+      "status": "done",
+      "current": "20261030-182014-391",
+      "history": [
+        {
+          "run": "20261030-171141-132",
+          "created": "2026-10-30T17:11:54",
+          "prompt": "pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, clean 1px outline, flat plain background colour #2b3a3a, no text, no frame, no watermark。全身站立，角色居中，单个人物，完整包含头到脚，不要裁切，不要文字、不要边框、不要水印。 拉丁裔女法师\n背景必须是单一纯色 #ff00ff（品红），铺满整个画面、不留渐变；不要地面、不要投影、不要边框、不要场景道具；角色轮廓与背景之间要有清晰边界。",
+          "prompts": {
+            "concept": "pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, clean 1px outline, flat plain background colour #2b3a3a, no text, no frame, no watermark。全身站立，角色居中，单个人物，完整包含头到脚，不要裁切，不要文字、不要边框、不要水印。 拉丁裔女法师\n背景必须是单一纯色 #ff00ff（品红），铺满整个画面、不留渐变；不要地面、不要投影、不要边框、不要场景道具；角色轮廓与背景之间要有清晰边界。"
+          },
+          "params": {
+            "provider": {
+              "kind": "ark",
+              "image_model": "doubao-seedream-5-0-flash-260915",
+              "video_model": "doubao-seedance-2-5-260628",
+              "vision_model": "doubao-seed-2-1-lite-260915",
+              "prompt_model": "",
+              "resolution": "480p",
+              "duration": 5,
+              "ratio": "auto"
+            },
+            "model": "doubao-seedream-5-0-flash-260915"
+          },
+          "files": {
+            "image": "concept\\20261030-171141-132\\concept.png",
+            "raw": "concept\\20261030-171141-132\\concept_raw.png"
+          },
+          "note": ""
+        },
+        {
+          "run": "20261030-181948-653",
+          "created": "2026-10-30T18:19:59",
+          "prompt": "pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。全身站立，角色居中，单个人物，完整包含头到脚，不要裁切，不要文字、不要边框、不要水印。 拉丁裔女法师\n风格要求：复古16位JRPG像素画风，像素密度适中，采用单像素粗细的深棕色轮廓描边，明暗层次柔和过渡，配色为低饱和复古奇幻色调，以深蓝、暖棕、米白为主，搭配纯净纯白色背景。\n背景必须是单一纯色 #ff00ff（品红），铺满整个画面、不留渐变；不要地面、不要投影、不要边框、不要场景道具；角色轮廓与背景之间要有清晰边界。",
+          "prompts": {
+            "concept": "pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。全身站立，角色居中，单个人物，完整包含头到脚，不要裁切，不要文字、不要边框、不要水印。 拉丁裔女法师\n风格要求：复古16位JRPG像素画风，像素密度适中，采用单像素粗细的深棕色轮廓描边，明暗层次柔和过渡，配色为低饱和复古奇幻色调，以深蓝、暖棕、米白为主，搭配纯净纯白色背景。\n背景必须是单一纯色 #ff00ff（品红），铺满整个画面、不留渐变；不要地面、不要投影、不要边框、不要场景道具；角色轮廓与背景之间要有清晰边界。"
+          },
+          "params": {
+            "provider": {
+              "kind": "ark",
+              "image_model": "doubao-seedream-5-0-flash-260915",
+              "video_model": "doubao-seedance-2-5-260628",
+              "vision_model": "doubao-seed-2-1-lite-260915",
+              "prompt_model": "",
+              "resolution": "480p",
+              "duration": 5,
+              "ratio": "auto"
+            },
+            "model": "doubao-seedream-5-0-flash-260915"
+          },
+          "files": {
+            "image": "concept\\20261030-181948-653\\concept.png",
+            "raw": "concept\\20261030-181948-653\\concept_raw.png"
+          },
+          "note": ""
+        },
+        {
+          "run": "20261030-182014-391",
+          "created": "2026-10-30T18:20:24",
+          "prompt": "pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。全身站立，角色居中，单个人物，完整包含头到脚，不要裁切，不要文字、不要边框、不要水印。 拉丁裔女法师\n风格要求：复古16位JRPG像素画风，像素密度适中，采用单像素粗细的深棕色轮廓描边，明暗层次柔和过渡，配色为低饱和复古奇幻色调，以深蓝、暖棕、米白为主，搭配纯净纯白色背景。\n背景必须是单一纯色 #ff00ff（品红），铺满整个画面、不留渐变；不要地面、不要投影、不要边框、不要场景道具；角色轮廓与背景之间要有清晰边界。",
+          "prompts": {
+            "concept": "pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。全身站立，角色居中，单个人物，完整包含头到脚，不要裁切，不要文字、不要边框、不要水印。 拉丁裔女法师\n风格要求：复古16位JRPG像素画风，像素密度适中，采用单像素粗细的深棕色轮廓描边，明暗层次柔和过渡，配色为低饱和复古奇幻色调，以深蓝、暖棕、米白为主，搭配纯净纯白色背景。\n背景必须是单一纯色 #ff00ff（品红），铺满整个画面、不留渐变；不要地面、不要投影、不要边框、不要场景道具；角色轮廓与背景之间要有清晰边界。"
+          },
+          "params": {
+            "provider": {
+              "kind": "ark",
+              "image_model": "doubao-seedream-5-0-flash-260915",
+              "video_model": "doubao-seedance-2-5-260628",
+              "vision_model": "doubao-seed-2-1-lite-260915",
+              "prompt_model": "",
+              "resolution": "480p",
+              "duration": 5,
+              "ratio": "auto"
+            },
+            "model": "doubao-seedream-5-0-flash-260915"
+          },
+          "files": {
+            "image": "concept\\20261030-182014-391\\concept.png",
+            "raw": "concept\\20261030-182014-391\\concept_raw.png"
+          },
+          "note": ""
+        }
+      ],
+      "reference": null,
+      "model": ""
+    },
+    "portrait": {
+      "status": "done",
+      "current": "20261030-182203-211",
+      "history": [
+        {
+          "run": "20261030-182203-211",
+          "created": "2026-10-30T18:22:12",
+          "prompt": "pixel character, edit this description。同一角色的头像（半身像），pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。正面略侧的四分之三视角，头部占画面主要部分，纯色背景，不要文字、不要边框、不要水印。\n背景必须是单一纯色 #ff00ff（品红），铺满整个画面、不留渐变；不要地面、不要投影、不要边框、不要场景道具；角色轮廓与背景之间要有清晰边界。",
+          "prompts": {
+            "portrait": "pixel character, edit this description。同一角色的头像（半身像），pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。正面略侧的四分之三视角，头部占画面主要部分，纯色背景，不要文字、不要边框、不要水印。\n背景必须是单一纯色 #ff00ff（品红），铺满整个画面、不留渐变；不要地面、不要投影、不要边框、不要场景道具；角色轮廓与背景之间要有清晰边界。"
+          },
+          "params": {
+            "provider": {
+              "kind": "ark",
+              "image_model": "doubao-seedream-5-0-flash-260915",
+              "video_model": "doubao-seedance-2-5-260628",
+              "vision_model": "doubao-seed-2-1-lite-260915",
+              "prompt_model": "",
+              "resolution": "480p",
+              "duration": 5,
+              "ratio": "auto"
+            },
+            "model": "doubao-seedream-5-0-flash-260915"
+          },
+          "files": {
+            "image": "portrait\\20261030-182203-211\\portrait.png",
+            "raw": "portrait\\20261030-182203-211\\portrait_raw.png"
+          },
+          "note": ""
+        }
+      ],
+      "reference": null,
+      "model": ""
+    },
+    "idle": {
+      "status": "done",
+      "current": "20261030-182220-849",
+      "history": [
+        {
+          "run": "20261030-182220-849",
+          "created": "2026-10-30T18:24:46",
+          "prompt": "画面是 2 行 2 列共 4 个互不干扰的格子，每格都是同一个角色：pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。背景纯深灰绿色，四格等大，每格角色居中站立、姿势相同、只是朝向不同。左上格：朝左前方；右上格：朝右前方；左下格：朝左后方；右下格：朝右后方。每格角色都留在自己格子中央，不越界、不重叠、不跨格；四格人物大小一致、比例一致。",
+          "prompts": {
+            "grid": "画面是 2 行 2 列共 4 个互不干扰的格子，每格都是同一个角色：pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。背景纯深灰绿色，四格等大，每格角色居中站立、姿势相同、只是朝向不同。左上格：朝左前方；右上格：朝右前方；左下格：朝左后方；右下格：朝右后方。每格角色都留在自己格子中央，不越界、不重叠、不跨格；四格人物大小一致、比例一致。",
+            "idle_video": "画面是 2 行 2 列共 4 个互不干扰的格子，每格都是同一个角色，背景纯深灰绿色，镜头完全固定。左上格：朝左前方；右上格：朝右前方；左下格：朝左后方；右下格：朝右后方。四格里同时做原地待机循环——只有轻微呼吸起伏，胸口与肩膀有细微上下，角色的位置、朝向、大小始终不变，脚不移动。每格角色都留在自己格子中央，不越界、不重叠、不跨格；像素美术风格与首帧一致。"
+          },
+          "params": {
+            "provider": {
+              "kind": "ark",
+              "image_model": "doubao-seedream-5-0-flash-260915",
+              "video_model": "doubao-seedance-2-5-260628",
+              "vision_model": "doubao-seed-2-1-lite-260915",
+              "prompt_model": "",
+              "resolution": "480p",
+              "duration": 5,
+              "ratio": "auto"
+            },
+            "model": "doubao-seedance-2-5-260628"
+          },
+          "files": {
+            "grid": "idle\\20261030-182220-849\\grid.png",
+            "video": "idle\\20261030-182220-849\\idle.mp4",
+            "sprites/front_left": "idle\\20261030-182220-849\\sprites\\front_left\\frame_00.png",
+            "sprites/front_right": "idle\\20261030-182220-849\\sprites\\front_right\\frame_00.png",
+            "sprites/back_left": "idle\\20261030-182220-849\\sprites\\back_left\\frame_00.png",
+            "sprites/back_right": "idle\\20261030-182220-849\\sprites\\back_right\\frame_00.png",
+            "contact_sheet": "idle\\20261030-182220-849\\contact_sheet.png"
+          },
+          "note": "4 directions x 4 frames"
+        }
+      ],
+      "reference": null,
+      "model": ""
+    },
+    "walk": {
+      "status": "pending",
+      "current": null,
+      "history": [],
+      "reference": null,
+      "model": ""
+    }
+  },
+  "sprites": {
+    "idle": {
+      "canvas": [
+        128,
+        128
+      ],
+      "char_height": 98,
+      "foot_y": 119,
+      "frames": 4,
+      "scale": null,
+      "period": null,
+      "picks": null,
+      "directions": {
+        "front_left": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "front_right": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "back_left": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "back_right": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        }
+      }
+    },
+    "walk": {
+      "canvas": [
+        128,
+        128
+      ],
+      "char_height": 98,
+      "foot_y": 119,
+      "frames": 8,
+      "scale": null,
+      "period": null,
+      "picks": null,
+      "directions": {
+        "front_left": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "front_right": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "back_left": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "back_right": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        }
+      }
+    },
+    "concept": {
+      "canvas": [
+        128,
+        128
+      ],
+      "char_height": 98,
+      "foot_y": 119,
+      "frames": 8,
+      "scale": null,
+      "period": null,
+      "picks": null,
+      "directions": {
+        "front_left": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "front_right": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "back_left": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "back_right": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        }
+      }
+    },
+    "portrait": {
+      "canvas": [
+        128,
+        128
+      ],
+      "char_height": 98,
+      "foot_y": 119,
+      "frames": 8,
+      "scale": null,
+      "period": null,
+      "picks": null,
+      "matte": "learned",
+      "directions": {
+        "front_left": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "front_right": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "back_left": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        },
+        "back_right": {
+          "dx": 0,
+          "dy": 0,
+          "enabled": true
+        }
+      }
+    }
+  },
+  "prompts": {
+    "concept": "pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。全身站立，角色居中，单个人物，完整包含头到脚，不要裁切，不要文字、不要边框、不要水印。 拉丁裔女法师",
+    "portrait": "pixel character, edit this description。同一角色的头像（半身像），pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。正面略侧的四分之三视角，头部占画面主要部分，纯色背景，不要文字、不要边框、不要水印。",
+    "grid": "画面是 2 行 2 列共 4 个互不干扰的格子，每格都是同一个角色：pixel character, edit this description。pixel art game sprite, 3/4 view, warm fantasy palette, flat plain background colour #2b3a3a, no text, no frame, no watermark。背景纯深灰绿色，四格等大，每格角色居中站立、姿势相同、只是朝向不同。左上格：朝左前方；右上格：朝右前方；左下格：朝左后方；右下格：朝右后方。每格角色都留在自己格子中央，不越界、不重叠、不跨格；四格人物大小一致、比例一致。",
+    "idle_video": "画面是 2 行 2 列共 4 个互不干扰的格子，每格都是同一个角色，背景纯深灰绿色，镜头完全固定。左上格：朝左前方；右上格：朝右前方；左下格：朝左后方；右下格：朝右后方。四格里同时做原地待机循环——只有轻微呼吸起伏，胸口与肩膀有细微上下，角色的位置、朝向、大小始终不变，脚不移动。每格角色都留在自己格子中央，不越界、不重叠、不跨格；像素美术风格与首帧一致。",
+    "walk_video": "画面是 2 行 2 列共 4 个互不干扰的格子，每格都是同一个角色，背景纯深灰绿色，镜头完全固定。左上格：朝左前方；右上格：朝右前方；左下格：朝左后方；右下格：朝右后方。四格里同时做原地行走循环——膝盖抬起、小腿前摆、双脚交替落地，步幅清楚可见；手臂自然前后摆动，幅度适中；身体位置不移动、不转身、不改变面朝角度；每格角色都留在自己格子中央，不越界、不重叠、不跨格；像素美术风格与首帧一致。"
+  },
+  "background": "#ff00ff",
+  "matte": {
+    "method": "auto",
+    "tolerance": 30,
+    "shadow": false,
+    "trim": 2
+  }
+}
