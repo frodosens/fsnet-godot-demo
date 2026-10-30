@@ -19,6 +19,34 @@ MARKER = "｜外观参照上一步产物："
 MODEL_DIR = Path(__file__).resolve().parent.parent / "models"
 MODEL_CANDIDATES = ["modnet.onnx", "modnet_quantized.onnx"]  # fp32 first: the
 # int8 export loses the body and keeps only specular highlights
+BIREFNET_DIR = MODEL_DIR / "birefnet"
+RVM_DIR = MODEL_DIR / "rvm"
+RVM_CODE = RVM_DIR / "RobustVideoMatting-master"
+RVM_WEIGHTS = RVM_DIR / "rvm_mobilenetv3.pth"
+_RVM_CACHE: dict = {}
+
+
+def torch_device():
+    """cuda when a CUDA build of torch is installed, otherwise cpu."""
+    try:
+        import torch
+
+        if torch.cuda.is_available():
+            return torch.device("cuda")
+    except Exception:
+        pass
+    return None
+
+
+def device_name() -> str:
+    try:
+        import torch
+
+        if torch.cuda.is_available():
+            return f"cuda:{torch.cuda.get_device_name(0)}"
+    except Exception:
+        pass
+    return "cpu"
 
 
 def matte_model_path() -> Path | None:
@@ -302,7 +330,7 @@ def remove_background(src: Path, dst: Path, tolerance: int = 30, pad: int = 4,
     chroma = float(bg.max() - bg.min()) > 120
     if chroma:
         tolerance = max(tolerance, 80)
-        if method != "key":
+        if method not in ("key", "birefnet"):
             method = "key"
     distance = np.abs(arr - bg).sum(axis=2)
     low, high = tolerance * 0.65, tolerance * 1.9
@@ -312,6 +340,22 @@ def remove_background(src: Path, dst: Path, tolerance: int = 30, pad: int = 4,
         alpha = (distance > tolerance).astype(np.float32)
 
     used_method = "key"
+    if method == "birefnet":
+        matte = birefnet_matte(im, size=max(512, matte_side))
+        if matte is not None:
+            learned = np.asarray(matte, dtype=np.float32) / 255.0
+            if matte_gamma != 1.0:
+                learned = np.clip(learned, 0.0, 1.0) ** max(0.05, matte_gamma)
+            if matte_threshold > 0:
+                learned = np.where(learned < matte_threshold, 0.0, learned)
+            if chroma:
+                alpha = np.where(distance <= low, 0.0, learned)
+            else:
+                alpha = learned
+            used_method = "birefnet"
+        else:
+            used_method = "key-birefnet-unavailable"
+
     if method in ("auto", "learned", "hybrid", "edge", "net"):
         matte = learned_matte(im, max_side=matte_side)
         if matte is not None:
@@ -417,3 +461,116 @@ def remove_background(src: Path, dst: Path, tolerance: int = 30, pad: int = 4,
         # magenta is often rendered with a little noise; only flag a real mismatch
         report["matches_expected"] = float(np.abs(got - want).sum()) <= 90
     return report
+
+
+def birefnet_available() -> bool:
+    return (BIREFNET_DIR / "model.safetensors").exists()
+
+
+def birefnet_matte(image: Image.Image, size: int = 1024) -> Image.Image | None:
+    """BiRefNet matte - the best edges of the three, but ~18 s per image on CPU.
+
+    transformers' dynamic module needs einops + kornia + timm; missing pieces make
+    it return None so the caller can fall back instead of crashing.
+    """
+    if not birefnet_available():
+        return None
+    try:
+        import torch
+        from transformers import AutoModelForImageSegmentation
+    except Exception:
+        return None
+
+    device = _RVM_CACHE.get("birefnet_device", "unset")
+    if device == "unset":
+        device = torch_device()
+        _RVM_CACHE["birefnet_device"] = device
+
+    model = _RVM_CACHE.get("birefnet")
+    if model is None:
+        try:
+            model = AutoModelForImageSegmentation.from_pretrained(
+                str(BIREFNET_DIR), trust_remote_code=True).eval()
+        except Exception:
+            return None
+        if device is not None:
+            model = model.to(device)
+        _RVM_CACHE["birefnet"] = model
+
+    means = torch.tensor([0.485, 0.456, 0.406], device=device).view(3, 1, 1) \
+        if device is not None else torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
+    stds = torch.tensor([0.229, 0.224, 0.225], device=device).view(3, 1, 1) \
+        if device is not None else torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
+
+    rgb = image.convert("RGB")
+    small = rgb.resize((size, size), Image.LANCZOS)
+    tensor = torch.from_numpy(np.asarray(small, dtype="float32") / 255.0).permute(2, 0, 1)
+    if device is not None:
+        tensor = tensor.to(device)
+    tensor = ((tensor - means) / stds)[None]
+    try:
+        with torch.no_grad():
+            logits = model(tensor)[-1]
+        matte = logits[0, 0].sigmoid().cpu().numpy()
+    except Exception:
+        return None
+    mask = Image.fromarray((np.clip(matte, 0, 1) * 255).astype(np.uint8), "L")
+    return mask.resize(rgb.size, Image.LANCZOS)
+
+
+def rvm_available() -> bool:
+    return RVM_WEIGHTS.exists() and RVM_CODE.exists()
+
+
+def _rvm_model():
+    """Lazy loader for Robust Video Matting (MobileNetV3 backbone)."""
+    if _RVM_CACHE.get("net") is not None:
+        return _RVM_CACHE["net"]
+    if not rvm_available():
+        return None
+    import sys
+
+    try:
+        import torch
+    except Exception:
+        return None
+
+    if str(RVM_CODE) not in sys.path:
+        sys.path.insert(0, str(RVM_CODE))
+    from model import MattingNetwork
+
+    device = torch_device()
+    net = MattingNetwork("mobilenetv3").eval()
+    net.load_state_dict(torch.load(str(RVM_WEIGHTS), map_location=device or "cpu"))
+    if device is not None:
+        net = net.to(device)
+    _RVM_CACHE["net"] = net
+    _RVM_CACHE["device"] = device
+    _RVM_CACHE["torch"] = torch
+    return net
+
+
+def rvm_alpha_sequence(images: list[Image.Image], downsample: float = 0.5) -> list[np.ndarray] | None:
+    """Matte a run of frames in order, keeping RVM's recurrent state between them.
+
+    The memory is the whole point: a per-frame model jitters by ~2x as much on a
+    walk cycle, which shows up as a breathing silhouette once the frames play.
+    """
+    net = _rvm_model()
+    if net is None:
+        return None
+    import torch
+
+    torch.set_grad_enabled(False)
+    device = _RVM_CACHE.get("device")
+    out: list[np.ndarray] = []
+    rec: list = [None] * 4
+    for image in images:
+        rgb = image.convert("RGB")
+        src = torch.from_numpy(np.asarray(rgb, dtype="float32") / 255.0).permute(2, 0, 1)[None]
+        if device is not None:
+            src = src.to(device)
+        _fgr, pha, *rec = net(src, *rec, downsample_ratio=downsample)
+        alpha = pha[0, 0].cpu().numpy()
+        out.append(np.clip(alpha, 0.0, 1.0))
+    return out

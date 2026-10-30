@@ -218,7 +218,8 @@
           "dy": 0,
           "enabled": true
         }
-      }
+      },
+      "matte": "birefnet"
     },
     "walk": {
       "canvas": [
@@ -252,7 +253,8 @@
           "dy": 0,
           "enabled": true
         }
-      }
+      },
+      "matte": "birefnet"
     },
     "concept": {
       "canvas": [
@@ -333,7 +335,7 @@
   },
   "background": "#ff00ff",
   "matte": {
-    "method": "auto",
+    "method": "birefnet",
     "tolerance": 30,
     "shadow": false,
     "trim": 2

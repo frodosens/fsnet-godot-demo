@@ -5,20 +5,54 @@
 
 ## 依赖
 
-只用标准库 + 已装好的三件套，不需要额外 `pip install`：
+```bash
+python -m pip install -r requirements.txt
+```
 
-| 依赖 | 用途 |
+分三层，**按需安装**——核心只要 Pillow + numpy，其余是抠像模型或便利库：
+
+| 层 | 包 | 用途 |
+|---|---|---|
+| 核心 | Pillow、numpy | 所有读写图、精灵几何、拼表 |
+| 去底（静态图） | scipy | 连通域标记（缺失时退回纯 Python BFS，慢但能跑） |
+| | onnxruntime | MODNet 推理（CPU 版即可） |
+| BiRefNet（边缘最好） | transformers、safetensors、einops、kornia、timm | 需权重 `models/birefnet/`（≈170 MB） |
+| RVM（动画序列） | torch、torchvision | 需权重 `models/rvm/`（14.5 MB + 仓库代码） |
+| 下载模型 | huggingface-hub | `model-fetch` 与 BiRefNet 权重拉取 |
+| 运行时 | tkinter | GUI（CPython 自带；Linux 需 `python3-tk`） |
+| 运行时 | ffmpeg / ffprobe | 从 mp4 抽帧，需在 PATH |
+
+**降级行为**：缺 scipy / onnxruntime / torch / transformers 时程序不会崩，
+对应的抠像入口返回 `None`，自动退回色键——所以只装上核心那两行也能跑完整个流程。
+
+### 模型下载
+
+| 模型 | 获取方式 |
 |---|---|
-| Python 3.11+ | 运行 |
-| Pillow、numpy | 抠图、归一化、拼表 |
-| ffmpeg / ffprobe | 从 mp4 抽帧 |
-| tkinter | GUI（Python 自带） |
+| MODNet（静态图，24.7 MB） | `python -m assetgen.cli model-fetch` |
+| BiRefNet_lite（≈170 MB） | HuggingFace `ZhengPeng7/BiRefNet_lite` → `models/birefnet/` |
+| RVM（14.5 MB + 代码） | GitHub `PeterL1n/RobustVideoMatting` release → `models/rvm/` |
 
-模型走火山方舟，需要 `ARK_API_KEY`（环境变量或 Windows 用户变量）：
+`models/` 已 gitignore，换机器需重新下载。
+
+### GPU（可选）
+
+默认 CPU。想要 GPU：把 `torch` 换成 CUDA 轮子即可，代码会自动选设备。
+
+```bash
+pip install --upgrade torch --index-url https://download.pytorch.org/whl/cu128
+```
+
+实测参考（RTX 2070 SUPER）：BiRefNet 18 s → ~0.3 s，RVM 0.35 s/帧 → ~0.02 s。
+注意 `onnxruntime-gpu`（MODNet）还需要本机 CUDA/cuDNN，通常没必要。
+
+## 云端模型
+
+走火山方舟，需要 `ARK_API_KEY`（环境变量、项目 `.secrets.json` 或 Windows 用户变量）：
 
 | 步骤 | 默认模型 | 说明 |
 |---|---|---|
-| 原画 / 头像 / 四方向拼图 | `doubao-seedream-5-0-pro-260628` | 图生图用 `image` 参考 |
+| 原画 / 头像 / 四方向拼图 | `doubao-seedream-5-0-flash-260915` | 图生图用 `image` 参考 |
 | 待机 / 移动视频 | `doubao-seedance-2-5-260628` | 图生视频，2.0/2.5 不传 `ratio` |
 | 提示词改写 / 识图 | `doubao-seed-2-1-lite-260915` | 实测可识图（约 26s/张）；没开通会自动退化为像素测量 |
 

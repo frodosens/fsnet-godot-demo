@@ -129,6 +129,7 @@ class App(tk.Tk):
             self.log(f"API：{ark.base_url()} · 密钥来源：{api.get('key_source', '?')}")
             runtime = analyze._RUNTIME_STATE.get("path") or "未加载"
             self.log(f"抠像运行库：{runtime}")
+            self.log(f"抠像设备：{analyze.device_name()}")
         except Exception as exc:
             self.log(f"项目 API 设置未应用：{type(exc).__name__}")
         self.ensure_models()
@@ -225,6 +226,8 @@ class App(tk.Tk):
         self.btn_next.pack(fill="x")
         self.btn_gen = button(actions, "重新生成本步", self.on_generate, "secondary")
         self.btn_gen.pack(fill="x", pady=(6, 0))
+        self.btn_reproc = button(actions, "重新处理（不重新生成）", self.on_reprocess, "ghost")
+        self.btn_reproc.pack(fill="x", pady=(4, 0))
 
         opts = card(side, "选项")
         opts.pack(fill="x", pady=(10, 0))
@@ -240,6 +243,33 @@ class App(tk.Tk):
                            activebackground=CARD, selectcolor=CARD, highlightthickness=0,
                            anchor="w", command=command).pack(fill="x")
 
+        method_row = tk.Frame(opts.body, bg=CARD)
+        method_row.pack(fill="x", pady=(6, 0))
+        tk.Label(method_row, text="去底方法", bg=CARD, fg=MUTED, font=F_SMALL).pack(side="left")
+        methods = [("auto", "自动"), ("key", "色键"), ("net", "MODNet"), ("birefnet", "BiRefNet")]
+        current_method = (self.cfg.get("matte") or {}).get("method") or "auto"
+        self.method_var = tk.StringVar(
+            value=dict((k, v) for k, v in methods).get(current_method, "自动"))
+        combo = ttk.Combobox(method_row, textvariable=self.method_var, state="readonly", width=9,
+                             values=[label for _k, label in methods])
+        combo.pack(side="right")
+        combo.bind("<<ComboboxSelected>>",
+                   lambda _e: self.on_method_change(methods))
+
+        sprite_row = tk.Frame(opts.body, bg=CARD)
+        sprite_row.pack(fill="x", pady=(4, 0))
+        tk.Label(sprite_row, text="动画去底", bg=CARD, fg=MUTED, font=F_SMALL).pack(side="left")
+        sprite_modes = [("key", "色键"), ("rvm", "RVM 序列"), ("birefnet", "BiRefNet 逐帧"),
+                        ("learned", "MODNet 逐帧")]
+        current_sprite = (self.cfg.get("sprites", {}).get("walk", {}) or {}).get("matte") or "rvm"
+        self.sprite_matte_var = tk.StringVar(
+            value=dict((k, v) for k, v in sprite_modes).get(current_sprite, "RVM 序列"))
+        combo2 = ttk.Combobox(sprite_row, textvariable=self.sprite_matte_var, state="readonly",
+                              width=9, values=[label for _k, label in sprite_modes])
+        combo2.pack(side="right")
+        combo2.bind("<<ComboboxSelected>>",
+                    lambda _e: self.on_sprite_matte_change(sprite_modes))
+
         trim_row = tk.Frame(opts.body, bg=CARD)
         trim_row.pack(fill="x", pady=(6, 0))
         tk.Label(trim_row, text="边缘修剪", bg=CARD, fg=MUTED, font=F_SMALL).pack(side="left")
@@ -252,6 +282,21 @@ class App(tk.Tk):
         tk.Label(opts.body, text="切掉模型画在轮廓上的那圈色边", bg=CARD, fg=MUTED,
                  font=F_SMALL, anchor="w", wraplength=190, justify="left").pack(fill="x")
         return side
+
+    def on_method_change(self, methods):
+        label = self.method_var.get()
+        value = next((k for k, v in methods if v == label), "auto")
+        self.cfg.setdefault("matte", {})["method"] = value
+        config.save(self.cfg, self.path)
+        self.log(f"去底方法 -> {label}（{value}）；对已生成图点「重新处理」生效")
+
+    def on_sprite_matte_change(self, modes):
+        label = self.sprite_matte_var.get()
+        value = next((k for k, v in modes if v == label), "rvm")
+        for step in ("idle", "walk"):
+            self.cfg.setdefault("sprites", {}).setdefault(step, {})["matte"] = value
+        config.save(self.cfg, self.path)
+        self.log(f"动画去底 -> {label}（{value}）；点「重新处理」从视频重切")
 
     def on_trim_change(self):
         value = max(0, min(3, int(self.trim_var.get())))
@@ -533,6 +578,38 @@ class App(tk.Tk):
                 seen.add(value)
                 out.append((f"本步另一张标签 · {other}", value, f"sibling:{other}"))
         return out
+
+    def on_reprocess(self):
+        """Rebuild the current step from files already on disk, no API calls."""
+        if self.busy:
+            return
+        step = self.current_step
+        entry = config.current_entry(self.cfg, step)
+        if not entry:
+            self.log(f"{step} 还没有产物，先正常生成一次")
+            return
+        self.save_fields()
+        self.busy = True
+        self.job_started = time.time()
+        self.job_label = step
+        self.btn_next.configure(state="disabled")
+        self.btn_gen.configure(state="disabled")
+        self.btn_reproc.configure(state="disabled")
+        self.progress.start(14)
+        self.status_var.set(f"正在重新处理「{step}」…")
+
+        def work():
+            try:
+                cfg = config.load(self.path)
+                pipeline.ensure_prompts(cfg)
+                pipeline.reprocess(cfg, self.path, step,
+                                   log=lambda m: self.q.put(("log", m)))
+                self.q.put(("reprocessed", step))
+            except Exception as exc:
+                self.q.put(("error", f"{type(exc).__name__}: {exc}"))
+
+        threading.Thread(target=work, daemon=True).start()
+        self._tick()
 
     def on_regen_prompt(self, key, widget):
         if self.busy:
@@ -857,6 +934,7 @@ class App(tk.Tk):
             self.log(f"API：{ark.base_url()} · 密钥来源：{api.get('key_source', '?')}")
             runtime = analyze._RUNTIME_STATE.get("path") or "未加载"
             self.log(f"抠像运行库：{runtime}")
+            self.log(f"抠像设备：{analyze.device_name()}")
         except Exception as exc:
             self.log(f"项目 API 设置未应用：{type(exc).__name__}")
         self.select_step(self.current_step)
@@ -1043,6 +1121,11 @@ class App(tk.Tk):
                     self.models = payload
                     self.models_loaded = True
                     self.select_step(self.current_step)
+                elif kind == "reprocessed":
+                    self.busy = False
+                    self._stop_progress("重新处理完成")
+                    self.reload()
+                    self.log(f"{payload} 已重新处理")
                 elif kind == "calibrated":
                     self.busy = False
                     self._stop_progress("标定完成")

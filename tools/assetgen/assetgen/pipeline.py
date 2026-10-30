@@ -511,8 +511,7 @@ def run(cfg: dict, config_path: Path, step: str, provider: Provider, log=print,
         video = out / f"{step}.mp4"
         provider.video(used[key], video, Path(grid), log=log, model=model_for(cfg, step))
         files["video"] = _rel(config_path, video)
-        sprites.USE_LEARNED_MATTE = bool(
-            (cfg["sprites"][step].get("matte") or "").lower() in ("learned", "net"))
+        _apply_sprite_matte(cfg, step)
         exported = sprites.export(video, cfg["sprites"][step], out, log=log,
                                   extra={"run": out.name, "step": step,
                                          "prompts": dict(used), "provider": dict(cfg["provider"])})
@@ -571,6 +570,29 @@ def clean_step(cfg: dict, config_path: Path, step: str, log=print,
     return report
 
 
+def reprocess(cfg: dict, config_path: Path, step: str, log=print) -> dict:
+    """Rebuild a step's output from what is already on disk - no API calls."""
+    sync_background(cfg)
+    entry = config.current_entry(cfg, step)
+    if not entry:
+        raise RuntimeError(f"{step} 还没有产物，先正常生成一次")
+    if step in ("concept", "portrait"):
+        log(f"重新处理 {step}：从 {step}_raw.png 重新去底")
+        return clean_step(cfg, config_path, step, log=log)
+    log(f"重新处理 {step}：从已有视频重新分割精灵")
+    export_only(cfg, config_path, step, log=log)
+    return {"step": step, "source": entry.get("files", {}).get("video", "")}
+
+
+def _apply_sprite_matte(cfg: dict, step: str) -> str:
+    """Sprites are matted with a different model than the stills."""
+    mode = (cfg["sprites"][step].get("matte") or "key").lower()
+    sprites.USE_LEARNED_MATTE = mode in ("learned", "net")
+    sprites.USE_RVM = mode == "rvm"
+    sprites.USE_BIREFNET = mode == "birefnet"
+    return mode
+
+
 def export_only(cfg: dict, config_path: Path, step: str, log=print) -> dict:
     """Re-export sprites from the already generated clip or strip images."""
     if step not in ("idle", "walk"):
@@ -584,6 +606,7 @@ def export_only(cfg: dict, config_path: Path, step: str, log=print) -> dict:
     if "video" in entry["files"]:
         video = config.project_dir(config_path) / entry["files"]["video"]
         out = video.parent
+        _apply_sprite_matte(cfg, step)
         exported = sprites.export(video, sprite_cfg, out, log=log,
                                   extra={"run": entry["run"], "step": step,
                                          "prompts": dict(entry.get("prompts") or {}),

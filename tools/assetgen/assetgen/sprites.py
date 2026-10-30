@@ -47,7 +47,9 @@ def load_cells(frames: list[Path]) -> dict[str, list[Image.Image]]:
     return cells
 
 
-USE_LEARNED_MATTE = False   # set by the pipeline from config["sprites"][step]["matte"]
+USE_LEARNED_MATTE = False   # config["sprites"][step]["matte"] == "learned"
+USE_RVM = False             # config["sprites"][step]["matte"] == "rvm"
+USE_BIREFNET = False        # config["sprites"][step]["matte"] == "birefnet"
 
 
 def mask_of(im: Image.Image) -> np.ndarray:
@@ -111,8 +113,9 @@ def anchor(mask: np.ndarray):
 
 def render(frame: Image.Image, scale: float, canvas: tuple[int, int], reference: tuple[float, int],
            foot_x: float, foot_y: int, offset_x: float = 0.0, offset_y: float = 0.0,
-           pin_ground: bool = True, background=(0, 0, 0, 0)) -> Image.Image:
-    mask = mask_of(frame)
+           pin_ground: bool = True, background=(0, 0, 0, 0),
+           alpha: np.ndarray | None = None) -> Image.Image:
+    mask = (alpha > 64) if alpha is not None else mask_of(frame)
     rgba = frame.convert("RGBA")
     trim = mask.copy()
     lowest = int(np.where(mask)[0].max()) if mask.any() else 0
@@ -129,15 +132,18 @@ def render(frame: Image.Image, scale: float, canvas: tuple[int, int], reference:
 
 
 def detect_period(cells: list[Image.Image], ref: int, count: int, canvas: tuple[int, int],
-                  char_height: float, foot_y: int, lo: int = 10, hi: int = 60) -> int:
+                  char_height: float, foot_y: int, lo: int = 10, hi: int = 60,
+                  alphas: np.ndarray | None = None) -> int:
     """Find the gait period by comparing normalised silhouettes."""
     ref_frame = cells[ref]
-    ref_anchor = anchor(mask_of(ref_frame))
+    ref_mask = (alphas[ref] > 64) if alphas is not None else mask_of(ref_frame)
+    ref_anchor = anchor(ref_mask)
     scale = char_height / max(1, ref_anchor[2])
 
     def signature(i: int) -> np.ndarray:
         img = render(cells[i], scale, canvas, (ref_anchor[0], ref_anchor[1]),
-                     canvas[0] / 2, foot_y)
+                     canvas[0] / 2, foot_y,
+                     alpha=(alphas[i] if alphas is not None else None))
         return np.array(img.convert("L").resize((64, 64))).astype(np.float32)
 
     base = signature(ref)
@@ -170,7 +176,49 @@ def export_cells(cells: dict[str, list[Image.Image]], sprite_cfg: dict, out_root
     available = len(cells[DIRECTIONS[0]])
     ref = 0 if sequential else min(8, available - 1)
 
-    bodies = [anchor(mask_of(cells[d][min(ref, len(cells[d]) - 1)]))[2] for d in DIRECTIONS]
+    rvm_sequence = None
+    if USE_RVM:
+        from . import analyze
+
+        rvm_sequence = {}
+        for direction in DIRECTIONS:
+            seq = analyze.rvm_alpha_sequence(cells[direction])
+            if seq:
+                rvm_sequence[direction] = [np.asarray(a * 255, dtype=np.uint8) for a in seq]
+        if rvm_sequence:
+            log("RVM 序列抠像：%d 方向 × %d 帧" % (
+                len(rvm_sequence), len(next(iter(rvm_sequence.values())))))
+        else:
+            log("RVM 不可用，退回色键")
+
+    alpha_cache: dict[tuple[str, int], np.ndarray] = {}
+
+    def alpha_at(direction: str, index: int) -> np.ndarray:
+        """Matte one cell, computed lazily - a 121-frame video only needs the picks."""
+        nonlocal_alpha = alpha_cache.get((direction, index))
+        if nonlocal_alpha is not None:
+            return nonlocal_alpha
+        mask = None
+        if rvm_sequence and direction in rvm_sequence and index < len(rvm_sequence[direction]):
+            mask = rvm_sequence[direction][index]
+        elif USE_BIREFNET:
+            from . import analyze
+
+            matte = analyze.birefnet_matte(cells[direction][index])
+            if matte is not None:
+                mask = np.asarray(matte)
+        if mask is None:
+            mask = (mask_of(cells[direction][index]).astype(np.uint8)) * 255
+        alpha_cache[(direction, index)] = mask
+        return mask
+
+    def mask_at(direction: str, index: int) -> np.ndarray:
+        return alpha_at(direction, index) > 127
+
+    if USE_BIREFNET and not (rvm_sequence or False):
+        log("BiRefNet 逐帧抠像：按需计算")
+
+    bodies = [anchor(mask_at(d, min(ref, len(cells[d]) - 1)))[2] for d in DIRECTIONS]
     bodies = [b for b in bodies if b]
     base_body = float(np.median(bodies)) if bodies else 160.0
     scale = float(sprite_cfg["scale"]) if sprite_cfg.get("scale") else char_h / base_body
@@ -198,12 +246,13 @@ def export_cells(cells: dict[str, list[Image.Image]], sprite_cfg: dict, out_root
         dy = float(cfg.get("dy", 0) or 0)
         folder = out_root / "sprites" / d
         folder.mkdir(parents=True, exist_ok=True)
-        reference = anchor(mask_of(cells[d][min(ref, len(cells[d]) - 1)]))[:2]
+        reference = anchor(mask_at(d, min(ref, len(cells[d]) - 1)))[:2]
         paths = []
         for i, idx in enumerate(picks):
             idx = max(0, min(len(cells[d]) - 1, idx))
             img = render(cells[d][idx], scale, canvas, (reference[0], reference[1]),
-                         canvas[0] / 2, foot_y, offset_x=dx, offset_y=dy, pin_ground=True)
+                         canvas[0] / 2, foot_y, offset_x=dx, offset_y=dy, pin_ground=True,
+                         alpha=alpha_at(d, idx))
             target = folder / f"frame_{i:02d}.png"
             img.save(target)
             paths.append(str(target.relative_to(out_root)))

@@ -285,6 +285,13 @@ def cmd_clean(args) -> int:
     return 0
 
 
+def cmd_reprocess(args) -> int:
+    cfg, path = _load(args.config)
+    pipeline.reprocess(cfg, path, args.step, log=print)
+    print(f"{args.step}: 已重新处理")
+    return 0
+
+
 def cmd_export(args) -> int:
     cfg, path = _load(args.config)
     pipeline.export_only(cfg, path, args.step, log=print)
@@ -308,6 +315,7 @@ def cmd_run(args) -> int:
         return 0
     provider = pipeline.make_provider(cfg, dry=args.dry_run)
     log = (lambda m: None) if args.quiet else print
+    log(f"抠像设备：{analyze.device_name()}")
     work = _work_of(path)
     refine = args.refine
     if refine is None:                      # fall back to the project switch
@@ -484,9 +492,9 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--config", required=True)
     p.add_argument("--step", required=True, choices=["concept", "portrait"])
     p.add_argument("--tolerance", type=int, default=30, help="颜色容差，越大去掉越多")
-    p.add_argument("--method", default="", choices=["", "auto", "net", "learned", "hybrid",
-                                                    "edge", "key"],
-                   help="auto=有模型就用学习式抠像")
+    p.add_argument("--method", default="", choices=["", "auto", "net", "birefnet", "learned",
+                                                    "hybrid", "edge", "key"],
+                   help="auto=色度背景走色键，其余用 MODNet；birefnet=边缘最好但慢")
     p.add_argument("--shadow", dest="shadow", action="store_true", default=None,
                    help="去掉脚下的接地投影")
     p.add_argument("--no-shadow", dest="shadow", action="store_false")
@@ -500,6 +508,11 @@ def main(argv: list[str] | None = None) -> int:
                    help="边缘修剪像素数，去掉模型画的镶边（默认 0，可试 1）")
     p.set_defaults(func=cmd_clean)
 
+    p = sub.add_parser("reprocess", help="rebuild a step from existing files (no API calls)")
+    p.add_argument("--config", required=True)
+    p.add_argument("--step", required=True, choices=config.STEPS)
+    p.set_defaults(func=cmd_reprocess)
+
     p = sub.add_parser("export", help="re-export sprites with current settings")
     p.add_argument("--config", required=True)
     p.add_argument("--step", required=True, choices=["idle", "walk"])
@@ -509,6 +522,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--config", required=True)
     p.add_argument("--steps", default="")
     p.add_argument("--next", action="store_true", help="only the first pending step")
+    p.add_argument("--all", dest="all_steps", action="store_true",
+                   help="every step (the default when --steps is omitted)")
     p.add_argument("--only-pending", action="store_true")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--refine", dest="refine", action="store_true", default=None,

@@ -77,7 +77,7 @@ def default_sprite_cfg(frames: int) -> dict:
         "scale": None,
         "period": None,
         "picks": None,
-        "matte": "learned",
+        "matte": "rvm",
         "directions": {d: {"dx": 0, "dy": 0, "enabled": True} for d in DIRECTIONS},
     }
 
@@ -133,6 +133,10 @@ def load(path: str | Path) -> dict:
         data["steps"][step].setdefault("history", [])
     for name in ("idle", "walk"):
         data.setdefault("sprites", {}).setdefault(name, default_sprite_cfg(4 if name == "idle" else 8))
+        sprite = data["sprites"][name]
+        sprite.setdefault("matte", "rvm")
+        if (sprite.get("matte") or "").lower() == "learned":
+            sprite["matte"] = "rvm"      # rvm replaced per-frame matting as the default
     data["character"]["style"] = strip_outline(data.get("character", {}).get("style", ""))
     for key, value in (data.get("prompts") or {}).items():
         if isinstance(value, str):
