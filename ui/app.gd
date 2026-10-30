@@ -1,6 +1,7 @@
 extends Node
 var session
 var _inspector_impl
+var _writer_impl
 var mobile_presentation=OS.has_feature("android")
 var safe_area_override=Rect2i() # Test-only physical screen inset fixture; never saved.
 func ui_safe_rect():return preload("res://ui/mobile_layout.gd").safe_rect(get_viewport(),mobile_presentation,safe_area_override)
@@ -67,6 +68,10 @@ func _ready():
     get_tree().auto_accept_quit=false
     load_presentation_preferences()
     var fps=preload("res://ui/fps_display.gd").new();fps.name="FPSDisplay";add_child(fps)
+func _writer():
+    if _writer_impl==null:_writer_impl=preload("res://ui/app/save_writer.gd").new(self)
+    return _writer_impl
+
 func _inspector():
     if _inspector_impl==null:_inspector_impl=preload("res://ui/app/save_inspector.gd").new(self)
     return _inspector_impl
@@ -156,39 +161,13 @@ func checkpoint_id(rules_hash,content_hash,snapshot,local_story,content_id=""):
 func loadable_slots():
     return _inspector().loadable_slots()
 func save_chapter_checkpoint():
-    if not next_chapter_ready() or session.online:return "仅离线已完成章节可以建立章节检查点。"
-    var slot=checkpoint_id(session.logic.rules_hash,session.logic.content_hash,session.logic.snapshot(),presentation)
-    if FileAccess.file_exists(save_path(slot)):
-        var existing=inspect_slot(slot)
-        if not existing.error.is_empty():return "已有章节检查点校验失败，未覆盖文件："+existing.error
-        return ""
-    return _write_save(slot)
+    return _writer().save_chapter_checkpoint()
 func save_slot(slot):
-    if slot not in SLOT_IDS:return "无效存档槽。"
-    return _write_save(slot)
-# Callers select either an ordinary user slot or a content-addressed chapter checkpoint.
+    return _writer().save_slot(slot)
 func _write_save(slot):
-    if not session:return "当前没有战斗。"
-    if session.online:return "本版网络对局不支持本地存档；房间状态由主机维护。"
-    if slot not in SLOT_IDS:
-        if not is_chapter_checkpoint(slot) or not next_chapter_ready() or slot!=checkpoint_id(session.logic.rules_hash,session.logic.content_hash,session.logic.snapshot(),presentation):return "无效章节检查点。"
-        if FileAccess.file_exists(save_path(slot)):return "章节检查点已存在，不允许覆盖。"
-    var data={"format":3,"rules_hash":session.logic.rules_hash,"content_hash":session.logic.content_hash,
-        "content":session.logic.content,"snapshot":session.logic.snapshot(),"hash":session.logic.state_hash(),
-        "presentation":presentation.duplicate(true),"saved_at":Time.get_datetime_string_from_system(false,true)}
-    var error=_persist_save_data(slot,data)
-    if error.is_empty():saved_snapshot=session.logic.snapshot();saved_presentation=JSON.stringify(presentation)
-    return error
+    return _writer()._write_save(slot)
 func _persist_save_data(slot,data):
-    DirAccess.make_dir_recursive_absolute(save_root)
-    var path=save_path(slot);var file=FileAccess.open(path+".tmp",FileAccess.WRITE)
-    if not file:return "无法写入存档，原存档未改变。"
-    file.store_string(JSON.stringify(data,"",true));file.flush();var write_error=file.get_error();file.close()
-    if write_error!=OK:
-        DirAccess.remove_absolute(path+".tmp")
-        return "存档写入未完成，原存档未改变。"
-    if DirAccess.rename_absolute(path+".tmp",path)!=OK:return "无法完成存档替换，原存档未改变。"
-    return ""
+    return _writer()._persist_save_data(slot, data)
 func complete_homeward_checkpoint(id,interlude=0):
     # Offline copy-on-write: publish the completed session only after durable save.
     # Never roll back or replace a distributed authority.
