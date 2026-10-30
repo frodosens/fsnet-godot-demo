@@ -20,6 +20,7 @@ var story_key=""
 var modal
 const ContentPicker=preload("res://ui/content_picker.gd")
 var picker_context={}
+var _picker_impl
 var gear_open=false
 var last_step=-1
 var action_panel
@@ -52,6 +53,10 @@ var selected_portrait
 var previous=[]
 var log_lines=[]
 var action_notice=""
+func _picker():
+    if _picker_impl==null:_picker_impl=preload("res://ui/hud_picker.gd").new(self)
+    return _picker_impl
+
 func pointer_blocks_map(point):
     for control in root.find_children("*","Control",true,false):
         if control.is_visible_in_tree() and control.mouse_filter==Control.MOUSE_FILTER_STOP and control.get_global_rect().has_point(point):return true
@@ -432,82 +437,27 @@ func leave(quit_game):
     else:App.return_to_menu()
 
 func ability_description(ability):
-    var parts=["目标："+{"self":"自身","ally":"同阵营","enemy":"其他阵营"}[ability.target],"额外射程 +%d · 法力 %d · 冷却 %d 回合"%[ability.reach_bonus,ability.mp_cost,ability.cooldown]]
-    for effect in ability.effects:
-        parts.append(("治疗 %d"%effect.value if effect.op=="heal" else "攻击 +%d（%s）"%[effect.value,"法术" if ability.damage_type=="magic" else "物理"])+(" · 半径 %d"%effect.radius if effect.radius>0 else ""))
-    parts.append("暴击 %d%% · 倍率 %d%%"%[ability.get("crit_chance",0),ability.get("crit_multiplier",150)])
-    if ability.stationary:parts.append("移动后需行咒装备方可施放")
-    return "\n".join(parts)
+    return _picker().ability_description(ability)
 func scroll_list(parent):
-    var scroll=ScrollContainer.new();scroll.custom_minimum_size=Vector2(550,280);parent.add_child(scroll)
-    var list=UI.column(scroll,8);list.size_flags_horizontal=Control.SIZE_EXPAND_FILL;return list
+    return _picker().scroll_list(parent)
 func ability_reason(u,ability,index):
-    if u.acted:return "本回合行动已用尽"
-    if u.mp<ability.mp_cost:return "法力不足"
-    if u.cooldowns[index]>0:return "冷却剩余 %d 回合"%u.cooldowns[index]
-    if ability.charges>0 and u.charges[index]==0:return "使用次数已耗尽"
-    if ability.stationary and u.moves_used>0 and not u.get("mobile_cast",false):return "移动后不可施放"
-    return ""
+    return _picker().ability_reason(u, ability, index)
 func picker_entries(kind):
-    var result=[]
-    if game.selected<0 or game.selected>=game.battle.units.size():return result
-    var u=game.battle.units[game.selected]
-    var data=game.battle.content
-    if kind=="skill":
-        for i in range(data.abilities.size()):
-            var ability=data.abilities[i]
-            if ability.id=="attack" or ability.id not in u.abilities:continue
-            var summary="MP %d · 冷却 %d"%[ability.mp_cost,u.cooldowns[i]]
-            if ability.charges>0:summary+=" · 余%d"%u.charges[i]
-            result.append({"id":ability.id,"name":ability.name,"summary":summary,"compact":"MP%d · 冷%d"%[ability.mp_cost,u.cooldowns[i]],"description":ability_description(ability),"reason":ability_reason(u,ability,i)})
-    else:
-        for i in range(data.consumables.size()):
-            var item=data.consumables[i];var reason="没有库存" if game.battle.supplies[i]<=0 else ""
-            var description="技能定义不可用";var matched=false
-            for j in range(data.abilities.size()):
-                var ability=data.abilities[j]
-                if ability.id!=item.ability:continue
-                matched=true;description=ability_description(ability)
-                if reason.is_empty():reason=ability_reason(u,ability,j)
-                break
-            if not matched:reason="技能定义不可用"
-            result.append({"id":item.id,"name":item.name,"summary":"数量 ×%d"%game.battle.supplies[i],"description":description,"reason":reason})
-    return result
+    return _picker().picker_entries(kind)
 func picker_current():
-    return not picker_context.is_empty() and game.session==picker_context.session and game.session.connection_generation==picker_context.generation and game.selected==picker_context.actor and game.selected>=0 and game.selected<game.battle.units.size() and game.battle.units[game.selected].id==picker_context.id and game.battle.step==picker_context.step and game.battle.outcome=="playing" and not game.presentation_active()
+    return _picker().picker_current()
 func show_picker(kind):
-    if blocks_input() or game.selected<0:return
-    game.clear_move_preview();clear_modal()
-    var u=game.battle.units[game.selected]
-    picker_context={"session":game.session,"generation":game.session.connection_generation,"actor":game.selected,"id":u.id,"step":game.battle.step}
-    modal=ContentPicker.new();modal.bottom_limit=dock.picker_bottom_limit;modal.category=kind;modal.title=u.name+" · 技能" if kind=="skill" else "共用行囊 · 道具";modal.entries=picker_entries(kind);modal.z_index=100
-    modal.activated.connect(activate_picker.bind(kind));modal.canceled.connect(clear_modal);root.add_child(modal);refresh_story()
+    return _picker().show_picker(kind)
 func activate_picker(id,kind):
-    var allowed=picker_current() and game.battle.usable(game.selected)
-    var entry_found=false
-    if allowed:
-        for entry in picker_entries(kind):
-            if entry.id==id:entry_found=entry.reason.is_empty();break
-    clear_modal()
-    if allowed and entry_found and not game.targeting_locked():
-        game.select_mode(("ability:" if kind=="skill" else "item:")+id)
-func show_abilities():show_picker("skill")
+    return _picker().activate_picker(id, kind)
+func show_abilities():
+    return _picker().show_abilities()
 func choose_ability(id):
-    clear_modal();game.select_mode("ability:"+id)
-
+    return _picker().choose_ability(id)
 var gear_unit=0
 var gear_slot=0
 func item_text(item):
-    var data=game.battle.content.equipment
-    var base=data.bases[item.base-1]
-    var text=["普通","魔法","稀有","独特"][item.quality]+" · "+(base.unique_name if item.quality==3 else base.name)+" #"+str(item.uid)
-    var bonuses=[]
-    for key in base.stats:bonuses.append(str(key)+" +"+str(base.stats[key]))
-    for entry in item.affixes:
-        var affix=data.affixes[entry.index-1]
-        bonuses.append(affix.name+(" +"+str(entry.value) if affix.stat!="none" else ""))
-    if not bonuses.is_empty():text+="\n"+" / ".join(bonuses)
-    return text
+    return _picker().item_text(item)
 func show_gear():
     var logic=game.battle
     var page=modal_page("小队整备 · 背包")
@@ -555,9 +505,10 @@ func show_character_details():
     modal=preload("res://ui/character_details.gd").new();modal.hud=self;modal.actor=game.selected;modal.z_index=100
     modal.canceled.connect(clear_modal);root.add_child(modal);refresh_story()
 
-func show_items():show_picker("item")
-func choose_item(id):clear_modal();game.select_mode("item:"+id)
-
+func show_items():
+    return _picker().show_items()
+func choose_item(id):
+    return _picker().choose_item(id)
 func action_emblem(name):
     var holder=Control.new();holder.custom_minimum_size=Vector2(28,28);holder.mouse_filter=Control.MOUSE_FILTER_IGNORE
     var frame=TextureRect.new();frame.texture=load("res://assets/ui/hud_v3/action_unselected.png");frame.expand_mode=TextureRect.EXPAND_IGNORE_SIZE;frame.texture_filter=CanvasItem.TEXTURE_FILTER_NEAREST;frame.mouse_filter=Control.MOUSE_FILTER_IGNORE;frame.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT);holder.add_child(frame)
